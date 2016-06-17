@@ -9,7 +9,7 @@ from .exceptions import (
     AdyenInvalidRequestError,
     AdyenError
 )
-from .apiclient import AdyenAPIClient
+from .client import AdyenClient
 from .services import (
     AdyenBase,
     AdyenRecurring,
@@ -32,15 +32,16 @@ hmac = ""
 
 class Adyen(AdyenBase):
     def __init__(self, **kwargs):
-        self.api_client = AdyenAPIClient(**kwargs)
-        self.payment = AdyenPayment(api_client=self.api_client)
-        self.hpp = AdyenHPP(api_client=self.api_client)
-        self.recurring = AdyenRecurring(api_client=self.api_client)
-        self.payout = AdyenPayout(api_client=self.api_client)
+        self.client = AdyenClient(**kwargs)
+        self.payment = AdyenPayment(client=self.client)
+        self.hpp = AdyenHPP(client=self.client)
+        self.recurring = AdyenRecurring(client=self.client)
+        self.payout = AdyenPayout(client=self.client)
 
 
-_base_adyen_client = Adyen()
-recurring = _base_adyen_client.recurring
-hpp = _base_adyen_client.hpp
-payment = _base_adyen_client.payment
-payout = _base_adyen_client.payout
+_base_adyen_obj = Adyen()
+recurring = _base_adyen_obj.recurring
+hpp = _base_adyen_obj.hpp
+payment = _base_adyen_obj.payment
+payout = _base_adyen_obj.payout
+

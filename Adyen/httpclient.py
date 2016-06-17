@@ -4,9 +4,15 @@ try:
 except ImportError:
     requests = None
 
+try:
+    import pycurl
+except ImportError:
+    pycurl = None
+
 import urllib2
 
 from urllib import urlencode
+from StringIO import StringIO
 import json as json_lib
 import re
 import base64
@@ -22,8 +28,90 @@ class HTTPClient(object):
         #Check if requests already available, default to urllib
         if requests:
             self.request = self._requests_post
+        elif pycurl:
+            self.request = self._pycurl_post
         else:
             self.request = self._urllib_post
+
+    def _pycurl_post(self,
+        url,
+        json=None,
+        data=None,
+        username="",
+        password="",
+        headers={},
+        timeout=30):
+        """This function will POST to the url endpoint using pycurl. returning
+        an AdyenResult object on 200 HTTP responce. Either json or data has to
+        be provided. If username and password are provided, basic auth will be 
+        used.
+
+
+        Args:
+            url (str): url to send the POST
+            json (dict, optional): Dict of the JSON to POST
+            data (dict, optional): Dict, presumed flat structure of key/value of 
+                request to place
+            username (str, optionl): Username for basic auth. Must be included 
+                as part of password.
+            password (str, optional): Password for basic auth. Must be included 
+                as part of username.
+            headers (dict, optional): Key/Value pairs of headers to include
+            timeout (int, optional): Default 30. Timeout for the request.
+
+        Returns: 
+            str:    Raw response received
+            str:    Raw request placed
+            int:    HTTP status code, eg 200,404,401
+            dict:   Key/Value pairs of the headers received.                     
+        """
+
+        #Handler for headers
+        response_headers={}
+        def handle_header(header_line):
+            header_line = header_line.decode('iso-8859-1')
+            if ':' in header_line:
+                name, value = header_line.split(':', 1)
+                name = name.strip()
+                value = value.strip()
+                response_headers[name] = value
+
+
+        curl = pycurl.Curl()
+        curl.setopt(curl.URL, url)
+
+        stringbuffer = StringIO()
+        curl.setopt(curl.WRITEDATA, stringbuffer)
+
+        #Convert the header dict to formatted array as pycurl needs.
+        header_list = ["%s:%s" % (k,v) for k,v in headers.iteritems()]
+        #Ensure proper content-type when adding headers
+        if json:
+            header_list.append("Content-Type:application/json")
+        curl.setopt(pycurl.HTTPHEADER, header_list)
+
+        #Set the request body.
+        raw_request = json_lib.dumps(json) if json else urlencode(data)
+        curl.setopt(curl.POSTFIELDS, raw_request)
+
+
+        if username and password:
+            curl.setopt(curl.USERPWD, '%s:%s' % (username, password))
+
+        curl.setopt(curl.TIMEOUT, timeout)
+        curl.perform()
+
+        #Grab the response content
+        result = stringbuffer.getvalue()
+        status_code = curl.getinfo(curl.RESPONSE_CODE)
+
+        curl.close()
+        return result, raw_request, status_code, response_headers
+
+
+
+  
+
 
     def _requests_post(self, url, 
         json=None, 
@@ -51,8 +139,8 @@ class HTTPClient(object):
             timeout (int, optional): Default 30. Timeout for the request.
 
         Returns: 
-            str:    Raw request placed
             str:    Raw response received
+            str:    Raw request placed
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.                    
         """
@@ -80,7 +168,7 @@ class HTTPClient(object):
         username="",
         password="",
         headers={},
-        timout=30):
+        timeout=30):
         """This function will POST to the url endpoint using urllib2. returning
         an AdyenResult object on 200 HTTP responce. Either json or data has to
         be provided. If username and password are provided, basic auth will be 
@@ -97,9 +185,11 @@ class HTTPClient(object):
             password (str, optional):   Password for basic auth. Must be 
                                         included as part of username.
             headers (dict, optional):   Key/Value pairs of headers to include
+            timeout (int, optional): Default 30. Timeout for the request.
+
         Returns: 
-            str:    Raw request placed
             str:    Raw response received
+            str:    Raw request placed
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.  
         """
@@ -123,7 +213,7 @@ class HTTPClient(object):
 
         #URLlib raises all non 200 responses as en error.
         try:
-            response = urllib2.urlopen(url_request, timeout=20)
+            response = urllib2.urlopen(url_request, timeout=timeout)
         except urllib2.HTTPError as e:
             raw_response = e.read()
 
