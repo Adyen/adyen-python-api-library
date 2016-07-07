@@ -16,20 +16,24 @@ def camelcase_to_underscore(value):
 
 def under_to_camel_dict(dict_object):
     def next_level(obj):
-        temp_obj = {}
+        temp_obj = None
         if isinstance(obj, dict):
+            temp_obj = {}
             for key, value in obj.iteritems():
                 key = underscore_to_camelcase(key)
                 if not isinstance(value, str):
                     value = next_level(value)
                 temp_obj[key] = value
+            return temp_obj
         elif isinstance(obj, str):
             obj = underscore_to_camelcase(obj)
             return obj
         elif isinstance(obj, list):
+            temp_obj = []
             for item in obj:
                 item = next_level(item)
                 temp_obj.append(item)
+            return temp_obj
         #Non iterable or not string
         else:
             temp_obj = obj
@@ -59,22 +63,27 @@ def camel_to_underscore(dict_object):
 
     return next_level(dict_object)
 
-def generate_hpp_sig(dict_object, hmac_key):
-    if not isinstance(dict_object, dict):
-        raise ValueError("Must Provide dictionary object")
+def _generate_signing_string(dict_object):
     def escapeVal(val):
         if isinstance(val,int):
             return val
         return val.replace('\\','\\\\').replace(':','\\:')
 
-    hmac_key = binascii.a2b_hex(hmac_key)
     ordered_request = OrderedDict(sorted(dict_object.items(), key=lambda t: t[0]))
 
-    #for k,v in ordered_request.items():
-    #    signing_string.append(':'.join(k,escapeVal(v)))
     signing_string = ':'.join(map(escapeVal, map(str,ordered_request.keys())
          + map(str,ordered_request.values())))
+    return signing_string
+
+def generate_hpp_sig(dict_object, hmac_key):
+    if not isinstance(dict_object, dict):
+        raise ValueError("Must Provide dictionary object")
+
+    signing_string = _generate_signing_string(dict_object)
+    hmac_key = binascii.a2b_hex(hmac_key)
+
     hm = hmac.new(hmac_key, signing_string, hashlib.sha256)
+
     return base64.b64encode(hm.digest())
 
 class dotdict(dict):

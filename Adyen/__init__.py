@@ -11,7 +11,7 @@ from .exceptions import (
 )
 from .client import AdyenClient
 from .services import (
-    AdyenBase,
+    AdyenClientAttr,
     AdyenRecurring,
     AdyenPayment,
     AdyenHPP,
@@ -30,7 +30,7 @@ merchant_specific_url = ""
 hmac = ""
 
 
-class Adyen(AdyenBase):
+class Adyen(AdyenClientAttr):
     def __init__(self, **kwargs):
         self.client = AdyenClient(**kwargs)
         self.payment = AdyenPayment(client=self.client)

@@ -58,7 +58,7 @@ class AdyenResult(object):
         super(AdyenResult, self).__setattr__(attr, value)
 
     def __getattr__(self, attr):
-        #This is to ensure that underscore get attrrequests are converted to 
+        #This is to ensure that underscore get attr requests are converted to 
         #camelcase so result.psp_reference will return the same value as 
         #result.pspReference.
         attr = util.underscore_to_camelcase(attr)
@@ -220,7 +220,7 @@ class AdyenClient(object):
         elif self.username:
             username=self.username
         if not username:
-            raise AdyenInvalidRequestError("Please set your webservice username."
+            raise AdyenAPIInvalidPermission("Please set your webservice username."
                 " You can do this by running 'Adyen.username = 'Your username'")
         #Ensure that username has been removed so as not to be passed to adyen.
         if 'username' in kwargs:
@@ -238,7 +238,7 @@ class AdyenClient(object):
         elif self.password:
             password= self.password
         if not password:
-            raise AdyenInvalidRequestError("Please set your webservice password."
+            raise AdyenAPIInvalidPermission("Please set your webservice password."
                 " You can do this by running 'Adyen.password = 'Your password'")
         #Ensure that password has been removed so as not to be passed to adyen.
         if 'password' in kwargs:
@@ -269,7 +269,7 @@ class AdyenClient(object):
                 del kwargs["merchant_account"]
             elif self.merchant_account:
                 #Try self object
-                message["merchantCccount"] = self.merchant_account
+                message["merchantAccount"] = self.merchant_account
             elif merchant_account:
                 #Then try root module
                 message["merchantAccount"] = merchant_account
@@ -395,14 +395,14 @@ class AdyenClient(object):
                 #Couldn't parse json so try to pull error from html.
                 error = self._error_from_hpp(raw_response)
 
-                reference = message.get("reference", 
-                    message.get("merchantReference"))
+                reference = request_dict.get("reference", 
+                    request_dict.get("merchantReference"))
                 raise AdyenInvalidRequestError("Unable to retrieve payment "
                     "list. Received the error: {}. Please verify your request "
                     "and try again. If the issue persists, please reach out to "
                     "support@adyen.com including the "
                     "merchantReference: {}".format(error,reference),
-                    raw_request=message,
+                    raw_request=raw_request,
                     raw_response=raw_response,
                     url=url)
 
@@ -442,8 +442,8 @@ class AdyenClient(object):
                     headers=headers)
         elif status_code in [400, 422]:
             raise AdyenAPIValidationError(
-                "Received validation error with errorCode:{}, message:'{}', "
-                "HTTP Code:'{}'. Please verify the values provided. Please reach"
+                "Received validation error with errorCode:{}, Adyen message:'{}',"
+                " HTTP Code:'{}'. Please verify the values provided. Please reach"
                 " out to support@adyen.com if the problem persists, providing "
                 "the PSP reference:{}".format( response_obj.get("errorCode"), 
                     response_obj.get("message"), status_code, psp_ref), 
@@ -459,7 +459,7 @@ class AdyenClient(object):
             raise AdyenAPIAuthenticationError(
                 "Unable to authenticate with Adyen's Servers. Please verify "
                 "the username and password of your webservice user. Please "
-                "reach out to your Adyen Admin if the problem persists",
+                "reach out to your Adyen Admin if the problem persists.",
                 raw_request=raw_request, 
                 raw_response=raw_response,
                 url=url, 
@@ -480,9 +480,9 @@ class AdyenClient(object):
                     psp=psp_ref, 
                     headers=headers)
             raise AdyenAPIInvalidPermission(
-                "Unable to perform the requested action. message:'{}'. If you "
-                "think your webservice user:'{}' might not have the necessary "
-                "permissions to perform this request. Please reach out to "
+                "Unable to perform the requested action. Adyen message:'{}'. If "
+                "you think your webservice user:'{}' might not have the necessary"
+                " permissions to perform this request. Please reach out to "
                 "support@adyen.com, providing the PSP reference:{}".format(
                     response_obj.get("message"),username, psp_ref),
                 raw_request=raw_request, 

@@ -18,25 +18,28 @@ from .validation import (
 )
 
 
-class AdyenBase(object):
+
+
+class AdyenClientAttr(object):
     def __setattr__(self, attr, value):
-        client_attr = ["username","password","platform",
-            "review_payout_username","review_payout_password",
-            "store_payout_username","store_payout_password"]
+        client_attr = ["username", "password","review_payout_username",
+            "review_payout_password","store_payout_username",
+            "store_payout_password","platform","merchant_specific_url",
+            "hmac","merchant_account","skin_code"]
         if attr in client_attr:
-            if value:
-                self.client[attr] = value
+            self.client.__setattr__(attr, value)
         else:
-            super(AdyenBase, self).__setattr__(attr, value)
+            super(AdyenClientAttr, self).__setattr__(attr, value)
 
     def __getattr__(self,attr):
-        client_attr = ["username","password","platform",
-            "review_payout_username","review_payout_password",
-            "store_payout_username","store_payout_password"]
+        client_attr = ["username", "password","review_payout_username",
+            "review_payout_password","store_payout_username",
+            "store_payout_password","platform","merchant_specific_url",
+            "hmac","merchant_account","skin_code"]
         if attr in client_attr:
-            return self.client[attr]
+            return self.client.__getattribute__(attr)
 
-class AdyenServiceBase(AdyenBase):
+class AdyenServiceBase(AdyenClientAttr):
     def __init__(self, client=""):
         if client:
             self.client = client
@@ -64,13 +67,17 @@ class AdyenRecurring(AdyenServiceBase):
         action = "listRecurringDetails"
         #TODO: prevalidation
         result = self.client.call_api(request, self.service, action, **kwargs)
-        recurringDetails = []
 
-        #This adds the details to be accessed via "RecurringDetail"
-        for detail in result.details:
-            recurringDetails.append(detail["RecurringDetail"])
-        result.message.recurringDetails = recurringDetails
+        #If not valid shopper reference, list recurring details returns empty 
+        #object.
+        if hasattr(result, "details"):
+            recurringDetails = []
+            #This adds the details to be accessed via "RecurringDetail"
+            for detail in result.details:
+                recurringDetails.append(detail["RecurringDetail"])
+            result.recurringDetails = recurringDetails
         return result
+
 
     @request_required
     def disable(self, request="",**kwargs):
