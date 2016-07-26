@@ -13,7 +13,7 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
-  <body class="apancebody">
+  <body class="apancebody" style="overflow-x:hidden">
 
     <div style="width:100%;border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:rgb(200,200,200);height:auto;text-align:left">
       <img src="images/Adyen_logo_rgb.png" style="height:32px;margin:15px;margin-left:25px" />
@@ -23,13 +23,15 @@
 
       <div class="apancediv" style="width:80%">
 
-        <a class="w-button apancebutton small" style="opacity:0.5;float:left" href="index.html">back</a><br /><br /><br />
+        <a class="w-button apancebutton small" style="opacity:0.5;float:left" href="index.html">back</a>
+        <br /><br /><br />
 
         <div>
-          <a class="w-button apancebutton green" href="#install">Install</a><br />
+          <a class="w-button apancebutton green" href="#install">Install</a>
           <a class="w-button apancebutton green" href="#cardpayment">Card Payment</a><br />
-          <a class="w-button apancebutton green" href="#getmethods">Get Payment Methods</a><br />
-          <a class="w-button apancebutton green" href="#recurring" >Recurring Payment</a><br />
+          <a class="w-button apancebutton green" href="#getmethods">Get Payment Methods</a>
+          <a class="w-button apancebutton green" href="#recurring" >Recurring contract</a><br />
+          <a class="w-button apancebutton green" href="#recurringpayment">Recurring contract payment</a>
           <a class="w-button apancebutton green">HPP Payment</a><br />
         </div>
 
@@ -164,13 +166,45 @@ request['amount'] = {"value":"12345","currency":"USD"]}
 request['reference'] = reference
 request['merchantAccount'] = "YourMerchantAccountName"
 
-# Additional to create recurring contract
+# Additional properties to create recurring contract
 request['shopperEmail'] = 'shopper email address'
 request['shopperReference'] = 'shopper name'
 request['recurring'] = {}
 request['recurring']['contract'] = 'RECURRING'
+
+# TODO: What api call is required here?
         </code>
         </pre>
+
+        <h1 class="apanceh1" style="font-weight:bold" id="recurringpayment">Make a recurring contract payment</h1>
+
+        <div class="apancediv inner green" style="width:80%">
+        <p class="apancepar white" style="font-color:white;font-size:12px;text-align:left">
+        1. To create a recurring payment, create a request object.<br />
+        2. Include the standard payment data in the request. <br />
+        3. Include the additional properties as shown in the example. <br />
+        </p>
+        </div>
+
+        <pre style="width:80%;display:inline-block;margin:1px;padding:1px;text-align:left">
+        <code class="python" style="word-wrap:break-all;white-space:pre-wrap;overflow:visible">
+request = {}
+request['additionalData'] = {"card.encrypted.json":headers['adyen_encrypted_data']}
+request['amount'] = {"value":"12345","currency":"USD"]}
+request['reference'] = reference
+request['merchantAccount'] = "YourMerchantAccountName"
+
+# Additional properties to make a payment based on a recurring contract:
+request["shopperEmail"] = "shopper email address"
+request["shopperReference"] = "shopper name"
+request["selectedRecurringDetailReference"] = "LATEST"
+request["shopperInteraction"] = "ContAuth"
+request['recurring'] = {}
+request["recurring"]['contract'] = "RECURRING"
+
+# TODO: What api call is required here?
+        </code>
+      </pre>
 
 
 
