@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Adyen-python-api-library by Adyen</title>
+
+    <link rel="stylesheet" href="stylesheets/webflow.css">
+    <link rel="stylesheet" href="stylesheets/apanceui.webflow.css" />
+    <link rel="stylesheet" href="javascripts/styles/github.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="apancebody">
+
+    <div style="width:100%;border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:rgb(200,200,200);height:auto;text-align:left">
+      <img src="images/Adyen_logo_rgb.png" style="height:32px;margin:15px;margin-left:25px" />
+    </div>
+
+      <br />
+
+      <div class="apancediv" style="width:80%">
+
+        <a class="w-button apancebutton small" style="opacity:0.5;float:left" href="index.html">back</a><br /><br /><br />
+
+        <div>
+          <a class="w-button apancebutton green" href="#install">Install</a><br />
+          <a class="w-button apancebutton green" href="#cardpayment">Card Payment</a><br />
+          <a class="w-button apancebutton green" href="#getmethods">Get Payment Methods</a><br />
+          <a class="w-button apancebutton green" href="#recurring" >Recurring Payment</a><br />
+          <a class="w-button apancebutton green">HPP Payment</a><br />
+        </div>
+
+        <h1 class="apanceh1" style="font-weight:bold" id="install">Install the library</h1>
+
+        <div style="width:100%;text-align:center">
+
+        <div class="apancediv inner green" style="width:80%">
+        <p class="apancepar white" style="font-color:white;font-size:12px;text-align:left">
+        1. Place the Adyen library directory in your server directory.<br />
+        2. Import Adyen package in your Python code.<br />
+        3. Create an instance of the Adyen.Adyen class.<br />
+        4. Set your merchantAccount and Web Service user info as shown here:<br />
+        </p>
+        </div>
+
+        <pre style="width:80%;display:inline-block;margin:1px;padding:1px;text-align:left">
+        <code class="python" style="word-wrap:break-all;white-space:pre-wrap;overflow:visible">
+Import Adyen
+
+adyenbase = Adyen.Adyen()
+
+adyenbase.payment.client.username = "your web service user name"
+adyenbase.payment.client.skin_code = "your skin code"
+adyenbase.payment.client.hmac = "A374... your hmac key associated with this skin"
+adyenbase.payment.client.platform = "test" # test or live
+adyenbase.payment.client.merchant_account = "your merchant account name"
+adyenbase.payment.client.password = "your web service user password"
+        </code>
+        </pre>
+
+        </div>
+
+        <h1 class="apanceh1" style="font-weight:bold" id="cardpayment">Make a card payment</h1>
+
+        <div style="width:100%;text-align:center">
+
+        <div class="apancediv inner green" style="width:80%">
+        <p class="apancepar white" style="font-color:white;font-size:12px;text-align:left">
+        1. Create a 'request' object containing the required properties.<br />
+        2. Make sure all values are strings.<br />
+        3. Make sure the payment amount is in cents.<br />
+        4. Make sure the currency code is according to the <a href="http://www.iso.org/iso/home/standards/currency_codes.htm">ISO 4217</a> standard.<br />
+        </p>
+        </div>
+
+        <pre style="width:80%;display:inline-block;margin:1px;padding:1px;text-align:left">
+        <code class="python" style="word-wrap:break-all;white-space:pre-wrap;overflow:visible">
+# amount : value is 123.45, converted to cents is 12345
+# amount : value must be type of integer
+
+request = {}
+request['additionalData'] = {"card.encrypted.json":headers['adyen_encrypted_data']}
+request['amount'] = {"value":"12345","currency":"USD"]}
+request['reference'] = reference
+request['merchantAccount'] = "YourMerchantAccountName"
+        </code>
+        </pre>
+
+        <div class="apancediv inner green" style="width:80%">
+        <p class="apancepar white" style="font-color:white;font-size:12px;text-align:left">
+        5. Call your Adyen.Adyen class instance payment.authorise method<br />
+        - Pass the request dict as argument for 'request'
+        </p>
+        </div>
+
+        <pre style="width:80%;display:inline-block;margin:1px;padding:1px;text-align:left">
+        <code class="python" style="word-wrap:break-all;white-space:pre-wrap;overflow:visible">
+adyenbase.payment.authorise(request=request)
+        </code>
+        </pre>
+
+        </div>
+
+        <h1 class="apanceh1" style="font-weight:bold" id="getmethods">Get Payment Methods</h1>
+
+        <div class="apancediv inner green" style="width:80%">
+        <p class="apancepar white" style="font-color:white;font-size:12px;text-align:left">
+        1. Import datetime to get the current date and time<br />
+        2. Create the request object and set the properties as shown below<br />
+        3. Make sure all properties are formatted as strings<br />
+        4. Make sure to use the <a href="http://www.iso.org/iso/home/standards/currency_codes.htm">ISO 4217</a> currency code standard<br />
+        5. Use the shopperLocale and countryCode abbrevations as shown in <a href="https://docs.adyen.com/developers/hpp-manual#createaskin">this list</a><br />
+        6. Create a string from the 'now' variable using its 'strftime' method and format shown below.<br />
+        7. All properties as shown below are required, except for 'countryCode'<br />
+        - We recommend setting the countryCode if you already know the country of your shopper. IP address mapping is not always accurate.<br />
+        </p>
+        </div>
+
+        <pre style="width:80%;display:inline-block;margin:1px;padding:1px;text-align:left">
+        <code class="python" style="word-wrap:break-all;white-space:pre-wrap;overflow:visible">
+import datetime
+
+now = datetime.datetime.now()
+
+request = {
+  'merchantAccount': 'YourMerchantAccountName',
+  'currencyCode': 'EUR',
+  'shopperLocale': 'nl',
+  'paymentAmount': '50',
+  'sessionValidity': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
+  'countryCode': 'nl',
+  'shipBeforeDate': '2016-09-01',
+  'merchantReference': 'YourUniqueStringToIdentifyThisRequest',
+  'skinCode': 'YourSkinCode' }
+
+
+result = adyenbase.hpp.directory_lookup(request)
+methods = result.paymentMethods
+
+        </code>
+        </pre>
+
+        <h1 class="apanceh1" style="font-weight:bold" id="recurring">Create a recurring contract</h1>
+
+        <div class="apancediv inner green" style="width:80%">
+        <p class="apancepar white" style="font-color:white;font-size:12px;text-align:left">
+        1. To create a recurring contract, create a request object.<br />
+        2. Include the standard card payment properties as shown earlier in this guid.<br />
+        3. Include the additional properties as shown below in the example.<br />
+        4. Make sure the shopper name and email are actual addresses at which the card holder can be reached.<br />
+        TODO: Are recurring payments already implemented?<br />
+        - If so, update this guide to include the method for recurring creation and payment.<br />
+        </p>
+        </div>
+
+        <pre style="width:80%;display:inline-block;margin:1px;padding:1px;text-align:left">
+        <code class="python" style="word-wrap:break-all;white-space:pre-wrap;overflow:visible">
+request = {}
+request['additionalData'] = {"card.encrypted.json":headers['adyen_encrypted_data']}
+request['amount'] = {"value":"12345","currency":"USD"]}
+request['reference'] = reference
+request['merchantAccount'] = "YourMerchantAccountName"
+
+# Additional to create recurring contract
+request['shopperEmail'] = 'shopper email address'
+request['shopperReference'] = 'shopper name'
+request['recurring'] = {}
+request['recurring']['contract'] = 'RECURRING'
+        </code>
+        </pre>
+
+
+
+    	</div>
+
+      <div class="apancediv" style="width:80%">
+        <p>This project is maintained by <a href="https://github.com/Adyen">Adyen</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </div>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+
+    <script src="autosize.min.js"></script>
+    <script src="javascripts/tca.js"></script>
+    <script src="javascripts/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

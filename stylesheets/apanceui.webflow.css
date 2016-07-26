@@ -1,0 +1,507 @@
+.apancebody {
+  /*overflow: hidden;*/
+  font-family: Open Sans;
+  color: #3e3e3e;
+  text-align: center;
+}
+
+a {
+  color: rgb(10,10,200);
+}
+
+.apancediv {
+  display: inline-block;
+  width: 60%;
+  margin-top: 8px;
+  margin-bottom: 0px;
+  padding: 8px;
+  border: 1px solid #000;
+}
+
+.apancediv.inner {
+  width: 100%;
+  padding: 16px;
+}
+
+.apancediv.inner.grey {
+  border-style: none;
+  background-color: #3e3e3e;
+}
+
+.apancediv.inner.red {
+  border-style: none;
+  background-color: #fc4551;
+}
+
+.apancediv.inner.creme{
+  border-style: none;
+  background-color: #F1F0E9;
+}
+
+.apancediv.inner.green {
+  border-style: none;
+  background-color: #3C8A2E;
+}
+
+.apancediv.inner.blue {
+  border-style: none;
+  background-color: #0076FF;
+}
+
+.apancediv.inner.yellow {
+  border-style: none;
+  background-color: #fcc726;
+}
+
+.apancediv.inner.item {
+  padding: 16px;
+  border-radius: 7px;
+}
+
+.apancediv.inner.chat {
+  overflow: auto;
+  width: 90%;
+  height: 500px;
+  padding: 1px 0px;
+}
+
+.apancediv.table {
+  overflow: hidden;
+  width: 100%;
+  padding: 0px;
+  border-top-style: solid;
+  border-right-style: none;
+  border-bottom-style: none;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.apancediv.left {
+  width: 35%;
+  float: left;
+}
+
+.apancediv.right {
+  width: 35%;
+  float: right;
+}
+
+.apanceh1 {
+  display: inline-block;
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 4px;
+  color: #000;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.apanceh1.white {
+  color: #fff;
+}
+
+.apanceh1.white.left {
+  text-align: left;
+}
+
+.apanceh1.left {
+  text-align: left;
+}
+
+.apanceh1.small {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.apanceh1.menu_h {
+  width: auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  float: left;
+  font-size: 25px;
+  line-height: 25px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.apanceh1.menu_h.sub {
+  display: inline-block;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 50px;
+  float: none;
+  border-bottom: 1px solid #000;
+  font-size: 20px;
+  text-align: left;
+}
+
+.apancebutton {
+  width: 25%;
+  margin: 4px;
+  border: 1px solid #000;
+  border-radius: 2px;
+  background-color: transparent;
+  color: #000;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+.apancebutton.red {
+  border-style: none;
+  background-color: #fc4551;
+}
+
+.apancebutton.blue {
+  border-style: none;
+  background-color: #42aef1;
+}
+
+.apancebutton.blue.outline {
+  border-style: solid;
+  border-color: #77cbff;
+  background-color: transparent;
+}
+
+.apancebutton.green {
+  border-style: none;
+  background-color: #3C8A2E;
+  color:white;
+}
+
+.apancebutton.green.outline {
+  border-style: solid;
+  border-color: #000;
+  background-color: transparent;
+}
+
+.apancebutton.yellow {
+  border-style: none;
+  background-color: #fcc726;
+}
+
+.apancebutton.grey {
+  border-style: none;
+  background-color: #3e3e3e;
+  color: #fff;
+}
+
+.apancebutton.black {
+  background-color: transparent;
+}
+
+.apancebutton.white {
+  border-color: #fff;
+  color: #fff;
+}
+
+.apancebutton.left {
+  float: left;
+}
+
+.apancebutton.table_button {
+  width: auto;
+  height: 100%;
+  margin: 0px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  float: right;
+  border-style: none none none solid;
+  border-left-color: #fff;
+  border-radius: 0px;
+  background-color: rgba(61, 61, 61, .8);
+  color: #fff;
+  line-height: 15px;
+}
+
+.apancebutton.small {
+  width: 15%;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 4px;
+  font-size: 13px;
+  line-height: 13px;
+}
+
+.apance-white-space {
+  width: 100%;
+  height: 30px;
+}
+
+.apance-image-button {
+  width: 50px;
+  margin: 4px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.apancepar {
+  display: inline-block;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 2px;
+  color: #000;
+  font-size:12px;
+  line-height: 14px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.apancepar.legal {
+  padding: 20px;
+  background-color: #3e3e3e;
+  color: #fff;
+  font-weight: 100;
+}
+
+.apancepar.white {
+  color: #fff;
+}
+
+.apancepar.label {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  color: rgba(0, 0, 0, .7);
+  font-size: 12px;
+  line-height: 12px;
+  font-style: normal;
+}
+
+.apancepar.label.center {
+  text-align: center;
+}
+
+.apancepar.label.table_label {
+  width: auto;
+  height: 100%;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  float: left;
+  border-right: 1px solid #000;
+}
+
+.apancepar.chat {
+  width: 80%;
+  margin: 4px 0px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-style: none none solid;
+  border-width: 1px;
+  border-color: #000;
+}
+
+.apancepar.chat.left {
+  float: left;
+  text-align: left;
+}
+
+.apancepar.chat.right {
+  float: right;
+}
+
+.apanceinput {
+  display: inline-block;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  padding: 2px;
+  border-style: none none solid;
+  border-width: 1px;
+  border-color: #000;
+  background-color: transparent;
+  color: #000;
+  font-size: 14px;
+  line-height: 15px;
+  text-align: left;
+  letter-spacing: 2px;
+}
+
+.apanceinput.white {
+  border-color: #fff;
+  color: #fff;
+}
+
+.apanceinput.small {
+  width: 50%;
+  padding: 2px;
+}
+
+.apanceinput.small.left {
+  margin-right: 4px;
+  margin-left: 4px;
+  float: left;
+}
+
+.apanceinput.half {
+  width: 45%;
+}
+
+.apanceimage {
+  display: inline-block;
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.apancevideo {
+  position: static;
+  display: inline-block;
+  width: 100%;
+  max-width: 100%;
+  margin: 4px 0px;
+}
+
+.apancefillerdiv {
+  display: inline-block;
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.apance-chat-title {
+  margin-top: 1px;
+  margin-bottom: 1px;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.apance-chat-image {
+  display: block;
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.apance-item_select {
+  display: inline-block;
+  width: 120px;
+  height: 135px;
+  max-height: 135px;
+  max-width: 120px;
+  min-height: 135px;
+  min-width: 120px;
+  margin: 4px;
+  padding: 4px;
+  border: 1px solid #000;
+}
+
+.apance-item_select_thumbnail {
+  width: 75px;
+  height: 75px;
+}
+
+.apance-table_item {
+  overflow: hidden;
+  width: 100%;
+  height: 25px;
+  border-top: 1px none #000;
+  border-bottom: 1px solid #000;
+}
+
+.apance-item_icon {
+  width: 20px;
+  height: 20px;
+  float: left;
+  line-height: 14px;
+  cursor: pointer;
+}
+
+.apance-menu {
+  width: 100%;
+  border: 1px none #000;
+}
+
+.apance-menu_item {
+  border: 1px none #000;
+}
+
+.apance-menu_item.sub {
+  width: 100%;
+  float: right;
+  border-style: none solid solid none;
+  border-left-width: 1px;
+  border-left-color: #000;
+}
+
+.apance-menu_item_extended {
+  padding-right: 50px;
+}
+
+html.w-mod-js *[data-ix="hover"] {
+  opacity: 1;
+  -webkit-transform: translate(0px, 0px);
+  -ms-transform: translate(0px, 0px);
+  transform: translate(0px, 0px);
+}
+
+html.w-mod-js *[data-ix="hover-still"] {
+  opacity: 1;
+}
+
+@media (max-width: 991px) {
+  .apancediv {
+    width: 80%;
+  }
+  .apancediv.inner.chat {
+    width: 100%;
+  }
+  .apancediv.left {
+    width: 40%;
+  }
+}
+
+@media (max-width: 767px) {
+  .apancediv {
+    width: 98%;
+  }
+  .apancediv.left {
+    width: 98%;
+    float: none;
+  }
+  .apancebutton {
+    width: auto;
+  }
+  .apancebutton.table_button {
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: 1px;
+  }
+  .apancebutton.small {
+    width: auto;
+  }
+  .apancepar.label.table_label {
+    font-size: 11px;
+    line-height: 12px;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 479px) {
+  .apancediv.table {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .apancebutton.table_button {
+    display: inline-block;
+    float: none;
+  }
+  .apancepar.label.center {
+    text-align: center;
+  }
+  .apancepar.label.table_label {
+    width: 100%;
+    border-right-style: none;
+  }
+  .apance-table_item {
+    overflow: visible;
+    height: auto;
+    border-right: 1px solid #000;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
