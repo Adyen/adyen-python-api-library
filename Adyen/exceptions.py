@@ -1,7 +1,11 @@
+import logging
+from adyen_log import logname,getlogger
+logger = logging.getLogger(logname())
+
 class AdyenError(Exception):
 
-    def __init__(self, 
-            message, 
+    def __init__(self,
+            message,
             raw_request="",
             raw_response="",
             url="",
@@ -32,12 +36,12 @@ class AdyenInvalidRequestError(AdyenError):
     pass
 
 class AdyenAPIResponseError(AdyenError):
-    
-    def __init__(self, 
-            message, 
-            result="", 
-            error_code="", 
-            *args, 
+
+    def __init__(self,
+            message,
+            result="",
+            error_code="",
+            *args,
             **kwargs):
         super(AdyenAPIResponseError,self).__init__(message, *args,**kwargs)
         self.error_code=error_code
@@ -54,7 +58,12 @@ class AdyenAPIInvalidPermission(AdyenAPIResponseError):
 
 class AdyenAPICommunicationError(AdyenAPIResponseError):
     pass
-    
+
 class AdyenAPIValidationError(AdyenAPIResponseError):
     pass
 
+class AdyenAPIInvalidAmount(AdyenAPIResponseError):
+    pass
+
+class AdyenAPIInvalidFormat(AdyenAPIResponseError):
+    pass

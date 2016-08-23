@@ -1,6 +1,9 @@
 from .exceptions import AdyenInvalidRequestError
 from functools import wraps
-from .util import under_to_camel_dict
+# from .util import under_to_camel_dict
+import logging
+from adyen_log import logname,getlogger
+logger = logging.getLogger(logname())
 
 AMOUNT = "amount"
 REFERENCE = "reference"
@@ -28,9 +31,8 @@ def require_request_value(*required_values):
     def wrapper(func):
         def decorated(*args,**kwargs):
             for value in required_values:
-                #Convert dict to camcelcase to be able to compare succesfully.
-                compare_request = under_to_camel_dict(kwargs["request"])
-                if value not in compare_request:
+                # compare_request = under_to_camel_dict(kwargs["request"])
+                if value not in kwargs["request"]:
                     raise AdyenInvalidRequestError(ERR_MSGS[value])
             return func(*args,**kwargs)
         return wraps(func)(decorated)

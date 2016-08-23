@@ -16,6 +16,9 @@ from StringIO import StringIO
 import json as json_lib
 import re
 import base64
+import logging
+from adyen_log import logname,getlogger
+logger = logging.getLogger(logname())
 
 
 #Could be used instead of the large tuple response from request function
@@ -43,28 +46,30 @@ class HTTPClient(object):
         timeout=30):
         """This function will POST to the url endpoint using pycurl. returning
         an AdyenResult object on 200 HTTP responce. Either json or data has to
-        be provided. If username and password are provided, basic auth will be 
+        be provided. If username and password are provided, basic auth will be
         used.
 
 
         Args:
             url (str): url to send the POST
             json (dict, optional): Dict of the JSON to POST
-            data (dict, optional): Dict, presumed flat structure of key/value of 
+            data (dict, optional): Dict, presumed flat structure of key/value of
                 request to place
-            username (str, optionl): Username for basic auth. Must be included 
+            username (str, optionl): Username for basic auth. Must be included
                 as part of password.
-            password (str, optional): Password for basic auth. Must be included 
+            password (str, optional): Password for basic auth. Must be included
                 as part of username.
             headers (dict, optional): Key/Value pairs of headers to include
             timeout (int, optional): Default 30. Timeout for the request.
 
-        Returns: 
+        Returns:
             str:    Raw response received
             str:    Raw request placed
             int:    HTTP status code, eg 200,404,401
-            dict:   Key/Value pairs of the headers received.                     
+            dict:   Key/Value pairs of the headers received.
         """
+
+        logger.info('HTTP: CURL')
 
         #Handler for headers
         response_headers={}
@@ -90,6 +95,9 @@ class HTTPClient(object):
             header_list.append("Content-Type:application/json")
         curl.setopt(pycurl.HTTPHEADER, header_list)
 
+        # Return regular dict instead of JSON encoded dict for request:
+        raw_store = json
+
         #Set the request body.
         raw_request = json_lib.dumps(json) if json else urlencode(data)
         curl.setopt(curl.POSTFIELDS, raw_request)
@@ -106,106 +114,119 @@ class HTTPClient(object):
         status_code = curl.getinfo(curl.RESPONSE_CODE)
 
         curl.close()
+
+        # Return regular dict instead of JSON encoded dict for request:
+        raw_request = raw_store
+
         return result, raw_request, status_code, response_headers
 
-
-
-  
-
-
-    def _requests_post(self, url, 
-        json=None, 
+    def _requests_post(self, url,
+        json=None,
         data=None,
         username="",
         password="",
-        headers={}, 
+        headers={},
         timeout=30):
         """This function will POST to the url endpoint using requests. returning
         an AdyenResult object on 200 HTTP responce. Either json or data has to
-        be provided. If username and password are provided, basic auth will be 
+        be provided. If username and password are provided, basic auth will be
         used.
 
 
         Args:
             url (str): url to send the POST
             json (dict, optional): Dict of the JSON to POST
-            data (dict, optional): Dict, presumed flat structure of key/value of 
+            data (dict, optional): Dict, presumed flat structure of key/value of
                 request to place
-            username (str, optionl): Username for basic auth. Must be included 
+            username (str, optionl): Username for basic auth. Must be included
                 as part of password.
-            password (str, optional): Password for basic auth. Must be included 
+            password (str, optional): Password for basic auth. Must be included
                 as part of username.
             headers (dict, optional): Key/Value pairs of headers to include
             timeout (int, optional): Default 30. Timeout for the request.
 
-        Returns: 
+        Returns:
             str:    Raw response received
             str:    Raw request placed
             int:    HTTP status code, eg 200,404,401
-            dict:   Key/Value pairs of the headers received.                    
+            dict:   Key/Value pairs of the headers received.
         """
 
-        #Adding basic auth is username and password provided.
+        logger.info('HTTP: REQUESTS')
+
+        #Adding basic auth if username and password provided.
         auth = ""
         if username and password:
             auth = requests.auth.HTTPBasicAuth(username, password)
         else:
             auth = None
 
-        request = requests.post(url, auth=auth, data=data, json = json, 
+        request = requests.post(url, auth=auth, data=data, json = json,
             headers=headers, timeout=timeout)
 
+        logger.info(json)
 
-        #Ensure either json or data is returned for raw request
-        message = str(json if json else data)
+        # Ensure either json or data is returned for raw request
+        # Updated: Only return regular dict, don't switch out formats if this is not important.
+        message = json
 
-        #Raw response, raw request, status code returned, and headers returned
         return request.text, message, request.status_code, request.headers
 
-    def _urllib_post(self, url, 
+    def _urllib_post(self, url,
         json="",
-        data="", 
+        data="",
         username="",
         password="",
         headers={},
         timeout=30):
         """This function will POST to the url endpoint using urllib2. returning
         an AdyenResult object on 200 HTTP responce. Either json or data has to
-        be provided. If username and password are provided, basic auth will be 
+        be provided. If username and password are provided, basic auth will be
         used.
 
         Args:
             url (str):                  url to send the POST
             json (dict, optional):      Dict of the JSON to POST
-            data (dict, optional):      Dict, presumed flat structure of 
+            data (dict, optional):      Dict, presumed flat structure of
                                         key/value of request to place as
                                         www-form
             username (str, optional):    Username for basic auth. Must be
                                         uncluded as part of password.
-            password (str, optional):   Password for basic auth. Must be 
+            password (str, optional):   Password for basic auth. Must be
                                         included as part of username.
             headers (dict, optional):   Key/Value pairs of headers to include
             timeout (int, optional): Default 30. Timeout for the request.
 
-        Returns: 
+        Returns:
             str:    Raw response received
             str:    Raw request placed
             int:    HTTP status code, eg 200,404,401
-            dict:   Key/Value pairs of the headers received.  
+            dict:   Key/Value pairs of the headers received.
         """
+
+        print 'HTTP: URLLIB'
+
+        # Store regular dict to return later:
+        raw_store = json
+         
+        logger.info(json)
+        logger.info(url)
 
         raw_request = json_lib.dumps(json) if json else urlencode(data)
         url_request = urllib2.Request(url,data=raw_request)
-        if json: 
-            url_request.add_header('Content-Type','application/json')  
+        if json:
+            url_request.add_header('Content-Type','application/json')
         elif not data:
             raise ValueError("Please provide either a json or a data field.")
-        
+
+        # Set regular dict to return as raw_request:
+        raw_request = raw_store
+
         #Adding basic auth is username and password provided.
         if username and password:
-            basicAuthstring = base64.encodestring('%s:%s' % (username, 
+            basicAuthstring = base64.encodestring('%s:%s' % (username,
                 password)).replace('\n', '')
-            url_request.add_header("Authorization", "Basic %s" % basicAuthstring) 
+            url_request.add_header("Authorization", "Basic %s" % basicAuthstring)
 
         #Adding the headers to the request.
         for key, value in headers.items():
@@ -218,45 +239,46 @@ class HTTPClient(object):
             raw_response = e.read()
 
             return raw_response, raw_request, e.getcode, e.headers
-        else:  
+        else:
             raw_response = response.read()
             response.close()
-            
+
             #The dict(response.info()) is the headers of the response
             #Raw response, raw request, status code returned, and headers returned
-            return (raw_response, raw_request, response.getcode(), 
+            return (raw_response, raw_request, response.getcode(),
                 dict(response.info()))
 
-    def request(self, url, 
+    def request(self, url,
         json="",
-        data="", 
+        data="",
         username="",
         password="",
         headers={},
         timout=30):
         """This is overridden on module initialization. This function will make
         an HTTP POST to a given url. Either json/data will be what is posted to
-        the end point. he HTTP request needs to be basicAuth when username and 
+        the end point. he HTTP request needs to be basicAuth when username and
         password are provided. a headers dict maybe provided, whatever the values
-        are should be applied. 
+        are should be applied.
 
         Args:
             url (str):                  url to send the POST
             json (dict, optional):      Dict of the JSON to POST
-            data (dict, optional):      Dict, presumed flat structure of 
+            data (dict, optional):      Dict, presumed flat structure of
                                         key/value of request to place as
                                         www-form
             username (str, optional):    Username for basic auth. Must be
                                         uncluded as part of password.
-            password (str, optional):   Password for basic auth. Must be 
+            password (str, optional):   Password for basic auth. Must be
                                         included as part of username.
             headers (dict, optional):   Key/Value pairs of headers to include
-        Returns: 
+        Returns:
             str:    Raw request placed
             str:    Raw response received
             int:    HTTP status code, eg 200,404,401
-            dict:   Key/Value pairs of the headers received.  
+            dict:   Key/Value pairs of the headers received.
         """
+        print '\nHTTPCLIENT.REQUEST?????____________________\n'
         raise NotImplementedError('request of HTTPClient should have been '
             'overridden on initialization. Otherwise, can be overridden to '
             'supply your own post method')
