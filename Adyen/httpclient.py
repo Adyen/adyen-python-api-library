@@ -95,6 +95,9 @@ class HTTPClient(object):
             header_list.append("Content-Type:application/json")
         curl.setopt(pycurl.HTTPHEADER, header_list)
 
+        logger.info(json)
+        logger.info(url)
+
         # Return regular dict instead of JSON encoded dict for request:
         raw_store = json
 
@@ -117,6 +120,8 @@ class HTTPClient(object):
 
         # Return regular dict instead of JSON encoded dict for request:
         raw_request = raw_store
+
+        logger.info(raw_request)
 
         return result, raw_request, status_code, response_headers
 
@@ -165,10 +170,14 @@ class HTTPClient(object):
             headers=headers, timeout=timeout)
 
         logger.info(json)
+        logger.info(url)
 
         # Ensure either json or data is returned for raw request
         # Updated: Only return regular dict, don't switch out formats if this is not important.
         message = json
+
+        logger.info(request.text)
+
 
         return request.text, message, request.status_code, request.headers
 
@@ -208,7 +217,7 @@ class HTTPClient(object):
 
         # Store regular dict to return later:
         raw_store = json
-         
+
         logger.info(json)
         logger.info(url)
 
@@ -242,6 +251,7 @@ class HTTPClient(object):
         else:
             raw_response = response.read()
             response.close()
+            logger.info(raw_response)
 
             #The dict(response.info()) is the headers of the response
             #Raw response, raw request, status code returned, and headers returned

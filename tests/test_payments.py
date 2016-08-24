@@ -23,7 +23,7 @@ from Adyen.exceptions import (
     AdyenError
 )
 import datetime
-import Adyen
+import Adyen3
 #Used for testing Recurring Authorization
 from test_recurring import AdyenTest_Recurring
 
@@ -40,7 +40,7 @@ class AdyenTest_Payments(AdyenTest):
 		with self.assertRaises(AdyenAPIInvalidPermission):
 			result = self.AdyenObject.payment.authorise(
 				request= {
-					'amount': { 
+					'amount': {
 						'value':100,
 						'currency': 'USD'
 					},
@@ -72,7 +72,7 @@ class AdyenTest_Payments(AdyenTest):
 		with self.assertRaises(AdyenAPIAuthenticationError):
 			result = self.AdyenObject.payment.authorise(
 				request= {
-					'amount': { 
+					'amount': {
 						'value':100,
 						'currency': 'USD'
 					},
@@ -99,12 +99,12 @@ class AdyenTest_Payments(AdyenTest):
 		Adyen.merchant_account = None
 
 		self.AdyenObject.merchant_account = None
-		
+
 		reference = self.get_reference("test_API_card_auth_no_merchant")
 		with self.assertRaises(AdyenInvalidRequestError) as cm:
 			result = self.AdyenObject.payment.authorise(
 				request= {
-					'amount': { 
+					'amount': {
 						'value':100,
 						'currency': 'USD'
 					},
@@ -132,7 +132,7 @@ class AdyenTest_Payments(AdyenTest):
 		reference = self.get_reference("test_API_card_auth_merchant_in_request")
 		result = self.AdyenObject.payment.authorise(
 			request= {
-				'amount': { 
+				'amount': {
 					'value':100,
 					'currency': 'USD'
 				},
@@ -171,7 +171,7 @@ class AdyenTest_Payments(AdyenTest):
 		reference = self.get_reference("test_API_card_auth_merchant_in_module")
 		result = self.AdyenObject.payment.authorise(
 			request= {
-				'amount': { 
+				'amount': {
 					'value':100,
 					'currency': 'USD'
 				},
@@ -200,10 +200,10 @@ class AdyenTest_Payments(AdyenTest):
 		"""Test basic card authorization with merchant set at module level"""
 
 		Adyen.merchant_account = None
-		reference = self.get_reference("test_API_card_auth_merchant_in_module")	
+		reference = self.get_reference("test_API_card_auth_merchant_in_module")
 		result = self.AdyenObject.payment.authorise(
 			request= {
-				'amount': { 
+				'amount': {
 					'value':100,
 					'currency': 'USD'
 				},
@@ -235,7 +235,7 @@ class AdyenTest_Payments(AdyenTest):
 		result = self.AdyenObject.payment.authorise(
 			request = {
 				#Required
-				'amount': { 
+				'amount': {
 					'value':100,
 					'currency': 'USD'
 				},
@@ -272,7 +272,7 @@ class AdyenTest_Payments(AdyenTest):
 		reference = self.get_reference("test_API_SEPA_auth")
 		result = self.AdyenObject.payment.authorise(
 			request = {
-				'amount': { 
+				'amount': {
 					'value':100,
 					'currency': 'EUR'
 				},
@@ -285,7 +285,7 @@ class AdyenTest_Payments(AdyenTest):
 				"selected_brand":"sepadirectdebit"
 			}
 		)
-	
+
 		self.assertEquals(result.resultCode, "Received",
 			"Test Payment didn't return Received resultCode. PSP:%s" % (
 				result.psp))
@@ -298,7 +298,7 @@ class AdyenTest_Payments(AdyenTest):
 		result = self.AdyenObject.payment.authorise(
 			request = {
 				#Required
-				'amount': { 
+				'amount': {
 					'value':0,
 					'currency': 'USD'
 				},

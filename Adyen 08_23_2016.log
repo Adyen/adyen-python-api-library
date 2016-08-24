@@ -1,0 +1,44 @@
+2016-08-23 11:56:12,194;INFO;Adyen Log of 08_23_2016
+2016-08-23 11:56:12,219;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,219;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,220;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,220;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,221;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,221;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,221;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,221;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,222;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,222;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,223;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,223;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,223;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,223;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,224;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,224;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,224;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,225;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,225;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,225;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,226;INFO;Adyen - AUTHORISE
+2016-08-23 11:56:12,226;ERROR;AdyenInvalidRequestError: Please set your webservice username."
+             You can do this by running 'Adyen.username = 'Your username'
+2016-08-23 11:56:12,229;ERROR;Please set an hmac with your Adyen.Adyen class instance.
+            'Adyen.hmac = "!WR#F@..."' or as an additional
+             parameter in the function call ie.
+            'Adyen.hpp.directory_lookup(hmac="!WR#F@..."'. Please reach
+            out to support@Adyen.com if the issue persists.
+2016-08-23 11:56:12,230;ERROR;Please set an hmac with your Adyen.Adyen class instance.
+            'Adyen.hmac = "!WR#F@..."' or as an additional
+             parameter in the function call ie.
+            'Adyen.hpp.directory_lookup(hmac="!WR#F@..."'. Please reach
+            out to support@Adyen.com if the issue persists.

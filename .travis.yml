@@ -8,11 +8,8 @@ python:
   - "3.4"
   - "3.5"
 cache:
-  apt: false
   pip: false
-addons:
-  apt:
-    packages:
-      - requests
-install: pip install requests
-script: python runtests.py
+install:
+  - pip install requests
+script:
+  - python runtests.py

@@ -8,12 +8,20 @@ log_now = log_now.strftime('%m_%d_%Y')
 LOG_FILENAME = 'Adyen %s.log' % log_now
 
 logger = logging.getLogger(LOG_FILENAME)
+
 logger.setLevel(logging.DEBUG)
+
 fh = logging.FileHandler(LOG_FILENAME)
+
+formatter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
+fh.setFormatter(formatter)
+
 fh.setLevel(logging.DEBUG)
+
 logger.addHandler(fh)
 
 logger.info('Adyen Log of %s' % log_now)
+
 
 def logname():
     return LOG_FILENAME

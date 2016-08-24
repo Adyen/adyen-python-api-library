@@ -11,8 +11,7 @@ config = ConfigParser.ConfigParser()
 config_path = os.path.dirname(__file__) + "/config/test.ini"
 config.read(config_path)
 
-
-
+"""
 USRNAME = config.get("AdyenCredentials","username")
 PASSWD = config.get("AdyenCredentials","password")
 MERCHANT_ACCT = config.get("AdyenCredentials","merchant_account")
@@ -23,6 +22,18 @@ REVIEW_PAYOUT_USR = config.get("AdyenCredentials","review_payout_username")
 REVIEW_PAYOUT_PASS = config.get("AdyenCredentials","review_payout_password")
 SKIN_CODE = config.get("AdyenCredentials","skin_code")
 HMAC = config.get("AdyenCredentials","hmac_key")
+"""
+
+USRNAME = ""
+PASSWD = ""
+MERCHANT_ACCT = ""
+SHOPPER_REF = ""
+STORE_PAYOUT_USR = ""
+STORE_PAYOUT_PASS = ""
+REVIEW_PAYOUT_USR = ""
+REVIEW_PAYOUT_PASS = ""
+SKIN_CODE = ""
+HMAC = ""
 
 
 #In case I need to make some customization specifically for Adyen
@@ -41,7 +52,7 @@ class AdyenTest(unittest.TestCase):
         self.AdyenObject = Adyen.Adyen()
         #Add module level credentials
         Adyen.username = USRNAME
-        Adyen.password = PASSWD 
+        Adyen.password = PASSWD
         Adyen.merchant_account = MERCHANT_ACCT
         Adyen.store_payout_username = STORE_PAYOUT_USR
         Adyen.store_payout_password = STORE_PAYOUT_PASS
