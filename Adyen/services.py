@@ -2,12 +2,12 @@ from .exceptions import (
     AdyenAPICommunicationError,
     AdyenAPIAuthenticationError,
     AdyenAPIInvalidPermission,
-    AdyenAPIValidationError, 
+    AdyenAPIValidationError,
     AdyenInvalidRequestError
 )
 from .client import AdyenClient
 from .validation import (
-    require_request_value, 
+    require_request_value,
     request_required,
     AMOUNT,
     MODAMOUNT,
@@ -16,30 +16,30 @@ from .validation import (
     SHOPPEREMAIL,
     REFERENCE
 )
+import logging
+from adyen_log import logname,getlogger
+logger = logging.getLogger(logname())
 
 
-
-
-class AdyenClientAttr(object):
+class AdyenBase(object):
     def __setattr__(self, attr, value):
-        client_attr = ["username", "password","review_payout_username",
-            "review_payout_password","store_payout_username",
-            "store_payout_password","platform","merchant_specific_url",
-            "hmac","merchant_account","skin_code"]
+        client_attr = ["username","password","platform",
+            "review_payout_username","review_payout_password",
+            "store_payout_username","store_payout_password"]
         if attr in client_attr:
-            self.client.__setattr__(attr, value)
+            if value:
+                self.client[attr] = value
         else:
-            super(AdyenClientAttr, self).__setattr__(attr, value)
+            super(AdyenBase, self).__setattr__(attr, value)
 
     def __getattr__(self,attr):
-        client_attr = ["username", "password","review_payout_username",
-            "review_payout_password","store_payout_username",
-            "store_payout_password","platform","merchant_specific_url",
-            "hmac","merchant_account","skin_code"]
+        client_attr = ["username","password","platform",
+            "review_payout_username","review_payout_password",
+            "store_payout_username","store_payout_password"]
         if attr in client_attr:
-            return self.client.__getattribute__(attr)
+            return self.client[attr]
 
-class AdyenServiceBase(AdyenClientAttr):
+class AdyenServiceBase(AdyenBase):
     def __init__(self, client=""):
         if client:
             self.client = client
@@ -49,7 +49,7 @@ class AdyenServiceBase(AdyenClientAttr):
 class AdyenRecurring(AdyenServiceBase):
     """This represents the Adyen API Recurring Service.
 
-    API calls currently implemented: listRecurringDetails and disable. Please 
+    API calls currently implemented: listRecurringDetails and disable. Please
     refer to the Recurring Manual for specifics around the API.
     https://docs.adyen.com/developers/recurring-manual
 
@@ -67,17 +67,13 @@ class AdyenRecurring(AdyenServiceBase):
         action = "listRecurringDetails"
         #TODO: prevalidation
         result = self.client.call_api(request, self.service, action, **kwargs)
+        recurringDetails = []
 
-        #If not valid shopper reference, list recurring details returns empty 
-        #object.
-        if hasattr(result, "details"):
-            recurringDetails = []
-            #This adds the details to be accessed via "RecurringDetail"
-            for detail in result.details:
-                recurringDetails.append(detail["RecurringDetail"])
-            result.recurringDetails = recurringDetails
+        #This adds the details to be accessed via "RecurringDetail"
+        for detail in result.details:
+            recurringDetails.append(detail["RecurringDetail"])
+        result.message['recurringDetails'] = recurringDetails
         return result
-
 
     @request_required
     def disable(self, request="",**kwargs):
@@ -105,11 +101,54 @@ class AdyenHPP(AdyenServiceBase):
 
         return self.client.call_hpp(request,action)
 
+    @request_required
+    def hpp_payment(self,request="",**kwargs):
+
+        if 'brandCode' in request:
+            if request['brandCode'] != "":
+                action = "pay"
+        else:
+            action = "select"
+
+        logger.info('Adyen Services - Hpp payment')
+        logger.info(action)
+
+        print 'HPP through Adyen Api'
+
+        # Encode to UTF 8:
+        for xf in request:
+            request[xf] = request[xf].encode("utf-8")
+
+        if 'issuerId' not in request:
+            request['issuerId'] = ""
+        if 'merchantReturnData' not in request:
+            request['merchantReturnData'] = ""
+        if type(request['sessionValidity']) is not str:
+            errorstring = 'HPP: sessionValidity must be type of str, use datetime.strftime to convert and format.'
+            logger.error(type(request[sessionValidity]))
+            logger.error(errorstring)
+            raise TypeError(errorstring)
+        if 'paymentAmount' not in request:
+            errorstring = 'HPP: Include paymentAmount key/value in hpp_payment dict'
+            logger.error(errorstring)
+            raise ValueError(errorstring)
+        if 'countryCode' not in request:
+            errorstring = 'HPP: Advised to include countryCode with request to make sure local payment methods are found.'
+            print(errorstring)
+        if all (k in request for k in ("shopperEmail","shopperReference","recurringContract")):
+            recc = request['recurringContract']
+            if recc != 'ONECLICK' and recc != 'RECURRING' and recc != 'ONECLICK,RECURRING':
+                raise ValueError("HPP: recurringContract must be on of the following values: 'ONECLICK', 'RECURRING', 'ONECLICK,RECURRING'")
+
+        result = self.client.hpp_payment(request,action)
+        print result
+        return result
+
 class AdyenPayment(AdyenServiceBase):
     """This represents the Adyen API Payment Service.
 
-    API calls currently implemented: 
-        authorise 
+    API calls currently implemented:
+        authorise
         authorise3d
         cancel
         capture
@@ -132,6 +171,18 @@ class AdyenPayment(AdyenServiceBase):
     def authorise(self, request="", **kwargs):
         action = "authorise"
         #TODO: do some pre-auth validation on authorise
+        logger.info('Adyen - AUTHORISE')
+
+        if 'shopperEmail' in request:
+            if request['shopperEmail'] == '':
+                raise ValueError('shopperEmail must not be empty when authorising recurring contracts.')
+        if 'shopperReference' in request:
+            if request['shopperReference'] == '':
+                raise ValueError('shopperReference must not be empty when authorising recurring contracts.')
+
+        if 'amount' not in request:
+            raise ValueError('Provide an amount object to perform a payment authorisation.')
+
         return self.client.call_api(request, self.service, action, **kwargs)
 
     @request_required
@@ -145,7 +196,11 @@ class AdyenPayment(AdyenServiceBase):
     @require_request_value(ORIGREF)
     def cancel(self, request="", **kwargs):
         action = "cancel"
+
         #TODO: set up prevalidation
+        logger.info('Adyen - CANCEL')
+        logger.info(request)
+
         return self.client.call_api(request, self.service, action, **kwargs)
 
     @request_required
@@ -153,6 +208,7 @@ class AdyenPayment(AdyenServiceBase):
     def capture(self, request="", **kwargs):
         action = "capture"
         #TODO: set up prevalidation
+        logger.info('Adyen - CAPTURE')
         return self.client.call_api(request, self.service, action, **kwargs)
 
     @request_required
@@ -160,98 +216,20 @@ class AdyenPayment(AdyenServiceBase):
     def refund(self, request="", **kwargs):
         action = "refund"
         #TODO: set up prevalidation
-        return self.client.call_api(request, self.service, action, **kwargs)    
+        logger.info('Adyen - REFUND')
+        return self.client.call_api(request, self.service, action, **kwargs)
 
     @request_required
     @require_request_value(ORIGREF)
     def cancel_or_refund(self, request="", **kwargs):
         action = "cancelOrRefund"
         #TODO: set up prevalidation
-        return self.client.call_api(request, self.service, action, **kwargs)  
+        logger.info('Adyen - CANCEL or REFUND')
+        return self.client.call_api(request, self.service, action, **kwargs)
 
     @request_required
     def refund_with_data(self, request="", **kwargs):
         action = "refundWithData"
         #TODO: set up prevalidation
-        return self.client.call_api(request, self.service, action, **kwargs)  
-
-
-class AdyenPayout(AdyenServiceBase):
-    """This represents the Adyen API Payout Service.
-
-    API calls currently implemented: 
-        
-    Please refer to the Payout Manual for specifics around the API.
-    https://docs.adyen.com/developers/recurring-manual
-
-    Args:
-        client (AdyenAPIClient, optional): An API client for the service to
-            use. If not provided, a new API client will be created.
-    """
-    def __init__(self, client=""):
-        super(AdyenPayout,self).__init__(client=client)
-        self.service = "Payout"
-
-    @request_required
-    def store_detail(self, request="", **kwargs):
-        action = "storeDetail"
-
+        logger.info('Adyen - refundWithData')
         return self.client.call_api(request, self.service, action, **kwargs)
-
-    @request_required
-    @require_request_value(AMOUNT,SHOPPERREF,SHOPPEREMAIL)
-    def store_detail_and_submit(self, request="", **kwargs):
-        action = "storeDetailAndSubmit"
-        
-        return self.client.call_api(request, self.service, action, **kwargs)
-
-    @request_required
-    @require_request_value(AMOUNT,SHOPPERREF,SHOPPEREMAIL)
-    def submit(self, request="", **kwargs):
-        action = 'submit'
-
-        return self.client.call_api(request, self.service, action, **kwargs)
-
-    @request_required
-    @require_request_value(ORIGREF)
-    def confirm(self, request="", **kwargs):
-        action = "confirm"
-
-        return self.client.call_api(request, self.service, action, **kwargs)
-
-    @request_required
-    @require_request_value(ORIGREF)
-    def decline(self, request="", **kwargs):
-        action = "decline"
-
-        return self.client.call_api(request, self.service, action, **kwargs)
-
-    @request_required
-    @require_request_value(AMOUNT,SHOPPERREF,SHOPPEREMAIL)
-    def submit_third_party(self, request="", **kwargs):
-        action = "submitThirdParty"
-
-        return self.client.call_api(request, self.service, action, **kwargs)
-
-    @request_required
-    @require_request_value(AMOUNT,SHOPPERREF,SHOPPEREMAIL)
-    def store_detail_and_submit_third_party(self, request="", **kwargs):
-        action = "storeDetailAndSubmitThirdParty"
-        
-        return self.client.call_api(request, self.service, action, **kwargs)
-
-    @request_required
-    @require_request_value(ORIGREF)
-    def confirm_third_party(self, request="", **kwargs):
-        action = "confirmThirdParty"
-
-        return self.client.call_api(request, self.service, action, **kwargs)
-
-    @request_required
-    @require_request_value(ORIGREF)
-    def decline_third_party(self, request="", **kwargs):
-        action = "declineThirdParty"
-
-        return self.client.call_api(request, self.service, action, **kwargs)
-
-

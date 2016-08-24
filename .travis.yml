@@ -1,0 +1,18 @@
+sudo: true
+language: python
+python:
+  - "2.6"
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+cache:
+  apt: false
+  pip: false
+addons:
+  apt:
+    packages:
+      - requests
+install: pip install requests
+script: python runtests.py
