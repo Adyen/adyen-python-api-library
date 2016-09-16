@@ -22,7 +22,7 @@ logger = getlogger()
 
 username = ""
 password = ""
-platform = "test"
+platform = ""
 merchant_account = ""
 merchant_specific_url = ""
 hmac = ""
