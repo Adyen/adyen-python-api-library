@@ -20,7 +20,6 @@ import logging
 from adyen_log import logname,getlogger
 logger = logging.getLogger(logname())
 
-
 class AdyenBase(object):
     def __setattr__(self, attr, value):
         client_attr = ["username","password","platform",
@@ -61,22 +60,34 @@ class AdyenRecurring(AdyenServiceBase):
         super(AdyenRecurring,self).__init__(client=client)
         self.service = "Recurring"
 
-    @request_required
-    @require_request_value(SHOPPERREF)
+    #@request_required
+    #@require_request_value(SHOPPERREF)
     def list_recurring_details(self, request="", **kwargs):
+
+        print request
         action = "listRecurringDetails"
-        #TODO: prevalidation
+
+        if "shopperReference" not in request:
+            raise ValueError("Include property 'shopperReference' in request to get recurring details.")
+
         result = self.client.call_api(request, self.service, action, **kwargs)
+
         recurringDetails = []
 
+        print result
+        """
         #This adds the details to be accessed via "RecurringDetail"
         for detail in result.details:
             recurringDetails.append(detail["RecurringDetail"])
+
         result.message['recurringDetails'] = recurringDetails
+        """
+
         return result
 
-    @request_required
+    #@request_required
     def disable(self, request="",**kwargs):
+        print request
         action = "disable"
         return self.client.call_api(request, self.service, action, **kwargs)
 
@@ -111,9 +122,6 @@ class AdyenHPP(AdyenServiceBase):
             action = "select"
 
         logger.info('Adyen Services - Hpp payment')
-        logger.info(action)
-
-        print 'HPP through Adyen Api'
 
         # Encode to UTF 8:
         for xf in request:
@@ -126,11 +134,9 @@ class AdyenHPP(AdyenServiceBase):
         if type(request['sessionValidity']) is not str:
             errorstring = 'HPP: sessionValidity must be type of str, use datetime.strftime to convert and format.'
             logger.error(type(request[sessionValidity]))
-            logger.error(errorstring)
             raise TypeError(errorstring)
         if 'paymentAmount' not in request:
             errorstring = 'HPP: Include paymentAmount key/value in hpp_payment dict'
-            logger.error(errorstring)
             raise ValueError(errorstring)
         if 'countryCode' not in request:
             errorstring = 'HPP: Advised to include countryCode with request to make sure local payment methods are found.'
@@ -141,7 +147,6 @@ class AdyenHPP(AdyenServiceBase):
                 raise ValueError("HPP: recurringContract must be on of the following values: 'ONECLICK', 'RECURRING', 'ONECLICK,RECURRING'")
 
         result = self.client.hpp_payment(request,action)
-        print result
         return result
 
 class AdyenPayment(AdyenServiceBase):
@@ -154,9 +159,10 @@ class AdyenPayment(AdyenServiceBase):
         capture
         refund
         cancelOrRefund
-        refundWithData
     Please refer to the Recurring Manual for specifics around the API.
     https://docs.adyen.com/developers/recurring-manual
+
+    The AdyenPayment class, is accessible as adyen.payment.method(args)
 
     Args:
         client (AdyenAPIClient, optional): An API client for the service to
@@ -171,7 +177,6 @@ class AdyenPayment(AdyenServiceBase):
     def authorise(self, request="", **kwargs):
         action = "authorise"
         #TODO: do some pre-auth validation on authorise
-        logger.info('Adyen - AUTHORISE')
 
         if 'shopperEmail' in request:
             if request['shopperEmail'] == '':
@@ -181,7 +186,7 @@ class AdyenPayment(AdyenServiceBase):
                 raise ValueError('shopperReference must not be empty when authorising recurring contracts.')
 
         if 'amount' not in request:
-            raise ValueError('Provide an amount object to perform a payment authorisation.')
+            raise ValueError("Provide an amount object: {'currency':'USD','value':100} under key 'amount' in the request dict, to perform a payment authorisation.")
 
         return self.client.call_api(request, self.service, action, **kwargs)
 
@@ -199,17 +204,20 @@ class AdyenPayment(AdyenServiceBase):
 
         #TODO: set up prevalidation
         logger.info('Adyen - CANCEL')
-        logger.info(request)
 
         return self.client.call_api(request, self.service, action, **kwargs)
 
     @request_required
-    @require_request_value(MODAMOUNT, ORIGREF)
     def capture(self, request="", **kwargs):
         action = "capture"
+        if 'modificationAmount' not in request:
+            raise KeyError("Include 'modificationAmount':{'currency':'USD','value':100} object in request. \n( example values used, replace with original payment currency and amount to be captured. )")
+        if 'originalReference' not in request:
+            raise KeyError("Include 'originalReference' str in request. It is the psp reference of the payment to be modified.")
         #TODO: set up prevalidation
         logger.info('Adyen - CAPTURE')
-        return self.client.call_api(request, self.service, action, **kwargs)
+        response = self.client.call_api(request,self.service,action,**kwargs)
+        return response
 
     @request_required
     @require_request_value(MODAMOUNT, ORIGREF)
@@ -225,11 +233,4 @@ class AdyenPayment(AdyenServiceBase):
         action = "cancelOrRefund"
         #TODO: set up prevalidation
         logger.info('Adyen - CANCEL or REFUND')
-        return self.client.call_api(request, self.service, action, **kwargs)
-
-    @request_required
-    def refund_with_data(self, request="", **kwargs):
-        action = "refundWithData"
-        #TODO: set up prevalidation
-        logger.info('Adyen - refundWithData')
         return self.client.call_api(request, self.service, action, **kwargs)

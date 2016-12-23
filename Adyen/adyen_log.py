@@ -11,14 +11,11 @@ logger = logging.getLogger(LOG_FILENAME)
 
 logger.setLevel(logging.DEBUG)
 
-fh = logging.FileHandler(LOG_FILENAME)
-
-formatter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
-fh.setFormatter(formatter)
-
-fh.setLevel(logging.DEBUG)
-
-logger.addHandler(fh)
+# fh = logging.FileHandler(LOG_FILENAME)
+# formatter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
+# fh.setFormatter(formatter)
+# fh.setLevel(logging.DEBUG)
+# logger.addHandler(fh)
 
 logger.info('Adyen Log of %s' % log_now)
 

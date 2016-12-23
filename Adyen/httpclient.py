@@ -27,8 +27,13 @@ logger = logging.getLogger(logname())
 #    ['raw_response','raw_request','status_code','headers'])
 
 class HTTPClient(object):
-    def __init__(self):
+    def __init__(self,app_name,LIB_VERSION,USER_AGENT_SUFFIX):
         #Check if requests already available, default to urllib
+        self.app_name = app_name
+        self.LIB_VERSION = LIB_VERSION
+        self.USER_AGENT_SUFFIX = USER_AGENT_SUFFIX
+        self.user_agent = self.app_name + " " + self.USER_AGENT_SUFFIX + self.LIB_VERSION
+
         if requests:
             self.request = self._requests_post
         elif pycurl:
@@ -81,7 +86,6 @@ class HTTPClient(object):
                 value = value.strip()
                 response_headers[name] = value
 
-
         curl = pycurl.Curl()
         curl.setopt(curl.URL, url)
 
@@ -89,14 +93,13 @@ class HTTPClient(object):
         curl.setopt(curl.WRITEDATA, stringbuffer)
 
         #Convert the header dict to formatted array as pycurl needs.
+        headers['User-Agent'] = self.user_agent
         header_list = ["%s:%s" % (k,v) for k,v in headers.iteritems()]
         #Ensure proper content-type when adding headers
         if json:
             header_list.append("Content-Type:application/json")
-        curl.setopt(pycurl.HTTPHEADER, header_list)
 
-        logger.info(json)
-        logger.info(url)
+        curl.setopt(pycurl.HTTPHEADER, header_list)
 
         # Return regular dict instead of JSON encoded dict for request:
         raw_store = json
@@ -120,8 +123,6 @@ class HTTPClient(object):
 
         # Return regular dict instead of JSON encoded dict for request:
         raw_request = raw_store
-
-        logger.info(raw_request)
 
         return result, raw_request, status_code, response_headers
 
@@ -166,18 +167,14 @@ class HTTPClient(object):
         else:
             auth = None
 
+        headers['User-Agent'] = self.user_agent
+
         request = requests.post(url, auth=auth, data=data, json = json,
             headers=headers, timeout=timeout)
-
-        logger.info(json)
-        logger.info(url)
 
         # Ensure either json or data is returned for raw request
         # Updated: Only return regular dict, don't switch out formats if this is not important.
         message = json
-
-        logger.info(request.text)
-
 
         return request.text, message, request.status_code, request.headers
 
@@ -213,13 +210,10 @@ class HTTPClient(object):
             dict:   Key/Value pairs of the headers received.
         """
 
-        print 'HTTP: URLLIB'
-
         # Store regular dict to return later:
         raw_store = json
 
-        logger.info(json)
-        logger.info(url)
+        logger.info("HTTP: URLLIB")
 
         raw_request = json_lib.dumps(json) if json else urlencode(data)
         url_request = urllib2.Request(url,data=raw_request)
@@ -227,6 +221,8 @@ class HTTPClient(object):
             url_request.add_header('Content-Type','application/json')
         elif not data:
             raise ValueError("Please provide either a json or a data field.")
+
+        headers['User-Agent'] = self.user_agent
 
         # Set regular dict to return as raw_request:
         raw_request = raw_store
@@ -251,7 +247,6 @@ class HTTPClient(object):
         else:
             raw_response = response.read()
             response.close()
-            logger.info(raw_response)
 
             #The dict(response.info()) is the headers of the response
             #Raw response, raw request, status code returned, and headers returned
