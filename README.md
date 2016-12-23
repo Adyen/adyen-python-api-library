@@ -5,7 +5,6 @@ The Adyen API Library for Python enables you to work with Adyen APIs.
 ## Requirements
 
 Make sure you have an Adyen account. If you don't have this you can request it <a href="https://www.adyen.com/home/discover/test-account-signup#form" target="_blank">here</a>
-To make the automatice testing cases working for your account change the credentials in the tests/test.ini file.
 
 ## Installation
 
@@ -29,6 +28,7 @@ ady.payment.client.platform = "test" # Environment to use the library in.
 ady.payment.client.merchant_account = "merchant account name from CA"
 ady.payment.client.password = "webservice user password"
 ady.payment.client.app_name = "your app name"
+```
 
 ## Documentation
 
