@@ -18,7 +18,6 @@ Create a class instance of the 'Adyen' class.
 ```python
 import Adyen
 
-
 ady = Adyen.Adyen()
 
 ady.payment.client.username = "webservice user name"

@@ -5,63 +5,41 @@ import logging
 from adyen_log import logname,getlogger
 logger = logging.getLogger(logname())
 
-AMOUNT = "amount"
-REFERENCE = "reference"
-MODAMOUNT = "modificationAmount"
-ORIGREF = "originalReference"
-SHOPPEREMAIL = "shopperEmail"
-SHOPPERREF = "shopperReference"
+actions = {}
+actions['listRecurringDetails'] = ["shopperReference"]
+actions['disable'] = ["shopperReference"]
+actions['directory'] = ["currencyCode","paymentAmount","skinCode","merchantReference","sessionValidity"]
+actions['skipDetails'] = ["sessionValidity","skinCode","currencyCode","paymentAmount","merchantReference","brandCode","issuerId"]
+actions['select'] = ["sessionValidity","skinCode","currencyCode","paymentAmount","merchantReference"]
+actions['authorise'] = ["merchantAccount","amount","reference"]
+actions['authorise3d'] = ["merchantAccount","amount","reference"]
+actions['cancel'] = ["merchantAccount","originalReference"]
+actions['capture'] = ["merchantAccount","modificationAmount","originalReference"]
+actions['refund'] = ["merchantAccount","modificationAmount","originalReference"]
+actions['cancelOrRefund'] = ["merchantAccount","originalReference"]
 
-ERR_MSGS = {'amount' : "Please provide an amount in your request. ex: "+
-                "'amount':{'currency':'USD','value':100}",
-            'reference' : "Please provide a reference in your request. ex: "+
-                "'reference':'yourUniqureReference123'",
-            'modificationAmount': "Please provide a modificationAmount in your "+
-                "request. ex: 'amount':{'currency':'USD','value':100}",
-            'originalReference' : "Please provide the pspReference of the "+
-                "original payment via the value 'originalReference'",
-            'shopperEmail' : "Please provide a shopperEmail in your request."+
-                " ex: 'shopperEmail':'shopper@adyen.com'",
-            'shopperReference' : "Please provide a shopperReference in your "+
-                "request. ex. 'shopperReference':'reference12345'"
-}
+def check_in(request,action):
 
-#Ensure value is in request object
-def require_request_value(*required_values):
-    def wrapper(func):
-        def decorated(*args,**kwargs):
-            for value in required_values:
-                # compare_request = under_to_camel_dict(kwargs["request"])
-                if value not in kwargs["request"]:
-                    raise AdyenInvalidRequestError(ERR_MSGS[value])
-            return func(*args,**kwargs)
-        return wraps(func)(decorated)
-    return wrapper
+    # This function checks for missing properties in the request dict
+    # for the corresponding action. It does not validate its values.
 
-#Ensure that "request" was a parameter.
-def request_required(f):
-    @wraps(f)
-    def decorated(*args,**kwargs):
-        if 'request' in kwargs:
-            if not kwargs['request']:
-                raise TypeError("You need to provide a valid dictionary request"
-                            " object. This could contain information in the "
-                            "currency, amount, card details and so on. Please "
-                            "reach out to support@adyen.com if you have more "
-                            "questions.")
-        return f(*args, **kwargs)
-    return decorated
-
-#Ensure store payout user exists and not null
-def store_payout_required(f):
-    @wraps(f)
-    def decorated(*args,**kwargs):
-        if 'request' in kwargs:
-            if not kwargs['request']:
-                raise TypeError("You need to provide a valid dictionary request"
-                            " object. This could contain information in the "
-                            "currency, amount, card details and so on. Please "
-                            "reach out to support@adyen.com if you have more "
-                            "questions.")
-        return f(*args, **kwargs)
-    return decorated
+    if request:
+        action = actions[action]
+        missing = []
+        for x in action:
+            if x not in request:
+                missing.append(x)
+        if len(missing) > 0:
+            missing_string = ""
+            for idx,val in enumerate(missing):
+                missing_string += "\n" + val
+            erstr = "Provide the required request parameters to complete this request: %s" % missing_string
+            raise ValueError(erstr)
+        else:
+            return True
+    else:
+        req_str = ""
+        for idx,val in enumerate(actions[action]):
+            req_str += "\n" + val
+        erstr = "Provide a request dict with the following properties: %s" % req_str
+        raise ValueError(erstr)

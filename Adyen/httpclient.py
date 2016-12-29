@@ -74,7 +74,7 @@ class HTTPClient(object):
             dict:   Key/Value pairs of the headers received.
         """
 
-        logger.info('HTTP: CURL')
+        # logger.info('HTTP: CURL')
 
         #Handler for headers
         response_headers={}
@@ -158,7 +158,7 @@ class HTTPClient(object):
             dict:   Key/Value pairs of the headers received.
         """
 
-        logger.info('HTTP: REQUESTS')
+        # logger.info('HTTP: REQUESTS')
 
         #Adding basic auth if username and password provided.
         auth = ""
@@ -213,7 +213,7 @@ class HTTPClient(object):
         # Store regular dict to return later:
         raw_store = json
 
-        logger.info("HTTP: URLLIB")
+        # logger.info("HTTP: URLLIB")
 
         raw_request = json_lib.dumps(json) if json else urlencode(data)
         url_request = urllib2.Request(url,data=raw_request)

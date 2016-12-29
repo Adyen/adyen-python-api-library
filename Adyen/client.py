@@ -127,7 +127,8 @@ class AdyenClient(object):
         """
         base_uri = BASE_HPP_url.format(platform)
         service = action + '.shtml'
-        return  '/'.join([base_uri, service])
+        result = '/'.join([base_uri, service])
+        return result
 
     def _review_payout_username(self,**kwargs):
         from Adyen import review_payout_username
@@ -139,7 +140,7 @@ class AdyenClient(object):
             errorstring = """AdyenInvalidRequestError: Please set your review payout
             webservice username. You can do this by running
             'Adyen.review_payout_username = 'Your payout username' """
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise AdyenInvalidRequestError(errorstring)
 
         return review_payout_username
@@ -154,7 +155,7 @@ class AdyenClient(object):
             errorstring = """AdyenInvalidRequestError: Please set your review payout
             webservice password. You can do this by running
             'Adyen.review_payout_password = 'Your payout password'"""
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise AdyenInvalidRequestError(errorstring)
 
         return review_payout_password
@@ -169,7 +170,7 @@ class AdyenClient(object):
             errorstring = """AdyenInvalidRequestError: Please set your store payout
             webservice username. You can do this by running
             'Adyen.store_payout_username = 'Your payout username'"""
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise AdyenInvalidRequestError(errorstring)
 
         return store_payout_username
@@ -184,7 +185,7 @@ class AdyenClient(object):
             errorstring = """AdyenInvalidRequestError: Please set your store payout
             webservice password. You can do this by running
             'Adyen.store_payout_password = 'Your payout password'"""
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise AdyenInvalidRequestError(errorstring)
 
         return store_payout_password
@@ -225,7 +226,7 @@ class AdyenClient(object):
         if not username:
             errorstring = """AdyenInvalidRequestError: Please set your webservice username."
              You can do this by running 'Adyen.username = 'Your username'"""
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise AdyenInvalidRequestError(errorstring)
         #Ensure that username has been removed so as not to be passed to adyen.
         if 'username' in kwargs:
@@ -245,7 +246,7 @@ class AdyenClient(object):
         if not password:
             errorstring = """AdyenInvalidRequestError: Please set your webservice password.
              You can do this by running 'Adyen.password = 'Your password'"""
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise AdyenInvalidRequestError(errorstring)
         #Ensure that password has been removed so as not to be passed to adyen.
         if 'password' in kwargs:
@@ -261,11 +262,11 @@ class AdyenClient(object):
 
         if platform.lower() not in ['live','test']:
             errorstring = "'platform' must be the value of 'live' or 'test'"
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise ValueError(errorstring)
         elif not isinstance(platform, str):
             errorstring = "'platform' value must be type of string"
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise TypeError(errorstring)
 
         message = request_data
@@ -288,7 +289,7 @@ class AdyenClient(object):
                 with your Adyen.Adyen() class instance.
                 merchant_account=\"MerchantAccountName\". Please reach out
                 to support@adyen.com if the issue persists."""
-                logger.error(errorstring)
+                # logger.error(errorstring)
                 raise AdyenInvalidRequestError(errorstring)
 
         #Adyen requires this header to be set and uses the combination of
@@ -341,7 +342,7 @@ class AdyenClient(object):
              parameter in the function call ie.
             'Adyen.hpp.directory_lookup(hmac=\"!WR#F@...\"'. Please reach
             out to support@Adyen.com if the issue persists."""
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise AdyenInvalidRequestError(errorstring)
 
         #platform provided in self has highest priority, fallback to root module
@@ -350,17 +351,19 @@ class AdyenClient(object):
             platform = self.platform
         if platform.lower() not in ['live','test']:
             errorstring = " 'platform' must be the value of 'live' or 'test' "
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise ValueError(errorstring)
         elif not isinstance(platform, str):
             errorstring = "'platform' must be type string"
-            logger.error(errorstring)
+            # logger.error(errorstring)
             raise TypeError(errorstring)
 
         message = request_data
 
-        if 'countryCode' not in message:
-            print('HPP: Advised to include countryCode with request to make sure local payment methods are found.')
+        if 'merchantAccount' not in message:
+            message['merchantAccount'] = self.merchant_account
+        if message['merchantAccount'] == "":
+            message['merchantAccount'] = self.merchant_account
 
         message["merchantSig"] = util.generate_hpp_sig(message, hmac)
 
@@ -378,7 +381,23 @@ class AdyenClient(object):
 
         from Adyen import hmac, platform
 
+        if self.platform:
+            platform = self.platform
+        if platform.lower() not in ['live','test']:
+            errorstring = " 'platform' must be the value of 'live' or 'test' "
+            # logger.error(errorstring)
+            raise ValueError(errorstring)
+        elif not isinstance(platform, str):
+            errorstring = "'platform' must be type string"
+            # logger.error(errorstring)
+            raise TypeError(errorstring)
+
         hmac = self.hmac
+
+        if 'merchantAccount' not in request_data:
+            request_data['merchantAccount'] = self.merchant_account
+        if request_data['merchantAccount'] == "":
+            request_data['merchantAccount'] = self.merchant_account
 
         request_data["merchantSig"] = util.generate_hpp_sig(request_data,hmac)
 
@@ -455,7 +474,7 @@ class AdyenClient(object):
                 raw_response=raw_response,
                 url=url
 
-                logger.error(errorstring)
+                # logger.error(errorstring)
 
                 raise AdyenInvalidRequestError(errorstring)
 
@@ -482,11 +501,11 @@ class AdyenClient(object):
             from Adyen import merchant_specific_url
             if url == merchant_specific_url:
                 erstr = "Received a 404 for url:'{}'. Please ensure that the custom merchant specific url is correct".format(url)
-                logger.error(erstr)
+                # logger.error(erstr)
                 raise AdyenAPICommunicationError(erstr)
             else:
                 erstr = "Unexpected error while communicating with Adyen. Please reach out to support@adyen.com if the problem persists"
-                logger.error(erstr)
+                # logger.error(erstr)
                 raise AdyenAPICommunicationError(erstr,
                     raw_request=raw_request,
                     raw_response=raw_response,
@@ -494,47 +513,26 @@ class AdyenClient(object):
                     psp=psp_ref,
                     headers=headers)
         elif status_code in [400, 422]:
-            erstr = "Received validation error with errorCode:{}, message:'{}', "
-            "HTTP Code:'{}'. Please verify the values provided. Please reach"
-            " out to support@adyen.com if the problem persists, providing "
-            "the PSP reference:{}".format( response_obj.get("errorCode"),
-            response_obj.get("message"), status_code, psp_ref)
+            erstr = "Received validation error with errorCode: %s, message: %s, HTTP Code: %s. Please verify the values provided. Please reach out to support@adyen.com if the problem persists, providing the PSP reference: %s" % (response_obj["errorCode"],response_obj["message"], status_code, psp_ref)
 
-            logger.error(erstr)
+            # logger.error(erstr)
 
-            raise AdyenAPIValidationError(erstr,
-                result=response_obj,
-                error_code=response_obj.get("errorCode"),
-                raw_request=raw_request,
-                raw_response=raw_response,
-                url=url,
-                psp=psp_ref,
-                headers=headers,
-                status_code=status_code)
+            raise ValueError(erstr)
         elif status_code == 401:
-            erstr = "Unable to authenticate with Adyen's Servers. Please verify the username and password of your webservice user. Please reach out to your Adyen Admin if the problem persists"
-            logger.error(erstr)
-            raise AdyenAPIAuthenticationError(erstr,
-                raw_request=raw_request,
-                raw_response=raw_response,
-                url=url,
-                psp=psp_ref,
-                headers=headers)
+            erstr = "Unable to authenticate with Adyen's Servers. Please verify the credentials set with the Adyen base class. Please reach out to your Adyen Admin if the problem persists"
+            # logger.error(erstr)
+            raise ValueError(erstr)
         elif status_code == 403:
             from Adyen import username
-
-            # TODO: Json is encoded to single '' which creates an error with .loads
-            # How/why does this happen?
-            # raw_request = json_lib.loads(raw_request)
 
             ma = raw_request['merchantAccount']
 
             if response_obj.get("message")=="Invalid Merchant Account":
                 erstr = "You provided the merchant account:'%s' that doesn't exist or you don't have access to it. Please verify the merchant account provided. Reach out to support@adyen.com if the issue persists" % raw_request['merchantAccount']
-                logger.error(erstr)
+                # logger.error(erstr)
                 raise AdyenAPIInvalidPermission(erstr)
 
-            erstr = "Unable to perform the requested action. message:'{}'. If you think your webservice user:'{}' might not have the necessary permissions to perform this request. Please reach out to support@adyen.com, providing the PSP reference:{}".format(response_obj.get("message"))
+            erstr = "Unable to perform the requested action. message: %s. If you think your webservice user: %s might not have the necessary permissions to perform this request. Please reach out to support@adyen.com, providing the PSP reference: %s" % response_obj["message"],self.username,psp_ref
 
             raise AdyenAPIInvalidPermission(erstr,username,psp_ref,raw_request=raw_request,raw_response=raw_response,url=url,psp=psp_ref,headers=headers)
         elif status_code == 422:
