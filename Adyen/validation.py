@@ -11,12 +11,12 @@ actions['disable'] = ["shopperReference"]
 actions['directory'] = ["currencyCode","paymentAmount","skinCode","merchantReference","sessionValidity"]
 actions['skipDetails'] = ["sessionValidity","skinCode","currencyCode","paymentAmount","merchantReference","brandCode","issuerId"]
 actions['select'] = ["sessionValidity","skinCode","currencyCode","paymentAmount","merchantReference"]
-actions['authorise'] = ["merchantAccount","amount","reference"]
-actions['authorise3d'] = ["merchantAccount","amount","reference"]
-actions['cancel'] = ["merchantAccount","originalReference"]
-actions['capture'] = ["merchantAccount","modificationAmount","originalReference"]
-actions['refund'] = ["merchantAccount","modificationAmount","originalReference"]
-actions['cancelOrRefund'] = ["merchantAccount","originalReference"]
+actions['authorise'] = ["amount","reference"]
+actions['authorise3d'] = ["amount","reference"]
+actions['cancel'] = ["originalReference"]
+actions['capture'] = ["modificationAmount","originalReference"]
+actions['refund'] = ["modificationAmount","originalReference"]
+actions['cancelOrRefund'] = ["originalReference"]
 
 def check_in(request,action):
 

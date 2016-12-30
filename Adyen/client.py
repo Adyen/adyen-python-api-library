@@ -271,26 +271,10 @@ class AdyenClient(object):
 
         message = request_data
 
-        #All API call should have merchantAccount as part of the request.
-        #If the merchant account is not in the request, check other locations
-        if "merchantAccount" not in message:
-            if 'merchant_account' in kwargs:
-                message["merchantAccount"] = kwargs["merchant_account"]
-                del kwargs["merchant_account"]
-            elif self.merchant_account:
-                #Try self object
-                message["merchantAccount"] = self.merchant_account
-            elif merchant_account:
-                #Then try root module
-                message["merchantAccount"] = merchant_account
-            else:
-                #merchantAccount has not ben set.
-                errorstring = """AdyenInvalidRequestError: No merchantAccount provided. Set one
-                with your Adyen.Adyen() class instance.
-                merchant_account=\"MerchantAccountName\". Please reach out
-                to support@adyen.com if the issue persists."""
-                # logger.error(errorstring)
-                raise AdyenInvalidRequestError(errorstring)
+        if 'merchantAccount' not in message:
+            message['merchantAccount'] = self.merchant_account
+        if message['merchantAccount'] == "":
+            message['merchantAccount'] = self.merchant_account
 
         #Adyen requires this header to be set and uses the combination of
         #merchant account and merchant reference to determine uniqueness.
