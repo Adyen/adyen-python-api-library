@@ -74,9 +74,6 @@ class HTTPClient(object):
             dict:   Key/Value pairs of the headers received.
         """
 
-        # logger.info('HTTP: CURL')
-
-        #Handler for headers
         response_headers={}
         def handle_header(header_line):
             header_line = header_line.decode('iso-8859-1')
@@ -92,8 +89,9 @@ class HTTPClient(object):
         stringbuffer = StringIO()
         curl.setopt(curl.WRITEDATA, stringbuffer)
 
-        #Convert the header dict to formatted array as pycurl needs.
         headers['User-Agent'] = self.user_agent
+
+        # Convert the header dict to formatted array as pycurl needs.
         header_list = ["%s:%s" % (k,v) for k,v in headers.iteritems()]
         #Ensure proper content-type when adding headers
         if json:
@@ -104,7 +102,7 @@ class HTTPClient(object):
         # Return regular dict instead of JSON encoded dict for request:
         raw_store = json
 
-        #Set the request body.
+        # Set the request body.
         raw_request = json_lib.dumps(json) if json else urlencode(data)
         curl.setopt(curl.POSTFIELDS, raw_request)
 
@@ -115,7 +113,7 @@ class HTTPClient(object):
         curl.setopt(curl.TIMEOUT, timeout)
         curl.perform()
 
-        #Grab the response content
+        # Grab the response content
         result = stringbuffer.getvalue()
         status_code = curl.getinfo(curl.RESPONSE_CODE)
 
@@ -157,8 +155,6 @@ class HTTPClient(object):
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
-
-        # logger.info('HTTP: REQUESTS')
 
         #Adding basic auth if username and password provided.
         auth = ""
@@ -213,8 +209,6 @@ class HTTPClient(object):
         # Store regular dict to return later:
         raw_store = json
 
-        # logger.info("HTTP: URLLIB")
-
         raw_request = json_lib.dumps(json) if json else urlencode(data)
         url_request = urllib2.Request(url,data=raw_request)
         if json:
@@ -250,8 +244,7 @@ class HTTPClient(object):
 
             #The dict(response.info()) is the headers of the response
             #Raw response, raw request, status code returned, and headers returned
-            return (raw_response, raw_request, response.getcode(),
-                dict(response.info()))
+            return (raw_response, raw_request, response.getcode(),dict(response.info()))
 
     def request(self, url,
         json="",
