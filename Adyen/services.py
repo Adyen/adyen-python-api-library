@@ -138,10 +138,10 @@ class AdyenPayment(AdyenServiceBase):
         if validation.check_in(request,action):
             if 'shopperEmail' in request:
                 if request['shopperEmail'] == '':
-                    raise ValueError('shopperEmail must not be empty when authorising recurring contracts.')
+                    raise ValueError('shopperEmail must contain the shopper email when authorising recurring contracts.')
             if 'shopperReference' in request:
                 if request['shopperReference'] == '':
-                    raise ValueError('shopperReference must not be empty when authorising recurring contracts.')
+                    raise ValueError('shopperReference must contain the shopper name when authorising recurring contracts.')
 
             return self.client.call_api(request, self.service, action, **kwargs)
 
@@ -161,7 +161,7 @@ class AdyenPayment(AdyenServiceBase):
         action = "capture"
 
         if validation.check_in(request,action):
-            if request['modificationAmount']["value"] == "" or request['modificationAmount']["value"] == "0":
+            if request['modificationAmount']["value"] == "":
                 raise ValueError("Set the 'modificationAmount' to the original transaction amount, or less for a partial capture. modificationAmount should be an object with the following keys: {'currency':,'value':}")
             if request['originalReference'] == "":
                 raise ValueError("Set the 'originalReference' to the psp reference of the transaction to be modified")
@@ -173,7 +173,7 @@ class AdyenPayment(AdyenServiceBase):
         action = "refund"
 
         if validation.check_in(request,action):
-            if request['modificationAmount']['value'] == '0' or request['modificationAmount']['value'] == 0 or request['modificationAmount']['value'] == "":
+            if request['modificationAmount']['value'] == "":
                 raise ValueError("To refund this payment, provide the original value. Set the value to less than the original amount, to partially refund this payment.")
             else:
                 return self.client.call_api(request, self.service, action, **kwargs)
