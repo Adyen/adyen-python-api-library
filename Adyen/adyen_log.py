@@ -10,6 +10,10 @@ LOG_FILENAME = 'Adyen %s.log' % log_now
 logger = logging.getLogger(LOG_FILENAME)
 logger.setLevel(logging.DEBUG)
 
+
+# TODO: Make logging optional based on Adyen class instance attribute 'create_log'.
+# TODO: Define a readable logging structure.
+
 # fh = logging.FileHandler(LOG_FILENAME)
 # formatter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
 # fh.setFormatter(formatter)
