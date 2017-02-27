@@ -17,7 +17,6 @@ logger.setLevel(logging.DEBUG)
 # logger.addHandler(fh)
 # logger.info('Adyen Log of %s' % log_now)
 
-
 def logname():
     return LOG_FILENAME
 
