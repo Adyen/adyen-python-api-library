@@ -98,11 +98,11 @@ class AdyenClient(object):
         self.merchant_account = merchant_account
         self.skin_code = skin_code
         self.psp_list = []
-        self.app_name = "PythonApiTest"#app_name
+        self.app_name = app_name
         self.create_log = create_log
         self.LIB_VERSION = "1.0.0";
         self.USER_AGENT_SUFFIX = "adyen-python-api-library/";
-        self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX)
+        self.http_init = False
 
     def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
@@ -211,6 +211,10 @@ class AdyenClient(object):
                 succesful.
         """
         from Adyen import username, password, merchant_account, platform
+
+        if self.http_init == False:
+            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX)
+            self.http_init = True
 
         #username at self object has highest priority. fallback to root module
         #and ensure that it is set.
@@ -429,6 +433,7 @@ class AdyenClient(object):
                     if response['errorCode']:
                         return raw_response
                 except KeyError:
+                    errstr = 'KeyError: errorCode'
                     # logger.error('Key Error: errorCode')
                 pass
         else:
