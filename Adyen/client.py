@@ -22,7 +22,7 @@ logger = logging.getLogger(logname())
 
 BASE_PAL_url = "https://pal-{}.adyen.com/pal/servlet"
 BASE_HPP_url = "https://{}.adyen.com/hpp"
-API_VERSION = "v12"
+API_VERSION = "v18"
 API_CLIENT_ATTR = ["username","password","review_payout_user",
     "review_payout_password","confirm_payout_user","confirm_payout_password",
     "platform","merchant_account","merchant_specific_url","hmac"]
@@ -212,6 +212,8 @@ class AdyenClient(object):
         """
         from Adyen import username, password, merchant_account, platform
 
+        print request_data
+
         #username at self object has highest priority. fallback to root module
         #and ensure that it is set.
         if 'username' in kwargs:
@@ -262,11 +264,9 @@ class AdyenClient(object):
 
         if platform.lower() not in ['live','test']:
             errorstring = "'platform' must be the value of 'live' or 'test'"
-            # logger.error(errorstring)
             raise ValueError(errorstring)
         elif not isinstance(platform, str):
             errorstring = "'platform' value must be type of string"
-            # logger.error(errorstring)
             raise TypeError(errorstring)
 
         message = request_data
@@ -512,7 +512,9 @@ class AdyenClient(object):
             ma = raw_request['merchantAccount']
 
             if response_obj.get("message")=="Invalid Merchant Account":
-                erstr = "You provided the merchant account:'%s' that doesn't exist or you don't have access to it. Please verify the merchant account provided. Reach out to support@adyen.com if the issue persists" % raw_request['merchantAccount']
+                erstr = ("You provided the merchant account:'%s' that doesn't exist or you don't have access to it.\n"
+                "Please verify the merchant account provided. \n"
+                "Reach out to support@adyen.com if the issue persists") % raw_request['merchantAccount']
                 # logger.error(erstr)
                 raise AdyenAPIInvalidPermission(erstr)
 

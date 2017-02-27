@@ -12,7 +12,7 @@ actions['directory'] = ["currencyCode","paymentAmount","skinCode","merchantRefer
 actions['skipDetails'] = ["sessionValidity","skinCode","currencyCode","paymentAmount","merchantReference","brandCode","issuerId"]
 actions['select'] = ["sessionValidity","skinCode","currencyCode","paymentAmount","merchantReference"]
 actions['authorise'] = ["amount","reference"]
-actions['authorise3d'] = ["amount","reference"]
+actions['authorise3d'] = ["md","paResponse","browserInfo"]
 actions['cancel'] = ["originalReference"]
 actions['capture'] = ["modificationAmount","originalReference"]
 actions['refund'] = ["modificationAmount","originalReference"]
@@ -21,7 +21,7 @@ actions['cancelOrRefund'] = ["originalReference"]
 def check_in(request,action):
 
     # This function checks for missing properties in the request dict
-    # for the corresponding action. It does not validate its values.
+    # for the corresponding action. It does not check its values.
 
     if request:
         action = actions[action]

@@ -55,7 +55,7 @@ class AdyenRecurring(AdyenServiceBase):
 
         if validation.check_in(request,action):
             if 'recurringDetailReference' not in request:
-                print("Include a 'recurringDetailReference' to disable a specific recurring contract.")
+                raise ValueError("Include a 'recurringDetailReference' to disable a specific recurring contract.")
             else:
                 return self.client.call_api(request, self.service, action, **kwargs)
 
@@ -132,6 +132,7 @@ class AdyenPayment(AdyenServiceBase):
         self.service = "Payment"
 
     def authorise(self, request="", **kwargs):
+
         action = "authorise"
 
         if validation.check_in(request,action):
