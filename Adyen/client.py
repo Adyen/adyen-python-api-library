@@ -212,8 +212,6 @@ class AdyenClient(object):
         """
         from Adyen import username, password, merchant_account, platform
 
-        print request_data
-
         #username at self object has highest priority. fallback to root module
         #and ensure that it is set.
         if 'username' in kwargs:
@@ -431,7 +429,7 @@ class AdyenClient(object):
                     if response['errorCode']:
                         return raw_response
                 except KeyError:
-                    print 'Key Error `errorCode` '
+                    # logger.error('Key Error: errorCode')
                 pass
         else:
             try:

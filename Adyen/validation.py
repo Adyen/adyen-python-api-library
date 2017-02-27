@@ -21,7 +21,7 @@ actions['cancelOrRefund'] = ["originalReference"]
 def check_in(request,action):
 
     # This function checks for missing properties in the request dict
-    # for the corresponding action. It does not check its values.
+    # for the corresponding action.
 
     if request:
         action = actions[action]
