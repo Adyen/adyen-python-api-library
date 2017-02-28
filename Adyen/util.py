@@ -32,6 +32,10 @@ def _generate_signing_string(dict_object,hmac_key):
 
 def generate_hpp_sig(dict_object, hmac_key):
 
+    if 'issuerId' in dict_object:
+        if dict_object['issuerId'] == "":
+            del dict_object['issuerId']
+
     if not isinstance(dict_object, dict):
         raise ValueError("Must Provide dictionary object")
     def escapeVal(val):
@@ -43,10 +47,8 @@ def generate_hpp_sig(dict_object, hmac_key):
 
     ordered_request = OrderedDict(sorted(dict_object.items(), key=lambda t: t[0]))
 
-    #for k,v in ordered_request.items():
-    #    signing_string.append(':'.join(k,escapeVal(v)))
-
     signing_string = ':'.join(map(escapeVal, map(str,ordered_request.keys()) + map(str,ordered_request.values())))
+
 
     hm = hmac.new(hmac_key, signing_string, hashlib.sha256)
     return base64.b64encode(hm.digest())
