@@ -158,10 +158,11 @@ class AdyenPayment(AdyenServiceBase):
             return self.client.call_api(request, self.service, action, **kwargs)
 
     def capture(self, request="", **kwargs):
+
         action = "capture"
 
         if validation.check_in(request,action):
-            if request['modificationAmount']["value"] == "":
+            if request['modificationAmount']["value"] == "" or request['modificationAmount']['value'] == "0":
                 raise ValueError("Set the 'modificationAmount' to the original transaction amount, or less for a partial capture. modificationAmount should be an object with the following keys: {'currency':,'value':}")
             if request['originalReference'] == "":
                 raise ValueError("Set the 'originalReference' to the psp reference of the transaction to be modified")
@@ -170,10 +171,14 @@ class AdyenPayment(AdyenServiceBase):
             return response
 
     def refund(self, request="", **kwargs):
+
         action = "refund"
 
+        print "REFUND:"
+        print request
+
         if validation.check_in(request,action):
-            if request['modificationAmount']['value'] == "":
+            if request['modificationAmount']['value'] == "" or request['modificationAmount']['value'] == "0":
                 raise ValueError("To refund this payment, provide the original value. Set the value to less than the original amount, to partially refund this payment.")
             else:
                 return self.client.call_api(request, self.service, action, **kwargs)
