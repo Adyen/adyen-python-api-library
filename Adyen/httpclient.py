@@ -89,6 +89,8 @@ class HTTPClient(object):
         stringbuffer = StringIO()
         curl.setopt(curl.WRITEDATA, stringbuffer)
 
+        # Add User-Agent header to request so that the request can be identified as coming
+        # from the Adyen Python library.
         headers['User-Agent'] = self.user_agent
 
         # Convert the header dict to formatted array as pycurl needs.
@@ -163,6 +165,8 @@ class HTTPClient(object):
         else:
             auth = None
 
+        # Add User-Agent header to request so that the request can be identified as coming
+        # from the Adyen Python library.
         headers['User-Agent'] = self.user_agent
 
         request = requests.post(url, auth=auth, data=data, json = json,
@@ -216,6 +220,8 @@ class HTTPClient(object):
         elif not data:
             raise ValueError("Please provide either a json or a data field.")
 
+        # Add User-Agent header to request so that the request can be identified as coming
+        # from the Adyen Python library.
         headers['User-Agent'] = self.user_agent
 
         # Set regular dict to return as raw_request:
@@ -229,7 +235,7 @@ class HTTPClient(object):
 
         #Adding the headers to the request.
         for key, value in headers.items():
-            url_request.add_header(k, str(v))
+            url_request.add_header(key, str(value))
 
         #URLlib raises all non 200 responses as en error.
         try:
@@ -276,7 +282,6 @@ class HTTPClient(object):
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
-        print '\nHTTPCLIENT.REQUEST?????____________________\n'
         raise NotImplementedError('request of HTTPClient should have been '
             'overridden on initialization. Otherwise, can be overridden to '
             'supply your own post method')
