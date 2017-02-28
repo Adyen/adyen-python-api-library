@@ -20,6 +20,8 @@ from adyen_log import logname,getlogger
 logger = logging.getLogger(logname())
 
 
+HMAC_TEST_url = "https://ca-test.adyen.com/ca/ca/skin/checkhmac.shtml"
+
 BASE_PAL_url = "https://pal-{}.adyen.com/pal/servlet"
 BASE_HPP_url = "https://{}.adyen.com/hpp"
 API_VERSION = "v18"
@@ -46,16 +48,6 @@ class AdyenResult(object):
         self.raw_request = raw_request
         self.raw_response = raw_response
         self.details = {}
-    """
-    def __setattr__(self, attr, value):
-        super(AdyenResult, self).__setattr__(attr, value)
-
-    def __getattr__(self, attr):
-        if attr in self.message:
-            return self.message[attr]
-        else:
-            raise AttributeError
-    """
 
 
     def __str__(self):
@@ -296,7 +288,7 @@ class AdyenClient(object):
 
         return adyen_result
 
-    def call_hpp(self, request_data, action, hmac_key="", **kwargs):
+    def call_hpp(self, message, action, hmac_key="", **kwargs):
         """This will call the adyen hpp. hmac_key and platform are pulled from
         root module level and or self object. AdyenResult will be returned on 200 response.
         Otherwise, an exception is raised.
@@ -315,6 +307,10 @@ class AdyenClient(object):
                 succesful.
         """
         from Adyen import hmac, platform
+
+        if self.http_init == False:
+            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX)
+            self.http_init = True
 
         #hmac provided in function has highest priority. fallback to self then
         #root module and ensure that it is set.
@@ -344,7 +340,8 @@ class AdyenClient(object):
             # logger.error(errorstring)
             raise TypeError(errorstring)
 
-        message = request_data
+        if 'skinCode' not in message:
+            message['skinCode'] = self.skin_code
 
         if 'merchantAccount' not in message:
             message['merchantAccount'] = self.merchant_account
@@ -367,6 +364,10 @@ class AdyenClient(object):
 
         from Adyen import hmac, platform
 
+        if self.http_init == False:
+            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX)
+            self.http_init = True
+
         if self.platform:
             platform = self.platform
         if platform.lower() not in ['live','test']:
@@ -377,6 +378,9 @@ class AdyenClient(object):
             errorstring = "'platform' must be type string"
             # logger.error(errorstring)
             raise TypeError(errorstring)
+
+        if 'skinCode' not in request_data:
+            request_data['skinCode'] = self.skin_code
 
         hmac = self.hmac
 
@@ -529,7 +533,6 @@ class AdyenClient(object):
                 raise AdyenAPIInvalidAmount(
                     "Invalid amount specified"
                     "Amount may be improperly formatted, too small or too big."
-                    "Print your input amount to console or log to verify"
                     "If the issue persists, contact support@adyen.com"
                     )
 
