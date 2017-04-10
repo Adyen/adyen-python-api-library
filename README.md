@@ -1,15 +1,17 @@
 # Adyen APIs Library for Python
 
-The Adyen API Library for Python enables you to work with Adyen APIs.
+This library simplifies working with Adyen APIs and allows you to integrate Adyen
+payments within any Python application.
 
 ## Requirements
 
-Make sure you have an Adyen account. If you don't have this you can request it <a href="https://www.adyen.com/home/discover/test-account-signup#form" target="_blank">here</a>
+- Python 2.7
+- Packages: requests or pycurl ( optional )
+- Adyen account. If you don't have this you can request it here: https://www.adyen.com/home/discover/test-account-signup#form
 
 ## Installation
 
-Adyen Python library is not yet published on PIP. To install, please download this repository, and include the Adyen folder
-with your application.
+Clone this git repository or use pip: ```pip install Adyen```
 
 ## Usage
 
@@ -31,8 +33,7 @@ ady.payment.client.app_name = "your app name"
 
 ## Documentation
 
-Follow the rest our guides from the documentation on how to use this library.
-<insert documentation link here>
+Follow the rest our guides from the documentation on how to use this library. [ Insert documentation link here ]
 
 ## Licence
 
