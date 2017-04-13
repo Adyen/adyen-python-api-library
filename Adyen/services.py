@@ -174,9 +174,6 @@ class AdyenPayment(AdyenServiceBase):
 
         action = "refund"
 
-        print "REFUND:"
-        print request
-
         if validation.check_in(request,action):
             if request['modificationAmount']['value'] == "" or request['modificationAmount']['value'] == "0":
                 raise ValueError("To refund this payment, provide the original value. Set the value to less than the original amount, to partially refund this payment.")
