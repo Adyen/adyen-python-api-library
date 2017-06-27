@@ -1,6 +1,3 @@
-import logging
-from adyen_log import logname,getlogger
-logger = logging.getLogger(logname())
 
 class AdyenError(Exception):
 

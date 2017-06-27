@@ -1,9 +1,5 @@
 from .exceptions import AdyenInvalidRequestError
 from functools import wraps
-# from .util import under_to_camel_dict
-import logging
-from adyen_log import logname,getlogger
-logger = logging.getLogger(logname())
 
 actions = {}
 actions['listRecurringDetails'] = ["shopperReference"]
