@@ -76,7 +76,7 @@ class AdyenClient(object):
     def __init__(self, username=None, password=None, review_payout_username=None,
         review_payout_password=None, store_payout_username=None,
         store_payout_password=None, platform=None,
-        merchant_account=None, merchant_specific_url=None, skin_code=None, hmac=None,app_name=None):
+        merchant_account=None, merchant_specific_url=None, skin_code=None, hmac=None, app_name=None, http_force = None):
         self.username = username
         self.password = password
         self.review_payout_username = review_payout_username
@@ -93,6 +93,7 @@ class AdyenClient(object):
         self.LIB_VERSION = "1.0.0";
         self.USER_AGENT_SUFFIX = "adyen-python-api-library/";
         self.http_init = False
+        self.http_force = http_force
 
     def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
@@ -199,7 +200,7 @@ class AdyenClient(object):
         from . import username, password, merchant_account, platform
         #
         if self.http_init == False:
-            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX)
+            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX, self.http_force)
             self.http_init = True
 
         #username at self object has highest priority. fallback to root module
@@ -301,7 +302,7 @@ class AdyenClient(object):
         from . import hmac, platform
         #
         if self.http_init == False:
-            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX)
+            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX, self.http_force)
             self.http_init = True
 
         #hmac provided in function has highest priority. fallback to self then

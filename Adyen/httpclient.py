@@ -27,19 +27,27 @@ import base64
 #    ['raw_response','raw_request','status_code','headers'])
 
 class HTTPClient(object):
-    def __init__(self,app_name,USER_AGENT_SUFFIX,LIB_VERSION):
+    def __init__(self,app_name,USER_AGENT_SUFFIX,LIB_VERSION, force_request = None):
         #Check if requests already available, default to urllib
         # self.app_name = app_name
         # self.LIB_VERSION = LIB_VERSION
         # self.USER_AGENT_SUFFIX = USER_AGENT_SUFFIX
         self.user_agent = app_name + " " + USER_AGENT_SUFFIX + LIB_VERSION
 
-        if requests:
-            self.request = self._requests_post
-        elif pycurl:
-            self.request = self._pycurl_post
+        if not force_request:
+            if requests:
+                self.request = self._requests_post
+            elif pycurl:
+                self.request = self._pycurl_post
+            else:
+                self.request = self._urllib_post
         else:
-            self.request = self._urllib_post
+            if force_request == 'requests':
+                self.request = self._requests_post
+            elif force_request == 'pycurl':
+                self.request = self._pycurl_post
+            else:
+                self.request = self._urllib_post
 
     def _pycurl_post(self,
         url,
@@ -185,6 +193,7 @@ class HTTPClient(object):
         password="",
         headers={},
         timeout=30):
+
         """This function will POST to the url endpoint using urllib2. returning
         an AdyenResult object on 200 HTTP responce. Either json or data has to
         be provided. If username and password are provided, basic auth will be
