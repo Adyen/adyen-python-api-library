@@ -252,7 +252,7 @@ class HTTPClient(object):
         except urllib2.HTTPError as e:
             raw_response = e.read()
 
-            return raw_response, raw_request, e.getcode, e.headers
+            return raw_response, raw_request, e.getcode(), e.headers
         else:
             raw_response = response.read()
             response.close()
