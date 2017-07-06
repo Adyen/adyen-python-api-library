@@ -7,7 +7,7 @@ from functools import wraps
 actions = {}
 actions['listRecurringDetails'] = ["shopperReference"]
 actions['disable'] = ["shopperReference"]
-actions['directory'] = ["currencyCode","paymentAmount","merchantReference","sessionValidity","shipBeforeDate"]
+actions['directory'] = ["currencyCode","paymentAmount","merchantReference","sessionValidity"]
 actions['skipDetails'] = ["sessionValidity","currencyCode","paymentAmount","merchantReference","brandCode","issuerId"]
 actions['select'] = ["sessionValidity","currencyCode","paymentAmount","merchantReference"]
 actions['authorise'] = ["amount","reference"]
