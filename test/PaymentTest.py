@@ -1,21 +1,21 @@
 import Adyen
 import unittest
 from BaseTest import BaseTest
-import pprint
+
 
 class TestPayments(unittest.TestCase):
-    ady = Adyen.Adyen(username="user")
+    ady = Adyen.Adyen()
 
     client = ady.client
     test = BaseTest(ady)
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    client.http_force = "pycurl"
+    client.app_name = "appname"
 
     def test_authorise_success_mocked(self):
         request = {}
-
+        request['merchantAccount'] = "YourMerchantAccount"
         request['amount'] = {"value": "100000", "currency": "EUR"}
         request['reference'] = "123456"
         request['card'] = {
@@ -73,6 +73,7 @@ class TestPayments(unittest.TestCase):
 
     def test_authorise_success_3d_mocked(self):
         request = {}
+        request['merchantAccount'] = "YourMerchantAccount"
         request['amount'] = {"value": "100000", "currency": "EUR"}
         request['reference'] = "123456"
         request['card'] = {
@@ -81,6 +82,10 @@ class TestPayments(unittest.TestCase):
             "expiryYear": "2018",
             "cvc": "787",
             "holderName": "John Doe"
+        }
+        request['browserInfo'] = {
+            "userAgent": "YourUserAgent",
+            "acceptHeader": "YourAcceptHeader"
         }
         self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/authorise-success-3d.json')
         result = self.ady.payment.authorise(request)
@@ -91,6 +96,7 @@ class TestPayments(unittest.TestCase):
 
     def test_authorise_3d_success_mocked(self):
         request = {}
+        request['merchantAccount'] = "YourMerchantAccount"
         request['md'] = "testMD"
         request['paResponse'] = "paresponsetest"
         request['browserInfo'] = {

@@ -3,13 +3,14 @@ import unittest
 from BaseTest import BaseTest
 
 class TestModifications(unittest.TestCase):
-    ady = Adyen.Adyen(username="user")
+    ady = Adyen.Adyen()
 
     client = ady.client
     test = BaseTest(ady)
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
+    client.app_name = "appname"
 
     def test_capture_success(self):
         request = {}
