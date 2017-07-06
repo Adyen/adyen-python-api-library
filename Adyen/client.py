@@ -355,7 +355,7 @@ class AdyenClient(object):
         from . import hmac, platform
         #
         if self.http_init == False:
-            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX)
+            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX, self.http_force)
             self.http_init = True
 
         if self.platform:
