@@ -504,7 +504,7 @@ class AdyenClient(object):
                 "Reach out to support@adyen.com if the issue persists") % raw_request['merchantAccount']
                 raise AdyenAPIInvalidPermission(erstr)
 
-            erstr = "Unable to perform the requested action. message: %s. If you think your webservice user: %s might not have the necessary permissions to perform this request. Please reach out to support@adyen.com, providing the PSP reference: %s" % response_obj["message"],self.username,psp_ref
+            erstr = "Unable to perform the requested action. message: %s. If you think your webservice user: %s might not have the necessary permissions to perform this request. Please reach out to support@adyen.com, providing the PSP reference: %s" % (response_obj["message"],self.username,psp_ref)
 
             raise AdyenAPIInvalidPermission(erstr,username,psp_ref,raw_request=raw_request,raw_response=raw_response,url=url,psp=psp_ref,headers=headers)
         elif status_code == 422:
