@@ -3,13 +3,10 @@ language: python
 python:
   - "2.6"
   - "2.7"
-  - "3.2"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-cache:
-  pip: false
+cache: pip
 install:
   - pip install requests
+  - pip install pycurl
+  - pip install mock
 script:
-  - python runtests.py
+  - python -m unittest discover -s test -p '*Test.py'
