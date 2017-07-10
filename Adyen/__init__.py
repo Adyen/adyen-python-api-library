@@ -1,4 +1,7 @@
 #!/bin/python
+
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 from . import util
 from .util import generate_hpp_sig
 from .exceptions import (
@@ -16,9 +19,9 @@ from .services import (
     AdyenPayment,
     AdyenHPP)
 
+from .httpclient import HTTPClient
+
 import datetime
-from adyen_log import logname,getlogger
-logger = getlogger()
 
 username = ""
 password = ""
@@ -33,7 +36,6 @@ class Adyen(AdyenBase):
         self.payment = AdyenPayment(client=self.client)
         self.hpp = AdyenHPP(client=self.client)
         self.recurring = AdyenRecurring(client=self.client)
-
 
 _base_adyen_obj = Adyen()
 recurring = _base_adyen_obj.recurring

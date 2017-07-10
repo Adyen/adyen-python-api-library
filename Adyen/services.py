@@ -1,14 +1,14 @@
+
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import datetime
-import util
+from . import util
 from .client import AdyenClient
-import validation
-import logging
-from adyen_log import logname,getlogger
-logger = logging.getLogger(logname())
+from . import validation
 
 class AdyenBase(object):
     def __setattr__(self, attr, value):
-        client_attr = ["username","password","platform"]
+        client_attr = ["username","password","platform","app_name"]
         if attr in client_attr:
             if value:
                 self.client[attr] = value

@@ -1,14 +1,13 @@
+
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 from .exceptions import AdyenInvalidRequestError
 from functools import wraps
-# from .util import under_to_camel_dict
-import logging
-from adyen_log import logname,getlogger
-logger = logging.getLogger(logname())
 
 actions = {}
 actions['listRecurringDetails'] = ["shopperReference"]
 actions['disable'] = ["shopperReference"]
-actions['directory'] = ["currencyCode","paymentAmount","merchantReference","sessionValidity","shipBeforeDate"]
+actions['directory'] = ["currencyCode","paymentAmount","merchantReference","sessionValidity"]
 actions['skipDetails'] = ["sessionValidity","currencyCode","paymentAmount","merchantReference","brandCode","issuerId"]
 actions['select'] = ["sessionValidity","currencyCode","paymentAmount","merchantReference"]
 actions['authorise'] = ["amount","reference"]

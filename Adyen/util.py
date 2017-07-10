@@ -1,3 +1,6 @@
+
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import re
 from functools import wraps
 from collections import OrderedDict
@@ -5,9 +8,6 @@ import base64
 import hmac
 import hashlib
 import binascii
-import logging
-from adyen_log import logname,getlogger
-logger = logging.getLogger(logname())
 
 def _generate_signing_string(dict_object,hmac_key):
 
