@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/Adyen/adyen-python-api-library/badge.svg?branch=develop)](https://coveralls.io/github/Adyen/adyen-python-api-library?branch=develop)
+
 # Adyen APIs Library for Python
 
 This library simplifies working with Adyen APIs and allows you to integrate Adyen
