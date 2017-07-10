@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Adyen/adyen-python-api-library.svg?branch=develop)](https://travis-ci.org/Adyen/adyen-python-api-library)
 [![Coverage Status](https://coveralls.io/repos/github/Adyen/adyen-python-api-library/badge.svg?branch=develop)](https://coveralls.io/github/Adyen/adyen-python-api-library?branch=develop)
 
 # Adyen APIs Library for Python
