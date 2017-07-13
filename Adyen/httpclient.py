@@ -12,14 +12,15 @@ try:
 except ImportError:
     pycurl = None
 
-import urllib2
-
 try:
     # Python 3
     from urllib.parse import urlencode
+    from urllib.request import Request
+    from urllib.error import HTTPError
 except ImportError:
     # Python 2
     from urllib import urlencode
+    from urllib2 import Request, urlopen, HTTPError
 
 from StringIO import StringIO
 import json as json_lib
@@ -229,7 +230,7 @@ class HTTPClient(object):
         raw_store = json
 
         raw_request = json_lib.dumps(json) if json else urlencode(data)
-        url_request = urllib2.Request(url,data=raw_request)
+        url_request = Request(url,data=raw_request)
         if json:
             url_request.add_header('Content-Type','application/json')
         elif not data:
@@ -254,8 +255,8 @@ class HTTPClient(object):
 
         #URLlib raises all non 200 responses as en error.
         try:
-            response = urllib2.urlopen(url_request, timeout=timeout)
-        except urllib2.HTTPError as e:
+            response = urlopen(url_request, timeout=timeout)
+        except HTTPError as e:
             raw_response = e.read()
 
             return raw_response, raw_request, e.getcode(), e.headers
