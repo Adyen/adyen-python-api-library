@@ -22,7 +22,13 @@ except ImportError:
     from urllib import urlencode
     from urllib2 import Request, urlopen, HTTPError
 
-from StringIO import StringIO
+try:
+    # Python 3
+    from io import StringIO
+except ImportError:
+    # Python 2
+    from StringIO import StringIO
+
 import json as json_lib
 import re
 import base64
