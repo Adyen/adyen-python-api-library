@@ -50,6 +50,5 @@ def generate_hpp_sig(dict_object, hmac_key):
 
     signing_string = ':'.join(map(escapeVal, chain(map(str,ordered_request.keys()), map(str,ordered_request.values()))))
 
-
-    hm = hmac.new(hmac_key, signing_string, hashlib.sha256)
+    hm = hmac.new(hmac_key, signing_string.encode('utf-8'), hashlib.sha256)
     return base64.b64encode(hm.digest())
