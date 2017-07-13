@@ -14,7 +14,13 @@ except ImportError:
 
 import urllib2
 
-from urllib import urlencode
+try:
+    # Python 3
+    from urllib.parse import urlencode
+except ImportError:
+    # Python 2
+    from urllib import urlencode
+
 from StringIO import StringIO
 import json as json_lib
 import re
