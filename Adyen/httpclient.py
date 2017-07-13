@@ -15,7 +15,7 @@ except ImportError:
 try:
     # Python 3
     from urllib.parse import urlencode
-    from urllib.request import Request
+    from urllib.request import Request, urlopen
     from urllib.error import HTTPError
 except ImportError:
     # Python 2
