@@ -455,7 +455,7 @@ class AdyenClient(object):
                 raise AdyenInvalidRequestError(errorstring)
 
     def _handle_http_error(self, url, response_obj, status_code, psp_ref,
-            raw_request, raw_response, headers,message):
+                           raw_request, raw_response, headers, message=None):
         """This function handles the non 200 responses from Adyen, raising an
         error that should provide more information.
 
