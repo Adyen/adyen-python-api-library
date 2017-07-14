@@ -41,13 +41,12 @@ import base64
 #    ['raw_response','raw_request','status_code','headers'])
 
 class HTTPClient(object):
-    def __init__(self,app_name,USER_AGENT_SUFFIX,LIB_VERSION, force_request = None):
+    def __init__(self,app_name,USER_AGENT_SUFFIX,LIB_VERSION,force_request = None):
         #Check if requests already available, default to urllib
         # self.app_name = app_name
         # self.LIB_VERSION = LIB_VERSION
         # self.USER_AGENT_SUFFIX = USER_AGENT_SUFFIX
         self.user_agent = app_name + " " + USER_AGENT_SUFFIX + LIB_VERSION
-
         if not force_request:
             if requests:
                 self.request = self._requests_post
@@ -120,7 +119,6 @@ class HTTPClient(object):
         headers['User-Agent'] = self.user_agent
 
         # Convert the header dict to formatted array as pycurl needs.
-        # header_list = ["%s:%s" % (k,v) for k,v in headers.iteritems()]
         if sys.version_info[0] >= 3:
             header_list = ["%s:%s" % (k, v) for k, v in headers.items()]
         else:

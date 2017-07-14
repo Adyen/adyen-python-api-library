@@ -200,7 +200,7 @@ class AdyenClient(object):
         from . import username, password, merchant_account, platform
         #
         if self.http_init == False:
-            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX, self.http_force)
+            self.http_client = HTTPClient(self.app_name,self.USER_AGENT_SUFFIX,self.LIB_VERSION,self.http_force)
             self.http_init = True
 
         #username at self object has highest priority. fallback to root module
@@ -302,7 +302,7 @@ class AdyenClient(object):
         from . import hmac, platform
         #
         if self.http_init == False:
-            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX, self.http_force)
+            self.http_client = HTTPClient(self.app_name,self.USER_AGENT_SUFFIX,self.LIB_VERSION,self.http_force)
             self.http_init = True
 
         #hmac provided in function has highest priority. fallback to self then
@@ -355,7 +355,7 @@ class AdyenClient(object):
         from . import hmac, platform
         #
         if self.http_init == False:
-            self.http_client = HTTPClient(self.app_name,self.LIB_VERSION,self.USER_AGENT_SUFFIX, self.http_force)
+            self.http_client = HTTPClient(self.app_name,self.USER_AGENT_SUFFIX,self.LIB_VERSION,self.http_force)
             self.http_init = True
 
         if self.platform:
@@ -409,24 +409,18 @@ class AdyenClient(object):
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:
+
+            response = json_lib.loads(raw_response)
+
+            # Pass raised error to error handler.
+            self._handle_http_error(url,response,status_code,headers.get('pspReference'),raw_request,raw_response,headers,request_dict)
+
             try:
-                response = json_lib.loads(raw_result)
-
-                self._handle_http_error(url, response, status_code,
-                    headers.get('pspReference'), raw_request, raw_response, headers)
-            except:
-
-                response = json_lib.loads(raw_response)
-
-                # Pass raised error to error handler.
-                self._handle_http_error(url,response,status_code,headers.get('pspReference'),raw_request,raw_response,headers,request_dict)
-
-                try:
-                    if response['errorCode']:
-                        return raw_response
-                except KeyError:
-                    errstr = 'KeyError: errorCode'
-                pass
+                if response['errorCode']:
+                    return raw_response
+            except KeyError:
+                errstr = 'KeyError: errorCode'
+            pass
         else:
             try:
                 response = json_lib.loads(raw_response)

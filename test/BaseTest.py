@@ -11,9 +11,11 @@ class BaseTest():
         if filename:
             with open(filename) as data_file:
                 data = json.load(data_file)
-                strjson = open(filename).read()
+                st = open(filename)
+                strjson = st.read()
         else:
             data = ""
+            st = ""
             strjson = ""
 
         self.ady.client.http_client = httpclient.HTTPClient
@@ -22,4 +24,7 @@ class BaseTest():
 
         # self.ady.client.http_client.request = mock.MagicMock(return_value=[strjson, request, status, {'User-Agent': 'appname adyen-python-api-library/1.0.0'}])
         mockclient = self.ady.client
+        if st:
+            st.close()
         return mockclient
+
