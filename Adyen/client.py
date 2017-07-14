@@ -410,7 +410,7 @@ class AdyenClient(object):
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:
             try:
-                response = json_lib.loads(raw_result)
+                response = json_lib.loads(raw_response)
 
                 self._handle_http_error(url, response, status_code,
                     headers.get('pspReference'), raw_request, raw_response, headers)
