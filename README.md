@@ -8,7 +8,7 @@ payments within any Python application.
 
 ## Requirements
 
-- Python 2.7
+- Python 2.7 or 3.6
 - Packages: requests or pycurl ( optional )
 - Adyen account. If you don't have this you can request it here: https://www.adyen.com/home/discover/test-account-signup#form
 

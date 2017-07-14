@@ -1,6 +1,7 @@
 #!/bin/python
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+import sys
 
 try:
     import requests
@@ -23,11 +24,11 @@ except ImportError:
     from urllib2 import Request, urlopen, HTTPError
 
 try:
-    # Python 3
-    from io import StringIO
-except ImportError:
     # Python 2
     from StringIO import StringIO
+except ImportError:
+    # Python 3
+    from io import BytesIO
 
 import json as json_lib
 import re
@@ -40,13 +41,12 @@ import base64
 #    ['raw_response','raw_request','status_code','headers'])
 
 class HTTPClient(object):
-    def __init__(self,app_name,USER_AGENT_SUFFIX,LIB_VERSION, force_request = None):
+    def __init__(self,app_name,USER_AGENT_SUFFIX,LIB_VERSION,force_request = None):
         #Check if requests already available, default to urllib
         # self.app_name = app_name
         # self.LIB_VERSION = LIB_VERSION
         # self.USER_AGENT_SUFFIX = USER_AGENT_SUFFIX
         self.user_agent = app_name + " " + USER_AGENT_SUFFIX + LIB_VERSION
-
         if not force_request:
             if requests:
                 self.request = self._requests_post
@@ -107,7 +107,11 @@ class HTTPClient(object):
         curl = pycurl.Curl()
         curl.setopt(curl.URL, url)
 
-        stringbuffer = StringIO()
+        if sys.version_info[0] >= 3:
+            stringbuffer = BytesIO()
+        else:
+            stringbuffer = StringIO()
+        #stringbuffer = StringIO()
         curl.setopt(curl.WRITEDATA, stringbuffer)
 
         # Add User-Agent header to request so that the request can be identified as coming
@@ -115,7 +119,10 @@ class HTTPClient(object):
         headers['User-Agent'] = self.user_agent
 
         # Convert the header dict to formatted array as pycurl needs.
-        header_list = ["%s:%s" % (k,v) for k,v in headers.iteritems()]
+        if sys.version_info[0] >= 3:
+            header_list = ["%s:%s" % (k, v) for k, v in headers.items()]
+        else:
+            header_list = ["%s:%s" % (k, v) for k, v in headers.iteritems()]
         #Ensure proper content-type when adding headers
         if json:
             header_list.append("Content-Type:application/json")
@@ -236,7 +243,7 @@ class HTTPClient(object):
         raw_store = json
 
         raw_request = json_lib.dumps(json) if json else urlencode(data)
-        url_request = Request(url,data=raw_request)
+        url_request = Request(url,data=raw_request.encode('utf8'))
         if json:
             url_request.add_header('Content-Type','application/json')
         elif not data:
@@ -251,8 +258,12 @@ class HTTPClient(object):
 
         #Adding basic auth is username and password provided.
         if username and password:
-            basicAuthstring = base64.encodestring('%s:%s' % (username,
-                password)).replace('\n', '')
+            if sys.version_info[0] >= 3:
+                basicAuthstring = base64.encodebytes(('%s:%s' % (username,
+                                                                 password)).encode()).decode().replace('\n', '')
+            else:
+                basicAuthstring = base64.encodestring('%s:%s' % (username,
+                                                                 password)).replace('\n', '')
             url_request.add_header("Authorization", "Basic %s" % basicAuthstring)
 
         #Adding the headers to the request.

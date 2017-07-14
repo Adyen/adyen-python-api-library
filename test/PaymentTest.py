@@ -39,7 +39,7 @@ class TestPayments(unittest.TestCase):
         fraudCheckResult = result.message['fraudResult']['results'][0]['FraudCheckResult']
         self.assertEqual("CardChunkUsage", fraudCheckResult['name'])
         self.assertEqual(8, fraudCheckResult['accountScore'])
-        self.assertEquals(2, fraudCheckResult['checkId'])
+        self.assertEqual(2, fraudCheckResult['checkId'])
 
     def test_authorise_error010_mocked(self):
         request = {}
