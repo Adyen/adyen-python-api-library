@@ -4,6 +4,8 @@ setup(
   name = 'Adyen',
   packages = ['Adyen'],
   version = '1.1.0',
+  maintainer = 'Adyen',
+  maintainer_email= 'support@adyen.com',
   description = 'Adyen Python Api',
   long_description = "Adyen Python Api to build ecommerce and reconciliation apps with Python. Connects to Adyen backend. Requires a 'test' or 'live' account with Adyen.",
   author = 'Adyen',
@@ -12,7 +14,7 @@ setup(
   download_url = 'https://github.com/Adyen/adyen-python-api-library/archive/1.1.0.tar.gz',
   keywords = ['payments', 'adyen', 'fintech'],
   classifiers = [
-    'Development Status :: 4 - Beta',
+    'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
     'Topic :: Software Development :: Libraries',
     'License :: OSI Approved :: MIT License',
