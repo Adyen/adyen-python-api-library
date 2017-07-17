@@ -36,7 +36,7 @@ ady.payment.client.app_name = "your app name"
 
 ## Documentation
 
-Follow the rest of our guides from the[documentation](http://adyen.github.io/adyen-python-api-library/index.html)on how to use this library.
+Follow the rest of our guides from the [documentation](http://adyen.github.io/adyen-python-api-library/index.html) on how to use this library.
 
 ## Licence
 
