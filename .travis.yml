@@ -1,15 +1,15 @@
 sudo: true
 language: python
 python:
-  - "2.6"
   - "2.7"
-  - "3.2"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-cache:
-  pip: false
+  - "3.6"
+cache: pip
 install:
   - pip install requests
+  - pip install pycurl
+  - pip install mock
+  - pip install coveralls
 script:
-  - python runtests.py
+  - coverage run -m unittest discover -s test -p '*Test.py'
+after_success:
+  coveralls

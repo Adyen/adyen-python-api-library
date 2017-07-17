@@ -1,6 +1,4 @@
-import logging
-from adyen_log import logname,getlogger
-logger = logging.getLogger(logname())
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 class AdyenError(Exception):
 

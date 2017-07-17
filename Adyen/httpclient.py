@@ -1,4 +1,8 @@
 #!/bin/python
+
+from __future__ import absolute_import, division, print_function, unicode_literals
+import sys
+
 try:
     import requests
 except ImportError:
@@ -9,16 +13,26 @@ try:
 except ImportError:
     pycurl = None
 
-import urllib2
+try:
+    # Python 3
+    from urllib.parse import urlencode
+    from urllib.request import Request, urlopen
+    from urllib.error import HTTPError
+except ImportError:
+    # Python 2
+    from urllib import urlencode
+    from urllib2 import Request, urlopen, HTTPError
 
-from urllib import urlencode
-from StringIO import StringIO
+try:
+    # Python 2
+    from StringIO import StringIO
+except ImportError:
+    # Python 3
+    from io import BytesIO
+
 import json as json_lib
 import re
 import base64
-import logging
-from adyen_log import logname,getlogger
-logger = logging.getLogger(logname())
 
 
 #Could be used instead of the large tuple response from request function
@@ -27,19 +41,26 @@ logger = logging.getLogger(logname())
 #    ['raw_response','raw_request','status_code','headers'])
 
 class HTTPClient(object):
-    def __init__(self,app_name,LIB_VERSION,USER_AGENT_SUFFIX):
+    def __init__(self,app_name,USER_AGENT_SUFFIX,LIB_VERSION,force_request = None):
         #Check if requests already available, default to urllib
-        self.app_name = app_name
-        self.LIB_VERSION = LIB_VERSION
-        self.USER_AGENT_SUFFIX = USER_AGENT_SUFFIX
-        self.user_agent = self.app_name + " " + self.USER_AGENT_SUFFIX + self.LIB_VERSION
-
-        if requests:
-            self.request = self._requests_post
-        elif pycurl:
-            self.request = self._pycurl_post
+        # self.app_name = app_name
+        # self.LIB_VERSION = LIB_VERSION
+        # self.USER_AGENT_SUFFIX = USER_AGENT_SUFFIX
+        self.user_agent = app_name + " " + USER_AGENT_SUFFIX + LIB_VERSION
+        if not force_request:
+            if requests:
+                self.request = self._requests_post
+            elif pycurl:
+                self.request = self._pycurl_post
+            else:
+                self.request = self._urllib_post
         else:
-            self.request = self._urllib_post
+            if force_request == 'requests':
+                self.request = self._requests_post
+            elif force_request == 'pycurl':
+                self.request = self._pycurl_post
+            else:
+                self.request = self._urllib_post
 
     def _pycurl_post(self,
         url,
@@ -86,7 +107,11 @@ class HTTPClient(object):
         curl = pycurl.Curl()
         curl.setopt(curl.URL, url)
 
-        stringbuffer = StringIO()
+        if sys.version_info[0] >= 3:
+            stringbuffer = BytesIO()
+        else:
+            stringbuffer = StringIO()
+        #stringbuffer = StringIO()
         curl.setopt(curl.WRITEDATA, stringbuffer)
 
         # Add User-Agent header to request so that the request can be identified as coming
@@ -94,7 +119,10 @@ class HTTPClient(object):
         headers['User-Agent'] = self.user_agent
 
         # Convert the header dict to formatted array as pycurl needs.
-        header_list = ["%s:%s" % (k,v) for k,v in headers.iteritems()]
+        if sys.version_info[0] >= 3:
+            header_list = ["%s:%s" % (k, v) for k, v in headers.items()]
+        else:
+            header_list = ["%s:%s" % (k, v) for k, v in headers.iteritems()]
         #Ensure proper content-type when adding headers
         if json:
             header_list.append("Content-Type:application/json")
@@ -185,6 +213,7 @@ class HTTPClient(object):
         password="",
         headers={},
         timeout=30):
+
         """This function will POST to the url endpoint using urllib2. returning
         an AdyenResult object on 200 HTTP responce. Either json or data has to
         be provided. If username and password are provided, basic auth will be
@@ -214,7 +243,7 @@ class HTTPClient(object):
         raw_store = json
 
         raw_request = json_lib.dumps(json) if json else urlencode(data)
-        url_request = urllib2.Request(url,data=raw_request)
+        url_request = Request(url,data=raw_request.encode('utf8'))
         if json:
             url_request.add_header('Content-Type','application/json')
         elif not data:
@@ -229,8 +258,12 @@ class HTTPClient(object):
 
         #Adding basic auth is username and password provided.
         if username and password:
-            basicAuthstring = base64.encodestring('%s:%s' % (username,
-                password)).replace('\n', '')
+            if sys.version_info[0] >= 3:
+                basicAuthstring = base64.encodebytes(('%s:%s' % (username,
+                                                                 password)).encode()).decode().replace('\n', '')
+            else:
+                basicAuthstring = base64.encodestring('%s:%s' % (username,
+                                                                 password)).replace('\n', '')
             url_request.add_header("Authorization", "Basic %s" % basicAuthstring)
 
         #Adding the headers to the request.
@@ -239,11 +272,11 @@ class HTTPClient(object):
 
         #URLlib raises all non 200 responses as en error.
         try:
-            response = urllib2.urlopen(url_request, timeout=timeout)
-        except urllib2.HTTPError as e:
+            response = urlopen(url_request, timeout=timeout)
+        except HTTPError as e:
             raw_response = e.read()
 
-            return raw_response, raw_request, e.getcode, e.headers
+            return raw_response, raw_request, e.getcode(), e.headers
         else:
             raw_response = response.read()
             response.close()

@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Adyen/adyen-python-api-library.svg?branch=master)](https://travis-ci.org/Adyen/adyen-python-api-library)
+[![Coverage Status](https://coveralls.io/repos/github/Adyen/adyen-python-api-library/badge.svg?branch=master)](https://coveralls.io/github/Adyen/adyen-python-api-library?branch=master)
+
 # Adyen APIs Library for Python
 
 This library simplifies working with Adyen APIs and allows you to integrate Adyen
@@ -5,7 +8,7 @@ payments within any Python application.
 
 ## Requirements
 
-- Python 2.7
+- Python 2.7 or 3.6
 - Packages: requests or pycurl ( optional )
 - Adyen account. If you don't have this you can request it here: https://www.adyen.com/home/discover/test-account-signup#form
 
@@ -33,7 +36,7 @@ ady.payment.client.app_name = "your app name"
 
 ## Documentation
 
-Follow the rest our guides from the documentation on how to use this library. [ Insert documentation link here ]
+Follow the rest of our guides from the [documentation](http://adyen.github.io/adyen-python-api-library/index.html) on how to use this library.
 
 ## Licence
 
