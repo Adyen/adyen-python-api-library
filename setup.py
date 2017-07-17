@@ -7,7 +7,7 @@ setup(
   maintainer = 'Adyen',
   maintainer_email= 'support@adyen.com',
   description = 'Adyen Python Api',
-  long_description = "Adyen Python Api to build ecommerce and reconciliation apps with Python. Connects to Adyen backend. Requires a 'test' or 'live' account with Adyen.",
+  long_description = "A Python client library for accessing Adyen APIs",
   author = 'Adyen',
   author_email = 'support@adyen.com',
   url = 'https://github.com/Adyen/adyen-python-api-library',
