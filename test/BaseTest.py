@@ -22,7 +22,6 @@ class BaseTest():
         self.ady.client.http_init = True
         self.ady.client.http_client.request = mock.MagicMock(return_value=[strjson, request, status, data])
 
-        # self.ady.client.http_client.request = mock.MagicMock(return_value=[strjson, request, status, {'User-Agent': 'appname adyen-python-api-library/1.0.0'}])
         mockclient = self.ady.client
         if st:
             st.close()
