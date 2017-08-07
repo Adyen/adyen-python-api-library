@@ -23,7 +23,7 @@ HMAC_TEST_url = "https://ca-test.adyen.com/ca/ca/skin/checkhmac.shtml"
 
 BASE_PAL_url = "https://pal-{}.adyen.com/pal/servlet"
 BASE_HPP_url = "https://{}.adyen.com/hpp"
-API_VERSION = "v18"
+API_VERSION = "v25"
 API_CLIENT_ATTR = ["username","password","review_payout_user",
     "review_payout_password","confirm_payout_user","confirm_payout_password",
     "platform","merchant_account","merchant_specific_url","hmac"]
