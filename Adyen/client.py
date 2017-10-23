@@ -112,18 +112,6 @@ class AdyenClient(object):
             api_version = API_VERSION
         return  '/'.join([base_uri, service, api_version, action])
 
-    def _determine_recurring_api_url(self, platform, service, action):
-        """This returns the Adyen API endpoint based on the provided platform,
-        service and action.
-
-        Args:
-            platform (str): Adyen platform, ie 'live' or 'test'.
-            service (str): API service to place request through.
-            action (str): the API action to perform.
-        """
-        base_uri = BASE_PAL_url.format(platform)
-        return  '/'.join([base_uri, service, API_RECURRING_VERSION, action])
-
     def _determine_hpp_url(self, platform, action):
         """This returns the Adyen HPP endpoint based on the provided platform,
         and action.
