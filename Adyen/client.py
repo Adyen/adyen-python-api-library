@@ -23,7 +23,8 @@ HMAC_TEST_url = "https://ca-test.adyen.com/ca/ca/skin/checkhmac.shtml"
 
 BASE_PAL_url = "https://pal-{}.adyen.com/pal/servlet"
 BASE_HPP_url = "https://{}.adyen.com/hpp"
-API_VERSION = "v25"
+API_VERSION = "v30"
+API_RECURRING_VERSION = "v25"
 API_CLIENT_ATTR = ["username","password","review_payout_user",
     "review_payout_password","confirm_payout_user","confirm_payout_password",
     "platform","merchant_account","merchant_specific_url","hmac"]
@@ -90,7 +91,7 @@ class AdyenClient(object):
         self.skin_code = skin_code
         self.psp_list = []
         self.app_name = app_name
-        self.LIB_VERSION = "1.1.0";
+        self.LIB_VERSION = "1.2.0";
         self.USER_AGENT_SUFFIX = "adyen-python-api-library/";
         self.http_init = False
         self.http_force = http_force
@@ -105,7 +106,11 @@ class AdyenClient(object):
             action (str): the API action to perform.
         """
         base_uri = BASE_PAL_url.format(platform)
-        return  '/'.join([base_uri, service, API_VERSION, action])
+        if service == "Recurring":
+            api_version = API_RECURRING_VERSION
+        else:
+            api_version = API_VERSION
+        return  '/'.join([base_uri, service, api_version, action])
 
     def _determine_hpp_url(self, platform, action):
         """This returns the Adyen HPP endpoint based on the provided platform,

@@ -3,7 +3,7 @@ from setuptools import setup,find_packages
 setup(
   name = 'Adyen',
   packages = ['Adyen'],
-  version = '1.1.0',
+  version = '1.2.0',
   maintainer = 'Adyen',
   maintainer_email= 'support@adyen.com',
   description = 'Adyen Python Api',
@@ -11,7 +11,7 @@ setup(
   author = 'Adyen',
   author_email = 'support@adyen.com',
   url = 'https://github.com/Adyen/adyen-python-api-library',
-  download_url = 'https://github.com/Adyen/adyen-python-api-library/archive/1.1.0.tar.gz',
+  download_url = 'https://github.com/Adyen/adyen-python-api-library/archive/1.2.0.tar.gz',
   keywords = ['payments', 'adyen', 'fintech'],
   classifiers = [
     'Development Status :: 5 - Production/Stable',
