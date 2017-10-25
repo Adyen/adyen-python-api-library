@@ -414,9 +414,8 @@ class AdyenClient(object):
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:
-
-            response = json_lib.loads(raw_response)
-
+            if raw_response:
+                response = json_lib.loads(raw_response)
             # Pass raised error to error handler.
             self._handle_http_error(url,response,status_code,headers.get('pspReference'),raw_request,raw_response,headers,request_dict)
 
@@ -488,10 +487,10 @@ class AdyenClient(object):
         elif status_code in [400, 422]:
             erstr = "Received validation error with errorCode: %s, message: %s, HTTP Code: %s. Please verify the values provided. Please reach out to support@adyen.com if the problem persists, providing the PSP reference: %s" % (response_obj["errorCode"],response_obj["message"], status_code, psp_ref)
 
-            raise ValueError(erstr)
+            raise AdyenAPIValidationError(erstr)
         elif status_code == 401:
             erstr = "Unable to authenticate with Adyen's Servers. Please verify the credentials set with the Adyen base class. Please reach out to your Adyen Admin if the problem persists"
-            raise ValueError(erstr)
+            raise AdyenAPIAuthenticationError(erstr)
         elif status_code == 403:
             from . import username
 
