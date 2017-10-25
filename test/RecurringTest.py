@@ -45,7 +45,7 @@ class TestRecurring(unittest.TestCase):
         request["shopperReference"] = "ref"
         request["recurringDetailReference"] = "12345678889"
         self.ady.client = self.test.create_client_from_file(422, request, 'test/mocks/recurring/disable-error-803.json')
-        self.assertRaisesRegexp(ValueError,
+        self.assertRaisesRegexp(Adyen.AdyenAPIValidationError,
                                 "Received validation error with errorCode: 803, message: PaymentDetail not found, HTTP Code: 422.*",
                                 self.ady.recurring.disable, request)
 

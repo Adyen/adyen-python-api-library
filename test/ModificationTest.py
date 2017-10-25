@@ -30,7 +30,7 @@ class TestModifications(unittest.TestCase):
         request['modificationAmount'] = {"value": "1234", "currency": "EUR"}
         request['originalReference'] = "YourOriginalReference"
         self.ady.client = self.test.create_client_from_file(422, request, 'test/mocks/capture-error-167.json')
-        self.assertRaisesRegexp(ValueError,"Received validation error with errorCode: 167, message: Original pspReference required for this operation, HTTP Code: 422." +
+        self.assertRaisesRegexp(Adyen.AdyenAPIValidationError,"Received validation error with errorCode: 167, message: Original pspReference required for this operation, HTTP Code: 422." +
                                            " Please verify the values provided. Please reach out to support@adyen.com if the problem persists, providing the PSP reference.*",
                                 self.ady.payment.capture, request)
 
