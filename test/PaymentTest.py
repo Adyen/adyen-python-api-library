@@ -147,7 +147,7 @@ class TestPayments(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.ady.client = self.test.create_client_from_file(401, request, 'test/mocks/authorise-error-010.json')
-        self.assertRaisesRegexp(ValueError, "Unable to authenticate with Adyen's Servers. Please verify the credentials set with the Adyen base class. Please reach out to your Adyen Admin if the problem persists" , self.ady.payment.authorise, request)
+        self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError, "Unable to authenticate with Adyen's Servers. Please verify the credentials set with the Adyen base class. Please reach out to your Adyen Admin if the problem persists" , self.ady.payment.authorise, request)
 
 
 TestPayments.client.http_force = "requests"
