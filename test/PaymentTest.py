@@ -25,7 +25,7 @@ class TestPayments(unittest.TestCase):
             "cvc": "737",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(200,request,'test/mocks/authorise-success.json')
+        self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/authorise-success.json')
         result = self.ady.payment.authorise(request)
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertEqual("8/2018", result.message['additionalData']['expiryDate'])
@@ -53,8 +53,8 @@ class TestPayments(unittest.TestCase):
             "cvc": "737",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(403,request, 'test/mocks/authorise-error-010.json')
-        self.assertRaises(Adyen.AdyenAPIInvalidPermission,self.ady.payment.authorise,request)
+        self.ady.client = self.test.create_client_from_file(403, request, 'test/mocks/authorise-error-010.json')
+        self.assertRaises(Adyen.AdyenAPIInvalidPermission, self.ady.payment.authorise, request)
 
     def test_authorise_error_cvc_declined_mocked(self):
         request = {}
@@ -67,7 +67,8 @@ class TestPayments(unittest.TestCase):
             "cvc": "787",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/authorise-error-cvc-declined.json')
+        self.ady.client = self.test.create_client_from_file(200, request,
+                                                            'test/mocks/authorise-error-cvc-declined.json')
         result = self.ady.payment.authorise(request)
         self.assertEqual("Refused", result.message['resultCode'])
 
@@ -147,7 +148,9 @@ class TestPayments(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.ady.client = self.test.create_client_from_file(401, request, 'test/mocks/authorise-error-010.json')
-        self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError, "Unable to authenticate with Adyen's Servers. Please verify the credentials set with the Adyen base class. Please reach out to your Adyen Admin if the problem persists" , self.ady.payment.authorise, request)
+        self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError,
+                                "Unable to authenticate with Adyen's Servers. Please verify the credentials set with the Adyen base class. Please reach out to your Adyen Admin if the problem persists",
+                                self.ady.payment.authorise, request)
 
 
 TestPayments.client.http_force = "requests"

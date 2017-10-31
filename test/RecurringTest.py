@@ -2,6 +2,7 @@ import Adyen
 import unittest
 from BaseTest import BaseTest
 
+
 class TestRecurring(unittest.TestCase):
     ady = Adyen.Adyen()
 
@@ -20,7 +21,8 @@ class TestRecurring(unittest.TestCase):
         request["shopperReference"] = "ref"
         request['recurring'] = {}
         request["recurring"]['contract'] = "RECURRING"
-        self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/recurring/listRecurringDetails-success.json')
+        self.ady.client = self.test.create_client_from_file(200, request,
+                                                            'test/mocks/recurring/listRecurringDetails-success.json')
         result = self.ady.recurring.list_recurring_details(request)
         self.assertEqual(1, len(result.message['details']))
         self.assertEqual(1, len(result.message['details'][0]))
@@ -49,6 +51,7 @@ class TestRecurring(unittest.TestCase):
                                 "Received validation error with errorCode: 803, message: PaymentDetail not found, HTTP Code: 422.*",
                                 self.ady.recurring.disable, request)
 
+
 TestRecurring.client.http_force = "requests"
 suite = unittest.TestLoader().loadTestsFromTestCase(TestRecurring)
 unittest.TextTestRunner(verbosity=2).run(suite)
@@ -60,4 +63,3 @@ TestRecurring.client.http_force = "other"
 TestRecurring.client.http_init = False
 suite = unittest.TestLoader().loadTestsFromTestCase(TestRecurring)
 unittest.TextTestRunner(verbosity=2).run(suite)
-

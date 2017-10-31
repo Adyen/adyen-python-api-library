@@ -23,12 +23,13 @@ from .httpclient import HTTPClient
 
 import datetime
 
-username = ""
-password = ""
-platform = ""
-merchant_account = ""
-merchant_specific_url = ""
-hmac = ""
+username = None
+password = None
+platform = None
+merchant_account = None
+merchant_specific_url = None
+hmac = None
+
 
 class Adyen(AdyenBase):
     def __init__(self, **kwargs):
@@ -36,6 +37,7 @@ class Adyen(AdyenBase):
         self.payment = AdyenPayment(client=self.client)
         self.hpp = AdyenHPP(client=self.client)
         self.recurring = AdyenRecurring(client=self.client)
+
 
 _base_adyen_obj = Adyen()
 recurring = _base_adyen_obj.recurring

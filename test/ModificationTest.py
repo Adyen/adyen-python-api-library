@@ -2,6 +2,7 @@ import Adyen
 import unittest
 from BaseTest import BaseTest
 
+
 class TestModifications(unittest.TestCase):
     ady = Adyen.Adyen()
 
@@ -20,18 +21,19 @@ class TestModifications(unittest.TestCase):
         request['originalReference'] = "YourOriginalReference"
         self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/capture-success.json')
         result = self.ady.payment.capture(request)
-        self.assertEqual("[capture-received]",result.message['response'])
+        self.assertEqual("[capture-received]", result.message['response'])
 
     def test_capture_error_167(self):
-        #This test is not needed since validation.py already checks the 'originalReference' value in case it is missing
+        # This test is not needed since validation.py already checks the 'originalReference' value in case it is missing
         request = {}
         request['merchantAccount'] = "YourMerchantAccount"
         request['reference'] = "YourReference"
         request['modificationAmount'] = {"value": "1234", "currency": "EUR"}
         request['originalReference'] = "YourOriginalReference"
         self.ady.client = self.test.create_client_from_file(422, request, 'test/mocks/capture-error-167.json')
-        self.assertRaisesRegexp(Adyen.AdyenAPIValidationError,"Received validation error with errorCode: 167, message: Original pspReference required for this operation, HTTP Code: 422." +
-                                           " Please verify the values provided. Please reach out to support@adyen.com if the problem persists, providing the PSP reference.*",
+        self.assertRaisesRegexp(Adyen.AdyenAPIValidationError,
+                                "Received validation error with errorCode: 167, message: Original pspReference required for this operation, HTTP Code: 422." +
+                                " Please verify the values provided. Please reach out to support@adyen.com if the problem persists, providing the PSP reference.*",
                                 self.ady.payment.capture, request)
 
     def test_cancel_or_refund_received(self):
@@ -61,6 +63,7 @@ class TestModifications(unittest.TestCase):
         self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/cancel-received.json')
         result = self.ady.payment.cancel(request)
         self.assertEqual("[cancel-received]", result.message['response'])
+
 
 TestModifications.client.http_force = "requests"
 suite = unittest.TestLoader().loadTestsFromTestCase(TestModifications)

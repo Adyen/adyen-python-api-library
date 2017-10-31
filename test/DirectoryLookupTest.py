@@ -4,6 +4,7 @@ from BaseTest import BaseTest
 import time
 import pprint
 
+
 class TestDirectoryLookup(unittest.TestCase):
     ady = Adyen.Adyen()
 

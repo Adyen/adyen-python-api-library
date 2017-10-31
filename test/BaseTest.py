@@ -7,7 +7,7 @@ class BaseTest():
     def __init__(self, adyen):
         self.ady = adyen
 
-    def create_client_from_file(self, status, request, filename = None):
+    def create_client_from_file(self, status, request, filename=None):
         if filename:
             with open(filename) as data_file:
                 data = json.load(data_file)
@@ -26,4 +26,3 @@ class BaseTest():
         if st:
             st.close()
         return mockclient
-
