@@ -46,8 +46,8 @@ class TestPayments(unittest.TestCase):
                          ['threeDAuthenticated'])
         self.assertEqual("69746", result.message['authCode'])
         self.assertEqual(11, len(result.message['fraudResult']['results']))
-        fraud_check_result = result.message['fraudResult']['results']\
-            [0]['FraudCheckResult']
+        fraud_checks = result.message['fraudResult']['results']
+        fraud_check_result = fraud_checks[0]['FraudCheckResult']
         self.assertEqual("CardChunkUsage", fraud_check_result['name'])
         self.assertEqual(8, fraud_check_result['accountScore'])
         self.assertEqual(2, fraud_check_result['checkId'])
