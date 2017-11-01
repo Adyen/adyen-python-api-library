@@ -46,11 +46,11 @@ class TestPayments(unittest.TestCase):
                          ['threeDAuthenticated'])
         self.assertEqual("69746", result.message['authCode'])
         self.assertEqual(11, len(result.message['fraudResult']['results']))
-        fraudCheckResult = result.message['fraudResult']
-        ['results'][0]['FraudCheckResult']
-        self.assertEqual("CardChunkUsage", fraudCheckResult['name'])
-        self.assertEqual(8, fraudCheckResult['accountScore'])
-        self.assertEqual(2, fraudCheckResult['checkId'])
+        fraud_check_result = result.message['fraudResult']['results']\
+            [0]['FraudCheckResult']
+        self.assertEqual("CardChunkUsage", fraud_check_result['name'])
+        self.assertEqual(8, fraud_check_result['accountScore'])
+        self.assertEqual(2, fraud_check_result['checkId'])
 
     def test_authorise_error010_mocked(self):
         request = {}
