@@ -17,8 +17,6 @@ def _generate_signing_string(dict_object, hmac_key):
             return val
         return val.replace('\\', '\\\\').replace(':', '\\:')
 
-    hmac_key = binascii.a2b_hex(hmac_key)
-
     ordered_request = OrderedDict(sorted(dict_object.items(),
                                          key=lambda t: t[0]))
 

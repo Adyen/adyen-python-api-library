@@ -132,7 +132,6 @@ class AdyenClient(object):
         return result
 
     def _review_payout_username(self, **kwargs):
-        from . import review_payout_username
         if 'username' in kwargs:
             review_payout_username = kwargs['username']
         elif self.review_payout_username:
@@ -146,7 +145,6 @@ class AdyenClient(object):
         return review_payout_username
 
     def _review_payout_pass(self, **kwargs):
-        from . import review_payout_password
         if 'password' in kwargs:
             review_payout_password = kwargs["password"]
         elif self.review_payout_password:
@@ -160,7 +158,6 @@ class AdyenClient(object):
         return review_payout_password
 
     def _store_payout_username(self, **kwargs):
-        from . import store_payout_username
         if 'username' in kwargs:
             store_payout_username = kwargs['username']
         elif self.store_payout_username:
@@ -174,7 +171,6 @@ class AdyenClient(object):
         return store_payout_username
 
     def _store_payout_pass(self, **kwargs):
-        from . import store_payout_password
         if 'password' in kwargs:
             store_payout_password = kwargs["password"]
         elif self.store_payout_password:
@@ -207,8 +203,6 @@ class AdyenClient(object):
             AdyenResult: The AdyenResult is returned when a request was
                 succesful.
         """
-        # from . import username, password, merchant_account, platform
-        #
         if not self.http_init:
             self.http_client = HTTPClient(self.app_name,
                                           self.USER_AGENT_SUFFIX,
@@ -316,8 +310,6 @@ class AdyenClient(object):
                 :param message:
                 :param hmac_key:
         """
-        # from . import hmac, platform
-        #
         if not self.http_init:
             self.http_client = HTTPClient(self.app_name,
                                           self.USER_AGENT_SUFFIX,
@@ -373,8 +365,8 @@ class AdyenClient(object):
 
     def hpp_payment(self, request_data, action, hmac_key="", **kwargs):
 
-        from . import hmac, platform
-        #
+        from . import platform
+
         if not self.http_init:
             self.http_client = HTTPClient(self.app_name,
                                           self.USER_AGENT_SUFFIX,

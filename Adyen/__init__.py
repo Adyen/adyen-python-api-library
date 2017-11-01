@@ -21,8 +21,6 @@ from .services import (
 
 from .httpclient import HTTPClient
 
-import datetime
-
 username = None
 password = None
 platform = None

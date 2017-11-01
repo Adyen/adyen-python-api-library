@@ -31,22 +31,13 @@ except ImportError:
     from io import BytesIO
 
 import json as json_lib
-import re
 import base64
 
-
-# Could be used instead of the large tuple response from request function
-# from collections import namedtuple
-# RequestResult = namedtuple('RequestResult',
-#    ['raw_response','raw_request','status_code','headers'])
 
 class HTTPClient(object):
     def __init__(self, app_name, USER_AGENT_SUFFIX,
                  LIB_VERSION, force_request=None):
         # Check if requests already available, default to urllib
-        # self.app_name = app_name
-        # self.LIB_VERSION = LIB_VERSION
-        # self.USER_AGENT_SUFFIX = USER_AGENT_SUFFIX
         self.user_agent = app_name + " " + USER_AGENT_SUFFIX + LIB_VERSION
         if not force_request:
             if requests:
