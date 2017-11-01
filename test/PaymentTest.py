@@ -25,18 +25,29 @@ class TestPayments(unittest.TestCase):
             "cvc": "737",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/authorise-success.json')
+        self.ady.client = self.test.create_client_from_file(200, request,
+                                                            'test/mocks/'
+                                                            'authorise-success'
+                                                            '.json')
         result = self.ady.payment.authorise(request)
         self.assertEqual("Authorised", result.message['resultCode'])
-        self.assertEqual("8/2018", result.message['additionalData']['expiryDate'])
-        self.assertEqual("411111", result.message['additionalData']['cardBin'])
-        self.assertEqual("1111", result.message['additionalData']['cardSummary'])
-        self.assertEqual("Holder", result.message['additionalData']['cardHolderName'])
-        self.assertEqual("true", result.message['additionalData']['threeDOffered'])
-        self.assertEqual("false", result.message['additionalData']['threeDAuthenticated'])
+        self.assertEqual("8/2018",
+                         result.message['additionalData']['expiryDate'])
+        self.assertEqual("411111",
+                         result.message['additionalData']['cardBin'])
+        self.assertEqual("1111",
+                         result.message['additionalData']['cardSummary'])
+        self.assertEqual("Holder",
+                         result.message['additionalData']['cardHolderName'])
+        self.assertEqual("true",
+                         result.message['additionalData']['threeDOffered'])
+        self.assertEqual("false",
+                         result.message['additionalData']
+                         ['threeDAuthenticated'])
         self.assertEqual("69746", result.message['authCode'])
         self.assertEqual(11, len(result.message['fraudResult']['results']))
-        fraudCheckResult = result.message['fraudResult']['results'][0]['FraudCheckResult']
+        fraudCheckResult = result.message['fraudResult']
+        ['results'][0]['FraudCheckResult']
         self.assertEqual("CardChunkUsage", fraudCheckResult['name'])
         self.assertEqual(8, fraudCheckResult['accountScore'])
         self.assertEqual(2, fraudCheckResult['checkId'])
@@ -53,8 +64,13 @@ class TestPayments(unittest.TestCase):
             "cvc": "737",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(403, request, 'test/mocks/authorise-error-010.json')
-        self.assertRaises(Adyen.AdyenAPIInvalidPermission, self.ady.payment.authorise, request)
+        self.ady.client = self.test.create_client_from_file(403, request,
+                                                            'test/mocks/'
+                                                            'authorise-error'
+                                                            '-010'
+                                                            '.json')
+        self.assertRaises(Adyen.AdyenAPIInvalidPermission,
+                          self.ady.payment.authorise, request)
 
     def test_authorise_error_cvc_declined_mocked(self):
         request = {}
@@ -68,7 +84,10 @@ class TestPayments(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/authorise-error-cvc-declined.json')
+                                                            'test/mocks/'
+                                                            'authorise-error-'
+                                                            'cvc-declined'
+                                                            '.json')
         result = self.ady.payment.authorise(request)
         self.assertEqual("Refused", result.message['resultCode'])
 
@@ -88,7 +107,10 @@ class TestPayments(unittest.TestCase):
             "userAgent": "YourUserAgent",
             "acceptHeader": "YourAcceptHeader"
         }
-        self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/authorise-success-3d.json')
+        self.ady.client = self.test.create_client_from_file(200, request,
+                                                            'test/mocks/'
+                                                            'authorise-success'
+                                                            '-3d.json')
         result = self.ady.payment.authorise(request)
         self.assertEqual("RedirectShopper", result.message['resultCode'])
         self.assertIsNotNone(result.message['md'])
@@ -104,7 +126,10 @@ class TestPayments(unittest.TestCase):
             "userAgent": "YourUserAgent",
             "acceptHeader": "YourAcceptHeader"
         }
-        self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/authorise3d-success.json')
+        self.ady.client = self.test.create_client_from_file(200, request,
+                                                            'test/mocks/'
+                                                            'authorise3d-'
+                                                            'success.json')
         result = self.ady.payment.authorise3d(request)
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertIsNotNone(result.message['pspReference'])
@@ -117,7 +142,10 @@ class TestPayments(unittest.TestCase):
         request['additionalData'] = {
             "card.encrypted.json": "YourCSEToken"
         }
-        self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/authorise-success-cse.json')
+        self.ady.client = self.test.create_client_from_file(200, request,
+                                                            'test/mocks/'
+                                                            'authorise-success'
+                                                            '-cse.json')
         result = self.ady.payment.authorise(request)
         self.assertEqual("Authorised", result.message['resultCode'])
 
@@ -130,10 +158,14 @@ class TestPayments(unittest.TestCase):
             "card.encrypted.json": "YourCSEToken"
         }
 
-        self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/authorise-error-expired.json')
+        self.ady.client = self.test.create_client_from_file(200, request,
+                                                            'test/mocks/'
+                                                            'authorise-error-'
+                                                            'expired.json')
         result = self.ady.payment.authorise(request)
         self.assertEqual("Refused", result.message['resultCode'])
-        self.assertEqual("DECLINED Expiry Incorrect", result.message['additionalData']['refusalReasonRaw'])
+        self.assertEqual("DECLINED Expiry Incorrect",
+                         result.message['additionalData']['refusalReasonRaw'])
 
     def test_error_401_mocked(self):
         request = {}
@@ -147,9 +179,15 @@ class TestPayments(unittest.TestCase):
             "cvc": "787",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(401, request, 'test/mocks/authorise-error-010.json')
+        self.ady.client = self.test.create_client_from_file(401, request,
+                                                            'test/mocks/'
+                                                            'authorise-error-'
+                                                            '010.json')
         self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError,
-                                "Unable to authenticate with Adyen's Servers. Please verify the credentials set with the Adyen base class. Please reach out to your Adyen Admin if the problem persists",
+                                "Unable to authenticate with Adyen's Servers."
+                                " Please verify the credentials set with the"
+                                " Adyen base class. Please reach out to your"
+                                " Adyen Admin if the problem persists",
                                 self.ady.payment.authorise, request)
 
 

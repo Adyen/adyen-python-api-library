@@ -20,7 +20,8 @@ class BaseTest():
 
         self.ady.client.http_client = httpclient.HTTPClient
         self.ady.client.http_init = True
-        self.ady.client.http_client.request = mock.MagicMock(return_value=[strjson, request, status, data])
+        self.ady.client.http_client.request = mock.MagicMock(
+            return_value=[strjson, request, status, data])
 
         mockclient = self.ady.client
         if st:
