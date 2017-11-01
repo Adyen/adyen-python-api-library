@@ -1,4 +1,4 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, unicode_literals
 
 
 class AdyenError(Exception):
@@ -22,13 +22,14 @@ class AdyenError(Exception):
         return repr(self.message)
 
     def debug(self):
-        return "message: {}\nHTTP status_code:{}\nurl: {}\nrequest: {}\nresponse: {}\nheaders: {}".format(
-            self.message,
-            self.status_code,
-            self.url,
-            self.raw_request,
-            self.raw_response,
-            self.headers)
+        return "message: {}\nHTTP status_code:{}\nurl: {}\nrequest:" \
+               " {}\nresponse: {}\nheaders: {}".format(
+                self.message,
+                self.status_code,
+                self.url,
+                self.raw_request,
+                self.raw_response,
+                self.headers)
 
 
 class AdyenInvalidRequestError(AdyenError):

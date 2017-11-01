@@ -1,6 +1,6 @@
 #!/bin/python
 
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, unicode_literals
 
 import json as json_lib
 import re
@@ -16,9 +16,6 @@ from .exceptions import (
     AdyenAPIInvalidFormat,
     AdyenAPIInvalidAmount)
 
-import datetime
-from datetime import timedelta
-
 HMAC_TEST_url = "https://ca-test.adyen.com/ca/ca/skin/checkhmac.shtml"
 
 BASE_PAL_url = "https://pal-{}.adyen.com/pal/servlet"
@@ -26,8 +23,10 @@ BASE_HPP_url = "https://{}.adyen.com/hpp"
 API_VERSION = "v30"
 API_RECURRING_VERSION = "v25"
 API_CLIENT_ATTR = ["username", "password", "review_payout_user",
-                   "review_payout_password", "confirm_payout_user", "confirm_payout_password",
-                   "platform", "merchant_account", "merchant_specific_url", "hmac"]
+                   "review_payout_password", "confirm_payout_user",
+                   "confirm_payout_password", "platform",
+                   "merchant_account", "merchant_specific_url",
+                   "hmac"]
 
 
 class AdyenResult(object):
@@ -42,7 +41,8 @@ class AdyenResult(object):
 
     """
 
-    def __init__(self, message=None, status_code=200, psp="", raw_request="", raw_response=""):
+    def __init__(self, message=None, status_code=200,
+                 psp="", raw_request="", raw_response=""):
         self.message = message
         self.status_code = status_code
         self.psp = psp
@@ -55,11 +55,11 @@ class AdyenResult(object):
 
 
 class AdyenClient(object):
-    """A requesting client that interacts with Adyen. This class holds the adyen
-    logic of Adyen HTTP API communication. This is the object that can maintain
-    it's own username, password, merchant_account, hmac, and skin_code. When
-    these values aren't within this object, the root adyen module variables will
-    be used.
+    """A requesting client that interacts with Adyen. This class holds the
+    adyen logic of Adyen HTTP API communication. This is the object that can
+    maintain its own username, password, merchant_account, hmac and skin_code.
+    When these values aren't within this object, the root adyen module
+    variables will be used.
 
     The public methods, call_api and call_hpp, only return AdyenResult objects.
     Otherwise raising various validation and communication errors.
@@ -76,10 +76,12 @@ class AdyenClient(object):
         hmac (str, optional): Hmac key that is used for signature calculation.
     """
 
-    def __init__(self, username=None, password=None, review_payout_username=None,
-                 review_payout_password=None, store_payout_username=None,
-                 store_payout_password=None, platform=None,
-                 merchant_account=None, merchant_specific_url=None, skin_code=None, hmac=None, app_name=None,
+    def __init__(self, username=None, password=None,
+                 review_payout_username=None, review_payout_password=None,
+                 store_payout_username=None, store_payout_password=None,
+                 platform=None, merchant_account=None,
+                 merchant_specific_url=None, skin_code=None,
+                 hmac=None, app_name=None,
                  http_force=None):
         self.username = username
         self.password = password
@@ -94,8 +96,8 @@ class AdyenClient(object):
         self.skin_code = skin_code
         self.psp_list = []
         self.app_name = app_name
-        self.LIB_VERSION = "1.2.0";
-        self.USER_AGENT_SUFFIX = "adyen-python-api-library/";
+        self.LIB_VERSION = "1.2.0"
+        self.USER_AGENT_SUFFIX = "adyen-python-api-library/"
         self.http_init = False
         self.http_force = http_force
 
@@ -207,8 +209,11 @@ class AdyenClient(object):
         """
         # from . import username, password, merchant_account, platform
         #
-        if self.http_init == False:
-            self.http_client = HTTPClient(self.app_name, self.USER_AGENT_SUFFIX, self.LIB_VERSION, self.http_force)
+        if not self.http_init:
+            self.http_client = HTTPClient(self.app_name,
+                                          self.USER_AGENT_SUFFIX,
+                                          self.LIB_VERSION,
+                                          self.http_force)
             self.http_init = True
 
         # username at self object has highest priority. fallback to root module
@@ -226,7 +231,7 @@ class AdyenClient(object):
             errorstring = """AdyenInvalidRequestError: Please set your webservice username."
              You can do this by running 'Adyen.username = 'Your username'"""
             raise AdyenInvalidRequestError(errorstring)
-        # Ensure that username has been removed so as not to be passed to adyen.
+        # Ensure that username has been removed so as not to be passed to adyen
         if 'username' in kwargs:
             del kwargs['username']
 
@@ -245,7 +250,7 @@ class AdyenClient(object):
             errorstring = """AdyenInvalidRequestError: Please set your webservice password.
              You can do this by running 'Adyen.password = 'Your password'"""
             raise AdyenInvalidRequestError(errorstring)
-        # Ensure that password has been removed so as not to be passed to adyen.
+        # Ensure that password has been removed so as not to be passed to adyen
         if 'password' in kwargs:
             del kwargs["password"]
 
@@ -274,14 +279,15 @@ class AdyenClient(object):
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
-        if idempotency == True:
+        if idempotency:
             headers['Pragma'] = 'process-retry'
 
         url = self._determine_api_url(platform, service, action)
 
-        raw_response, raw_request, status_code, headers = self.http_client.request(
-            url, json=message, username=username, password=password,
-            headers=headers, **kwargs)
+        raw_response, raw_request, status_code, headers = \
+            self.http_client.request(url, json=message, username=username,
+                                     password=password, headers=headers,
+                                     **kwargs)
 
         # Creates AdyenResponse if request was successful, raises error if not.
         adyen_result = self._handle_response(url, raw_response, raw_request,
@@ -291,7 +297,8 @@ class AdyenClient(object):
 
     def call_hpp(self, message, action, hmac_key="", **kwargs):
         """This will call the adyen hpp. hmac_key and platform are pulled from
-        root module level and or self object. AdyenResult will be returned on 200 response.
+        root module level and or self object.
+        AdyenResult will be returned on 200 response.
         Otherwise, an exception is raised.
 
         Args:
@@ -306,11 +313,16 @@ class AdyenClient(object):
         Returns:
             AdyenResult: The AdyenResult is returned when a request was
                 succesful.
+                :param message:
+                :param hmac_key:
         """
         # from . import hmac, platform
         #
-        if self.http_init == False:
-            self.http_client = HTTPClient(self.app_name, self.USER_AGENT_SUFFIX, self.LIB_VERSION, self.http_force)
+        if not self.http_init:
+            self.http_client = HTTPClient(self.app_name,
+                                          self.USER_AGENT_SUFFIX,
+                                          self.LIB_VERSION,
+                                          self.http_force)
             self.http_init = True
 
         # hmac provided in function has highest priority. fallback to self then
@@ -327,8 +339,8 @@ class AdyenClient(object):
             out to support@Adyen.com if the issue persists."""
             raise AdyenInvalidRequestError(errorstring)
 
-        # platform provided in self has highest priority, fallback to root module
-        # and ensure that it is set.
+        # platform provided in self has highest priority,
+        # fallback to root module and ensure that it is set.
         if self.platform:
             platform = self.platform
         if platform.lower() not in ['live', 'test']:
@@ -350,8 +362,9 @@ class AdyenClient(object):
 
         url = self._determine_hpp_url(platform, action)
 
-        raw_response, raw_request, status_code, headers = self.http_client.request(
-            url, data=message, username="", password="", **kwargs)
+        raw_response, raw_request, status_code, headers = \
+            self.http_client.request(url, data=message,
+                                     username="", password="", **kwargs)
 
         # Creates AdyenResponse if request was successful, raises error if not.
         adyen_result = self._handle_response(url, raw_response, raw_request,
@@ -362,8 +375,11 @@ class AdyenClient(object):
 
         from . import hmac, platform
         #
-        if self.http_init == False:
-            self.http_client = HTTPClient(self.app_name, self.USER_AGENT_SUFFIX, self.LIB_VERSION, self.http_force)
+        if not self.http_init:
+            self.http_client = HTTPClient(self.app_name,
+                                          self.USER_AGENT_SUFFIX,
+                                          self.LIB_VERSION,
+                                          self.http_force)
             self.http_init = True
 
         if self.platform:
@@ -396,7 +412,8 @@ class AdyenClient(object):
 
         return adyen_result
 
-    def _handle_response(self, url, raw_response, raw_request, status_code, headers, request_dict):
+    def _handle_response(self, url, raw_response, raw_request,
+                         status_code, headers, request_dict):
         """This parses the content from raw communication, raising an error if
         anything other than 200 was returned.
 
@@ -420,7 +437,9 @@ class AdyenClient(object):
             if raw_response:
                 response = json_lib.loads(raw_response)
             # Pass raised error to error handler.
-            self._handle_http_error(url, response, status_code, headers.get('pspReference'), raw_request, raw_response,
+            self._handle_http_error(url, response, status_code,
+                                    headers.get('pspReference'),
+                                    raw_request, raw_response,
                                     headers, request_dict)
 
             try:
@@ -443,7 +462,8 @@ class AdyenClient(object):
 
                 message = request_dict
 
-                reference = message.get("reference", message.get("merchantReference"))
+                reference = message.get("reference",
+                                        message.get("merchantReference"))
 
                 errorstring = """AdyenInvalidRequestError: Unable to retrieve payment "
                 list. Received the error: {}. Please verify your request "
@@ -478,11 +498,14 @@ class AdyenClient(object):
         if status_code == 404:
             from . import merchant_specific_url
             if url == merchant_specific_url:
-                erstr = "Received a 404 for url:'{}'. Please ensure that the custom merchant specific url is correct".format(
-                    url)
+                erstr = "Received a 404 for url:'{}'. Please ensure that" \
+                        " the custom merchant specific url is correct" \
+                    .format(url)
                 raise AdyenAPICommunicationError(erstr)
             else:
-                erstr = "Unexpected error while communicating with Adyen. Please reach out to support@adyen.com if the problem persists"
+                erstr = "Unexpected error while communicating with Adyen." \
+                        " Please reach out to support@adyen.com" \
+                        " if the problem persists"
                 raise AdyenAPICommunicationError(erstr,
                                                  raw_request=raw_request,
                                                  raw_response=raw_response,
@@ -490,29 +513,44 @@ class AdyenClient(object):
                                                  psp=psp_ref,
                                                  headers=headers)
         elif status_code in [400, 422]:
-            erstr = "Received validation error with errorCode: %s, message: %s, HTTP Code: %s. Please verify the values provided. Please reach out to support@adyen.com if the problem persists, providing the PSP reference: %s" % (
-            response_obj["errorCode"], response_obj["message"], status_code, psp_ref)
+            erstr = "Received validation error with errorCode: %s," \
+                    " message: %s, HTTP Code: %s. Please verify" \
+                    " the values provided. Please reach out" \
+                    " to support@adyen.com if the problem persists," \
+                    " providing the PSP reference: %s" % (
+                        response_obj["errorCode"], response_obj["message"],
+                        status_code, psp_ref)
 
             raise AdyenAPIValidationError(erstr)
         elif status_code == 401:
-            erstr = "Unable to authenticate with Adyen's Servers. Please verify the credentials set with the Adyen base class. Please reach out to your Adyen Admin if the problem persists"
+            erstr = "Unable to authenticate with Adyen's Servers." \
+                    " Please verify the credentials set with the Adyen base" \
+                    " class. Please reach out to your Adyen Admin" \
+                    " if the problem persists"
             raise AdyenAPIAuthenticationError(erstr)
         elif status_code == 403:
             from . import username
 
-            ma = raw_request['merchantAccount']
-
             if response_obj.get("message") == "Invalid Merchant Account":
-                erstr = ("You provided the merchant account:'%s' that doesn't exist or you don't have access to it.\n"
+                erstr = ("You provided the merchant account:'%s' that"
+                         " doesn't exist or you don't have access to it.\n"
                          "Please verify the merchant account provided. \n"
-                         "Reach out to support@adyen.com if the issue persists") % raw_request['merchantAccount']
+                         "Reach out to support@adyen.com"
+                         " if the issue persists") \
+                        % raw_request['merchantAccount']
                 raise AdyenAPIInvalidPermission(erstr)
 
-            erstr = "Unable to perform the requested action. message: %s. If you think your webservice user: %s might not have the necessary permissions to perform this request. Please reach out to support@adyen.com, providing the PSP reference: %s" % (
-            response_obj["message"], self.username, psp_ref)
+            erstr = "Unable to perform the requested action. message: %s." \
+                    " If you think your webservice user: %s might not have" \
+                    " the necessary permissions to perform this request." \
+                    " Please reach out to support@adyen.com, providing" \
+                    " the PSP reference: %s" % (
+                        response_obj["message"], self.username, psp_ref)
 
-            raise AdyenAPIInvalidPermission(erstr, username, psp_ref, raw_request=raw_request,
-                                            raw_response=raw_response, url=url, psp=psp_ref, headers=headers)
+            raise AdyenAPIInvalidPermission(erstr, username, psp_ref,
+                                            raw_request=raw_request,
+                                            raw_response=raw_response, url=url,
+                                            psp=psp_ref, headers=headers)
         elif status_code == 422:
             if response_obj.get("message") == "Invalid amount specified":
                 raise AdyenAPIInvalidAmount(
@@ -522,17 +560,19 @@ class AdyenClient(object):
                 )
 
         elif status_code == 500:
-            if response_obj.get("message") == "Failed to serialize node Failed to parse [123.34] as a Long":
+            if response_obj.get("message") == "Failed to serialize node " \
+                                              "Failed to parse [123.34]" \
+                                              " as a Long":
                 raise AdyenAPIInvalidFormat(
-                    "The paymount amount must be set in cents, and can not contain"
-                    " commas or points."
+                    "The paymount amount must be set in cents,"
+                    " and can not contain commas or points."
                 )
         else:
             raise AdyenAPICommunicationError(
-                "Unexpected error while communicating with Adyen. Received the "
-                "response data:'{}', HTTP Code:'{}'. Please reach out to "
-                "support@adyen.com if the problem persists with the psp:{}"
-                    .format(raw_response, status_code, psp_ref),
+                "Unexpected error while communicating with Adyen. Received the"
+                " response data:'{}', HTTP Code:'{}'. Please reach out to "
+                "support@adyen.com if the problem persists"
+                " with the psp:{}".format(raw_response, status_code, psp_ref),
                 status_code=status_code,
                 raw_request=raw_request,
                 raw_response=raw_response,

@@ -1,8 +1,6 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, unicode_literals
 
 import datetime
-from . import util
-from .client import AdyenClient
 from . import validation
 
 
@@ -50,7 +48,8 @@ class AdyenRecurring(AdyenServiceBase):
         action = "listRecurringDetails"
 
         if validation.check_in(request, action):
-            return self.client.call_api(request, self.service, action, **kwargs)
+            return self.client.call_api(request, self.service,
+                                        action, **kwargs)
 
     def disable(self, request="", **kwargs):
 
@@ -58,9 +57,11 @@ class AdyenRecurring(AdyenServiceBase):
 
         if validation.check_in(request, action):
             if 'recurringDetailReference' not in request:
-                raise ValueError("Include a 'recurringDetailReference' to disable a specific recurring contract.")
+                raise ValueError("Include a 'recurringDetailReference'"
+                                 " to disable a specific recurring contract.")
             else:
-                return self.client.call_api(request, self.service, action, **kwargs)
+                return self.client.call_api(request, self.service,
+                                            action, **kwargs)
 
 
 class AdyenHPP(AdyenServiceBase):
@@ -85,16 +86,19 @@ class AdyenHPP(AdyenServiceBase):
 
         if validation.check_in(request, action):
             try:
-                datetime.datetime.strptime(request['sessionValidity'], '%Y-%m-%dT%H:%M:%SZ')
+                datetime.datetime.strptime(request['sessionValidity'],
+                                           '%Y-%m-%dT%H:%M:%SZ')
             except ValueError:
                 raise ValueError(
-                    "Incorrect date format, should be Y-m-dH:M:SZ, use datetime.strftime('%Y-%m-%dT%H:%M:%SZ') to format a datetime object.")
+                    "Incorrect date format, should be Y-m-dH:M:SZ,"
+                    " use datetime.strftime('%Y-%m-%dT%H:%M:%SZ')"
+                    " to format a datetime object.")
 
             return self.client.call_hpp(request, action)
 
-    def hpp_payment(self, request="", skipDetails=None, **kwargs):
+    def hpp_payment(self, request="", skip_details=None, **kwargs):
 
-        if skipDetails == True:
+        if skip_details:
             action = "skipDetails"
         else:
             action = "select"
@@ -106,12 +110,17 @@ class AdyenHPP(AdyenServiceBase):
                     request['issuerId'] = ""
             if type(request['sessionValidity']) is not str:
                 raise TypeError(
-                    'HPP: sessionValidity must be type of str, use datetime.strftime to convert and format.')
-            if all(k in request for k in ("shopperEmail", "shopperReference", "recurringContract")):
+                    'HPP: sessionValidity must be type of str,'
+                    ' use datetime.strftime to convert and format.')
+            if all(k in request for k in ("shopperEmail", "shopperReference",
+                                          "recurringContract")):
                 recc = request['recurringContract']
-                if recc != 'ONECLICK' and recc != 'RECURRING' and recc != 'ONECLICK,RECURRING':
+                if recc != 'ONECLICK' and recc != 'RECURRING'\
+                        and recc != 'ONECLICK,RECURRING':
                     raise ValueError(
-                        "HPP: recurringContract must be on of the following values: 'ONECLICK', 'RECURRING', 'ONECLICK,RECURRING'")
+                        "HPP: recurringContract must be on of the following"
+                        " values: 'ONECLICK', 'RECURRING',"
+                        " 'ONECLICK,RECURRING'")
 
             result = self.client.hpp_payment(request, action)
             return result
@@ -149,38 +158,49 @@ class AdyenPayment(AdyenServiceBase):
             if 'shopperEmail' in request:
                 if request['shopperEmail'] == '':
                     raise ValueError(
-                        'shopperEmail must contain the shopper email when authorising recurring contracts.')
+                        'shopperEmail must contain the shopper email'
+                        ' when authorising recurring contracts.')
             if 'shopperReference' in request:
                 if request['shopperReference'] == '':
                     raise ValueError(
-                        'shopperReference must contain the shopper name when authorising recurring contracts.')
+                        'shopperReference must contain the shopper'
+                        ' name when authorising recurring contracts.')
 
-            return self.client.call_api(request, self.service, action, **kwargs)
+            return self.client.call_api(request, self.service,
+                                        action, **kwargs)
 
     def authorise3d(self, request="", **kwargs):
         action = "authorise3d"
 
         if validation.check_in(request, action):
-            return self.client.call_api(request, self.service, action, **kwargs)
+            return self.client.call_api(request, self.service,
+                                        action, **kwargs)
 
     def cancel(self, request="", **kwargs):
         action = "cancel"
 
         if validation.check_in(request, action):
-            return self.client.call_api(request, self.service, action, **kwargs)
+            return self.client.call_api(request, self.service,
+                                        action, **kwargs)
 
     def capture(self, request="", **kwargs):
 
         action = "capture"
 
         if validation.check_in(request, action):
-            if request['modificationAmount']["value"] == "" or request['modificationAmount']['value'] == "0":
+            if request['modificationAmount']["value"] == "" or\
+                            request['modificationAmount']['value'] == "0":
                 raise ValueError(
-                    "Set the 'modificationAmount' to the original transaction amount, or less for a partial capture. modificationAmount should be an object with the following keys: {'currency':,'value':}")
+                    "Set the 'modificationAmount' to the original transaction"
+                    " amount, or less for a partial capture. "
+                    "modificationAmount should be an object with the following"
+                    " keys: {'currency':,'value':}")
             if request['originalReference'] == "":
-                raise ValueError("Set the 'originalReference' to the psp reference of the transaction to be modified")
+                raise ValueError("Set the 'originalReference' to the psp "
+                                 "reference of the transaction to be modified")
 
-            response = self.client.call_api(request, self.service, action, **kwargs)
+            response = self.client.call_api(request, self.service,
+                                            action, **kwargs)
             return response
 
     def refund(self, request="", **kwargs):
@@ -188,14 +208,19 @@ class AdyenPayment(AdyenServiceBase):
         action = "refund"
 
         if validation.check_in(request, action):
-            if request['modificationAmount']['value'] == "" or request['modificationAmount']['value'] == "0":
+            if request['modificationAmount']['value'] == "" or\
+                            request['modificationAmount']['value'] == "0":
                 raise ValueError(
-                    "To refund this payment, provide the original value. Set the value to less than the original amount, to partially refund this payment.")
+                    "To refund this payment, provide the original value. "
+                    "Set the value to less than the original amount, "
+                    "to partially refund this payment.")
             else:
-                return self.client.call_api(request, self.service, action, **kwargs)
+                return self.client.call_api(request, self.service,
+                                            action, **kwargs)
 
     def cancel_or_refund(self, request="", **kwargs):
         action = "cancelOrRefund"
 
         if validation.check_in(request, action):
-            return self.client.call_api(request, self.service, action, **kwargs)
+            return self.client.call_api(request, self.service,
+                                        action, **kwargs)
