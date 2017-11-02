@@ -1,24 +1,23 @@
-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-from .exceptions import AdyenInvalidRequestError
-from functools import wraps
+from __future__ import absolute_import, division, unicode_literals
 
 actions = {}
 actions['listRecurringDetails'] = ["shopperReference"]
 actions['disable'] = ["shopperReference"]
-actions['directory'] = ["currencyCode","paymentAmount","merchantReference","sessionValidity"]
-actions['skipDetails'] = ["sessionValidity","currencyCode","paymentAmount","merchantReference","brandCode","issuerId"]
-actions['select'] = ["sessionValidity","currencyCode","paymentAmount","merchantReference"]
-actions['authorise'] = ["amount","reference"]
-actions['authorise3d'] = ["md","paResponse","browserInfo"]
+actions['directory'] = ["currencyCode", "paymentAmount",
+                        "merchantReference", "sessionValidity"]
+actions['skipDetails'] = ["sessionValidity", "currencyCode", "paymentAmount",
+                          "merchantReference", "brandCode", "issuerId"]
+actions['select'] = ["sessionValidity", "currencyCode",
+                     "paymentAmount", "merchantReference"]
+actions['authorise'] = ["amount", "reference"]
+actions['authorise3d'] = ["md", "paResponse", "browserInfo"]
 actions['cancel'] = ["originalReference"]
-actions['capture'] = ["modificationAmount","originalReference"]
-actions['refund'] = ["modificationAmount","originalReference"]
+actions['capture'] = ["modificationAmount", "originalReference"]
+actions['refund'] = ["modificationAmount", "originalReference"]
 actions['cancelOrRefund'] = ["originalReference"]
 
-def check_in(request,action):
 
+def check_in(request, action):
     # This function checks for missing properties in the request dict
     # for the corresponding action.
 
@@ -30,15 +29,17 @@ def check_in(request,action):
                 missing.append(x)
         if len(missing) > 0:
             missing_string = ""
-            for idx,val in enumerate(missing):
+            for idx, val in enumerate(missing):
                 missing_string += "\n" + val
-            erstr = "Provide the required request parameters to complete this request: %s" % missing_string
+            erstr = "Provide the required request parameters to" \
+                    " complete this request: %s" % missing_string
             raise ValueError(erstr)
         else:
             return True
     else:
         req_str = ""
-        for idx,val in enumerate(actions[action]):
+        for idx, val in enumerate(actions[action]):
             req_str += "\n" + val
-        erstr = "Provide a request dict with the following properties: %s" % req_str
+        erstr = "Provide a request dict with the following properties:" \
+                " %s" % req_str
         raise ValueError(erstr)
