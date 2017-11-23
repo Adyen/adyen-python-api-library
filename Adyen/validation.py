@@ -16,17 +16,66 @@ actions['capture'] = ["modificationAmount", "originalReference"]
 actions['refund'] = ["modificationAmount", "originalReference"]
 actions['cancelOrRefund'] = ["originalReference"]
 
+payout_required_fields = {
+    'confirmThirdParty': (
+        'merchantAccount',
+        'originalReference'
+    ),
+    'declineThirdParty': (
+        'merchantAccount',
+        'originalReference'
+    ),
+    'storeDetail': (
+        'merchantAccount',
+        'bank.iban',
+        'bank.ownerName',
+        'bank.countryCode',
+        'recurring.contract',
+    ),
+    'submitThirdParty': (
+        'amount.currency',
+        'amount.value',
+        'merchantAccount',
+        'recurring.contract',
+        'reference',
+        'shopperEmail',
+        'shopperReference',
+        'selectedRecurringDetailReference'
+    ),
+    'storeDetailAndSubmitThirdParty': (
+        'merchantAccount',
+        'shopperEmail',
+        'shopperReference',
+        'reference',
+        'recurring.contract',
+        'amount.currency',
+        'amount.value',
+        'bank.iban',
+        'bank.ownerName',
+        'bank.countryCode',
+        'billingAddress.street',
+        'billingAddress.city',
+        'billingAddress.country'
+    ),
+}
+
+actions.update(payout_required_fields)
+
 
 def check_in(request, action):
     # This function checks for missing properties in the request dict
     # for the corresponding action.
 
     if request:
-        action = actions[action]
+        required_fields = actions[action]
         missing = []
-        for x in action:
-            if x not in request:
-                missing.append(x)
+        for field in required_fields:
+            if "." in field:
+                parent, child = field.split(".")
+                if parent not in request or child not in request[parent]:
+                    missing.append(field)
+            elif field not in request:
+                missing.append(field)
         if len(missing) > 0:
             missing_string = ""
             for idx, val in enumerate(missing):
