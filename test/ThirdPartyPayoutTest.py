@@ -48,17 +48,19 @@ class TestThirdPartyPayout(unittest.TestCase):
         request["entityType"] = "Company",
         request["nationality"] = "NL",
         request["billingAddress"] = {
-            "houseNumberOrName":"17",
-            "street":"Teststreet 1",
-            "city":"Amsterdam",
-            "stateOrProvince":"NY",
-            "country" : "US",
+            "houseNumberOrName": "17",
+            "street": "Teststreet 1",
+            "city": "Amsterdam",
+            "stateOrProvince": "NY",
+            "country": "US",
             "postalCode": "12345"
         }
-        self.ady.client = self.test.create_client_from_file(200, request, 'test/mocks/payout/storeDetailAndSubmitThirdParty-success.json')
+        resp = 'test/mocks/payout/storeDetailAndSubmitThirdParty-success.json'
+        self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.store_detail_and_submit(request)
         self.assertIsNotNone(result.message['pspReference'])
-        self.assertEqual("[payout-submit-received]", result.message['resultCode'])
+        expected = "[payout-submit-received]"
+        self.assertEqual(expected, result.message['resultCode'])
 
 
 TestThirdPartyPayout.client.http_force = "requests"
