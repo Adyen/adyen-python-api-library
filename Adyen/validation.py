@@ -50,7 +50,7 @@ payout_required_fields = {
         'billingAddress.street',
         'billingAddress.city',
         'billingAddress.country'
-    ),
+    )
 }
 
 actions.update(payout_required_fields)
