@@ -27,9 +27,6 @@ payout_required_fields = {
     ),
     'storeDetail': (
         'merchantAccount',
-        'bank.iban',
-        'bank.ownerName',
-        'bank.countryCode',
         'recurring.contract',
     ),
     'submitThirdParty': (
@@ -50,9 +47,6 @@ payout_required_fields = {
         'recurring.contract',
         'amount.currency',
         'amount.value',
-        'bank.iban',
-        'bank.ownerName',
-        'bank.countryCode',
         'billingAddress.street',
         'billingAddress.city',
         'billingAddress.country'
