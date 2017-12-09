@@ -552,6 +552,15 @@ class AdyenClient(object):
                 )
 
         elif status_code == 500:
+            if response_obj.get("errorType") == "validation":
+                err_args = (response_obj.get("errorCode"),
+                            response_obj.get("message"),
+                            status_code)
+                erstr = "Received validation error with errorCode: %s," \
+                         " message: %s, HTTP Code: %s. Please verify" \
+                         " the values provided." % err_args
+                raise AdyenAPIValidationError(erstr)
+
             if response_obj.get("message") == "Failed to serialize node " \
                                               "Failed to parse [123.34]" \
                                               " as a Long":
