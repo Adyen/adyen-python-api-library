@@ -1,0 +1,6 @@
+{
+    "status": 422,
+    "errorCode": "161",
+    "message": "Invalid iban",
+    "errorType": "validation"
+}
