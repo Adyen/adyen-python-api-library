@@ -40,16 +40,13 @@ payout_required_fields = {
         'selectedRecurringDetailReference'
     ),
     'storeDetailAndSubmitThirdParty': (
-        'merchantAccount',
-        'shopperEmail',
-        'shopperReference',
-        'reference',
-        'recurring.contract',
         'amount.currency',
         'amount.value',
-        'billingAddress.street',
-        'billingAddress.city',
-        'billingAddress.country'
+        'merchantAccount',
+        'recurring.contract',
+        'reference',
+        'shopperEmail',
+        'shopperReference',
     )
 }
 
