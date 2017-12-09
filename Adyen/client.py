@@ -557,8 +557,8 @@ class AdyenClient(object):
                             response_obj.get("message"),
                             status_code)
                 erstr = "Received validation error with errorCode: %s," \
-                         " message: %s, HTTP Code: %s. Please verify" \
-                         " the values provided." % err_args
+                        " message: %s, HTTP Code: %s. Please verify" \
+                        " the values provided." % err_args
                 raise AdyenAPIValidationError(erstr)
 
             if response_obj.get("message") == "Failed to serialize node " \
