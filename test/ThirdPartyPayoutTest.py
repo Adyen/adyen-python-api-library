@@ -34,7 +34,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request["originalReference"] = ""
         resp = 'test/mocks/payout/confirm-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPIValidationError,
             "Received validation error with errorCode: 702,"
             " message: Required field 'merchantAccount' is null,"
@@ -60,7 +60,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request["originalReference"] = ""
         resp = 'test/mocks/payout/decline-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPIValidationError,
             "Received validation error with errorCode: 702,"
             " message: Required field 'merchantAccount' is null,"
@@ -131,7 +131,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request["selectedRecurringDetailReference"] = "1234"
         resp = 'test/mocks/payout/submit-invalid-reference.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPIValidationError,
             "Received validation error with errorCode: 800,"
             " message: Contract not found, HTTP Code: 422."
@@ -159,7 +159,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             "ownerName": "Adyen",
             "countryCode": "NL",
         }
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             ValueError,
             "Provide the required request parameters"
             " to complete this request: \nreference",
@@ -182,7 +182,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request["shopperReference"] = "ref"
         resp = 'test/mocks/payout/storeDetailAndSubmit-missing-payment.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPIValidationError,
             "Received validation error with errorCode: 000,"
             " message: Please supply paymentDetails, HTTP Code: 422."
@@ -214,7 +214,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request["merchantAccount"] = "YourMerchantAccount"
         resp = 'test/mocks/payout/storeDetailAndSubmit-invalid-iban.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPIValidationError,
             "Received validation error with errorCode: 161,"
             " message: Invalid iban, HTTP Code: 422."
