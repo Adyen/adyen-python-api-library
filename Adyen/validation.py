@@ -1,4 +1,5 @@
 from __future__ import absolute_import, division, unicode_literals
+import re
 
 actions = {}
 actions['listRecurringDetails'] = ["shopperReference"]
@@ -61,11 +62,7 @@ def check_in(request, action):
         required_fields = actions[action]
         missing = []
         for field in required_fields:
-            if "." in field:
-                parent, child = field.split(".")
-                if parent not in request or child not in request[parent]:
-                    missing.append(field)
-            elif field not in request:
+            if not is_key_present(request, field):
                 missing.append(field)
         if len(missing) > 0:
             missing_string = ""
@@ -83,3 +80,15 @@ def check_in(request, action):
         erstr = "Provide a request dict with the following properties:" \
                 " %s" % req_str
         raise ValueError(erstr)
+
+
+def is_key_present(request, key):
+    m = re.search('([^\.]+)\.(.+)', key)
+    if m:
+        parent_key = m.group(1)
+        child_key = m.group(2)
+        if parent_key in request:
+            return is_key_present(request[parent_key], child_key)
+    elif key in request:
+        return True
+    return False
