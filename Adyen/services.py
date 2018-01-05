@@ -222,5 +222,58 @@ class AdyenPayment(AdyenServiceBase):
         action = "cancelOrRefund"
 
         if validation.check_in(request, action):
-            return self.client.call_api(request, self.service,
-                                        action, **kwargs)
+            return self.client.call_api(
+                request, self.service, action, **kwargs
+            )
+
+
+class AdyenThirdPartyPayout(AdyenServiceBase):
+    """This represents the Adyen API Third Party Payouts Service.
+
+    https://docs.adyen.com/developers/api-reference/third-party-payouts-api
+
+    The AdyenThirdPartyPayout class is accessible as adyen.payout.method(args)
+
+    Args:
+        client (AdyenAPIClient, optional): An API client for the service to
+            use. If not provided, a new API client will be created.
+    """
+
+    def __init__(self, client=None):
+        super(AdyenThirdPartyPayout, self).__init__(client=client)
+        self.service = "Payout"
+
+    def confirm(self, request=None, **kwargs):
+        action = "confirmThirdParty"
+        if validation.check_in(request, action):
+            return self.client.call_api(
+                request, self.service, action, **kwargs
+            )
+
+    def decline(self, request=None, **kwargs):
+        action = "declineThirdParty"
+        if validation.check_in(request, action):
+            return self.client.call_api(
+                request, self.service, action, **kwargs
+            )
+
+    def store_detail(self, request=None, **kwargs):
+        action = "storeDetail"
+        if validation.check_in(request, action):
+            return self.client.call_api(
+                request, self.service, action, **kwargs
+            )
+
+    def submit(self, request=None, **kwargs):
+        action = "submitThirdParty"
+        if validation.check_in(request, action):
+            return self.client.call_api(
+                request, self.service, action, **kwargs
+            )
+
+    def store_detail_and_submit(self, request=None, **kwargs):
+        action = "storeDetailAndSubmitThirdParty"
+        if validation.check_in(request, action):
+            return self.client.call_api(
+                request, self.service, action, **kwargs
+            )

@@ -1,4 +1,5 @@
 from __future__ import absolute_import, division, unicode_literals
+import re
 
 actions = {}
 actions['listRecurringDetails'] = ["shopperReference"]
@@ -16,17 +17,53 @@ actions['capture'] = ["modificationAmount", "originalReference"]
 actions['refund'] = ["modificationAmount", "originalReference"]
 actions['cancelOrRefund'] = ["originalReference"]
 
+payout_required_fields = {
+    'confirmThirdParty': (
+        'merchantAccount',
+        'originalReference'
+    ),
+    'declineThirdParty': (
+        'merchantAccount',
+        'originalReference'
+    ),
+    'storeDetail': (
+        'merchantAccount',
+        'recurring.contract',
+    ),
+    'submitThirdParty': (
+        'amount.currency',
+        'amount.value',
+        'merchantAccount',
+        'recurring.contract',
+        'reference',
+        'shopperEmail',
+        'shopperReference',
+        'selectedRecurringDetailReference'
+    ),
+    'storeDetailAndSubmitThirdParty': (
+        'amount.currency',
+        'amount.value',
+        'merchantAccount',
+        'recurring.contract',
+        'reference',
+        'shopperEmail',
+        'shopperReference',
+    )
+}
+
+actions.update(payout_required_fields)
+
 
 def check_in(request, action):
     # This function checks for missing properties in the request dict
     # for the corresponding action.
 
     if request:
-        action = actions[action]
+        required_fields = actions[action]
         missing = []
-        for x in action:
-            if x not in request:
-                missing.append(x)
+        for field in required_fields:
+            if not is_key_present(request, field):
+                missing.append(field)
         if len(missing) > 0:
             missing_string = ""
             for idx, val in enumerate(missing):
@@ -43,3 +80,15 @@ def check_in(request, action):
         erstr = "Provide a request dict with the following properties:" \
                 " %s" % req_str
         raise ValueError(erstr)
+
+
+def is_key_present(request, key):
+    m = re.search('([^\.]+)\.(.+)', key)
+    if m:
+        parent_key = m.group(1)
+        child_key = m.group(2)
+        if parent_key in request:
+            return is_key_present(request[parent_key], child_key)
+    elif key in request:
+        return True
+    return False

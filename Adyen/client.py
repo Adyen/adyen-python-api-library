@@ -136,7 +136,7 @@ class AdyenClient(object):
             review_payout_username = kwargs['username']
         elif self.review_payout_username:
             review_payout_username = self.review_payout_username
-        if not review_payout_username:
+        else:
             errorstring = """AdyenInvalidRequestError: Please set your review payout
             webservice username. You can do this by running
             'Adyen.review_payout_username = 'Your payout username' """
@@ -149,7 +149,7 @@ class AdyenClient(object):
             review_payout_password = kwargs["password"]
         elif self.review_payout_password:
             review_payout_password = self.review_payout_password
-        if not review_payout_password:
+        else:
             errorstring = """AdyenInvalidRequestError: Please set your review payout
             webservice password. You can do this by running
             'Adyen.review_payout_password = 'Your payout password'"""
@@ -162,7 +162,7 @@ class AdyenClient(object):
             store_payout_username = kwargs['username']
         elif self.store_payout_username:
             store_payout_username = self.store_payout_username
-        if not store_payout_username:
+        else:
             errorstring = """AdyenInvalidRequestError: Please set your store payout
             webservice username. You can do this by running
             'Adyen.store_payout_username = 'Your payout username'"""
@@ -175,7 +175,7 @@ class AdyenClient(object):
             store_payout_password = kwargs["password"]
         elif self.store_payout_password:
             store_payout_password = self.store_payout_password
-        if not store_payout_password:
+        else:
             errorstring = """AdyenInvalidRequestError: Please set your store payout
             webservice password. You can do this by running
             'Adyen.store_payout_password = 'Your payout password'"""
@@ -552,6 +552,15 @@ class AdyenClient(object):
                 )
 
         elif status_code == 500:
+            if response_obj.get("errorType") == "validation":
+                err_args = (response_obj.get("errorCode"),
+                            response_obj.get("message"),
+                            status_code)
+                erstr = "Received validation error with errorCode: %s," \
+                        " message: %s, HTTP Code: %s. Please verify" \
+                        " the values provided." % err_args
+                raise AdyenAPIValidationError(erstr)
+
             if response_obj.get("message") == "Failed to serialize node " \
                                               "Failed to parse [123.34]" \
                                               " as a Long":
