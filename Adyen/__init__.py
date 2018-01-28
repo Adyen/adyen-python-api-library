@@ -22,13 +22,6 @@ from .services import (
 
 from .httpclient import HTTPClient
 
-username = None
-password = None
-platform = None
-merchant_account = None
-merchant_specific_url = None
-hmac = None
-
 
 class Adyen(AdyenBase):
     def __init__(self, **kwargs):

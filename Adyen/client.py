@@ -79,6 +79,8 @@ class AdyenClient(object):
         self.store_payout_username = store_payout_username
         self.store_payout_password = store_payout_password
         self.platform = platform
+        if not self.platform:
+            self.platform = 'test'
         self.merchant_specific_url = merchant_specific_url
         self.hmac = hmac
         self.merchant_account = merchant_account
@@ -353,8 +355,6 @@ class AdyenClient(object):
 
     def hpp_payment(self, request_data, action, hmac_key="", **kwargs):
 
-        from . import platform
-
         if not self.http_init:
             self.http_client = HTTPClient(self.app_name,
                                           self.USER_AGENT_SUFFIX,
@@ -362,8 +362,7 @@ class AdyenClient(object):
                                           self.http_force)
             self.http_init = True
 
-        if self.platform:
-            platform = self.platform
+        platform = self.platform
         if platform.lower() not in ['live', 'test']:
             errorstring = " 'platform' must be the value of 'live' or 'test' "
             raise ValueError(errorstring)
@@ -476,8 +475,7 @@ class AdyenClient(object):
         """
 
         if status_code == 404:
-            from . import merchant_specific_url
-            if url == merchant_specific_url:
+            if url == self.merchant_specific_url:
                 erstr = "Received a 404 for url:'{}'. Please ensure that" \
                         " the custom merchant specific url is correct" \
                     .format(url)
@@ -509,7 +507,6 @@ class AdyenClient(object):
                     " if the problem persists"
             raise AdyenAPIAuthenticationError(erstr)
         elif status_code == 403:
-            from . import username
 
             if response_obj.get("message") == "Invalid Merchant Account":
                 erstr = ("You provided the merchant account:'%s' that"
@@ -527,7 +524,7 @@ class AdyenClient(object):
                     " the PSP reference: %s" % (
                         response_obj["message"], self.username, psp_ref)
 
-            raise AdyenAPIInvalidPermission(erstr, username, psp_ref,
+            raise AdyenAPIInvalidPermission(erstr, self.username, psp_ref,
                                             raw_request=raw_request,
                                             raw_response=raw_response, url=url,
                                             psp=psp_ref, headers=headers)

@@ -22,7 +22,7 @@ class AdyenBase(object):
 
 
 class AdyenServiceBase(AdyenBase):
-    def __init__(self, client=""):
+    def __init__(self, client=None):
         if client:
             self.client = client
         else:
@@ -41,7 +41,7 @@ class AdyenRecurring(AdyenServiceBase):
             use. If not provided, a new API client will be created.
     """
 
-    def __init__(self, client=""):
+    def __init__(self, client=None):
         super(AdyenRecurring, self).__init__(client=client)
         self.service = "Recurring"
 
