@@ -308,9 +308,8 @@ class AdyenClient(object):
 
         # hmac provided in function has highest priority. fallback to self then
         # root module and ensure that it is set.
-        if hmac_key:
-            hmac = hmac_key
-        elif self.hmac:
+        hmac = hmac_key
+        if self.hmac:
             hmac = self.hmac
         elif not hmac:
             errorstring = """Please set an hmac with your Adyen.Adyen class instance.
