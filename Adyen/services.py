@@ -1,6 +1,8 @@
 from __future__ import absolute_import, division, unicode_literals
 
 import datetime
+
+from Adyen import AdyenClient
 from . import validation
 
 
@@ -24,7 +26,7 @@ class AdyenServiceBase(AdyenBase):
         if client:
             self.client = client
         else:
-            self.client = AdyenAPIClient()
+            self.client = AdyenClient()
 
 
 class AdyenRecurring(AdyenServiceBase):
