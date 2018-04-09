@@ -3,4 +3,5 @@
 *.DS_Store
 *.pypirc
 releaseguide.md
-
+venv/
+.idea/
