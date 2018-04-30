@@ -82,7 +82,7 @@ def check_in(request, action):
 
 
 def is_key_present(request, key):
-    m = re.search('([^\.]+)\.(.+)', key)
+    m = re.search(r'([^\.]+)\.(.+)', key)
     if m:
         parent_key = m.group(1)
         child_key = m.group(2)
