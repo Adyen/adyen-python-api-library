@@ -28,7 +28,7 @@ try:
     from StringIO import StringIO
 except ImportError:
     # Python 3
-    from io import BytesIO
+    from io import StringIO
 
 import json as json_lib
 import base64
@@ -89,22 +89,10 @@ class HTTPClient(object):
 
         response_headers = {}
 
-        def handle_header(header_line):
-            header_line = header_line.decode('iso-8859-1')
-            if ':' in header_line:
-                name, value = header_line.split(':', 1)
-                name = name.strip()
-                value = value.strip()
-                response_headers[name] = value
-
         curl = pycurl.Curl()
         curl.setopt(curl.URL, url)
 
-        if sys.version_info[0] >= 3:
-            stringbuffer = BytesIO()
-        else:
-            stringbuffer = StringIO()
-        # stringbuffer = StringIO()
+        stringbuffer = StringIO()
         curl.setopt(curl.WRITEDATA, stringbuffer)
 
         # Add User-Agent header to request so that the
@@ -151,7 +139,7 @@ class HTTPClient(object):
                        data=None,
                        username="",
                        password="",
-                       headers={},
+                       headers=None,
                        timeout=30):
         """This function will POST to the url endpoint using requests.
         Returning an AdyenResult object on 200 HTTP response.
@@ -177,13 +165,13 @@ class HTTPClient(object):
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
+        if headers is None:
+            headers = {}
 
         # Adding basic auth if username and password provided.
-        auth = ""
+        auth = None
         if username and password:
             auth = requests.auth.HTTPBasicAuth(username, password)
-        else:
-            auth = None
 
         # Add User-Agent header to request so that the request
         # can be identified as coming from the Adyen Python library.
@@ -204,7 +192,7 @@ class HTTPClient(object):
                      data="",
                      username="",
                      password="",
-                     headers={},
+                     headers=None,
                      timeout=30):
 
         """This function will POST to the url endpoint using urllib2. returning
@@ -231,6 +219,8 @@ class HTTPClient(object):
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
+        if headers is None:
+            headers = {}
 
         # Store regular dict to return later:
         raw_store = json
@@ -288,7 +278,7 @@ class HTTPClient(object):
                 data="",
                 username="",
                 password="",
-                headers={},
+                headers=None,
                 timout=30):
         """This is overridden on module initialization. This function will make
         an HTTP POST to a given url. Either json/data will be what is posted to

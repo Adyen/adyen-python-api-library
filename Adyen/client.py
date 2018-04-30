@@ -14,7 +14,8 @@ from .exceptions import (
     AdyenAPIValidationError,
     AdyenInvalidRequestError,
     AdyenAPIInvalidFormat,
-    AdyenAPIInvalidAmount)
+    AdyenAPIInvalidAmount,
+)
 from . import settings
 
 
@@ -68,7 +69,7 @@ class AdyenClient(object):
     def __init__(self, username=None, password=None,
                  review_payout_username=None, review_payout_password=None,
                  store_payout_username=None, store_payout_password=None,
-                 platform=None, merchant_account=None,
+                 platform="test", merchant_account=None,
                  merchant_specific_url=None, skin_code=None,
                  hmac=None, app_name=None,
                  http_force=None):
@@ -79,8 +80,6 @@ class AdyenClient(object):
         self.store_payout_username = store_payout_username
         self.store_payout_password = store_payout_password
         self.platform = platform
-        if not self.platform:
-            self.platform = 'test'
         self.merchant_specific_url = merchant_specific_url
         self.hmac = hmac
         self.merchant_account = merchant_account
@@ -124,55 +123,43 @@ class AdyenClient(object):
 
     def _review_payout_username(self, **kwargs):
         if 'username' in kwargs:
-            review_payout_username = kwargs['username']
+            return kwargs['username']
         elif self.review_payout_username:
-            review_payout_username = self.review_payout_username
-        else:
-            errorstring = """AdyenInvalidRequestError: Please set your review payout
-            webservice username. You can do this by running
-            'Adyen.review_payout_username = 'Your payout username' """
-            raise AdyenInvalidRequestError(errorstring)
-
-        return review_payout_username
+            return self.review_payout_username
+        errorstring = """AdyenInvalidRequestError: Please set your review payout
+        webservice username. You can do this by running
+        'Adyen.review_payout_username = 'Your payout username' """
+        raise AdyenInvalidRequestError(errorstring)
 
     def _review_payout_pass(self, **kwargs):
         if 'password' in kwargs:
-            review_payout_password = kwargs["password"]
+            return kwargs["password"]
         elif self.review_payout_password:
-            review_payout_password = self.review_payout_password
-        else:
-            errorstring = """AdyenInvalidRequestError: Please set your review payout
-            webservice password. You can do this by running
-            'Adyen.review_payout_password = 'Your payout password'"""
-            raise AdyenInvalidRequestError(errorstring)
-
-        return review_payout_password
+            return self.review_payout_password
+        errorstring = """AdyenInvalidRequestError: Please set your review payout
+        webservice password. You can do this by running
+        'Adyen.review_payout_password = 'Your payout password'"""
+        raise AdyenInvalidRequestError(errorstring)
 
     def _store_payout_username(self, **kwargs):
         if 'username' in kwargs:
-            store_payout_username = kwargs['username']
+            return kwargs['username']
         elif self.store_payout_username:
-            store_payout_username = self.store_payout_username
-        else:
-            errorstring = """AdyenInvalidRequestError: Please set your store payout
-            webservice username. You can do this by running
-            'Adyen.store_payout_username = 'Your payout username'"""
-            raise AdyenInvalidRequestError(errorstring)
-
-        return store_payout_username
+            return self.store_payout_username
+        errorstring = """AdyenInvalidRequestError: Please set your store payout
+        webservice username. You can do this by running
+        'Adyen.store_payout_username = 'Your payout username'"""
+        raise AdyenInvalidRequestError(errorstring)
 
     def _store_payout_pass(self, **kwargs):
         if 'password' in kwargs:
-            store_payout_password = kwargs["password"]
+            return kwargs["password"]
         elif self.store_payout_password:
-            store_payout_password = self.store_payout_password
-        else:
-            errorstring = """AdyenInvalidRequestError: Please set your store payout
-            webservice password. You can do this by running
-            'Adyen.store_payout_password = 'Your payout password'"""
-            raise AdyenInvalidRequestError(errorstring)
-
-        return store_payout_password
+            return self.store_payout_password
+        errorstring = """AdyenInvalidRequestError: Please set your store payout
+        webservice password. You can do this by running
+        'Adyen.store_payout_password = 'Your payout password'"""
+        raise AdyenInvalidRequestError(errorstring)
 
     def call_api(self, request_data, service, action, idempotency=False,
                  **kwargs):
@@ -203,62 +190,53 @@ class AdyenClient(object):
 
         # username at self object has highest priority. fallback to root module
         # and ensure that it is set.
-        if 'username' in kwargs:
-            username = kwargs["username"]
+        if self.username:
+            username = self.username
+        elif 'username' in kwargs:
+            username = kwargs.pop("username")
         elif service == "Payout":
             if any(substring in action for substring in ["store", "submit"]):
                 username = self._store_payout_username(**kwargs)
             else:
                 username = self._review_payout_username(**kwargs)
-        elif self.username:
-            username = self.username
         if not username:
             errorstring = """AdyenInvalidRequestError: Please set your webservice username."
              You can do this by running 'Adyen.username = 'Your username'"""
             raise AdyenInvalidRequestError(errorstring)
-        # Ensure that username has been removed so as not to be passed to adyen
-        if 'username' in kwargs:
-            del kwargs['username']
 
         # password at self object has highest priority. fallback to root module
         # and ensure that it is set.
-        if 'password' in kwargs:
-            password = kwargs["password"]
+        if self.password:
+            password = self.password
+        elif 'password' in kwargs:
+            password = kwargs.pop("password")
         elif service == "Payout":
             if any(substring in action for substring in ["store", "submit"]):
                 password = self._store_payout_pass(**kwargs)
             else:
                 password = self._review_payout_pass(**kwargs)
-        elif self.password:
-            password = self.password
         if not password:
             errorstring = """AdyenInvalidRequestError: Please set your webservice password.
              You can do this by running 'Adyen.password = 'Your password'"""
             raise AdyenInvalidRequestError(errorstring)
-        # Ensure that password has been removed so as not to be passed to adyen
-        if 'password' in kwargs:
-            del kwargs["password"]
 
         # platform at self object has highest priority. fallback to root module
         # and ensure that it is set to either 'live' or 'test'.
-        if 'platform' in kwargs:
-            platform = kwargs['platform']
-            del kwargs['platform']
-        elif self.platform:
+        if self.platform:
             platform = self.platform
+        elif 'platform' in kwargs:
+            platform = kwargs.pop('platform')
 
-        if platform.lower() not in ['live', 'test']:
-            errorstring = "'platform' must be the value of 'live' or 'test'"
-            raise ValueError(errorstring)
-        elif not isinstance(platform, str):
+        if not isinstance(platform, str):
             errorstring = "'platform' value must be type of string"
             raise TypeError(errorstring)
+        elif platform.lower() not in ['live', 'test']:
+            errorstring = "'platform' must be the value of 'live' or 'test'"
+            raise ValueError(errorstring)
 
         message = request_data
 
-        if 'merchantAccount' not in message:
-            message['merchantAccount'] = self.merchant_account
-        if message['merchantAccount'] == "":
+        if not message.get('merchantAccount'):
             message['merchantAccount'] = self.merchant_account
 
         # Adyen requires this header to be set and uses the combination of
@@ -323,14 +301,13 @@ class AdyenClient(object):
 
         # platform provided in self has highest priority,
         # fallback to root module and ensure that it is set.
-        if self.platform:
-            platform = self.platform
-        if platform.lower() not in ['live', 'test']:
-            errorstring = " 'platform' must be the value of 'live' or 'test' "
-            raise ValueError(errorstring)
-        elif not isinstance(platform, str):
+        platform = self.platform
+        if not isinstance(platform, str):
             errorstring = "'platform' must be type string"
             raise TypeError(errorstring)
+        elif platform.lower() not in ['live', 'test']:
+            errorstring = " 'platform' must be the value of 'live' or 'test' "
+            raise ValueError(errorstring)
 
         if 'skinCode' not in message:
             message['skinCode'] = self.skin_code
@@ -363,12 +340,12 @@ class AdyenClient(object):
             self.http_init = True
 
         platform = self.platform
-        if platform.lower() not in ['live', 'test']:
-            errorstring = " 'platform' must be the value of 'live' or 'test' "
-            raise ValueError(errorstring)
-        elif not isinstance(platform, str):
+        if not isinstance(platform, str):
             errorstring = "'platform' must be type string"
             raise TypeError(errorstring)
+        elif platform.lower() not in ['live', 'test']:
+            errorstring = " 'platform' must be the value of 'live' or 'test' "
+            raise ValueError(errorstring)
 
         if 'skinCode' not in request_data:
             request_data['skinCode'] = self.skin_code
@@ -449,9 +426,6 @@ class AdyenClient(object):
                 and try again. If the issue persists, please reach out to "
                 support@adyen.com including the "
                 merchantReference: {}""".format(error, reference),
-                raw_request = message,
-                raw_response = raw_response,
-                url = url
 
                 raise AdyenInvalidRequestError(errorstring)
 

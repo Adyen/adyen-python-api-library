@@ -55,31 +55,30 @@ actions.update(payout_required_fields)
 
 
 def check_in(request, action):
-    # This function checks for missing properties in the request dict
-    # for the corresponding action.
-
-    if request:
-        required_fields = actions[action]
-        missing = []
-        for field in required_fields:
-            if not is_key_present(request, field):
-                missing.append(field)
-        if len(missing) > 0:
-            missing_string = ""
-            for idx, val in enumerate(missing):
-                missing_string += "\n" + val
-            erstr = "Provide the required request parameters to" \
-                    " complete this request: %s" % missing_string
-            raise ValueError(erstr)
-        else:
-            return True
-    else:
+    """This function checks for missing properties in the request dict
+    for the corresponding action."""
+    if not request:
         req_str = ""
         for idx, val in enumerate(actions[action]):
             req_str += "\n" + val
         erstr = "Provide a request dict with the following properties:" \
                 " %s" % req_str
         raise ValueError(erstr)
+
+    required_fields = actions[action]
+    missing = []
+    for field in required_fields:
+        if not is_key_present(request, field):
+            missing.append(field)
+    if missing:
+        missing_string = ""
+        for idx, val in enumerate(missing):
+            missing_string += "\n" + val
+        erstr = "Provide the required request parameters to" \
+                " complete this request: %s" % missing_string
+        raise ValueError(erstr)
+
+    return True
 
 
 def is_key_present(request, key):
