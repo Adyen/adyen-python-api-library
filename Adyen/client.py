@@ -126,7 +126,7 @@ class AdyenClient(object):
             return kwargs['username']
         elif self.review_payout_username:
             return self.review_payout_username
-        errorstring = """AdyenInvalidRequestError: Please set your review payout
+        errorstring = """Please set your review payout
         webservice username. You can do this by running
         'Adyen.review_payout_username = 'Your payout username' """
         raise AdyenInvalidRequestError(errorstring)
@@ -136,7 +136,7 @@ class AdyenClient(object):
             return kwargs["password"]
         elif self.review_payout_password:
             return self.review_payout_password
-        errorstring = """AdyenInvalidRequestError: Please set your review payout
+        errorstring = """Please set your review payout
         webservice password. You can do this by running
         'Adyen.review_payout_password = 'Your payout password'"""
         raise AdyenInvalidRequestError(errorstring)
@@ -146,7 +146,7 @@ class AdyenClient(object):
             return kwargs['username']
         elif self.store_payout_username:
             return self.store_payout_username
-        errorstring = """AdyenInvalidRequestError: Please set your store payout
+        errorstring = """Please set your store payout
         webservice username. You can do this by running
         'Adyen.store_payout_username = 'Your payout username'"""
         raise AdyenInvalidRequestError(errorstring)
@@ -156,7 +156,7 @@ class AdyenClient(object):
             return kwargs["password"]
         elif self.store_payout_password:
             return self.store_payout_password
-        errorstring = """AdyenInvalidRequestError: Please set your store payout
+        errorstring = """Please set your store payout
         webservice password. You can do this by running
         'Adyen.store_payout_password = 'Your payout password'"""
         raise AdyenInvalidRequestError(errorstring)
@@ -200,7 +200,7 @@ class AdyenClient(object):
             else:
                 username = self._review_payout_username(**kwargs)
         if not username:
-            errorstring = """AdyenInvalidRequestError: Please set your webservice username."
+            errorstring = """Please set your webservice username.
              You can do this by running 'Adyen.username = 'Your username'"""
             raise AdyenInvalidRequestError(errorstring)
 
@@ -216,7 +216,7 @@ class AdyenClient(object):
             else:
                 password = self._review_payout_pass(**kwargs)
         if not password:
-            errorstring = """AdyenInvalidRequestError: Please set your webservice password.
+            errorstring = """Please set your webservice password.
              You can do this by running 'Adyen.password = 'Your password'"""
             raise AdyenInvalidRequestError(errorstring)
 
@@ -292,7 +292,8 @@ class AdyenClient(object):
         if self.hmac:
             hmac = self.hmac
         elif not hmac:
-            errorstring = """Please set an hmac with your Adyen.Adyen class instance.
+            errorstring = """Please set an hmac with your Adyen.Adyen
+            class instance.
             'Adyen.hmac = \"!WR#F@...\"' or as an additional
              parameter in the function call ie.
             'Adyen.hpp.directory_lookup(hmac=\"!WR#F@...\"'. Please reach
@@ -421,7 +422,7 @@ class AdyenClient(object):
                 reference = message.get("reference",
                                         message.get("merchantReference"))
 
-                errorstring = """AdyenInvalidRequestError: Unable to retrieve payment "
+                errorstring = """Unable to retrieve payment "
                 list. Received the error: {}. Please verify your request "
                 and try again. If the issue persists, please reach out to "
                 support@adyen.com including the "
@@ -542,6 +543,6 @@ class AdyenClient(object):
 
     def _error_from_hpp(self, html):
         # Must be updated when Adyen response is changed:
-        match_obj = re.search('>Error:\s*(.*?)<br', html)
+        match_obj = re.search(r'>Error:\s*(.*?)<br', html)
         if match_obj:
             return match_obj.group(1)

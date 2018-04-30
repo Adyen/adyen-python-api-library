@@ -19,17 +19,20 @@ class AdyenError(Exception):
         self.status_code = status_code
 
     def __str__(self):
-        return repr(self.message)
+        return repr("{}:{}".format(self.__class__.__name__, self.message))
 
     def debug(self):
-        return "message: {}\nHTTP status_code:{}\nurl: {}\nrequest:" \
-               " {}\nresponse: {}\nheaders: {}".format(
-                self.message,
-                self.status_code,
-                self.url,
-                self.raw_request,
-                self.raw_response,
-                self.headers)
+        return ("class: {}\nmessage: {}\nHTTP status_code:{}\nurl: {}"
+                "request: {}\nresponse: {}\nheaders: {}".format(
+                    self.__class__.__name__,
+                    self.message,
+                    self.status_code,
+                    self.url,
+                    self.raw_request,
+                    self.raw_response,
+                    self.headers
+                    )
+                )
 
 
 class AdyenInvalidRequestError(AdyenError):
@@ -46,9 +49,6 @@ class AdyenAPIResponseError(AdyenError):
         super(AdyenAPIResponseError, self).__init__(message, *args, **kwargs)
         self.error_code = error_code
         self.result = result
-
-    def __str__(self):
-        return repr(self.message)
 
 
 class AdyenAPIAuthenticationError(AdyenAPIResponseError):
