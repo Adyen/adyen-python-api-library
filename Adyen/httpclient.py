@@ -28,7 +28,7 @@ try:
     from StringIO import StringIO
 except ImportError:
     # Python 3
-    from io import StringIO
+    from io import BytesIO
 
 import json as json_lib
 import base64
@@ -91,8 +91,11 @@ class HTTPClient(object):
 
         curl = pycurl.Curl()
         curl.setopt(curl.URL, url)
+        if sys.version_info[0] >= 3:
+            stringbuffer = BytesIO()
+        else:
+            stringbuffer = StringIO()
 
-        stringbuffer = StringIO()
         curl.setopt(curl.WRITEDATA, stringbuffer)
 
         # Add User-Agent header to request so that the
