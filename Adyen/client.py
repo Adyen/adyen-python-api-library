@@ -86,7 +86,7 @@ class AdyenClient(object):
         self.skin_code = skin_code
         self.psp_list = []
         self.app_name = app_name
-        self.LIB_VERSION = "1.2.0"
+        self.LIB_VERSION = "1.3.0"
         self.USER_AGENT_SUFFIX = "adyen-python-api-library/"
         self.http_init = False
         self.http_force = http_force
