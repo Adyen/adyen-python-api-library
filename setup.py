@@ -11,8 +11,6 @@ setup(
     author='Adyen',
     author_email='support@adyen.com',
     url='https://github.com/Adyen/adyen-python-api-library',
-    download_url='https://github.com/Adyen/'
-                 'adyen-python-api-library/archive/1.2.0.tar.gz',
     keywords=['payments', 'adyen', 'fintech'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
