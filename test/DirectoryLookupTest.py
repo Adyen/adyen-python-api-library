@@ -4,6 +4,7 @@ from BaseTest import BaseTest
 import time
 import pprint
 
+
 class TestDirectoryLookup(unittest.TestCase):
     ady = Adyen.Adyen()
 
@@ -12,7 +13,8 @@ class TestDirectoryLookup(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    client.hmac = "DFB1EB5485895CFA84146406857104ABB4CBCABDC8AAF103A624C8F6A3EAAB00"
+    client.hmac = "DFB1EB5485895CFA84146406857104A" \
+                  "BB4CBCABDC8AAF103A624C8F6A3EAAB00"
     client.app_name = "appname"
 
     def test_get_post_parameters(self):
@@ -40,7 +42,9 @@ class TestDirectoryLookup(unittest.TestCase):
         request['countryCode'] = "NL"
         request['shopperLocale'] = "nl_NL"
         request['sessionValidity'] = time.strftime('%Y-%m-%dT%H:%M:%SZ')
-        self.test.create_client_from_file(200, request, 'test/mocks/hpp/directoryLookup-success.json')
+        self.test.create_client_from_file(200, request,
+                                          'test/mocks/hpp/'
+                                          'directoryLookup-success.json')
         result = self.ady.hpp.directory_lookup(request)
         self.assertEqual(8, len(result.message['paymentMethods']))
         ideal = result.message['paymentMethods'][0]
