@@ -36,14 +36,12 @@ class TestModifications(unittest.TestCase):
                                                             'test/mocks/'
                                                             'capture-error-167'
                                                             '.json')
-        self.assertRaisesRegexp(Adyen.AdyenAPIValidationError,
-                                "Received validation error with errorCode:"
-                                " 167, message: Original pspReference required"
-                                " for this operation, HTTP Code: 422." +
-                                " Please verify the values provided. Please "
-                                "reach out to support@adyen.com if the problem"
-                                " persists, providing the PSP reference.*",
-                                self.ady.payment.capture, request)
+        self.assertRaisesRegexp(
+            Adyen.AdyenAPICommunicationError,
+            "Unexpected error",
+            self.ady.payment.capture,
+            request
+        )
 
     def test_cancel_or_refund_received(self):
         request = {}

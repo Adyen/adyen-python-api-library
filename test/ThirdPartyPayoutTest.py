@@ -132,12 +132,8 @@ class TestThirdPartyPayout(unittest.TestCase):
         resp = 'test/mocks/payout/submit-invalid-reference.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegexp(
-            Adyen.AdyenAPIValidationError,
-            "Received validation error with errorCode: 800,"
-            " message: Contract not found, HTTP Code: 422."
-            " Please verify the values provided."
-            " Please reach out to support@adyen.com"
-            " if the problem persists, providing the PSP reference.*",
+            Adyen.AdyenAPICommunicationError,
+            "Unexpected error",
             self.ady.payout.submit,
             request
         )
@@ -183,12 +179,8 @@ class TestThirdPartyPayout(unittest.TestCase):
         resp = 'test/mocks/payout/storeDetailAndSubmit-missing-payment.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegexp(
-            Adyen.AdyenAPIValidationError,
-            "Received validation error with errorCode: 000,"
-            " message: Please supply paymentDetails, HTTP Code: 422."
-            " Please verify the values provided."
-            " Please reach out to support@adyen.com"
-            " if the problem persists, providing the PSP reference:.*",
+            Adyen.AdyenAPICommunicationError,
+            "Unexpected error",
             self.ady.payout.store_detail_and_submit,
             request
         )
@@ -215,12 +207,8 @@ class TestThirdPartyPayout(unittest.TestCase):
         resp = 'test/mocks/payout/storeDetailAndSubmit-invalid-iban.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegexp(
-            Adyen.AdyenAPIValidationError,
-            "Received validation error with errorCode: 161,"
-            " message: Invalid iban, HTTP Code: 422."
-            " Please verify the values provided."
-            " Please reach out to support@adyen.com"
-            " if the problem persists, providing the PSP reference:.*",
+            Adyen.AdyenAPICommunicationError,
+            "Unexpected error",
             self.ady.payout.store_detail_and_submit,
             request
         )
