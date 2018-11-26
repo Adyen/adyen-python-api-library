@@ -60,11 +60,12 @@ class TestRecurring(unittest.TestCase):
                                                             'recurring/'
                                                             'disable-error-803'
                                                             '.json')
-        self.assertRaisesRegexp(Adyen.AdyenAPIValidationError,
-                                "Received validation error with errorCode: "
-                                "803, message: PaymentDetail not found, "
-                                "HTTP Code: 422.*",
-                                self.ady.recurring.disable, request)
+        self.assertRaisesRegexp(
+            Adyen.AdyenAPICommunicationError,
+            "Unexpected error",
+            self.ady.recurring.disable,
+            request
+        )
 
 
 TestRecurring.client.http_force = "requests"
