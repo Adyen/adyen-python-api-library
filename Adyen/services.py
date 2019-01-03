@@ -117,7 +117,7 @@ class AdyenHPP(AdyenServiceBase):
             if all(k in request for k in ("shopperEmail", "shopperReference",
                                           "recurringContract")):
                 recc = request['recurringContract']
-                if recc != 'ONECLICK' and recc != 'RECURRING'\
+                if recc != 'ONECLICK' and recc != 'RECURRING' \
                         and recc != 'ONECLICK,RECURRING':
                     raise ValueError(
                         "HPP: recurringContract must be on of the following"
@@ -190,8 +190,8 @@ class AdyenPayment(AdyenServiceBase):
         action = "capture"
 
         if validation.check_in(request, action):
-            if request['modificationAmount']["value"] == "" or\
-                            request['modificationAmount']['value'] == "0":
+            if request['modificationAmount']["value"] == "" or \
+                    request['modificationAmount']['value'] == "0":
                 raise ValueError(
                     "Set the 'modificationAmount' to the original transaction"
                     " amount, or less for a partial capture. "
@@ -210,8 +210,8 @@ class AdyenPayment(AdyenServiceBase):
         action = "refund"
 
         if validation.check_in(request, action):
-            if request['modificationAmount']['value'] == "" or\
-                            request['modificationAmount']['value'] == "0":
+            if request['modificationAmount']['value'] == "" or \
+                    request['modificationAmount']['value'] == "0":
                 raise ValueError(
                     "To refund this payment, provide the original value. "
                     "Set the value to less than the original amount, "
@@ -279,3 +279,38 @@ class AdyenThirdPartyPayout(AdyenServiceBase):
             return self.client.call_api(
                 request, self.service, action, **kwargs
             )
+
+
+class AdyenCheckoutApi(AdyenServiceBase):
+    """This represents the Adyen Checkout API .
+
+    API calls currently implemented:
+        paymentMethods
+        payments
+        payments/details
+        originKeys
+    Please refer to the checkout documentation for specifics around the API.
+    https://docs.adyen.com/developers/checkout
+
+    The AdyenPayment class, is accessible as adyen.payment.method(args)
+
+    Args:
+        client (AdyenAPIClient, optional): An API client for the service to
+            use. If not provided, a new API client will be created.
+    """
+
+    def __init__(self, client=""):
+        super(AdyenCheckoutApi, self).__init__(client=client)
+        self.service = "Checkout"
+
+    def payment_methods(self, request="", **kwargs):
+        action = "paymentMethods"
+        if validation.check_in(request, action):
+            if 'merchantAccount' in request:
+                if request['merchantAccount'] == '':
+                    raise ValueError(
+                        'merchantAccount must contain the merchant account'
+                        ' when retrieving payment methods.')
+
+            return self.client.call_checkout_api(request, self.service,
+                                                 action, **kwargs)

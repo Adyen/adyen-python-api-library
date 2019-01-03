@@ -17,6 +17,8 @@ actions['capture'] = ["modificationAmount", "originalReference"]
 actions['refund'] = ["modificationAmount", "originalReference"]
 actions['cancelOrRefund'] = ["originalReference"]
 
+actions['paymentMethods'] = ["merchantAccount"]
+
 payout_required_fields = {
     'confirmThirdParty': (
         'merchantAccount',

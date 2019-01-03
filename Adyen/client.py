@@ -66,7 +66,7 @@ class AdyenClient(object):
         hmac (str, optional): Hmac key that is used for signature calculation.
     """
 
-    def __init__(self, username=None, password=None,
+    def __init__(self, username=None, password=None, xapikey=None,
                  review_payout_username=None, review_payout_password=None,
                  store_payout_username=None, store_payout_password=None,
                  platform="test", merchant_account=None,
@@ -75,6 +75,7 @@ class AdyenClient(object):
                  http_force=None):
         self.username = username
         self.password = password
+        self.xapikey = xapikey
         self.review_payout_username = review_payout_username
         self.review_payout_password = review_payout_password
         self.store_payout_username = store_payout_username
@@ -120,6 +121,20 @@ class AdyenClient(object):
         service = action + '.shtml'
         result = '/'.join([base_uri, service])
         return result
+
+    def _determine_checkout_url(self, platform, service, action):
+        """This returns the Adyen API endpoint based on the provided platform,
+        service and action.
+
+        Args:
+            platform (str): Adyen platform, ie 'live' or 'test'.
+            service (str): API service to place request through.
+            action (str): the API action to perform.
+        """
+        base_uri = settings.BASE_CHECKOUT_URL.format(platform)
+        api_version = settings.CHECKOUT_API_VERSION
+
+        return '/'.join([base_uri, api_version, action])
 
     def _review_payout_username(self, **kwargs):
         if 'username' in kwargs:
@@ -331,6 +346,73 @@ class AdyenClient(object):
                                              status_code, headers, message)
         return adyen_result
 
+    def call_checkout_api(self, request_data, service, action, **kwargs):
+        """This will call the checkout adyen api. xapi key merchant_account,
+        and platform are pulled from root module level and or self object.
+        AdyenResult will be returned on 200 response. Otherwise, an exception
+        is raised.
+
+        Args:
+            request_data (dict): The dictionary of the request to place. This
+                should be in the structure of the Adyen API.
+                https://docs.adyen.com/developers/checkout/api-integration
+            service (str): This is the API service to be called.
+            action (str): The specific action of the API service to be called
+        """
+        if not self.http_init:
+            self.http_client = HTTPClient(self.app_name,
+                                          self.USER_AGENT_SUFFIX,
+                                          self.LIB_VERSION,
+                                          self.http_force)
+            self.http_init = True
+
+        # xapi at self object has highest priority. fallback to root module
+        # and ensure that it is set.
+        if self.xapikey:
+            xapikey = self.xapikey
+        elif 'xapikey' in kwargs:
+            xapikey = kwargs.pop("xapikey")
+
+        if not xapikey:
+            errorstring = """Please set your webservice xapikey.
+             You can do this by running 'Adyen.xapikey = 'Your xapikey'"""
+            raise AdyenInvalidRequestError(errorstring)
+
+        # platform at self object has highest priority. fallback to root module
+        # and ensure that it is set to either 'live' or 'test'.
+        if self.platform:
+            platform = self.platform
+        elif 'platform' in kwargs:
+            platform = kwargs.pop('platform')
+
+        if not isinstance(platform, str):
+            errorstring = "'platform' value must be type of string"
+            raise TypeError(errorstring)
+        elif platform.lower() not in ['live', 'test']:
+            errorstring = "'platform' must be the value of 'live' or 'test'"
+            raise ValueError(errorstring)
+
+        message = request_data
+
+        if not message.get('merchantAccount'):
+            message['merchantAccount'] = self.merchant_account
+
+        # Adyen requires this header to be set and uses the combination of
+        # merchant account and merchant reference to determine uniqueness.
+        headers = {}
+
+        url = self._determine_checkout_url(platform, service, action)
+
+        raw_response, raw_request, status_code, headers = \
+            self.http_client.request(url, json=message, xapikey=xapikey , headers=headers,
+                                     **kwargs)
+
+        # Creates AdyenResponse if request was successful, raises error if not.
+        adyen_result = self._handle_response(url, raw_response, raw_request,
+                                             status_code, headers, message)
+
+        return adyen_result
+
     def hpp_payment(self, request_data, action, hmac_key="", **kwargs):
 
         if not self.http_init:
@@ -406,8 +488,8 @@ class AdyenClient(object):
                         " Received the response data:'{}', HTTP Code:'{}'. "
                         "Please reach out to support@adyen.com if the "
                         "problem persists with the psp:{}"
-                        .format(raw_response, status_code,
-                                headers.get('pspReference')),
+                            .format(raw_response, status_code,
+                                    headers.get('pspReference')),
                         status_code=status_code,
                         raw_request=raw_request,
                         raw_response=raw_response,
