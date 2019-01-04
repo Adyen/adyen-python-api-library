@@ -488,9 +488,10 @@ class AdyenClient(object):
                         "Unexpected error while communicating with Adyen."
                         " Received the response data:'{}', HTTP Code:'{}'. "
                         "Please reach out to support@adyen.com if the "
-                        "problem persists with the psp:{}".format(raw_response,
-                                                                  status_code,
-                                                                  headers.get('pspReference')),
+                        "problem persists with the psp:{}".format(
+                            raw_response,
+                            status_code,
+                            headers.get('pspReference')),
                         status_code=status_code,
                         raw_request=raw_request,
                         raw_response=raw_response,
