@@ -404,7 +404,8 @@ class AdyenClient(object):
         url = self._determine_checkout_url(platform, service, action)
 
         raw_response, raw_request, status_code, headers = \
-            self.http_client.request(url, json=message, xapikey=xapikey, headers=headers,
+            self.http_client.request(url, json=message,
+                                     xapikey=xapikey, headers=headers,
                                      **kwargs)
 
         # Creates AdyenResponse if request was successful, raises error if not.
@@ -487,9 +488,9 @@ class AdyenClient(object):
                         "Unexpected error while communicating with Adyen."
                         " Received the response data:'{}', HTTP Code:'{}'. "
                         "Please reach out to support@adyen.com if the "
-                        "problem persists with the psp:{}"
-                            .format(raw_response, status_code,
-                                    headers.get('pspReference')),
+                        "problem persists with the psp:{}".format(raw_response,
+                                                                  status_code,
+                                                                  headers.get('pspReference')),
                         status_code=status_code,
                         raw_request=raw_request,
                         raw_response=raw_response,
