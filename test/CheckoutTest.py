@@ -19,6 +19,9 @@ class TestCheckout(unittest.TestCase):
         self.ady.client = self.test.create_client_from_file(200, request,
                                                             file)
         result = self.ady.checkout.payment_methods(request)
-        self.assertEqual("AliPay", result.message['paymentMethods'][0]['name'])
-        self.assertEqual("Credit Card", result.message['paymentMethods'][2]['name'])
-        self.assertEqual("Credit Card via AsiaPay", result.message['paymentMethods'][3]['name'])
+        self.assertEqual("AliPay",
+                         result.message['paymentMethods'][0]['name'])
+        self.assertEqual("Credit Card",
+                         result.message['paymentMethods'][2]['name'])
+        self.assertEqual("Credit Card via AsiaPay",
+                         result.message['paymentMethods'][3]['name'])
