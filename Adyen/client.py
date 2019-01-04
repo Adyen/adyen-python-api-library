@@ -404,7 +404,7 @@ class AdyenClient(object):
         url = self._determine_checkout_url(platform, service, action)
 
         raw_response, raw_request, status_code, headers = \
-            self.http_client.request(url, json=message, xapikey=xapikey , headers=headers,
+            self.http_client.request(url, json=message, xapikey=xapikey, headers=headers,
                                      **kwargs)
 
         # Creates AdyenResponse if request was successful, raises error if not.

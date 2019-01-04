@@ -34,7 +34,6 @@ class Adyen(AdyenBase):
         self.checkout = AdyenCheckoutApi(client=self.client)
 
 
-
 _base_adyen_obj = Adyen()
 recurring = _base_adyen_obj.recurring
 hpp = _base_adyen_obj.hpp
