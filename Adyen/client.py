@@ -131,6 +131,10 @@ class AdyenClient(object):
             service (str): API service to place request through.
             action (str): the API action to perform.
         """
+        if action == "paymentDetails":
+            action = "payment/details"
+        if action == "paymentResult":
+            action = "payment/result"
         base_uri = settings.BASE_CHECKOUT_URL.format(platform)
         api_version = settings.CHECKOUT_API_VERSION
 

@@ -314,3 +314,33 @@ class AdyenCheckoutApi(AdyenServiceBase):
 
             return self.client.call_checkout_api(request, self.service,
                                                  action, **kwargs)
+
+    def payments(self, request="", **kwargs):
+        action = "payments"
+        if validation.check_in(request, action):
+            return self.client.call_checkout_api(request, self.service,
+                                                 action, **kwargs)
+
+    def payments_details(self, request="", **kwargs):
+        action = "paymentsDetails"
+        if validation.check_in(request, action):
+            return self.client.call_checkout_api(request, self.service,
+                                                 action, **kwargs)
+
+    def payment_session(self, request="", **kwargs):
+        action = "paymentsSession"
+        if validation.check_in(request, action):
+            return self.client.call_checkout_api(request, self.service,
+                                                 action, **kwargs)
+
+    def payment_result(self, request="", **kwargs):
+        action = "paymentResult"
+        if validation.check_in(request, action):
+            return self.client.call_checkout_api(request, self.service, action,
+                                                 **kwargs)
+
+    def origin_key(self, request="", **kwargs):
+        action = "originKeys"
+        if validation.check_in(request, action):
+            return self.client.call_checkout_api(request, self.service,
+                                                 action, **kwargs)
