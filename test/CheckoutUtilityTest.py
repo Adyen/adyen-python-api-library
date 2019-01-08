@@ -26,7 +26,7 @@ class TestCheckoutUtility(unittest.TestCase):
                                                             "checkoututility/"
                                                             "originkeys"
                                                             "-success.json")
-        result = self.ady.checkout.origin_key(request)
+        result = self.ady.checkout.origin_keys(request)
 
         self.assertEqual("pub.v2.7814286629520534.aHR0cHM6Ly93d3cu"
                          "eW91ci1kb21haW4xLmNvbQ.UEwIBmW9-c_uXo5wS"
