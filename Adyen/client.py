@@ -241,8 +241,7 @@ class AdyenClient(object):
             errorstring = """Please set your webservice password.
              You can do this by running 'Adyen.password = 'Your password'"""
             raise AdyenInvalidRequestError(errorstring)
-
-            # xapikey at self object has highest priority. 
+            # xapikey at self object has highest priority.
             # fallback to root module
             # and ensure that it is set.
             if self.xapikey:
