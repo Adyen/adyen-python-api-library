@@ -142,11 +142,13 @@ class HTTPClient(object):
                        data=None,
                        username="",
                        password="",
+                       xapikey="",
                        headers=None,
                        timeout=30):
+        self.pr = """pr"""
         """This function will POST to the url endpoint using requests.
         Returning an AdyenResult object on 200 HTTP response.
-        Either json or data has to be provided.
+        Either json or data has to be %sovided.
         If username and password are provided, basic auth will be used.
 
 
@@ -167,7 +169,7 @@ class HTTPClient(object):
             str:    Raw request placed
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
-        """
+        """ % self.pr
         if headers is None:
             headers = {}
 
@@ -175,6 +177,8 @@ class HTTPClient(object):
         auth = None
         if username and password:
             auth = requests.auth.HTTPBasicAuth(username, password)
+        elif xapikey:
+            headers['x-api-key'] = xapikey
 
         # Add User-Agent header to request so that the request
         # can be identified as coming from the Adyen Python library.
@@ -246,12 +250,12 @@ class HTTPClient(object):
         if username and password:
             if sys.version_info[0] >= 3:
                 basic_authstring = base64.encodebytes(('%s:%s' %
-                                                      (username, password))
-                                                      .encode()).decode().\
+                                                       (username, password))
+                                                      .encode()).decode(). \
                     replace('\n', '')
             else:
                 basic_authstring = base64.encodestring('%s:%s' % (username,
-                                                                  password)).\
+                                                                  password)). \
                     replace('\n', '')
             url_request.add_header("Authorization",
                                    "Basic %s" % basic_authstring)

@@ -135,6 +135,9 @@ class AdyenClient(object):
             action = "payment/details"
         if action == "paymentResult":
             action = "payment/result"
+        if action == "originKey":
+            action = "v1/originKeys"
+
         base_uri = settings.BASE_CHECKOUT_URL.format(platform)
         api_version = settings.CHECKOUT_API_VERSION
 
@@ -238,6 +241,17 @@ class AdyenClient(object):
             errorstring = """Please set your webservice password.
              You can do this by running 'Adyen.password = 'Your password'"""
             raise AdyenInvalidRequestError(errorstring)
+
+            # xapikey at self object has highest priority. fallback to root module
+            # and ensure that it is set.
+            if self.xapikey:
+                xapikey = self.xapikey
+            elif 'xapikey' in kwargs:
+                xapikey = kwargs.pop("xapikey")
+            if not xapikey:
+                errorstring = """Please set your webservice xapikey.
+                    You can do this by running 'Adyen.xapikey = 'Your xapikey'"""
+                raise AdyenInvalidRequestError(errorstring)
 
         # platform at self object has highest priority. fallback to root module
         # and ensure that it is set to either 'live' or 'test'.
@@ -473,7 +487,6 @@ class AdyenClient(object):
         Returns:
             AdyenResult: Result object if successful.
         """
-
         if status_code != 200:
             response = {}
             # If the result can't be parsed into json, most likely is raw html.

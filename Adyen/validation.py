@@ -21,10 +21,10 @@ actions['paymentMethods'] = ["merchantAccount"]
 actions['payments'] = ["amount", "reference", "paymentMethod",
                        "merchantAccount", "returnUrl"]
 actions['paymentsDetails'] = ["paymentData", "details"]
-actions['paymentsSession'] = ["amount", "reference", "shopperReference",
-                              "channel", "token", "returnUrl", "countryCode",
-                              "shopperLocale", "sessionValidity",
-                              "merchantAccount"]
+actions['paymentSession'] = ["amount", "reference", "shopperReference",
+                             "channel", "returnUrl", "countryCode",
+                             "shopperLocale", "sessionValidity",
+                             "merchantAccount"]
 actions['paymentResult'] = ["payload"]
 actions['originKeys'] = ["originDomains"]
 
