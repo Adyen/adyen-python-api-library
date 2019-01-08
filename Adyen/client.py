@@ -242,7 +242,8 @@ class AdyenClient(object):
              You can do this by running 'Adyen.password = 'Your password'"""
             raise AdyenInvalidRequestError(errorstring)
 
-            # xapikey at self object has highest priority. fallback to root module
+            # xapikey at self object has highest priority. 
+            # fallback to root module
             # and ensure that it is set.
             if self.xapikey:
                 xapikey = self.xapikey
@@ -250,7 +251,8 @@ class AdyenClient(object):
                 xapikey = kwargs.pop("xapikey")
             if not xapikey:
                 errorstring = """Please set your webservice xapikey.
-                    You can do this by running 'Adyen.xapikey = 'Your xapikey'"""
+                    You can do this by running
+                     'Adyen.xapikey = 'Your xapikey'"""
                 raise AdyenInvalidRequestError(errorstring)
 
         # platform at self object has highest priority. fallback to root module
