@@ -145,7 +145,6 @@ class HTTPClient(object):
                        xapikey="",
                        headers=None,
                        timeout=30):
-        self.pr = """pr"""
         """This function will POST to the url endpoint using requests.
         Returning an AdyenResult object on 200 HTTP response.
         Either json or data has to be %sovided.
@@ -169,7 +168,7 @@ class HTTPClient(object):
             str:    Raw request placed
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
-        """ % self.pr
+        """
         if headers is None:
             headers = {}
 
