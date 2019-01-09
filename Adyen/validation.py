@@ -25,7 +25,7 @@ actions['paymentSession'] = ["amount", "reference", "shopperReference",
                              "channel", "returnUrl", "countryCode",
                              "shopperLocale", "sessionValidity",
                              "merchantAccount"]
-actions['paymentResult'] = ["payload"]
+actions['paymentsResult'] = ["payload"]
 actions['originKeys'] = ["originDomains"]
 
 payout_required_fields = {

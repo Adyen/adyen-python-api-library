@@ -122,7 +122,8 @@ class AdyenClient(object):
         result = '/'.join([base_uri, service])
         return result
 
-    def _determine_checkout_url(self, platform, service, action):
+    def _determine_checkout_url(self, platform, service, action,
+                                live_endpoint_prefix=None):
         """This returns the Adyen API endpoint based on the provided platform,
         service and action.
 
@@ -133,14 +134,18 @@ class AdyenClient(object):
         """
         if action == "paymentDetails":
             action = "payment/details"
-        if action == "paymentResult":
+        if action == "paymentsResult":
             action = "payment/result"
         if action == "originKey":
             action = "v1/originKeys"
 
         base_uri = settings.BASE_CHECKOUT_URL.format(platform)
-        api_version = settings.CHECKOUT_API_VERSION
 
+        if live_endpoint_prefix is not None:
+            base_uri = settings.ENDPOINT_PROTOCOL + live_endpoint_prefix \
+                       + settings.CHECKOUT_URL_LIVE_SUFFIX
+
+        api_version = settings.CHECKOUT_API_VERSION
         return '/'.join([base_uri, api_version, action])
 
     def _review_payout_username(self, **kwargs):

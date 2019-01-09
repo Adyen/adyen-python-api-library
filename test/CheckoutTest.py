@@ -193,3 +193,18 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
         self.assertEqual("validation", result.message['errorType'])
+
+    def test_checkout_api_url(self):
+        url = self.ady.client._determine_checkout_url("live", ""
+                                                      , "paymentDetails")
+        self.assertEqual(url, "https://checkout-live.adyen.com"
+                              "//v40/payment/details")
+
+    def test_checkout_api_url_custom(self):
+        url = self.ady.client._determine_checkout_url("live", ""
+                                                      , "payments",
+                                                      "1797a841fbb37ca7"
+                                                      "-AdyenDemo")
+
+        self.assertEqual(url, "https://1797a841fbb37ca7-AdyenDemo-checkout-"
+                              "live.adyenpayments.com/checkout/v40/payments")

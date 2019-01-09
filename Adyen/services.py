@@ -334,7 +334,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
                                                  action, **kwargs)
 
     def payment_result(self, request="", **kwargs):
-        action = "paymentResult"
+        action = "paymentsResult"
         if validation.check_in(request, action):
             return self.client.call_checkout_api(request, self.service, action,
                                                  **kwargs)
