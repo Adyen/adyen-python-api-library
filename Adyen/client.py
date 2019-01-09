@@ -138,8 +138,8 @@ class AdyenClient(object):
             base_uri = settings.ENDPOINT_PROTOCOL + live_endpoint_prefix \
                        + settings.CHECKOUT_URL_LIVE_SUFFIX
 
-        if action == "paymentDetails":
-            action = "payment/details"
+        if action == "paymentsDetails":
+            action = "payments/details"
         if action == "paymentsResult":
             action = "payment/result"
         if action == "originKeys":

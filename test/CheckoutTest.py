@@ -196,9 +196,9 @@ class TestCheckout(unittest.TestCase):
 
     def test_checkout_api_url(self):
         url = self.ady.client._determine_checkout_url("live", "",
-                                                      "paymentDetails")
+                                                      "paymentsDetails")
         self.assertEqual(url, "https://checkout-live.adyen.com"
-                              "/v40/payment/details")
+                              "/v40/payments/details")
 
     def test_checkout_api_url_custom(self):
         url = self.ady.client._determine_checkout_url("live", "",
