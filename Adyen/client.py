@@ -143,7 +143,7 @@ class AdyenClient(object):
         if action == "paymentsResult":
             action = "payment/result"
         if action == "originKeys":
-            api_version = "v1"
+            api_version = settings.CHECKOUT_UTILITY_API_VERSION
 
         return '/'.join([base_uri, api_version, action])
 
