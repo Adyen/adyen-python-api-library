@@ -45,3 +45,9 @@ class TestCheckoutUtility(unittest.TestCase):
                          "b1qMuMHGepxG_SlUqxAYrfY",
                          result.message['originKeys']
                          ['https://www.your-domain2.com'])
+
+    def test_checkout_utility_api_url_custom(self):
+        url = self.ady.client._determine_checkout_url("test", "",
+                                                      "originKeys")
+
+        self.assertEqual(url, "https://checkout-test.adyen.com/v1/originKeys")

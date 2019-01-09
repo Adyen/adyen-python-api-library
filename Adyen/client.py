@@ -132,20 +132,19 @@ class AdyenClient(object):
             service (str): API service to place request through.
             action (str): the API action to perform.
         """
-        if action == "paymentDetails":
-            action = "payment/details"
-        if action == "paymentsResult":
-            action = "payment/result"
-        if action == "originKey":
-            action = "v1/originKeys"
-
         base_uri = settings.BASE_CHECKOUT_URL.format(platform)
-
+        api_version = settings.CHECKOUT_API_VERSION
         if live_endpoint_prefix is not None:
             base_uri = settings.ENDPOINT_PROTOCOL + live_endpoint_prefix \
                        + settings.CHECKOUT_URL_LIVE_SUFFIX
 
-        api_version = settings.CHECKOUT_API_VERSION
+        if action == "paymentDetails":
+            action = "payment/details"
+        if action == "paymentsResult":
+            action = "payment/result"
+        if action == "originKeys":
+            api_version = "v1"
+
         return '/'.join([base_uri, api_version, action])
 
     def _review_payout_username(self, **kwargs):
