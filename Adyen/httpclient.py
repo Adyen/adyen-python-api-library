@@ -147,7 +147,7 @@ class HTTPClient(object):
                        timeout=30):
         """This function will POST to the url endpoint using requests.
         Returning an AdyenResult object on 200 HTTP response.
-        Either json or data has to be %sovided.
+        Either json or data has to be provided.
         If username and password are provided, basic auth will be used.
 
 

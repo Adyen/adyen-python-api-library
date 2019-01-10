@@ -72,7 +72,7 @@ class AdyenClient(object):
                  platform="test", merchant_account=None,
                  merchant_specific_url=None, skin_code=None,
                  hmac=None, app_name=None,
-                 http_force=None):
+                 http_force=None, live_endpoint_prefix=None):
         self.username = username
         self.password = password
         self.xapikey = xapikey
@@ -91,6 +91,7 @@ class AdyenClient(object):
         self.USER_AGENT_SUFFIX = "adyen-python-api-library/"
         self.http_init = False
         self.http_force = http_force
+        self.live_endpoint_prefix = live_endpoint_prefix
 
     def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
@@ -105,7 +106,7 @@ class AdyenClient(object):
         if service == "Recurring":
             api_version = settings.API_RECURRING_VERSION
         else:
-            api_version = settings.API_VERSION
+            api_version = settings.API_PAYOUT_VERSION
         return '/'.join([base_uri, service, api_version, action])
 
     def _determine_hpp_url(self, platform, action):
@@ -122,8 +123,7 @@ class AdyenClient(object):
         result = '/'.join([base_uri, service])
         return result
 
-    def _determine_checkout_url(self, platform, service, action,
-                                live_endpoint_prefix=None):
+    def _determine_checkout_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
         service and action.
 
@@ -132,18 +132,18 @@ class AdyenClient(object):
             service (str): API service to place request through.
             action (str): the API action to perform.
         """
-        base_uri = settings.BASE_CHECKOUT_URL.format(platform)
-        api_version = settings.CHECKOUT_API_VERSION
-        if live_endpoint_prefix is not None:
-            base_uri = settings.ENDPOINT_PROTOCOL + live_endpoint_prefix \
-                       + settings.CHECKOUT_URL_LIVE_SUFFIX
+        base_uri = settings.ENDPOINT_CHECKOUT_URL.format(platform)
+        api_version = settings.API_CHECKOUT_VERSION
+        if self.live_endpoint_prefix is not None:
+            base_uri = settings.ENDPOINT_PROTOCOL + self.live_endpoint_prefix \
+                       + settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX
 
         if action == "paymentsDetails":
             action = "payments/details"
         if action == "paymentsResult":
             action = "payment/result"
         if action == "originKeys":
-            api_version = settings.CHECKOUT_UTILITY_API_VERSION
+            api_version = settings.API_CHECKOUT_UTILITY_VERSION
 
         return '/'.join([base_uri, api_version, action])
 
@@ -216,47 +216,47 @@ class AdyenClient(object):
 
         # username at self object has highest priority. fallback to root module
         # and ensure that it is set.
+        if self.xapikey:
+            xapikey = self.xapikey
+        elif 'xapikey' in kwargs:
+            xapikey = kwargs.pop("xapikey")
+
         if self.username:
             username = self.username
         elif 'username' in kwargs:
             username = kwargs.pop("username")
         elif service == "Payout":
-            if any(substring in action for substring in ["store", "submit"]):
+            if any(substring in action for substring in
+                   ["store", "submit"]):
                 username = self._store_payout_username(**kwargs)
             else:
                 username = self._review_payout_username(**kwargs)
         if not username:
             errorstring = """Please set your webservice username.
-             You can do this by running 'Adyen.username = 'Your username'"""
+              You can do this by running
+              'Adyen.username = 'Your username'"""
             raise AdyenInvalidRequestError(errorstring)
-
-        # password at self object has highest priority. fallback to root module
-        # and ensure that it is set.
+            # password at self object has highest priority.
+            # fallback to root module
+            # and ensure that it is set.
         if self.password:
             password = self.password
         elif 'password' in kwargs:
             password = kwargs.pop("password")
         elif service == "Payout":
-            if any(substring in action for substring in ["store", "submit"]):
+            if any(substring in action for substring in
+                   ["store", "submit"]):
                 password = self._store_payout_pass(**kwargs)
             else:
                 password = self._review_payout_pass(**kwargs)
         if not password:
             errorstring = """Please set your webservice password.
-             You can do this by running 'Adyen.password = 'Your password'"""
+              You can do this by running
+              'Adyen.password = 'Your password'"""
             raise AdyenInvalidRequestError(errorstring)
             # xapikey at self object has highest priority.
             # fallback to root module
             # and ensure that it is set.
-            if self.xapikey:
-                xapikey = self.xapikey
-            elif 'xapikey' in kwargs:
-                xapikey = kwargs.pop("xapikey")
-            if not xapikey:
-                errorstring = """Please set your webservice xapikey.
-                    You can do this by running
-                     'Adyen.xapikey = 'Your xapikey'"""
-                raise AdyenInvalidRequestError(errorstring)
 
         # platform at self object has highest priority. fallback to root module
         # and ensure that it is set to either 'live' or 'test'.
