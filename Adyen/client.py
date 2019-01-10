@@ -141,7 +141,7 @@ class AdyenClient(object):
         if action == "paymentsDetails":
             action = "payments/details"
         if action == "paymentsResult":
-            action = "payment/result"
+            action = "payments/result"
         if action == "originKeys":
             api_version = settings.API_CHECKOUT_UTILITY_VERSION
 
