@@ -15,7 +15,7 @@ from .exceptions import (
     AdyenInvalidRequestError,
     AdyenAPIInvalidFormat,
     AdyenAPIInvalidAmount,
-)
+    AdyenEndpointInvalidFormat)
 from . import settings
 
 
@@ -87,7 +87,7 @@ class AdyenClient(object):
         self.skin_code = skin_code
         self.psp_list = []
         self.app_name = app_name
-        self.LIB_VERSION = "1.3.0"
+        self.LIB_VERSION = "1.4.0"
         self.USER_AGENT_SUFFIX = "adyen-python-api-library/"
         self.http_init = False
         self.http_force = http_force
@@ -132,12 +132,16 @@ class AdyenClient(object):
             service (str): API service to place request through.
             action (str): the API action to perform.
         """
-        base_uri = settings.ENDPOINT_CHECKOUT_URL.format(platform)
         api_version = settings.API_CHECKOUT_VERSION
-        if self.live_endpoint_prefix is not None:
-            base_uri = settings.ENDPOINT_PROTOCOL + self.live_endpoint_prefix \
-                       + settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX
-
+        base_uri = settings.ENDPOINT_CHECKOUT_URL.format(platform)
+        if self.live_endpoint_prefix is not None and platform == "live":
+            base_uri = settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX.format(
+                self.live_endpoint_prefix)
+        if self.live_endpoint_prefix is not None and platform == "test":
+            errorstring = """Please set your live suffix. You can set it
+                   by running 'settings.
+                   ENDPOINT_CHECKOUT_LIVE_SUFFIX = 'Your live suffix'"""
+            raise AdyenEndpointInvalidFormat(errorstring)
         if action == "paymentsDetails":
             action = "payments/details"
         if action == "paymentsResult":
@@ -415,10 +419,8 @@ class AdyenClient(object):
             errorstring = "'platform' must be the value of 'live' or 'test'"
             raise ValueError(errorstring)
 
-        message = request_data
-
-        if not message.get('merchantAccount'):
-            message['merchantAccount'] = self.merchant_account
+        if not request_data.get('merchantAccount'):
+            request_data['merchantAccount'] = self.merchant_account
 
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
@@ -427,13 +429,14 @@ class AdyenClient(object):
         url = self._determine_checkout_url(platform, service, action)
 
         raw_response, raw_request, status_code, headers = \
-            self.http_client.request(url, json=message,
+            self.http_client.request(url, json=request_data,
                                      xapikey=xapikey, headers=headers,
                                      **kwargs)
 
         # Creates AdyenResponse if request was successful, raises error if not.
         adyen_result = self._handle_response(url, raw_response, raw_request,
-                                             status_code, headers, message)
+                                             status_code, headers,
+                                             request_data)
 
         return adyen_result
 

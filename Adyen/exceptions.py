@@ -25,16 +25,10 @@ class AdyenError(Exception):
 
     def debug(self):
         return ("class: {}\nmessage: {}\nHTTP status_code:{}\nurl: {}"
-                "request: {}\nresponse: {}\nheaders: {}".format(
-                    self.__class__.__name__,
-                    self.message,
-                    self.status_code,
-                    self.url,
-                    self.raw_request,
-                    self.raw_response,
-                    self.headers
-                    )
-                )
+                "request: {}\nresponse: {}\nheaders: {}"
+                .format(self.__class__.__name__, self.message,
+                        self.status_code, self.url, self.raw_request,
+                        self.raw_response, self.headers))
 
 
 class AdyenInvalidRequestError(AdyenError):
@@ -70,4 +64,8 @@ class AdyenAPIInvalidAmount(AdyenAPIResponseError):
 
 
 class AdyenAPIInvalidFormat(AdyenAPIResponseError):
+    pass
+
+
+class AdyenEndpointInvalidFormat(AdyenError):
     pass

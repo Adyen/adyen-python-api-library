@@ -1,26 +1,27 @@
 import Adyen
 import unittest
 from BaseTest import BaseTest
-import pprint
+
+from Adyen.exceptions import AdyenEndpointInvalidFormat
 
 
 class TestCheckout(unittest.TestCase):
-    ady = Adyen.Adyen()
+    adyen = Adyen.Adyen()
 
-    client = ady.client
-    test = BaseTest(ady)
+    client = adyen.client
+    test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
     client.app_name = "appname"
 
     def test_payment_methods_success_mocked(self):
         request = {'merchantAccount': "YourMerchantAccount"}
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "paymentmethods"
-                                                            "-success.json")
-        result = self.ady.checkout.payment_methods(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentmethods"
+                                                              "-success.json")
+        result = self.adyen.checkout.payment_methods(request)
         self.assertEqual("AliPay", result.message['paymentMethods'][0]['name'])
         self.assertEqual("Credit Card",
                          result.message['paymentMethods'][2]['name'])
@@ -29,13 +30,13 @@ class TestCheckout(unittest.TestCase):
 
     def test_payment_methods_error_mocked(self):
         request = {'merchantAccount': "YourMerchantAccount"}
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "paymentmethods-"
-                                                            "error-forbidden"
-                                                            "-403.json")
-        result = self.ady.checkout.payment_methods(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentmethods-"
+                                                              "error-forbidden"
+                                                              "-403.json")
+        result = self.adyen.checkout.payment_methods(request)
         self.assertEqual(403, result.message['status'])
         self.assertEqual("901", result.message['errorCode'])
         self.assertEqual("Invalid Merchant Account", result.message['message'])
@@ -53,12 +54,13 @@ class TestCheckout(unittest.TestCase):
             }, 'merchantAccount': "YourMerchantAccount",
                    'returnUrl': "https://your-company.com/..."}
 
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "payments-success"
-                                                            ".json")
-        result = self.ady.checkout.payments(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "payments"
+                                                              "-success"
+                                                              ".json")
+        result = self.adyen.checkout.payments(request)
         self.assertEqual("8535296650153317", result.message['pspReference'])
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertEqual("8/2018",
@@ -78,13 +80,14 @@ class TestCheckout(unittest.TestCase):
             }, 'merchantAccount': "YourMerchantAccount",
                    'returnUrl': "https://your-company.com/..."}
 
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "payments-error"
-                                                            "-invalid-data-422"
-                                                            ".json")
-        result = self.ady.checkout.payments(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "payments-error"
+                                                              "-invalid"
+                                                              "-data-422"
+                                                              ".json")
+        result = self.adyen.checkout.payments(request)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("130", result.message['errorCode'])
         self.assertEqual("Reference Missing", result.message['message'])
@@ -95,12 +98,12 @@ class TestCheckout(unittest.TestCase):
             "MD": "sdfsdfsdf...",
             "PaRes": "sdkfhskdjfsdf..."
         }}
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "paymentsdetails"
-                                                            "-success.json")
-        result = self.ady.checkout.payments_details(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsdetails"
+                                                              "-success.json")
+        result = self.adyen.checkout.payments_details(request)
         self.assertEqual("8515232733321252", result.message['pspReference'])
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertEqual("true",
@@ -113,13 +116,13 @@ class TestCheckout(unittest.TestCase):
             "MD": "sdfsdfsdf...",
             "PaRes": "sdkfhskdjfsdf..."
         }}
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "paymentsdetails"
-                                                            "-error-invalid-"
-                                                            "data-422.json")
-        result = self.ady.checkout.payments_details(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsdetails"
+                                                              "-error-invalid-"
+                                                              "data-422.json")
+        result = self.adyen.checkout.payments_details(request)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("101", result.message['errorCode'])
         self.assertEqual("Invalid card number", result.message['message'])
@@ -136,12 +139,12 @@ class TestCheckout(unittest.TestCase):
                    "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                    'amount': {"value": "17408", "currency": "EUR"}}
 
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "paymentsession"
-                                                            "-success.json")
-        result = self.ady.checkout.payment_session(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsession"
+                                                              "-success.json")
+        result = self.adyen.checkout.payment_session(request)
         self.assertIsNotNone(result.message['paymentSession'])
 
     def test_payments_session_error_mocked(self):
@@ -155,13 +158,13 @@ class TestCheckout(unittest.TestCase):
                    "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                    'amount': {"value": "17408", "currency": "EUR"}}
 
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "paymentsession"
-                                                            "-error-invalid-"
-                                                            "data-422.json")
-        result = self.ady.checkout.payment_session(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsession"
+                                                              "-error-invalid-"
+                                                              "data-422.json")
+        result = self.adyen.checkout.payment_session(request)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_012", result.message['errorCode'])
         self.assertEqual("The provided SDK token could not be parsed.",
@@ -170,40 +173,26 @@ class TestCheckout(unittest.TestCase):
 
     def test_payments_result_success_mocked(self):
         request = {"payload": "VALUE_YOU_GET_FROM_CHECKOUT_SDK"}
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "paymentsresult"
-                                                            "-success.json")
-        result = self.ady.checkout.payment_result(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsresult"
+                                                              "-success.json")
+        result = self.adyen.checkout.payment_result(request)
         self.assertEqual("8535253563623704", result.message['pspReference'])
         self.assertEqual("Authorised", result.message['resultCode'])
 
     def test_payments_result_error_mocked(self):
         request = {"payload": "VALUE_YOU_GET_FROM_CHECKOUT_SDK"}
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "paymentsresult"
-                                                            "-error-invalid-"
-                                                            "data-payload-"
-                                                            "422.json")
-        result = self.ady.checkout.payment_result(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsresult"
+                                                              "-error-invalid-"
+                                                              "data-payload-"
+                                                              "422.json")
+        result = self.adyen.checkout.payment_result(request)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
         self.assertEqual("validation", result.message['errorType'])
-
-    def test_checkout_api_url(self):
-        url = self.ady.client._determine_checkout_url("live", "",
-                                                      "paymentsDetails")
-        self.assertEqual(url, "https://checkout-live.adyen.com"
-                              "/v40/payments/details")
-
-    def test_checkout_api_url_custom(self):
-        self.ady.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
-        url = self.ady.client._determine_checkout_url("live", "",
-                                                      "payments")
-
-        self.assertEqual(url, "https://1797a841fbb37ca7-AdyenDemo-checkout-"
-                              "live.adyenpayments.com/checkout/v40/payments")
