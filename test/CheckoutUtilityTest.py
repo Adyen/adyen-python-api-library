@@ -2,6 +2,8 @@ import Adyen
 import unittest
 from BaseTest import BaseTest
 
+from Adyen import settings
+
 
 class TestCheckoutUtility(unittest.TestCase):
     ady = Adyen.Adyen()
@@ -20,6 +22,7 @@ class TestCheckoutUtility(unittest.TestCase):
                 "https://www.your-domain3.com"
             }
         }
+
         self.ady.client = self.test.create_client_from_file(200, request,
                                                             "test/mocks/"
                                                             "checkoututility/"

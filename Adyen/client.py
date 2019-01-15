@@ -105,8 +105,10 @@ class AdyenClient(object):
         base_uri = settings.BASE_PAL_URL.format(platform)
         if service == "Recurring":
             api_version = settings.API_RECURRING_VERSION
-        else:
+        elif service == "Payout":
             api_version = settings.API_PAYOUT_VERSION
+        else:
+            api_version = settings.API_PAYMENT_VERSION
         return '/'.join([base_uri, service, api_version, action])
 
     def _determine_hpp_url(self, platform, action):

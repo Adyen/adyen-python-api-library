@@ -5,13 +5,9 @@ ENDPOINT_CHECKOUT_LIVE_SUFFIX = "https://{}-checkout-live" \
                                 ".adyenpayments.com/checkout"
 API_CHECKOUT_VERSION = "v40"
 API_CHECKOUT_UTILITY_VERSION = "v1"
-API_PAYOUT_VERSION = "v30"
 API_RECURRING_VERSION = "v25"
+API_PAYMENT_VERSION = "v30"
+API_PAYOUT_VERSION = "v30"
 
-
-@property
-def API_VERSION():
-    import warnings
-    warnings.warn("this constant is deprecated use API_PAYOUT_VERSION",
-                  DeprecationWarning)
-    return "v30"
+# Deprecated
+API_VERSION = "v30"
