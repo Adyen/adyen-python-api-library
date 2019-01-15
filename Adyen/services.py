@@ -312,35 +312,29 @@ class AdyenCheckoutApi(AdyenServiceBase):
                         'merchantAccount must contain the merchant account'
                         ' when retrieving payment methods.')
 
-            return self.client.call_checkout_api(request, self.service,
-                                                 action, **kwargs)
+            return self.client.call_checkout_api(request, action, **kwargs)
 
     def payments(self, request="", **kwargs):
         action = "payments"
         if validation.check_in(request, action):
-            return self.client.call_checkout_api(request, self.service,
-                                                 action, **kwargs)
+            return self.client.call_checkout_api(request, action, **kwargs)
 
     def payments_details(self, request="", **kwargs):
         action = "paymentsDetails"
         if validation.check_in(request, action):
-            return self.client.call_checkout_api(request, self.service,
-                                                 action, **kwargs)
+            return self.client.call_checkout_api(request, action, **kwargs)
 
     def payment_session(self, request="", **kwargs):
         action = "paymentSession"
         if validation.check_in(request, action):
-            return self.client.call_checkout_api(request, self.service,
-                                                 action, **kwargs)
+            return self.client.call_checkout_api(request, action, **kwargs)
 
     def payment_result(self, request="", **kwargs):
         action = "paymentsResult"
         if validation.check_in(request, action):
-            return self.client.call_checkout_api(request, self.service, action,
-                                                 **kwargs)
+            return self.client.call_checkout_api(request, action, **kwargs)
 
     def origin_keys(self, request="", **kwargs):
         action = "originKeys"
         if validation.check_in(request, action):
-            return self.client.call_checkout_api(request, self.service,
-                                                 action, **kwargs)
+            return self.client.call_checkout_api(request, action, **kwargs)

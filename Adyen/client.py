@@ -123,21 +123,21 @@ class AdyenClient(object):
         result = '/'.join([base_uri, service])
         return result
 
-    def _determine_checkout_url(self, platform, service, action):
+    def _determine_checkout_url(self, platform, action):
         """This returns the Adyen API endpoint based on the provided platform,
         service and action.
 
         Args:
             platform (str): Adyen platform, ie 'live' or 'test'.
-            service (str): API service to place request through.
             action (str): the API action to perform.
         """
         api_version = settings.API_CHECKOUT_VERSION
-        base_uri = settings.ENDPOINT_CHECKOUT_URL.format(platform)
-        if self.live_endpoint_prefix is not None and platform == "live":
+        if platform == "test":
+            base_uri = settings.ENDPOINT_CHECKOUT_TEST
+        elif self.live_endpoint_prefix is not None and platform == "live":
             base_uri = settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX.format(
                 self.live_endpoint_prefix)
-        if self.live_endpoint_prefix is not None and platform == "test":
+        elif self.live_endpoint_prefix is None and platform == "live":
             errorstring = """Please set your live suffix. You can set it
                    by running 'settings.
                    ENDPOINT_CHECKOUT_LIVE_SUFFIX = 'Your live suffix'"""
@@ -373,7 +373,7 @@ class AdyenClient(object):
                                              status_code, headers, message)
         return adyen_result
 
-    def call_checkout_api(self, request_data, service, action, **kwargs):
+    def call_checkout_api(self, request_data, action, **kwargs):
         """This will call the checkout adyen api. xapi key merchant_account,
         and platform are pulled from root module level and or self object.
         AdyenResult will be returned on 200 response. Otherwise, an exception
@@ -426,7 +426,7 @@ class AdyenClient(object):
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
 
-        url = self._determine_checkout_url(platform, service, action)
+        url = self._determine_checkout_url(platform, action)
 
         raw_response, raw_request, status_code, headers = \
             self.http_client.request(url, json=request_data,
