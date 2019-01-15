@@ -1,7 +1,6 @@
 import Adyen
 import unittest
 from BaseTest import BaseTest
-
 from Adyen.exceptions import AdyenEndpointInvalidFormat
 
 
@@ -21,7 +20,6 @@ class TestDetermineUrl(unittest.TestCase):
                               "live.adyenpayments.com/checkout/v40/payments")
 
     def test_checkout_api_url(self):
-
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_checkout_url("test",
                                                         "paymentsDetails")
@@ -47,5 +45,4 @@ class TestDetermineUrl(unittest.TestCase):
         try:
             result = self.adyen.checkout.payments(request)
         except AdyenEndpointInvalidFormat as error:
-            print("the error" + str(error.__class__.__name__))
-            self.assertIsNotNone("dfasdf")
+            self.assertIsNotNone(error)

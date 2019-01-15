@@ -2,8 +2,6 @@ import Adyen
 import unittest
 from BaseTest import BaseTest
 
-from Adyen.exceptions import AdyenEndpointInvalidFormat
-
 
 class TestCheckout(unittest.TestCase):
     adyen = Adyen.Adyen()

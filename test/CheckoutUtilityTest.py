@@ -1,7 +1,6 @@
 import Adyen
 import unittest
 from BaseTest import BaseTest
-import pprint
 
 
 class TestCheckoutUtility(unittest.TestCase):
