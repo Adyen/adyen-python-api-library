@@ -4,10 +4,10 @@ from BaseTest import BaseTest
 
 
 class TestPayments(unittest.TestCase):
-    ady = Adyen.Adyen()
+    adyen = Adyen.Adyen()
 
-    client = ady.client
-    test = BaseTest(ady)
+    client = adyen.client
+    test = BaseTest(adyen)
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
@@ -25,11 +25,12 @@ class TestPayments(unittest.TestCase):
             "cvc": "737",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
-                                                            'authorise-success'
-                                                            '.json')
-        result = self.ady.payment.authorise(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              'test/mocks/'
+                                                              'authorise'
+                                                              '-success'
+                                                              '.json')
+        result = self.adyen.payment.authorise(request)
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertEqual("8/2018",
                          result.message['additionalData']['expiryDate'])
@@ -64,13 +65,13 @@ class TestPayments(unittest.TestCase):
             "cvc": "737",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(403, request,
-                                                            'test/mocks/'
-                                                            'authorise-error'
-                                                            '-010'
-                                                            '.json')
+        self.adyen.client = self.test.create_client_from_file(403, request,
+                                                              'test/mocks/'
+                                                              'authorise-error'
+                                                              '-010'
+                                                              '.json')
         self.assertRaises(Adyen.AdyenAPIInvalidPermission,
-                          self.ady.payment.authorise, request)
+                          self.adyen.payment.authorise, request)
 
     def test_authorise_error_cvc_declined_mocked(self):
         request = {}
@@ -83,12 +84,13 @@ class TestPayments(unittest.TestCase):
             "cvc": "787",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
-                                                            'authorise-error-'
-                                                            'cvc-declined'
-                                                            '.json')
-        result = self.ady.payment.authorise(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              'test/mocks/'
+                                                              'authorise'
+                                                              '-error-'
+                                                              'cvc-declined'
+                                                              '.json')
+        result = self.adyen.payment.authorise(request)
         self.assertEqual("Refused", result.message['resultCode'])
 
     def test_authorise_success_3d_mocked(self):
@@ -107,11 +109,12 @@ class TestPayments(unittest.TestCase):
             "userAgent": "YourUserAgent",
             "acceptHeader": "YourAcceptHeader"
         }
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
-                                                            'authorise-success'
-                                                            '-3d.json')
-        result = self.ady.payment.authorise(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              'test/mocks/'
+                                                              'authorise'
+                                                              '-success'
+                                                              '-3d.json')
+        result = self.adyen.payment.authorise(request)
         self.assertEqual("RedirectShopper", result.message['resultCode'])
         self.assertIsNotNone(result.message['md'])
         self.assertIsNotNone(result.message['issuerUrl'])
@@ -126,11 +129,11 @@ class TestPayments(unittest.TestCase):
             "userAgent": "YourUserAgent",
             "acceptHeader": "YourAcceptHeader"
         }
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
-                                                            'authorise3d-'
-                                                            'success.json')
-        result = self.ady.payment.authorise3d(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              'test/mocks/'
+                                                              'authorise3d-'
+                                                              'success.json')
+        result = self.adyen.payment.authorise3d(request)
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertIsNotNone(result.message['pspReference'])
 
@@ -142,11 +145,12 @@ class TestPayments(unittest.TestCase):
         request['additionalData'] = {
             "card.encrypted.json": "YourCSEToken"
         }
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
-                                                            'authorise-success'
-                                                            '-cse.json')
-        result = self.ady.payment.authorise(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              'test/mocks/'
+                                                              'authorise'
+                                                              '-success'
+                                                              '-cse.json')
+        result = self.adyen.payment.authorise(request)
         self.assertEqual("Authorised", result.message['resultCode'])
 
     def test_authorise_cse_error_expired_mocked(self):
@@ -158,11 +162,12 @@ class TestPayments(unittest.TestCase):
             "card.encrypted.json": "YourCSEToken"
         }
 
-        self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
-                                                            'authorise-error-'
-                                                            'expired.json')
-        result = self.ady.payment.authorise(request)
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              'test/mocks/'
+                                                              'authorise'
+                                                              '-error-'
+                                                              'expired.json')
+        result = self.adyen.payment.authorise(request)
         self.assertEqual("Refused", result.message['resultCode'])
         self.assertEqual("DECLINED Expiry Incorrect",
                          result.message['additionalData']['refusalReasonRaw'])
@@ -179,16 +184,17 @@ class TestPayments(unittest.TestCase):
             "cvc": "787",
             "holderName": "John Doe"
         }
-        self.ady.client = self.test.create_client_from_file(401, request,
-                                                            'test/mocks/'
-                                                            'authorise-error-'
-                                                            '010.json')
+        self.adyen.client = self.test.create_client_from_file(401, request,
+                                                              'test/mocks/'
+                                                              'authorise'
+                                                              '-error-'
+                                                              '010.json')
         self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError,
                                 "Unable to authenticate with Adyen's Servers."
                                 " Please verify the credentials set with the"
                                 " Adyen base class. Please reach out to your"
                                 " Adyen Admin if the problem persists",
-                                self.ady.payment.authorise, request)
+                                self.adyen.payment.authorise, request)
 
 
 TestPayments.client.http_force = "requests"

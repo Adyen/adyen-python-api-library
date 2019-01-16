@@ -17,6 +17,17 @@ actions['capture'] = ["modificationAmount", "originalReference"]
 actions['refund'] = ["modificationAmount", "originalReference"]
 actions['cancelOrRefund'] = ["originalReference"]
 
+actions['paymentMethods'] = ["merchantAccount"]
+actions['payments'] = ["amount", "reference", "paymentMethod",
+                       "merchantAccount", "returnUrl"]
+actions['paymentsDetails'] = ["paymentData", "details"]
+actions['paymentSession'] = ["amount", "reference", "shopperReference",
+                             "channel", "returnUrl", "countryCode",
+                             "shopperLocale", "sessionValidity",
+                             "merchantAccount"]
+actions['paymentsResult'] = ["payload"]
+actions['originKeys'] = ["originDomains"]
+
 payout_required_fields = {
     'confirmThirdParty': (
         'merchantAccount',

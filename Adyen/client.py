@@ -15,7 +15,7 @@ from .exceptions import (
     AdyenInvalidRequestError,
     AdyenAPIInvalidFormat,
     AdyenAPIInvalidAmount,
-)
+    AdyenEndpointInvalidFormat)
 from . import settings
 
 
@@ -66,15 +66,16 @@ class AdyenClient(object):
         hmac (str, optional): Hmac key that is used for signature calculation.
     """
 
-    def __init__(self, username=None, password=None,
+    def __init__(self, username=None, password=None, xapikey=None,
                  review_payout_username=None, review_payout_password=None,
                  store_payout_username=None, store_payout_password=None,
                  platform="test", merchant_account=None,
                  merchant_specific_url=None, skin_code=None,
                  hmac=None, app_name=None,
-                 http_force=None):
+                 http_force=None, live_endpoint_prefix=None):
         self.username = username
         self.password = password
+        self.xapikey = xapikey
         self.review_payout_username = review_payout_username
         self.review_payout_password = review_payout_password
         self.store_payout_username = store_payout_username
@@ -86,10 +87,11 @@ class AdyenClient(object):
         self.skin_code = skin_code
         self.psp_list = []
         self.app_name = app_name
-        self.LIB_VERSION = "1.3.0"
+        self.LIB_VERSION = "1.4.0"
         self.USER_AGENT_SUFFIX = "adyen-python-api-library/"
         self.http_init = False
         self.http_force = http_force
+        self.live_endpoint_prefix = live_endpoint_prefix
 
     def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
@@ -103,8 +105,10 @@ class AdyenClient(object):
         base_uri = settings.BASE_PAL_URL.format(platform)
         if service == "Recurring":
             api_version = settings.API_RECURRING_VERSION
+        elif service == "Payout":
+            api_version = settings.API_PAYOUT_VERSION
         else:
-            api_version = settings.API_VERSION
+            api_version = settings.API_PAYMENT_VERSION
         return '/'.join([base_uri, service, api_version, action])
 
     def _determine_hpp_url(self, platform, action):
@@ -120,6 +124,34 @@ class AdyenClient(object):
         service = action + '.shtml'
         result = '/'.join([base_uri, service])
         return result
+
+    def _determine_checkout_url(self, platform, action):
+        """This returns the Adyen API endpoint based on the provided platform,
+        service and action.
+
+        Args:
+            platform (str): Adyen platform, ie 'live' or 'test'.
+            action (str): the API action to perform.
+        """
+        api_version = settings.API_CHECKOUT_VERSION
+        if platform == "test":
+            base_uri = settings.ENDPOINT_CHECKOUT_TEST
+        elif self.live_endpoint_prefix is not None and platform == "live":
+            base_uri = settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX.format(
+                self.live_endpoint_prefix)
+        elif self.live_endpoint_prefix is None and platform == "live":
+            errorstring = """Please set your live suffix. You can set it
+                   by running 'settings.
+                   ENDPOINT_CHECKOUT_LIVE_SUFFIX = 'Your live suffix'"""
+            raise AdyenEndpointInvalidFormat(errorstring)
+        if action == "paymentsDetails":
+            action = "payments/details"
+        if action == "paymentsResult":
+            action = "payments/result"
+        if action == "originKeys":
+            api_version = settings.API_CHECKOUT_UTILITY_VERSION
+
+        return '/'.join([base_uri, api_version, action])
 
     def _review_payout_username(self, **kwargs):
         if 'username' in kwargs:
@@ -190,35 +222,47 @@ class AdyenClient(object):
 
         # username at self object has highest priority. fallback to root module
         # and ensure that it is set.
+        if self.xapikey:
+            xapikey = self.xapikey
+        elif 'xapikey' in kwargs:
+            xapikey = kwargs.pop("xapikey")
+
         if self.username:
             username = self.username
         elif 'username' in kwargs:
             username = kwargs.pop("username")
         elif service == "Payout":
-            if any(substring in action for substring in ["store", "submit"]):
+            if any(substring in action for substring in
+                   ["store", "submit"]):
                 username = self._store_payout_username(**kwargs)
             else:
                 username = self._review_payout_username(**kwargs)
         if not username:
             errorstring = """Please set your webservice username.
-             You can do this by running 'Adyen.username = 'Your username'"""
+              You can do this by running
+              'Adyen.username = 'Your username'"""
             raise AdyenInvalidRequestError(errorstring)
-
-        # password at self object has highest priority. fallback to root module
-        # and ensure that it is set.
+            # password at self object has highest priority.
+            # fallback to root module
+            # and ensure that it is set.
         if self.password:
             password = self.password
         elif 'password' in kwargs:
             password = kwargs.pop("password")
         elif service == "Payout":
-            if any(substring in action for substring in ["store", "submit"]):
+            if any(substring in action for substring in
+                   ["store", "submit"]):
                 password = self._store_payout_pass(**kwargs)
             else:
                 password = self._review_payout_pass(**kwargs)
         if not password:
             errorstring = """Please set your webservice password.
-             You can do this by running 'Adyen.password = 'Your password'"""
+              You can do this by running
+              'Adyen.password = 'Your password'"""
             raise AdyenInvalidRequestError(errorstring)
+            # xapikey at self object has highest priority.
+            # fallback to root module
+            # and ensure that it is set.
 
         # platform at self object has highest priority. fallback to root module
         # and ensure that it is set to either 'live' or 'test'.
@@ -331,6 +375,73 @@ class AdyenClient(object):
                                              status_code, headers, message)
         return adyen_result
 
+    def call_checkout_api(self, request_data, action, **kwargs):
+        """This will call the checkout adyen api. xapi key merchant_account,
+        and platform are pulled from root module level and or self object.
+        AdyenResult will be returned on 200 response. Otherwise, an exception
+        is raised.
+
+        Args:
+            request_data (dict): The dictionary of the request to place. This
+                should be in the structure of the Adyen API.
+                https://docs.adyen.com/developers/checkout/api-integration
+            service (str): This is the API service to be called.
+            action (str): The specific action of the API service to be called
+        """
+        if not self.http_init:
+            self.http_client = HTTPClient(self.app_name,
+                                          self.USER_AGENT_SUFFIX,
+                                          self.LIB_VERSION,
+                                          self.http_force)
+            self.http_init = True
+
+        # xapi at self object has highest priority. fallback to root module
+        # and ensure that it is set.
+        if self.xapikey:
+            xapikey = self.xapikey
+        elif 'xapikey' in kwargs:
+            xapikey = kwargs.pop("xapikey")
+
+        if not xapikey:
+            errorstring = """Please set your webservice xapikey.
+             You can do this by running 'Adyen.xapikey = 'Your xapikey'"""
+            raise AdyenInvalidRequestError(errorstring)
+
+        # platform at self object has highest priority. fallback to root module
+        # and ensure that it is set to either 'live' or 'test'.
+        if self.platform:
+            platform = self.platform
+        elif 'platform' in kwargs:
+            platform = kwargs.pop('platform')
+
+        if not isinstance(platform, str):
+            errorstring = "'platform' value must be type of string"
+            raise TypeError(errorstring)
+        elif platform.lower() not in ['live', 'test']:
+            errorstring = "'platform' must be the value of 'live' or 'test'"
+            raise ValueError(errorstring)
+
+        if not request_data.get('merchantAccount'):
+            request_data['merchantAccount'] = self.merchant_account
+
+        # Adyen requires this header to be set and uses the combination of
+        # merchant account and merchant reference to determine uniqueness.
+        headers = {}
+
+        url = self._determine_checkout_url(platform, action)
+
+        raw_response, raw_request, status_code, headers = \
+            self.http_client.request(url, json=request_data,
+                                     xapikey=xapikey, headers=headers,
+                                     **kwargs)
+
+        # Creates AdyenResponse if request was successful, raises error if not.
+        adyen_result = self._handle_response(url, raw_response, raw_request,
+                                             status_code, headers,
+                                             request_data)
+
+        return adyen_result
+
     def hpp_payment(self, request_data, action, hmac_key="", **kwargs):
 
         if not self.http_init:
@@ -386,7 +497,6 @@ class AdyenClient(object):
         Returns:
             AdyenResult: Result object if successful.
         """
-
         if status_code != 200:
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
@@ -405,9 +515,10 @@ class AdyenClient(object):
                         "Unexpected error while communicating with Adyen."
                         " Received the response data:'{}', HTTP Code:'{}'. "
                         "Please reach out to support@adyen.com if the "
-                        "problem persists with the psp:{}"
-                        .format(raw_response, status_code,
-                                headers.get('pspReference')),
+                        "problem persists with the psp:{}".format(
+                            raw_response,
+                            status_code,
+                            headers.get('pspReference')),
                         status_code=status_code,
                         raw_request=raw_request,
                         raw_response=raw_response,
