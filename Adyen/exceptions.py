@@ -9,7 +9,8 @@ class AdyenError(Exception):
                  url="",
                  psp="",
                  headers="",
-                 status_code=""):
+                 status_code="",
+                 error_code=""):
         self.message = message
         self.raw_request = raw_request
         self.raw_response = raw_response
@@ -17,22 +18,17 @@ class AdyenError(Exception):
         self.psp = psp
         self.headers = headers
         self.status_code = status_code
+        self.error_code = error_code
 
     def __str__(self):
         return repr("{}:{}".format(self.__class__.__name__, self.message))
 
     def debug(self):
         return ("class: {}\nmessage: {}\nHTTP status_code:{}\nurl: {}"
-                "request: {}\nresponse: {}\nheaders: {}".format(
-                    self.__class__.__name__,
-                    self.message,
-                    self.status_code,
-                    self.url,
-                    self.raw_request,
-                    self.raw_response,
-                    self.headers
-                    )
-                )
+                "request: {}\nresponse: {}\nheaders: {}"
+                .format(self.__class__.__name__, self.message,
+                        self.status_code, self.url, self.raw_request,
+                        self.raw_response, self.headers))
 
 
 class AdyenInvalidRequestError(AdyenError):
@@ -42,13 +38,9 @@ class AdyenInvalidRequestError(AdyenError):
 class AdyenAPIResponseError(AdyenError):
     def __init__(self,
                  message,
-                 result="",
-                 error_code="",
                  *args,
                  **kwargs):
         super(AdyenAPIResponseError, self).__init__(message, *args, **kwargs)
-        self.error_code = error_code
-        self.result = result
 
 
 class AdyenAPIAuthenticationError(AdyenAPIResponseError):
@@ -72,4 +64,8 @@ class AdyenAPIInvalidAmount(AdyenAPIResponseError):
 
 
 class AdyenAPIInvalidFormat(AdyenAPIResponseError):
+    pass
+
+
+class AdyenEndpointInvalidFormat(AdyenError):
     pass
