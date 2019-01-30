@@ -87,8 +87,8 @@ class AdyenClient(object):
         self.skin_code = skin_code
         self.psp_list = []
         self.app_name = app_name
-        self.LIB_VERSION = "1.4.0"
-        self.USER_AGENT_SUFFIX = "adyen-python-api-library/"
+        self.LIB_VERSION = settings.LIB_VERSION
+        self.USER_AGENT_SUFFIX = settings.LIB_NAME
         self.http_init = False
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
@@ -282,7 +282,13 @@ class AdyenClient(object):
 
         if not message.get('merchantAccount'):
             message['merchantAccount'] = self.merchant_account
-
+        # Add application info
+        request_data['applicationInfo'] = {
+            "adyenLibrary": {
+                "name": settings.LIB_NAME,
+                "version": settings.LIB_VERSION
+            }
+        }
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
@@ -424,6 +430,12 @@ class AdyenClient(object):
         if not request_data.get('merchantAccount'):
             request_data['merchantAccount'] = self.merchant_account
 
+        request_data['applicationInfo'] = {
+            "adyenLibrary": {
+                "name": settings.LIB_NAME,
+                "version": settings.LIB_VERSION
+            }
+        }
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
