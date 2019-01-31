@@ -88,7 +88,7 @@ class AdyenClient(object):
         self.psp_list = []
         self.app_name = app_name
         self.LIB_VERSION = settings.LIB_VERSION
-        self.USER_AGENT_SUFFIX = settings.LIB_NAME
+        self.USER_AGENT_SUFFIX = settings.LIB_NAME + "/"
         self.http_init = False
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
