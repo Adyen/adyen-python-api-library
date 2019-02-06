@@ -45,8 +45,8 @@ ady.payment.client.app_name = "your app name"
 ```
 
 ## Documentation
-https://docs.adyen.com/developers/development-resources/libraries
-https://docs.adyen.com/developers/checkout/api-integration
+* https://docs.adyen.com/developers/development-resources/libraries
+* https://docs.adyen.com/developers/checkout/api-integration
 
 ## Licence
 MIT license see LICENSE
