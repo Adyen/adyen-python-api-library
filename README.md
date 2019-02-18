@@ -6,6 +6,16 @@
 This library simplifies working with Adyen APIs and allows you to integrate Adyen
 payments within any Python application.
 
+## Integration
+The Library supports all APIs under the following services:
+
+* checkout
+* checkout utility
+* payments
+* modifications
+* payouts
+* recurring
+
 ## Requirements
 
 - Python 2.7 or 3.6
@@ -35,9 +45,11 @@ ady.payment.client.app_name = "your app name"
 ```
 
 ## Documentation
+* https://docs.adyen.com/developers/development-resources/libraries
+* https://docs.adyen.com/developers/checkout/api-integration
 
-Follow the rest of our guides from the [documentation](http://adyen.github.io/adyen-python-api-library/index.html) on how to use this library.
+## Support
+If you have any problems, questions or suggestions, create an issue here or send your inquiry to support@adyen.com.
 
 ## Licence
-
 MIT license see LICENSE
