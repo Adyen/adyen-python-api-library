@@ -265,7 +265,7 @@ class HTTPClient(object):
             url_request.add_header("Authorization",
                                    "Basic %s" % basic_authstring)
         elif xapikey:
-            headers["X-API-KEY] = xapikey
+            headers["X-API-KEY"] = xapikey
 
         # Adding the headers to the request.
         for key, value in headers.items():
