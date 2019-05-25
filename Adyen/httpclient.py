@@ -104,7 +104,7 @@ class HTTPClient(object):
         # Add User-Agent header to request so that the
         # request can be identified as coming from the Adyen Python library.
         headers['User-Agent'] = self.user_agent
-  
+
         if username and password:
             curl.setopt(curl.USERPWD, '%s:%s' % (username, password))
         elif xapikey:
@@ -127,7 +127,7 @@ class HTTPClient(object):
         # Set the request body.
         raw_request = json_lib.dumps(json) if json else urlencode(data)
         curl.setopt(curl.POSTFIELDS, raw_request)
-            
+
         curl.setopt(curl.TIMEOUT, timeout)
         curl.perform()
 
