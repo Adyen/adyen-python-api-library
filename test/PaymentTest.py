@@ -4,14 +4,6 @@ from BaseTest import BaseTest
 
 
 class TestPayments(unittest.TestCase):
-    adyen = Adyen.Adyen()
-
-    client = adyen.client
-    test = BaseTest(adyen)
-    client.username = "YourWSUser"
-    client.password = "YourWSPassword"
-    client.platform = "test"
-    client.app_name = "appname"
 
     def test_authorise_success_mocked(self):
         request = {}
@@ -197,14 +189,40 @@ class TestPayments(unittest.TestCase):
                                 self.adyen.payment.authorise, request)
 
 
-TestPayments.client.http_force = "requests"
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPayments)
-unittest.TextTestRunner(verbosity=2).run(suite)
-TestPayments.client.http_force = "pycurl"
-TestPayments.client.http_init = False
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPayments)
-unittest.TextTestRunner(verbosity=2).run(suite)
-TestPayments.client.http_force = "other"
-TestPayments.client.http_init = False
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPayments)
-unittest.TextTestRunner(verbosity=2).run(suite)
+class BasicAuth(TestPayments):
+    adyen = Adyen.Adyen()
+
+    client = adyen.client
+    test = BaseTest(adyen)
+    client.username = "YourWSUser"
+    client.password = "YourWSPassword"
+    client.platform = "test"
+    client.app_name = "appname"
+
+
+class XApiKey(TestPayments):
+    adyen = Adyen.Adyen()
+
+    client = adyen.client
+    test = BaseTest(adyen)
+    client.platform = "test"
+    client.app_name = "appname"
+    client.xapikey = "YourWSXApiKey"
+
+
+def test_with(auth):
+    auth.client.http_force = "requests"
+    suite = unittest.TestLoader().loadTestsFromTestCase(auth)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+    auth.client.http_force = "pycurl"
+    auth.client.http_init = False
+    suite = unittest.TestLoader().loadTestsFromTestCase(auth)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+    auth.client.http_force = "other"
+    auth.client.http_init = False
+    suite = unittest.TestLoader().loadTestsFromTestCase(auth)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
+
+test_with(BasicAuth)
+test_with(XApiKey)
