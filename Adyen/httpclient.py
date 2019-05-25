@@ -203,7 +203,7 @@ class HTTPClient(object):
                      data=None,
                      username="",
                      password="",
-                     xapikey=""
+                     xapikey="",
                      headers={},
                      timeout=30):
 
