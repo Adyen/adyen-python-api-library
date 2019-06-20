@@ -71,7 +71,7 @@ class AdyenClient(object):
                  store_payout_username=None, store_payout_password=None,
                  platform="test", merchant_account=None,
                  merchant_specific_url=None, skin_code=None,
-                 hmac=None, app_name=None,
+                 hmac=None, app_name="",
                  http_force=None, live_endpoint_prefix=None):
         self.username = username
         self.password = password
