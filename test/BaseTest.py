@@ -1,4 +1,8 @@
-import mock
+
+try:
+    import mock
+except Exception:
+    from unittest import mock
 import json
 from Adyen import httpclient
 
