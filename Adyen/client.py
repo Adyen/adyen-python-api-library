@@ -410,9 +410,8 @@ class AdyenClient(object):
         if not isinstance(request_data, dict):
             raise AdyenInvalidRequestError("`request_data` must be of type dict.")
 
-        for param in [service, action]:
-            if not isinstance(param, str):
-                raise AdyenInvalidRequestError("'{0}' must be of type 'str'".format(param))
+        if not isinstance(action, str):
+            raise AdyenInvalidRequestError("'{0}' must be of type 'str'".format(action))
 
         if not self.http_init:
             self.http_client = HTTPClient(self.app_name,
