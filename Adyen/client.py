@@ -213,6 +213,13 @@ class AdyenClient(object):
             AdyenResult: The AdyenResult is returned when a request was
                 succesful.
         """
+        if not isinstance(request_data, dict):
+            raise AdyenInvalidRequestError("'request_data' must be of type 'dict'")
+
+        for param in [service, action]:
+            if not isinstance(param, str):
+                raise AdyenInvalidRequestError("'{0}' must be of type 'str'".format(param))
+
         if not self.http_init:
             self.http_client = HTTPClient(self.app_name,
                                           self.USER_AGENT_SUFFIX,
@@ -400,6 +407,13 @@ class AdyenClient(object):
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
         """
+        if not isinstance(request_data, dict):
+            raise AdyenInvalidRequestError("`request_data` must be of type dict.")
+
+        for param in [service, action]:
+            if not isinstance(param, str):
+                raise AdyenInvalidRequestError("'{0}' must be of type 'str'".format(param))
+
         if not self.http_init:
             self.http_client = HTTPClient(self.app_name,
                                           self.USER_AGENT_SUFFIX,
