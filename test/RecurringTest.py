@@ -60,7 +60,7 @@ class TestRecurring(unittest.TestCase):
                                                             'recurring/'
                                                             'disable-error-803'
                                                             '.json')
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPICommunicationError,
             "Unexpected error",
             self.ady.recurring.disable,
