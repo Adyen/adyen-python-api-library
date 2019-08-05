@@ -17,14 +17,14 @@ class TestDetermineUrl(unittest.TestCase):
         url = self.adyen.client._determine_checkout_url("live", "payments")
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
         self.assertEqual(url, "https://1797a841fbb37ca7-AdyenDemo-checkout-"
-                              "live.adyenpayments.com/checkout/v41/payments")
+                              "live.adyenpayments.com/checkout/v49/payments")
 
     def test_checkout_api_url(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_checkout_url("test",
                                                         "paymentsDetails")
         self.assertEqual(url, "https://checkout-test.adyen.com"
-                              "/v41/payments/details")
+                              "/v49/payments/details")
 
     def test_payments_invalid_platform(self):
 
