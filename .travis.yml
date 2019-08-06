@@ -5,7 +5,7 @@ python:
   - "3.6"
 cache: pip
 install:
-  - pip -v install pycurl
+  - pip install --upgrade pip
   - pip install requests pycurl mock coveralls pylint pycodestyle
 script:
   - coverage run -m unittest discover -s test -p '*Test.py'
