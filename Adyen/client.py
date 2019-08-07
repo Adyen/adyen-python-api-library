@@ -28,7 +28,6 @@ class AdyenResult(object):
         psp (str, optional): Psp reference returned by Adyen for a payment.
         raw_request (str, optional): Raw request placed to Adyen.
         raw_response (str, optional): Raw response returned by Adyen.
-
     """
 
     def __init__(self, message=None, status_code=200,
