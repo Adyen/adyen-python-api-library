@@ -1,6 +1,11 @@
 sudo: true
-dist: xenial
 language: python
+dist: xenial
+env:
+  - TESTMODE=fast
+  - COVERAGE=
+  - NUMPYSPEC="--pre --upgrade --timeout=60 -f $PRE_WHEELS numpy"
+  - USE_SDIST=1
 python:
   - "2.7"
   - "3.6"
