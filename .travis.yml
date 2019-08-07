@@ -4,8 +4,6 @@ python:
   - "2.7"
   - "3.6"
 cache: pip
-before_install:
-  - sudo apt-get update
 install:
   - pip install requests pycurl mock coveralls pylint pycodestyle
 script:
