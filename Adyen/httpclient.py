@@ -60,6 +60,7 @@ class HTTPClient(object):
                      data=None,
                      username="",
                      password="",
+                     xapikey="",
                      headers={},
                      timeout=30):
         """This function will POST to the url endpoint using pycurl. returning
@@ -77,6 +78,8 @@ class HTTPClient(object):
                 as part of password.
             password (str, optional): Password for basic auth. Must be included
                 as part of username.
+            xapikey (str, optional):    Adyen API key.  Will be used for auth
+                                        if username and password are absent.
             headers (dict, optional): Key/Value pairs of headers to include
             timeout (int, optional): Default 30. Timeout for the request.
 
@@ -102,6 +105,11 @@ class HTTPClient(object):
         # request can be identified as coming from the Adyen Python library.
         headers['User-Agent'] = self.user_agent
 
+        if username and password:
+            curl.setopt(curl.USERPWD, '%s:%s' % (username, password))
+        elif xapikey:
+            headers["X-API-KEY"] = xapikey
+
         # Convert the header dict to formatted array as pycurl needs.
         if sys.version_info[0] >= 3:
             header_list = ["%s:%s" % (k, v) for k, v in headers.items()]
@@ -119,9 +127,6 @@ class HTTPClient(object):
         # Set the request body.
         raw_request = json_lib.dumps(json) if json else urlencode(data)
         curl.setopt(curl.POSTFIELDS, raw_request)
-
-        if username and password:
-            curl.setopt(curl.USERPWD, '%s:%s' % (username, password))
 
         curl.setopt(curl.TIMEOUT, timeout)
         curl.perform()
@@ -143,7 +148,7 @@ class HTTPClient(object):
                        username="",
                        password="",
                        xapikey="",
-                       headers=None,
+                       headers={},
                        timeout=30):
         """This function will POST to the url endpoint using requests.
         Returning an AdyenResult object on 200 HTTP response.
@@ -160,6 +165,8 @@ class HTTPClient(object):
                 as part of password.
             password (str, optional): Password for basic auth. Must be included
                 as part of username.
+            xapikey (str, optional):    Adyen API key.  Will be used for auth
+                                        if username and password are absent.
             headers (dict, optional): Key/Value pairs of headers to include
             timeout (int, optional): Default 30. Timeout for the request.
 
@@ -169,8 +176,6 @@ class HTTPClient(object):
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
-        if headers is None:
-            headers = {}
 
         # Adding basic auth if username and password provided.
         auth = None
@@ -194,11 +199,12 @@ class HTTPClient(object):
         return request.text, message, request.status_code, request.headers
 
     def _urllib_post(self, url,
-                     json="",
-                     data="",
+                     json=None,
+                     data=None,
                      username="",
                      password="",
-                     headers=None,
+                     xapikey="",
+                     headers={},
                      timeout=30):
 
         """This function will POST to the url endpoint using urllib2. returning
@@ -216,6 +222,8 @@ class HTTPClient(object):
                                         uncluded as part of password.
             password (str, optional):   Password for basic auth. Must be
                                         included as part of username.
+            xapikey (str, optional):    Adyen API key.  Will be used for auth
+                                        if username and password are absent.
             headers (dict, optional):   Key/Value pairs of headers to include
             timeout (int, optional): Default 30. Timeout for the request.
 
@@ -225,8 +233,6 @@ class HTTPClient(object):
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
-        if headers is None:
-            headers = {}
 
         # Store regular dict to return later:
         raw_store = json
@@ -258,6 +264,8 @@ class HTTPClient(object):
                     replace('\n', '')
             url_request.add_header("Authorization",
                                    "Basic %s" % basic_authstring)
+        elif xapikey:
+            headers["X-API-KEY"] = xapikey
 
         # Adding the headers to the request.
         for key, value in headers.items():
@@ -302,6 +310,8 @@ class HTTPClient(object):
                                         uncluded as part of password.
             password (str, optional):   Password for basic auth. Must be
                                         included as part of username.
+            xapikey (str, optional):    Adyen API key.  Will be used for auth
+                                        if username and password are absent.
             headers (dict, optional):   Key/Value pairs of headers to include
         Returns:
             str:    Raw request placed

@@ -71,7 +71,7 @@ class AdyenClient(object):
                  store_payout_username=None, store_payout_password=None,
                  platform="test", merchant_account=None,
                  merchant_specific_url=None, skin_code=None,
-                 hmac=None, app_name=None,
+                 hmac=None, app_name="",
                  http_force=None, live_endpoint_prefix=None):
         self.username = username
         self.password = password
@@ -222,22 +222,25 @@ class AdyenClient(object):
 
         # username at self object has highest priority. fallback to root module
         # and ensure that it is set.
+        xapikey = None
         if self.xapikey:
             xapikey = self.xapikey
         elif 'xapikey' in kwargs:
             xapikey = kwargs.pop("xapikey")
 
+        username = None
         if self.username:
             username = self.username
         elif 'username' in kwargs:
             username = kwargs.pop("username")
-        elif service == "Payout":
+        if service == "Payout":
             if any(substring in action for substring in
                    ["store", "submit"]):
                 username = self._store_payout_username(**kwargs)
             else:
                 username = self._review_payout_username(**kwargs)
-        if not username:
+
+        if not username and not xapikey:
             errorstring = """Please set your webservice username.
               You can do this by running
               'Adyen.username = 'Your username'"""
@@ -245,17 +248,20 @@ class AdyenClient(object):
             # password at self object has highest priority.
             # fallback to root module
             # and ensure that it is set.
-        if self.password:
+
+        password = None
+        if self.password and not xapikey:
             password = self.password
         elif 'password' in kwargs:
             password = kwargs.pop("password")
-        elif service == "Payout":
+        if service == "Payout":
             if any(substring in action for substring in
                    ["store", "submit"]):
                 password = self._store_payout_pass(**kwargs)
             else:
                 password = self._review_payout_pass(**kwargs)
-        if not password:
+
+        if not password and not xapikey:
             errorstring = """Please set your webservice password.
               You can do this by running
               'Adyen.password = 'Your password'"""
