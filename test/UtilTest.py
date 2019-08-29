@@ -26,8 +26,8 @@ class UtilTest(unittest.TestCase):
         hmac_calculation = generate_hpp_sig(request, key)
         hmac_calculation_str = hmac_calculation.decode("utf-8")
         expected_hmac = "cRBVEz3qxJPPDRCUppYhxor5K4Qylr77mlYwii7RL5Q="
-        self.assertTrue(hmac_calculation != "")
-        self.assertEqual(hmac_calculation, expected_hmac)
+        self.assertTrue(hmac_calculation_str != "")
+        self.assertEqual(hmac_calculation_str, expected_hmac)
         request['additionalData'] = {'hmacSignature': hmac_calculation_str}
         hmac_validate = is_valid_hmac(request, key)
         self.assertTrue(hmac_validate)
