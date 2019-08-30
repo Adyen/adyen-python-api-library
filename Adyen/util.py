@@ -42,5 +42,5 @@ def is_valid_hmac(dict_object, hmac_key):
             expected_sign = dict_object['additionalData']['hmacSignature']
             del dict_object['additionalData']
             merchant_sign = generate_hpp_sig(dict_object, hmac_key)
-            merchant_sign_str = str(merchant_sign, "utf-8")
+            merchant_sign_str = merchant_sign.decode("utf-8")
             return merchant_sign_str == expected_sign

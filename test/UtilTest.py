@@ -15,8 +15,8 @@ class UtilTest(unittest.TestCase):
             "originalReference": "originalReference",
             "merchantAccount": "merchantAccount",
             "amount": {
-                "value": 100000,
-                "currency": "EUR"
+                "currency": "EUR",
+                "value": 100000
             },
             "eventCode": "EVENT",
             "Success": "true"
@@ -25,7 +25,7 @@ class UtilTest(unittest.TestCase):
               "B4CBCABDC8AAF103A624C8F6A3EAAB00"
         hmac_calculation = generate_hpp_sig(request, key)
         hmac_calculation_str = hmac_calculation.decode("utf-8")
-        expected_hmac = "cRBVEz3qxJPPDRCUppYhxor5K4Qylr77mlYwii7RL5Q="
+        expected_hmac = "+xK25vgc9XcZFwu7WNLIwqVewyumVsgp+X+C0a2e+DE="
         self.assertTrue(hmac_calculation_str != "")
         self.assertEqual(hmac_calculation_str, expected_hmac)
         request['additionalData'] = {'hmacSignature': hmac_calculation_str}
