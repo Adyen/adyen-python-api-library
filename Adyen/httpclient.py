@@ -180,7 +180,7 @@ class HTTPClient(object):
         """
         if headers is None:
             headers = {}
-        
+
         # Adding basic auth if username and password provided.
         auth = None
         if username and password:
@@ -240,7 +240,7 @@ class HTTPClient(object):
 
         if headers is None:
             headers = {}
-        
+
         # Store regular dict to return later:
         raw_store = json
 
