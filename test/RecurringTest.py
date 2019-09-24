@@ -79,3 +79,18 @@ TestRecurring.client.http_force = "other"
 TestRecurring.client.http_init = False
 suite = unittest.TestLoader().loadTestsFromTestCase(TestRecurring)
 unittest.TextTestRunner(verbosity=2).run(suite)
+# Run All tests using xapi key for auth
+del TestRecurring.username
+del TestRecurring.password
+TestRecurring.xapikey = "YourXApiKey"
+TestRecurring.client.http_force = "requests"
+suite = unittest.TestLoader().loadTestsFromTestCase(TestRecurring)
+unittest.TextTestRunner(verbosity=2).run(suite)
+TestRecurring.client.http_force = "pycurl"
+TestRecurring.client.http_init = False
+suite = unittest.TestLoader().loadTestsFromTestCase(TestRecurring)
+unittest.TextTestRunner(verbosity=2).run(suite)
+TestRecurring.client.http_force = "other"
+TestRecurring.client.http_init = False
+suite = unittest.TestLoader().loadTestsFromTestCase(TestRecurring)
+unittest.TextTestRunner(verbosity=2).run(suite)
