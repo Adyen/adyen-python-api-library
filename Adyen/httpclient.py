@@ -292,6 +292,7 @@ class HTTPClient(object):
                 data="",
                 username="",
                 password="",
+                xapikey="",
                 headers=None,
                 timout=30):
         """This is overridden on module initialization. This function will make
