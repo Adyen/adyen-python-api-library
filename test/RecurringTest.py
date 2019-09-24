@@ -80,8 +80,8 @@ TestRecurring.client.http_init = False
 suite = unittest.TestLoader().loadTestsFromTestCase(TestRecurring)
 unittest.TextTestRunner(verbosity=2).run(suite)
 # Run All tests using xapi key for auth
-del TestRecurring.client.username
-del TestRecurring.client.password
+TestRecurring.client.username = ""
+TestRecurring.client.password = ""
 TestRecurring.client.xapikey = "YourXApiKey"
 TestRecurring.client.http_force = "requests"
 suite = unittest.TestLoader().loadTestsFromTestCase(TestRecurring)
