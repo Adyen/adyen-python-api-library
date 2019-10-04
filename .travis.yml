@@ -7,7 +7,7 @@ cache: pip
 before_install:
   - sudo apt-get install libgnutls28-dev
 install:
-  - pip install requests pycurl mock coveralls pylint pycodestyle
+  - make install
 script:
   - coverage run -m unittest discover -s test -p '*Test.py'
   - pycodestyle -v
