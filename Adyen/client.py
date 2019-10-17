@@ -311,8 +311,9 @@ class AdyenClient(object):
         else:
             raw_response, raw_request, status_code, headers = \
                 self.http_client.request(url, json=message, username=username,
-                                        password=password, headers=headers,
-                                        **kwargs)
+                                         password=password,
+                                         headers=headers,
+                                         **kwargs)
 
         # Creates AdyenResponse if request was successful, raises error if not.
         adyen_result = self._handle_response(url, raw_response, raw_request,
