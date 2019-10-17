@@ -24,7 +24,13 @@ The Library supports all APIs under the following services:
 
 ## Installation
 
-Clone this git repository or use pip: ```pip install Adyen```
+### For development propose
+
+Clone this repository and run ```make install```
+
+### For usage propose
+
+Use pip command: ```pip install Adyen```
 
 ## Usage
 
