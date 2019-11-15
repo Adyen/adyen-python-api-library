@@ -43,7 +43,7 @@ class TestDirectoryLookup(unittest.TestCase):
         request['shopperLocale'] = "nl_NL"
         request['sessionValidity'] = time.strftime('%Y-%m-%dT%H:%M:%SZ')
         self.test.create_client_from_file(200, request,
-                                          'test/mocks/hpp/'
+                                          'mocks/hpp/'
                                           'directoryLookup-success.json')
         result = self.ady.hpp.directory_lookup(request)
         self.assertEqual(8, len(result.message['paymentMethods']))

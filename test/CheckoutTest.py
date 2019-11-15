@@ -15,7 +15,7 @@ class TestCheckout(unittest.TestCase):
     def test_payment_methods_success_mocked(self):
         request = {'merchantAccount': "YourMerchantAccount"}
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "paymentmethods"
                                                               "-success.json")
@@ -29,7 +29,7 @@ class TestCheckout(unittest.TestCase):
     def test_payment_methods_error_mocked(self):
         request = {'merchantAccount': "YourMerchantAccount"}
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "paymentmethods-"
                                                               "error-forbidden"
@@ -53,7 +53,7 @@ class TestCheckout(unittest.TestCase):
                    'returnUrl': "https://your-company.com/..."}
 
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "payments"
                                                               "-success"
@@ -79,7 +79,7 @@ class TestCheckout(unittest.TestCase):
                    'returnUrl': "https://your-company.com/..."}
 
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "payments-error"
                                                               "-invalid"
@@ -97,7 +97,7 @@ class TestCheckout(unittest.TestCase):
             "PaRes": "sdkfhskdjfsdf..."
         }}
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "paymentsdetails"
                                                               "-success.json")
@@ -115,7 +115,7 @@ class TestCheckout(unittest.TestCase):
             "PaRes": "sdkfhskdjfsdf..."
         }}
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "paymentsdetails"
                                                               "-error-invalid-"
@@ -138,7 +138,7 @@ class TestCheckout(unittest.TestCase):
                    'amount': {"value": "17408", "currency": "EUR"}}
 
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "paymentsession"
                                                               "-success.json")
@@ -157,7 +157,7 @@ class TestCheckout(unittest.TestCase):
                    'amount': {"value": "17408", "currency": "EUR"}}
 
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "paymentsession"
                                                               "-error-invalid-"
@@ -172,7 +172,7 @@ class TestCheckout(unittest.TestCase):
     def test_payments_result_success_mocked(self):
         request = {"payload": "VALUE_YOU_GET_FROM_CHECKOUT_SDK"}
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "paymentsresult"
                                                               "-success.json")
@@ -183,7 +183,7 @@ class TestCheckout(unittest.TestCase):
     def test_payments_result_error_mocked(self):
         request = {"payload": "VALUE_YOU_GET_FROM_CHECKOUT_SDK"}
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
+                                                              "mocks/"
                                                               "checkout/"
                                                               "paymentsresult"
                                                               "-error-invalid-"

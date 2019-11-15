@@ -28,7 +28,7 @@ class TestPayments(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-success'
                                                               '.json')
@@ -68,7 +68,7 @@ class TestPayments(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.adyen.client = self.test.create_client_from_file(403, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise-error'
                                                               '-010'
                                                               '.json')
@@ -87,7 +87,7 @@ class TestPayments(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-error-'
                                                               'cvc-declined'
@@ -112,7 +112,7 @@ class TestPayments(unittest.TestCase):
             "acceptHeader": "YourAcceptHeader"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-success'
                                                               '-3d.json')
@@ -132,7 +132,7 @@ class TestPayments(unittest.TestCase):
             "acceptHeader": "YourAcceptHeader"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise3d-'
                                                               'success.json')
         result = self.adyen.payment.authorise3d(request)
@@ -148,7 +148,7 @@ class TestPayments(unittest.TestCase):
             "card.encrypted.json": "YourCSEToken"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-success'
                                                               '-cse.json')
@@ -165,7 +165,7 @@ class TestPayments(unittest.TestCase):
         }
 
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-error-'
                                                               'expired.json')
@@ -187,7 +187,7 @@ class TestPayments(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.adyen.client = self.test.create_client_from_file(401, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-error-'
                                                               '010.json')
@@ -224,7 +224,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-success'
                                                               '.json')
@@ -264,7 +264,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.adyen.client = self.test.create_client_from_file(403, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise-error'
                                                               '-010'
                                                               '.json')
@@ -283,7 +283,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-error-'
                                                               'cvc-declined'
@@ -308,7 +308,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
             "acceptHeader": "YourAcceptHeader"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-success'
                                                               '-3d.json')
@@ -328,7 +328,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
             "acceptHeader": "YourAcceptHeader"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise3d-'
                                                               'success.json')
         result = self.adyen.payment.authorise3d(request)
@@ -344,7 +344,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
             "card.encrypted.json": "YourCSEToken"
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-success'
                                                               '-cse.json')
@@ -361,7 +361,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
         }
 
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-error-'
                                                               'expired.json')
@@ -383,7 +383,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
             "holderName": "John Doe"
         }
         self.adyen.client = self.test.create_client_from_file(401, request,
-                                                              'test/mocks/'
+                                                              'mocks/'
                                                               'authorise'
                                                               '-error-'
                                                               '010.json')

@@ -11,6 +11,7 @@ install:
 script:
   - make coverage
   - pycodestyle -v
+  - pytest
 after_success:
   - coveralls
   - pylint Adyen

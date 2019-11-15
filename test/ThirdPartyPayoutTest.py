@@ -21,7 +21,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request = {}
         request["merchantAccount"] = "YourMerchantAccount"
         request["originalReference"] = "YourReference"
-        resp = 'test/mocks/payout/confirm-success.json'
+        resp = 'mocks/payout/confirm-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.confirm(request)
         self.assertIsNotNone(result.message['pspReference'])
@@ -32,7 +32,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request = {}
         request["merchantAccount"] = "YourMerchantAccount"
         request["originalReference"] = ""
-        resp = 'test/mocks/payout/confirm-missing-reference.json'
+        resp = 'mocks/payout/confirm-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
         self.assertRaisesRegexp(
             Adyen.AdyenAPIValidationError,
@@ -47,7 +47,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request = {}
         request["merchantAccount"] = "YourMerchantAccount"
         request["originalReference"] = "YourReference"
-        resp = 'test/mocks/payout/decline-success.json'
+        resp = 'mocks/payout/decline-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.confirm(request)
         self.assertIsNotNone(result.message['pspReference'])
@@ -58,7 +58,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request = {}
         request["merchantAccount"] = "YourMerchantAccount"
         request["originalReference"] = ""
-        resp = 'test/mocks/payout/decline-missing-reference.json'
+        resp = 'mocks/payout/decline-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
         self.assertRaisesRegexp(
             Adyen.AdyenAPIValidationError,
@@ -86,7 +86,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
-        resp = 'test/mocks/payout/storeDetail-success.json'
+        resp = 'mocks/payout/storeDetail-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.store_detail(request)
         self.assertIsNotNone(result.message['pspReference'])
@@ -108,7 +108,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
         request["selectedRecurringDetailReference"] = "LATEST"
-        resp = 'test/mocks/payout/submit-success.json'
+        resp = 'mocks/payout/submit-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.submit(request)
         self.assertIsNotNone(result.message['pspReference'])
@@ -129,7 +129,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
         request["selectedRecurringDetailReference"] = "1234"
-        resp = 'test/mocks/payout/submit-invalid-reference.json'
+        resp = 'mocks/payout/submit-invalid-reference.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegexp(
             Adyen.AdyenAPICommunicationError,
@@ -155,10 +155,13 @@ class TestThirdPartyPayout(unittest.TestCase):
             "ownerName": "Adyen",
             "countryCode": "NL",
         }
-        self.assertRaisesRegexp(
-            ValueError,
-            "Provide the required request parameters"
-            " to complete this request: \nreference",
+
+        resp = 'mocks/payout/submit-missing-reference.json'
+        self.ady.client = self.test.create_client_from_file(422, request, resp)
+
+        self.assertRaisesRegex(
+            Adyen.AdyenAPICommunicationError,
+            "Unexpected error",
             self.ady.payout.store_detail_and_submit,
             request
         )
@@ -176,7 +179,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
-        resp = 'test/mocks/payout/storeDetailAndSubmit-missing-payment.json'
+        resp = 'mocks/payout/storeDetailAndSubmit-missing-payment.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegexp(
             Adyen.AdyenAPICommunicationError,
@@ -204,7 +207,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             "ownerName": "Adyen",
         }
         request["merchantAccount"] = "YourMerchantAccount"
-        resp = 'test/mocks/payout/storeDetailAndSubmit-invalid-iban.json'
+        resp = 'mocks/payout/storeDetailAndSubmit-invalid-iban.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegexp(
             Adyen.AdyenAPICommunicationError,
@@ -233,7 +236,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             "cvc": "737",
             "holderName": "John Smith"
         }
-        resp = 'test/mocks/payout/storeDetailAndSubmit-card-success.json'
+        resp = 'mocks/payout/storeDetailAndSubmit-card-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.store_detail_and_submit(request)
         self.assertIsNotNone(result.message['pspReference'])
@@ -258,7 +261,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         request["reference"] = "YourReference"
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
-        resp = 'test/mocks/payout/storeDetailAndSubmit-bank-success.json'
+        resp = 'mocks/payout/storeDetailAndSubmit-bank-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.store_detail_and_submit(request)
         self.assertIsNotNone(result.message['pspReference'])

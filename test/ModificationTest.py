@@ -20,7 +20,7 @@ class TestModifications(unittest.TestCase):
         request['modificationAmount'] = {"value": "1234", "currency": "EUR"}
         request['originalReference'] = "YourOriginalReference"
         self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
+                                                            'mocks/'
                                                             'capture-success'
                                                             '.json')
         result = self.ady.payment.capture(request)
@@ -33,7 +33,7 @@ class TestModifications(unittest.TestCase):
         request['modificationAmount'] = {"value": "1234", "currency": "EUR"}
         request['originalReference'] = "YourOriginalReference"
         self.ady.client = self.test.create_client_from_file(422, request,
-                                                            'test/mocks/'
+                                                            'mocks/'
                                                             'capture-error-167'
                                                             '.json')
         self.assertRaisesRegexp(
@@ -49,7 +49,7 @@ class TestModifications(unittest.TestCase):
         request['reference'] = "YourReference"
         request['originalReference'] = "YourOriginalReference"
         self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
+                                                            'mocks/'
                                                             'cancelOrRefund'
                                                             '-received.json')
         result = self.ady.payment.cancel_or_refund(request)
@@ -63,7 +63,7 @@ class TestModifications(unittest.TestCase):
         request['originalReference'] = "YourOriginalReference"
         request['modificationAmount'] = {"value": "1234", "currency": "EUR"}
         self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
+                                                            'mocks/'
                                                             'refund-received'
                                                             '.json')
         result = self.ady.payment.refund(request)
@@ -75,7 +75,7 @@ class TestModifications(unittest.TestCase):
         request['reference'] = "YourReference"
         request['originalReference'] = "YourOriginalReference"
         self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
+                                                            'mocks/'
                                                             'cancel-received'
                                                             '.json')
         result = self.ady.payment.cancel(request)
