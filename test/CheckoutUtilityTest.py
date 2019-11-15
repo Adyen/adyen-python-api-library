@@ -24,7 +24,7 @@ class TestCheckoutUtility(unittest.TestCase):
         }
 
         self.ady.client = self.test.create_client_from_file(200, request,
-                                                            "mocks/"
+                                                            "test/mocks/"
                                                             "checkoututility/"
                                                             "originkeys"
                                                             "-success.json")

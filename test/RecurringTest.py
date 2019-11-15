@@ -21,7 +21,7 @@ class TestRecurring(unittest.TestCase):
         request['recurring'] = {}
         request["recurring"]['contract'] = "RECURRING"
         self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'mocks/'
+                                                            'test/mocks/'
                                                             'recurring/'
                                                             'listRecurring'
                                                             'Details-'
@@ -41,7 +41,7 @@ class TestRecurring(unittest.TestCase):
         request["shopperReference"] = "ref"
         request["recurringDetailReference"] = "12345678889"
         self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'mocks/'
+                                                            'test/mocks/'
                                                             'recurring/'
                                                             'disable-success'
                                                             '.json')
@@ -56,7 +56,7 @@ class TestRecurring(unittest.TestCase):
         request["shopperReference"] = "ref"
         request["recurringDetailReference"] = "12345678889"
         self.ady.client = self.test.create_client_from_file(422, request,
-                                                            'mocks/'
+                                                            'test/mocks/'
                                                             'recurring/'
                                                             'disable-error-803'
                                                             '.json')
