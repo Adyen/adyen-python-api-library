@@ -75,7 +75,7 @@ class TestModifications(unittest.TestCase):
         request['reference'] = "YourReference"
         request['originalReference'] = "YourOriginalReference"
         self.ady.client = self.test.create_client_from_file(200, request,
-                                                            'mocks/'
+                                                            'test/mocks/'
                                                             'cancel-received'
                                                             '.json')
         result = self.ady.payment.cancel(request)
