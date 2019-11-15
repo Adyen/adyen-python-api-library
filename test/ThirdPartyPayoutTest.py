@@ -155,10 +155,13 @@ class TestThirdPartyPayout(unittest.TestCase):
             "ownerName": "Adyen",
             "countryCode": "NL",
         }
+
+        resp = 'test/mocks/payout/submit-missing-reference.json'
+        self.ady.client = self.test.create_client_from_file(422, request, resp)
+
         self.assertRaisesRegexp(
-            ValueError,
-            "Provide the required request parameters"
-            " to complete this request: \nreference",
+            Adyen.AdyenAPICommunicationError,
+            "Unexpected error",
             self.ady.payout.store_detail_and_submit,
             request
         )
