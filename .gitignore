@@ -5,3 +5,4 @@
 releaseguide.md
 venv/
 .idea/
+.coverage

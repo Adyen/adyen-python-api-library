@@ -24,7 +24,13 @@ The Library supports all APIs under the following services:
 
 ## Installation
 
-Clone this git repository or use pip: ```pip install Adyen```
+### For development propose
+
+Clone this repository and run ```make install```
+
+### For usage propose
+
+Use pip command: ```pip install Adyen```
 
 ## Usage
 
@@ -50,6 +56,14 @@ ady.payment.client.app_name = "your app name"
 
 ## Support
 If you have any problems, questions or suggestions, create an issue here or send your inquiry to support@adyen.com.
+
+## Contributing
+We strongly encourage you to join us in contributing to this repository so everyone can benefit from:
+* New features and functionality
+* Resolved bug fixes and issues
+* Any general improvements
+
+Read our [**contribution guidelines**](CONTRIBUTING.md) to find out how.
 
 ## Licence
 MIT license see LICENSE

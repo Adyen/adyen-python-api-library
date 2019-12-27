@@ -32,3 +32,15 @@ def generate_hpp_sig(dict_object, hmac_key):
 
     hm = hmac.new(hmac_key, signing_string.encode('utf-8'), hashlib.sha256)
     return base64.b64encode(hm.digest())
+
+
+def is_valid_hmac(dict_object, hmac_key):
+    if 'additionalData' in dict_object:
+        if dict_object['additionalData']['hmacSignature'] == "":
+            raise ValueError("Must Provide hmacSignature in additionalData")
+        else:
+            expected_sign = dict_object['additionalData']['hmacSignature']
+            del dict_object['additionalData']
+            merchant_sign = generate_hpp_sig(dict_object, hmac_key)
+            merchant_sign_str = merchant_sign.decode("utf-8")
+            return merchant_sign_str == expected_sign

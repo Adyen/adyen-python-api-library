@@ -61,7 +61,7 @@ class HTTPClient(object):
                      username="",
                      password="",
                      xapikey="",
-                     headers={},
+                     headers=None,
                      timeout=30):
         """This function will POST to the url endpoint using pycurl. returning
         an AdyenResult object on 200 HTTP responce. Either json or data has to
@@ -89,6 +89,8 @@ class HTTPClient(object):
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
+        if headers is None:
+            headers = {}
 
         response_headers = {}
 
@@ -148,7 +150,7 @@ class HTTPClient(object):
                        username="",
                        password="",
                        xapikey="",
-                       headers={},
+                       headers=None,
                        timeout=30):
         """This function will POST to the url endpoint using requests.
         Returning an AdyenResult object on 200 HTTP response.
@@ -176,6 +178,8 @@ class HTTPClient(object):
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
+        if headers is None:
+            headers = {}
 
         # Adding basic auth if username and password provided.
         auth = None
@@ -204,7 +208,7 @@ class HTTPClient(object):
                      username="",
                      password="",
                      xapikey="",
-                     headers={},
+                     headers=None,
                      timeout=30):
 
         """This function will POST to the url endpoint using urllib2. returning
@@ -233,6 +237,9 @@ class HTTPClient(object):
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
+
+        if headers is None:
+            headers = {}
 
         # Store regular dict to return later:
         raw_store = json
