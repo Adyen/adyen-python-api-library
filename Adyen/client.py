@@ -288,13 +288,22 @@ class AdyenClient(object):
 
         if not message.get('merchantAccount'):
             message['merchantAccount'] = self.merchant_account
+
         # Add application info
-        request_data['applicationInfo'] = {
-            "adyenLibrary": {
-                "name": settings.LIB_NAME,
-                "version": settings.LIB_VERSION
+        if 'applicationInfo' in request_data:
+            request_data['applicationInfo'].update({
+                "adyenLibrary": {
+                    "name": settings.LIB_NAME,
+                    "version": settings.LIB_VERSION
+                }
+            })
+        else:
+            request_data['applicationInfo'] = {
+                "adyenLibrary": {
+                    "name": settings.LIB_NAME,
+                    "version": settings.LIB_VERSION
+                }
             }
-        }
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
@@ -305,7 +314,7 @@ class AdyenClient(object):
 
         if xapikey:
             raw_response, raw_request, status_code, headers = \
-                self.http_client.request(url, json=request_data,
+                self.httap_client.request(url, json=request_data,
                                          xapikey=xapikey, headers=headers,
                                          **kwargs)
         else:
@@ -443,12 +452,20 @@ class AdyenClient(object):
         if not request_data.get('merchantAccount'):
             request_data['merchantAccount'] = self.merchant_account
 
-        request_data['applicationInfo'] = {
-            "adyenLibrary": {
-                "name": settings.LIB_NAME,
-                "version": settings.LIB_VERSION
+        if 'applicationInfo' in request_data:
+            request_data['applicationInfo'].update({
+                "adyenLibrary": {
+                    "name": settings.LIB_NAME,
+                    "version": settings.LIB_VERSION
+                }
+            })
+        else:
+            request_data['applicationInfo'] = {
+                "adyenLibrary": {
+                    "name": settings.LIB_NAME,
+                    "version": settings.LIB_VERSION
+                }
             }
-        }
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
