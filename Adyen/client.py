@@ -314,7 +314,7 @@ class AdyenClient(object):
 
         if xapikey:
             raw_response, raw_request, status_code, headers = \
-                self.httap_client.request(url, json=request_data,
+                self.http_client.request(url, json=request_data,
                                          xapikey=xapikey, headers=headers,
                                          **kwargs)
         else:
