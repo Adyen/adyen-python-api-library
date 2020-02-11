@@ -38,7 +38,10 @@ class HTTPClient(object):
     def __init__(self, app_name, user_agent_suffix,
                  lib_version, force_request=None):
         # Check if requests already available, default to urllib
-        self.user_agent = app_name + " " + user_agent_suffix + lib_version
+        if app_name:
+            app_name += " "
+
+        self.user_agent = app_name + user_agent_suffix + lib_version
         if not force_request:
             if requests:
                 self.request = self._requests_post
