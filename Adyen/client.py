@@ -71,8 +71,10 @@ class AdyenClient(object):
                  store_payout_username=None, store_payout_password=None,
                  platform="test", merchant_account=None,
                  merchant_specific_url=None, skin_code=None,
-                 hmac=None, app_name="",
-                 http_force=None, live_endpoint_prefix=None):
+                 hmac=None,
+                 http_force=None, live_endpoint_prefix=None,
+                 **kwargs  # to not break clients who implamented app_name
+    ):
         self.username = username
         self.password = password
         self.xapikey = xapikey
@@ -86,7 +88,7 @@ class AdyenClient(object):
         self.merchant_account = merchant_account
         self.skin_code = skin_code
         self.psp_list = []
-        self.app_name = app_name
+        self.app_name = ""  # Should be depricated as it is unused.
         self.LIB_VERSION = settings.LIB_VERSION
         self.USER_AGENT_SUFFIX = settings.LIB_NAME + "/"
         self.http_init = False

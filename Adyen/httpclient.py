@@ -37,11 +37,10 @@ import base64
 class HTTPClient(object):
     def __init__(self, app_name, user_agent_suffix,
                  lib_version, force_request=None):
+        """ `app_name` should be depricated as it is unused. """
         # Check if requests already available, default to urllib
-        if app_name:
-            app_name += " "
 
-        self.user_agent = app_name + user_agent_suffix + lib_version
+        self.user_agent = user_agent_suffix + lib_version
         if not force_request:
             if requests:
                 self.request = self._requests_post
