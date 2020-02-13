@@ -73,8 +73,8 @@ class AdyenClient(object):
                  merchant_specific_url=None, skin_code=None,
                  hmac=None,
                  http_force=None, live_endpoint_prefix=None,
-                 **kwargs  # to not break clients who implamented app_name
-    ):
+                 **kwargs):
+        # TODO: **kwargs used to capture `app_name`.  Remove in major release
         self.username = username
         self.password = password
         self.xapikey = xapikey
@@ -88,7 +88,7 @@ class AdyenClient(object):
         self.merchant_account = merchant_account
         self.skin_code = skin_code
         self.psp_list = []
-        self.app_name = ""  # Should be depricated as it is unused.
+        self.app_name = ""  # TODO: Should be removed in a major release
         self.LIB_VERSION = settings.LIB_VERSION
         self.USER_AGENT_SUFFIX = settings.LIB_NAME + "/"
         self.http_init = False

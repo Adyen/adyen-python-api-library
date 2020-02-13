@@ -37,7 +37,7 @@ import base64
 class HTTPClient(object):
     def __init__(self, app_name, user_agent_suffix,
                  lib_version, force_request=None):
-        """ `app_name` should be depricated as it is unused. """
+        # TODO: `app_name` should be removed in a major release.
         # Check if requests already available, default to urllib
 
         self.user_agent = user_agent_suffix + lib_version
