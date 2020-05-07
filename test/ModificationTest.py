@@ -39,7 +39,7 @@ class TestModifications(unittest.TestCase):
                                                             'test/mocks/'
                                                             'capture-error-167'
                                                             '.json')
-        self.assertRaisesRegexp(
+        self.assertRaisesRegex(
             Adyen.AdyenAPICommunicationError,
             "Unexpected error",
             self.ady.payment.capture,
