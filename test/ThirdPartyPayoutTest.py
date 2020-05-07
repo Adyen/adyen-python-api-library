@@ -1,5 +1,6 @@
 import Adyen
 import unittest
+
 try:
     from BaseTest import BaseTest
 except ImportError:
@@ -21,9 +22,10 @@ class TestThirdPartyPayout(unittest.TestCase):
     client.store_payout_password = "YourStorePayoutPassword"
 
     def test_confirm_success(self):
-        request = {}
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["originalReference"] = "YourReference"
+        request = {
+            "merchantAccount": "YourMerchantAccount",
+            "originalReference": "YourReference"
+        }
         resp = 'test/mocks/payout/confirm-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.confirm(request)
@@ -32,9 +34,10 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.assertEqual(expected, result.message['resultCode'])
 
     def test_confirm_missing_reference(self):
-        request = {}
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["originalReference"] = ""
+        request = {
+            "merchantAccount": "YourMerchantAccount",
+            "originalReference": ""
+        }
         resp = 'test/mocks/payout/confirm-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
         self.assertRaisesRegexp(
@@ -47,9 +50,10 @@ class TestThirdPartyPayout(unittest.TestCase):
         )
 
     def test_decline_success(self):
-        request = {}
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["originalReference"] = "YourReference"
+        request = {
+            "merchantAccount": "YourMerchantAccount",
+            "originalReference": "YourReference"
+        }
         resp = 'test/mocks/payout/decline-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.confirm(request)
@@ -58,9 +62,10 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.assertEqual(expected, result.message['resultCode'])
 
     def test_decline_missing_reference(self):
-        request = {}
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["originalReference"] = ""
+        request = {
+            "merchantAccount": "YourMerchantAccount",
+            "originalReference": ""
+        }
         resp = 'test/mocks/payout/decline-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
         self.assertRaisesRegexp(
@@ -73,22 +78,23 @@ class TestThirdPartyPayout(unittest.TestCase):
         )
 
     def test_store_detail_bank_success(self):
-        request = {}
-        request["bank"] = {
-            "bankName": "AbnAmro",
-            "bic": "ABNANL2A",
-            "countryCode": "NL",
-            "iban": "NL32ABNA0515071439",
-            "ownerName": "Adyen",
-            "bankCity": "Amsterdam",
-            "taxId": "bankTaxId"
+        request = {
+            "bank": {
+                "bankName": "AbnAmro",
+                "bic": "ABNANL2A",
+                "countryCode": "NL",
+                "iban": "NL32ABNA0515071439",
+                "ownerName": "Adyen",
+                "bankCity": "Amsterdam",
+                "taxId": "bankTaxId"
+            },
+            "merchantAccount": "YourMerchantAccount",
+            "recurring": {
+                "contract": "PAYOUT"
+            },
+            "shopperEmail": "ref@email.com",
+            "shopperReference": "ref"
         }
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["recurring"] = {
-            "contract": "PAYOUT"
-        }
-        request["shopperEmail"] = "ref@email.com"
-        request["shopperReference"] = "ref"
         resp = 'test/mocks/payout/storeDetail-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.store_detail(request)
@@ -98,19 +104,19 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.assertEqual(expected, result.message['resultCode'])
 
     def test_submit_success(self):
-        request = {}
-        request["amount"] = {
-            "value": "100000",
-            "currency": "EUR"
+        request = {
+            "amount": {
+                "value": "100000",
+                "currency": "EUR"
+            },
+            "reference": "payout-test", "recurring": {
+                "contract": "PAYOUT"
+            },
+            "merchantAccount": "YourMerchantAccount",
+            "shopperEmail": "ref@email.com",
+            "shopperReference": "ref",
+            "selectedRecurringDetailReference": "LATEST"
         }
-        request["reference"] = "payout-test"
-        request["recurring"] = {
-            "contract": "PAYOUT"
-        }
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["shopperEmail"] = "ref@email.com"
-        request["shopperReference"] = "ref"
-        request["selectedRecurringDetailReference"] = "LATEST"
         resp = 'test/mocks/payout/submit-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.submit(request)
@@ -119,19 +125,19 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.assertEqual(expected, result.message['resultCode'])
 
     def test_submit_invalid_recurring_reference(self):
-        request = {}
-        request["amount"] = {
-            "value": "100000",
-            "currency": "EUR"
+        request = {
+            "amount": {
+                "value": "100000",
+                "currency": "EUR"
+            },
+            "reference": "payout-test", "recurring": {
+                "contract": "PAYOUT"
+            },
+            "merchantAccount": "YourMerchantAccount",
+            "shopperEmail": "ref@email.com",
+            "shopperReference": "ref",
+            "selectedRecurringDetailReference": "1234"
         }
-        request["reference"] = "payout-test"
-        request["recurring"] = {
-            "contract": "PAYOUT"
-        }
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["shopperEmail"] = "ref@email.com"
-        request["shopperReference"] = "ref"
-        request["selectedRecurringDetailReference"] = "1234"
         resp = 'test/mocks/payout/submit-invalid-reference.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegexp(
@@ -142,21 +148,22 @@ class TestThirdPartyPayout(unittest.TestCase):
         )
 
     def test_store_detail_and_submit_missing_reference(self):
-        request = {}
-        request["amount"] = {
-            "value": "100000",
-            "currency": "EUR"
-        }
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["recurring"] = {
-            "contract": "PAYOUT"
-        }
-        request["shopperEmail"] = "ref@email.com"
-        request["shopperReference"] = "ref"
-        request["bank"] = {
-            "iban": "NL32ABNA0515071439",
-            "ownerName": "Adyen",
-            "countryCode": "NL",
+        request = {
+            "amount": {
+                "value": "100000",
+                "currency": "EUR"
+            },
+            "merchantAccount": "YourMerchantAccount",
+            "recurring": {
+                "contract": "PAYOUT"
+            },
+            "shopperEmail": "ref@email.com",
+            "shopperReference": "ref",
+            "bank": {
+                "iban": "NL32ABNA0515071439",
+                "ownerName": "Adyen",
+                "countryCode": "NL",
+            }
         }
 
         resp = 'test/mocks/payout/submit-missing-reference.json'
@@ -170,18 +177,19 @@ class TestThirdPartyPayout(unittest.TestCase):
         )
 
     def test_store_detail_and_submit_missing_payment(self):
-        request = {}
-        request["amount"] = {
-            "value": "100000",
-            "currency": "EUR"
+        request = {
+            "amount": {
+                "value": "100000",
+                "currency": "EUR"
+            },
+            "merchantAccount": "YourMerchantAccount",
+            "reference": "payout-test",
+            "recurring": {
+                "contract": "PAYOUT"
+            },
+            "shopperEmail": "ref@email.com",
+            "shopperReference": "ref"
         }
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["reference"] = "payout-test"
-        request["recurring"] = {
-            "contract": "PAYOUT"
-        }
-        request["shopperEmail"] = "ref@email.com"
-        request["shopperReference"] = "ref"
         resp = 'test/mocks/payout/storeDetailAndSubmit-missing-payment.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegexp(
@@ -192,24 +200,24 @@ class TestThirdPartyPayout(unittest.TestCase):
         )
 
     def test_store_detail_and_submit_invalid_iban(self):
-        request = {}
-        request["amount"] = {
-            "value": "100000",
-            "currency": "EUR"
+        request = {
+            "amount": {
+                "value": "100000",
+                "currency": "EUR"
+            },
+            "merchantAccount": "YourMerchantAccount",
+            "reference": "payout-test",
+            "recurring": {
+                "contract": "PAYOUT"
+            },
+            "shopperEmail": "ref@email.com",
+            "shopperReference": "ref",
+            "bank": {
+                "countryCode": "NL",
+                "iban": "4111111111111111",
+                "ownerName": "Adyen",
+            }
         }
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["reference"] = "payout-test"
-        request["recurring"] = {
-            "contract": "PAYOUT"
-        }
-        request["shopperEmail"] = "ref@email.com"
-        request["shopperReference"] = "ref"
-        request["bank"] = {
-            "countryCode": "NL",
-            "iban": "4111111111111111",
-            "ownerName": "Adyen",
-        }
-        request["merchantAccount"] = "YourMerchantAccount"
         resp = 'test/mocks/payout/storeDetailAndSubmit-invalid-iban.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegexp(
@@ -220,24 +228,25 @@ class TestThirdPartyPayout(unittest.TestCase):
         )
 
     def test_store_detail_and_submit_card_success(self):
-        request = {}
-        request["amount"] = {
-            "value": "100000",
-            "currency": "EUR"
-        }
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["reference"] = "payout-test"
-        request["recurring"] = {
-            "contract": "PAYOUT"
-        }
-        request["shopperEmail"] = "ref@email.com"
-        request["shopperReference"] = "ref"
-        request["card"] = {
-            "number": "4111111111111111",
-            "expiryMonth": "08",
-            "expiryYear": "2018",
-            "cvc": "737",
-            "holderName": "John Smith"
+        request = {
+            "amount": {
+                "value": "100000",
+                "currency": "EUR"
+            },
+            "merchantAccount": "YourMerchantAccount",
+            "reference": "payout-test",
+            "recurring": {
+                "contract": "PAYOUT"
+            },
+            "shopperEmail": "ref@email.com",
+            "shopperReference": "ref",
+            "card": {
+                "number": "4111111111111111",
+                "expiryMonth": "08",
+                "expiryYear": "2018",
+                "cvc": "737",
+                "holderName": "John Smith"
+            }
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-card-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
@@ -247,23 +256,24 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.assertEqual(expected, result.message['resultCode'])
 
     def test_store_detail_and_submit_bank_success(self):
-        request = {}
-        request["amount"] = {
-            "value": "100000",
-            "currency": "EUR"
+        request = {
+            "amount": {
+                "value": "100000",
+                "currency": "EUR"
+            },
+            "bank": {
+                "countryCode": "NL",
+                "iban": "NL32ABNA0515071439",
+                "ownerName": "Adyen",
+            },
+            "merchantAccount": "YourMerchantAccount",
+            "recurring": {
+                "contract": "PAYOUT"
+            },
+            "reference": "YourReference",
+            "shopperEmail": "ref@email.com",
+            "shopperReference": "ref"
         }
-        request["bank"] = {
-            "countryCode": "NL",
-            "iban": "NL32ABNA0515071439",
-            "ownerName": "Adyen",
-        }
-        request["merchantAccount"] = "YourMerchantAccount"
-        request["recurring"] = {
-            "contract": "PAYOUT"
-        }
-        request["reference"] = "YourReference"
-        request["shopperEmail"] = "ref@email.com"
-        request["shopperReference"] = "ref"
         resp = 'test/mocks/payout/storeDetailAndSubmit-bank-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
         result = self.ady.payout.store_detail_and_submit(request)

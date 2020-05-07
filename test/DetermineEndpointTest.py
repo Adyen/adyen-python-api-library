@@ -1,5 +1,6 @@
 import Adyen
 import unittest
+
 try:
     from BaseTest import BaseTest
 except ImportError:
@@ -32,21 +33,24 @@ class TestDetermineUrl(unittest.TestCase):
 
     def test_payments_invalid_platform(self):
 
-        request = {'amount': {"value": "100000", "currency": "EUR"},
-                   "reference": "Your order number",
-                   'paymentMethod': {
-                       "type": "scheme",
-                       "number": "4111111111111111",
-                       "expiryMonth": "08",
-                       "expiryYear": "2018",
-                       "holderName": "John Smith",
-                       "cvc": "737"
-                   }, 'merchantAccount': "YourMerchantAccount",
-                   'returnUrl': "https://your-company.com/..."}
+        request = {
+            'amount': {"value": "100000", "currency": "EUR"},
+            "reference": "Your order number",
+            'paymentMethod': {
+                "type": "scheme",
+                "number": "4111111111111111",
+                "expiryMonth": "08",
+                "expiryYear": "2018",
+                "holderName": "John Smith",
+                "cvc": "737"
+            },
+            'merchantAccount': "YourMerchantAccount",
+            'returnUrl': "https://your-company.com/..."
+        }
 
         self.client.platform = "live"
         self.client.live_endpoint_prefix = None
         try:
-            result = self.adyen.checkout.payments(request)
+            self.adyen.checkout.payments(request)
         except AdyenEndpointInvalidFormat as error:
             self.assertIsNotNone(error)
