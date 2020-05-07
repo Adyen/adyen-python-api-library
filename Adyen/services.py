@@ -44,14 +44,14 @@ class AdyenRecurring(AdyenServiceBase):
         super(AdyenRecurring, self).__init__(client=client)
         self.service = "Recurring"
 
-    def list_recurring_details(self, request="", **kwargs):
+    def list_recurring_details(self, request, **kwargs):
 
         action = "listRecurringDetails"
 
         return self.client.call_api(request, self.service,
                                     action, **kwargs)
 
-    def disable(self, request="", **kwargs):
+    def disable(self, request, **kwargs):
 
         action = "disable"
 
@@ -76,10 +76,10 @@ class AdyenHPP(AdyenServiceBase):
             use. If not provided, a new API client will be created.
     """
 
-    def __init__(self, client=""):
+    def __init__(self, client=None):
         super(AdyenHPP, self).__init__(client=client)
 
-    def directory_lookup(self, request="", **kwargs):
+    def directory_lookup(self, request, **kwargs):
 
         action = "directory"
 
@@ -94,7 +94,7 @@ class AdyenHPP(AdyenServiceBase):
 
         return self.client.call_hpp(request, action)
 
-    def hpp_payment(self, request="", skip_details=None, **kwargs):
+    def hpp_payment(self, request, skip_details=None, **kwargs):
 
         if skip_details:
             action = "skipDetails"
@@ -142,11 +142,11 @@ class AdyenPayment(AdyenServiceBase):
             use. If not provided, a new API client will be created.
     """
 
-    def __init__(self, client=""):
+    def __init__(self, client=None):
         super(AdyenPayment, self).__init__(client=client)
         self.service = "Payment"
 
-    def authorise(self, request="", **kwargs):
+    def authorise(self, request, **kwargs):
 
         action = "authorise"
 
@@ -164,19 +164,19 @@ class AdyenPayment(AdyenServiceBase):
         return self.client.call_api(request, self.service,
                                     action, **kwargs)
 
-    def authorise3d(self, request="", **kwargs):
+    def authorise3d(self, request, **kwargs):
         action = "authorise3d"
 
         return self.client.call_api(request, self.service,
                                     action, **kwargs)
 
-    def cancel(self, request="", **kwargs):
+    def cancel(self, request, **kwargs):
         action = "cancel"
 
         return self.client.call_api(request, self.service,
                                     action, **kwargs)
 
-    def capture(self, request="", **kwargs):
+    def capture(self, request, **kwargs):
 
         action = "capture"
 
@@ -195,7 +195,7 @@ class AdyenPayment(AdyenServiceBase):
                                         action, **kwargs)
         return response
 
-    def refund(self, request="", **kwargs):
+    def refund(self, request, **kwargs):
 
         action = "refund"
 
@@ -209,7 +209,7 @@ class AdyenPayment(AdyenServiceBase):
             return self.client.call_api(request, self.service,
                                         action, **kwargs)
 
-    def cancel_or_refund(self, request="", **kwargs):
+    def cancel_or_refund(self, request, **kwargs):
         action = "cancelOrRefund"
 
         return self.client.call_api(
@@ -282,11 +282,11 @@ class AdyenCheckoutApi(AdyenServiceBase):
             use. If not provided, a new API client will be created.
     """
 
-    def __init__(self, client=""):
+    def __init__(self, client=None):
         super(AdyenCheckoutApi, self).__init__(client=client)
         self.service = "Checkout"
 
-    def payment_methods(self, request="", **kwargs):
+    def payment_methods(self, request, **kwargs):
         action = "paymentMethods"
         if 'merchantAccount' in request:
             if request['merchantAccount'] == '':
@@ -296,22 +296,22 @@ class AdyenCheckoutApi(AdyenServiceBase):
 
         return self.client.call_checkout_api(request, action, **kwargs)
 
-    def payments(self, request="", **kwargs):
+    def payments(self, request, **kwargs):
         action = "payments"
         return self.client.call_checkout_api(request, action, **kwargs)
 
-    def payments_details(self, request="", **kwargs):
+    def payments_details(self, request=None, **kwargs):
         action = "paymentsDetails"
         return self.client.call_checkout_api(request, action, **kwargs)
 
-    def payment_session(self, request="", **kwargs):
+    def payment_session(self, request=None, **kwargs):
         action = "paymentSession"
         return self.client.call_checkout_api(request, action, **kwargs)
 
-    def payment_result(self, request="", **kwargs):
+    def payment_result(self, request=None, **kwargs):
         action = "paymentsResult"
         return self.client.call_checkout_api(request, action, **kwargs)
 
-    def origin_keys(self, request="", **kwargs):
+    def origin_keys(self, request=None, **kwargs):
         action = "originKeys"
         return self.client.call_checkout_api(request, action, **kwargs)
