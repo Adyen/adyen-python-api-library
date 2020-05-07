@@ -1,8 +1,13 @@
-import Adyen
 import unittest
-from BaseTest import BaseTest
+
+import Adyen
+
+try:
+    from BaseTest import BaseTest
+except ImportError:
+    from .BaseTest import BaseTest
+
 import time
-import pprint
 
 
 class TestDirectoryLookup(unittest.TestCase):
