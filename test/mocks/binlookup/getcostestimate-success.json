@@ -1,0 +1,19 @@
+{
+  "cardBin": {
+    "bin": "458012",
+    "commercial": false,
+    "fundingSource": "CHARGE",
+    "fundsAvailability": "N",
+    "issuingBank": "Bank Of America",
+    "issuingCountry": "US",
+    "issuingCurrency": "USD",
+    "paymentMethod": "Y",
+    "summary": "6789"
+  },
+  "costEstimateAmount": {
+    "currency": "USD",
+    "value": 1234
+  },
+  "resultCode": "Success",
+  "surchargeType": "PASSTHROUGH"
+}
