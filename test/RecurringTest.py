@@ -1,6 +1,9 @@
 import Adyen
 import unittest
-from BaseTest import BaseTest
+try:
+    from BaseTest import BaseTest
+except ImportError:
+    from .BaseTest import BaseTest
 
 
 class TestRecurring(unittest.TestCase):
@@ -60,7 +63,7 @@ class TestRecurring(unittest.TestCase):
                                                             'recurring/'
                                                             'disable-error-803'
                                                             '.json')
-        self.assertRaisesRegexp(
+        self.assertRaisesRegex(
             Adyen.AdyenAPICommunicationError,
             "Unexpected error",
             self.ady.recurring.disable,
