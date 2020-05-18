@@ -195,11 +195,11 @@ class TestPayments(unittest.TestCase):
                                                               '-error-'
                                                               '010.json')
         self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError,
-                               "Unable to authenticate with Adyen's Servers."
-                               " Please verify the credentials set with the"
-                               " Adyen base class. Please reach out to your"
-                               " Adyen Admin if the problem persists",
-                               self.adyen.payment.authorise, request)
+                                "Unable to authenticate with Adyen's Servers."
+                                " Please verify the credentials set with the"
+                                " Adyen base class. Please reach out to your"
+                                " Adyen Admin if the problem persists",
+                                self.adyen.payment.authorise, request)
 
 
 class TestPaymentsWithXapiKey(unittest.TestCase):
@@ -390,11 +390,11 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               '-error-'
                                                               '010.json')
         self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError,
-                               "Unable to authenticate with Adyen's Servers."
-                               " Please verify the credentials set with the"
-                               " Adyen base class. Please reach out to your"
-                               " Adyen Admin if the problem persists",
-                               self.adyen.payment.authorise, request)
+                                "Unable to authenticate with Adyen's Servers."
+                                " Please verify the credentials set with the"
+                                " Adyen base class. Please reach out to your"
+                                " Adyen Admin if the problem persists",
+                                self.adyen.payment.authorise, request)
 
 
 TestPayments.client.http_force = "requests"
