@@ -194,7 +194,7 @@ class TestPayments(unittest.TestCase):
                                                               'authorise'
                                                               '-error-'
                                                               '010.json')
-        self.assertRaisesRegex(Adyen.AdyenAPIAuthenticationError,
+        self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError,
                                "Unable to authenticate with Adyen's Servers."
                                " Please verify the credentials set with the"
                                " Adyen base class. Please reach out to your"
@@ -389,7 +389,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               'authorise'
                                                               '-error-'
                                                               '010.json')
-        self.assertRaisesRegex(Adyen.AdyenAPIAuthenticationError,
+        self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError,
                                "Unable to authenticate with Adyen's Servers."
                                " Please verify the credentials set with the"
                                " Adyen base class. Please reach out to your"

@@ -40,7 +40,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/confirm-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPIValidationError,
             "Received validation error with errorCode: 702,"
             " message: Required field 'merchantAccount' is null,"
@@ -68,7 +68,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/decline-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPIValidationError,
             "Received validation error with errorCode: 702,"
             " message: Required field 'merchantAccount' is null,"
@@ -140,7 +140,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/submit-invalid-reference.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPICommunicationError,
             "Unexpected error",
             self.ady.payout.submit,
@@ -169,7 +169,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         resp = 'test/mocks/payout/submit-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
 
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPICommunicationError,
             "Unexpected error",
             self.ady.payout.store_detail_and_submit,
@@ -192,7 +192,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-missing-payment.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPICommunicationError,
             "Unexpected error",
             self.ady.payout.store_detail_and_submit,
@@ -220,7 +220,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-invalid-iban.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
-        self.assertRaisesRegex(
+        self.assertRaisesRegexp(
             Adyen.AdyenAPICommunicationError,
             "Unexpected error",
             self.ady.payout.store_detail_and_submit,
