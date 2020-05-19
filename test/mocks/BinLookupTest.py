@@ -1,6 +1,14 @@
-import Adyen
+from unittest.mock import ANY
 import unittest
+
 from BaseTest import BaseTest
+import Adyen
+
+
+REQUEST_KWARGS = {
+    'merchantAccount': 'YourMerchantAccount',
+    'amount': '1000'
+}
 
 
 class TestBinLookup(unittest.TestCase):
@@ -14,11 +22,7 @@ class TestBinLookup(unittest.TestCase):
     client.app_name = "appname"
 
     def test_get_cost_estimate_success(self):
-        request = {
-            'merchantAccount': 'YourMerchantAccount',
-            'amount': '1000'
-        }
-
+        self.ady.client.http_client.request.reset_mock()
         expected = {
             'cardBin': {
                 'bin': '458012',
@@ -39,29 +43,40 @@ class TestBinLookup(unittest.TestCase):
 
         self.ady.client = self.test.create_client_from_file(
             status=200,
-            request=request,
+            request=REQUEST_KWARGS,
             filename='test/mocks/binlookup/getcostestimate-success.json'
         )
 
-        result = self.ady.binlookup.get_cost_estimate(request)
+        result = self.ady.binlookup.get_cost_estimate(REQUEST_KWARGS)
         self.assertEqual(expected, result.message)
+        self.ady.client.http_client.request.assert_called_once_with(
+            'https://pal-test.adyen.com/pal/servlet/'
+            'BinLookup/v50/getCostEstimate',
+            headers={},
+            json={
+                'merchantAccount': 'YourMerchantAccount',
+                'amount': '1000', 'applicationInfo': {
+                    'adyenLibrary': {
+                        'name': 'adyen-python-api-library',
+                        'version': ANY
+                    }
+                }
+            },
+            password='YourWSPassword',
+            username='YourWSUser'
+        )
 
     def test_get_cost_estimate_error_mocked(self):
-        request = {
-            'merchantAccount': 'YourMerchantAccount',
-            'amount': '1000'
-        }
-
         self.ady.client = self.test.create_client_from_file(
             status=200,
-            request=request,
+            request=REQUEST_KWARGS,
             filename=(
                 "test/mocks/binlookup/"
                 "getcostestimate-error-invalid-data-422.json"
             )
         )
 
-        result = self.ady.binlookup.get_cost_estimate(request)
+        result = self.ady.binlookup.get_cost_estimate(REQUEST_KWARGS)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("101", result.message['errorCode'])
         self.assertEqual("Invalid card number", result.message['message'])
