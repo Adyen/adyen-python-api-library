@@ -1,8 +1,13 @@
-import Adyen
 import unittest
-from BaseTest import BaseTest
+
+import Adyen
+
+try:
+    from BaseTest import BaseTest
+except ImportError:
+    from .BaseTest import BaseTest
+
 import time
-import pprint
 
 
 class TestDirectoryLookup(unittest.TestCase):
@@ -18,30 +23,32 @@ class TestDirectoryLookup(unittest.TestCase):
     client.app_name = "appname"
 
     def test_get_post_parameters(self):
-        request = {}
-        request['merchantAccount'] = "testmerchantaccount"
-        request['paymentAmount'] = "1000"
-        request['currencyCode'] = "EUR"
-        request['merchantReference'] = "Get Payment methods"
-        request['skinCode'] = "testskincode"
-        request['countryCode'] = "NL"
-        request['shopperLocale'] = "nl_NL"
-        request['sessionValidity'] = time.strftime('%Y-%m-%dT%H:%M:%SZ')
+        request = {
+            'merchantAccount': "testmerchantaccount",
+            'paymentAmount': "1000",
+            'currencyCode': "EUR",
+            'merchantReference': "Get Payment methods",
+            'skinCode': "testskincode",
+            'countryCode': "NL",
+            'shopperLocale': "nl_NL",
+            'sessionValidity': time.strftime('%Y-%m-%dT%H:%M:%SZ')
+        }
         self.test.create_client_from_file(200, request, None)
         result = self.ady.hpp.hpp_payment(request)
         self.assertEqual("EUR", result["message"]["currencyCode"])
         self.assertEqual(44, len(result["message"]["merchantSig"]))
 
     def test_get_payment_methods(self):
-        request = {}
-        request['merchantAccount'] = "testmerchantaccount"
-        request['paymentAmount'] = "1000"
-        request['currencyCode'] = "EUR"
-        request['merchantReference'] = "Get Payment methods"
-        request['skinCode'] = "testskincode"
-        request['countryCode'] = "NL"
-        request['shopperLocale'] = "nl_NL"
-        request['sessionValidity'] = time.strftime('%Y-%m-%dT%H:%M:%SZ')
+        request = {
+            'merchantAccount': "testmerchantaccount",
+            'paymentAmount': "1000",
+            'currencyCode': "EUR",
+            'merchantReference': "Get Payment methods",
+            'skinCode': "testskincode",
+            'countryCode': "NL",
+            'shopperLocale': "nl_NL",
+            'sessionValidity': time.strftime('%Y-%m-%dT%H:%M:%SZ')
+        }
         self.test.create_client_from_file(200, request,
                                           'test/mocks/hpp/'
                                           'directoryLookup-success.json')

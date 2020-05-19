@@ -52,10 +52,10 @@ ady.payment.client.app_name = "your app name"
 
 ## Documentation
 * https://docs.adyen.com/developers/development-resources/libraries
-* https://docs.adyen.com/developers/checkout/api-integration
+* https://docs.adyen.com/developers/checkout
 
 ## Support
-If you have any problems, questions or suggestions, create an issue here or send your inquiry to support@adyen.com.
+If you have a feature request, or spotted a bug or a technical problem, create a GitHub issue. For other questions, contact our [support team](https://support.adyen.com/hc/en-us/requests/new?ticket_form_id=360000705420).
 
 ## Contributing
 We strongly encourage you to join us in contributing to this repository so everyone can benefit from:

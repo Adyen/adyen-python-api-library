@@ -93,7 +93,8 @@ class AdyenClient(object):
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
 
-    def _determine_api_url(self, platform, service, action):
+    @staticmethod
+    def _determine_api_url(platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
         service and action.
 
@@ -111,7 +112,8 @@ class AdyenClient(object):
             api_version = settings.API_PAYMENT_VERSION
         return '/'.join([base_uri, service, api_version, action])
 
-    def _determine_hpp_url(self, platform, action):
+    @staticmethod
+    def _determine_hpp_url(platform, action):
         """This returns the Adyen HPP endpoint based on the provided platform,
         and action.
 
@@ -144,6 +146,9 @@ class AdyenClient(object):
                    by running 'settings.
                    ENDPOINT_CHECKOUT_LIVE_SUFFIX = 'Your live suffix'"""
             raise AdyenEndpointInvalidFormat(errorstring)
+        else:
+            raise AdyenEndpointInvalidFormat("invalid config")
+
         if action == "paymentsDetails":
             action = "payments/details"
         if action == "paymentsResult":
@@ -272,6 +277,7 @@ class AdyenClient(object):
 
         # platform at self object has highest priority. fallback to root module
         # and ensure that it is set to either 'live' or 'test'.
+        platform = None
         if self.platform:
             platform = self.platform
         elif 'platform' in kwargs:
@@ -288,13 +294,22 @@ class AdyenClient(object):
 
         if not message.get('merchantAccount'):
             message['merchantAccount'] = self.merchant_account
+
         # Add application info
-        request_data['applicationInfo'] = {
-            "adyenLibrary": {
-                "name": settings.LIB_NAME,
-                "version": settings.LIB_VERSION
+        if 'applicationInfo' in request_data:
+            request_data['applicationInfo'].update({
+                "adyenLibrary": {
+                    "name": settings.LIB_NAME,
+                    "version": settings.LIB_VERSION
+                }
+            })
+        else:
+            request_data['applicationInfo'] = {
+                "adyenLibrary": {
+                    "name": settings.LIB_NAME,
+                    "version": settings.LIB_VERSION
+                }
             }
-        }
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
@@ -416,6 +431,7 @@ class AdyenClient(object):
 
         # xapi at self object has highest priority. fallback to root module
         # and ensure that it is set.
+        xapikey = False
         if self.xapikey:
             xapikey = self.xapikey
         elif 'xapikey' in kwargs:
@@ -428,6 +444,7 @@ class AdyenClient(object):
 
         # platform at self object has highest priority. fallback to root module
         # and ensure that it is set to either 'live' or 'test'.
+        platform = None
         if self.platform:
             platform = self.platform
         elif 'platform' in kwargs:
@@ -443,12 +460,20 @@ class AdyenClient(object):
         if not request_data.get('merchantAccount'):
             request_data['merchantAccount'] = self.merchant_account
 
-        request_data['applicationInfo'] = {
-            "adyenLibrary": {
-                "name": settings.LIB_NAME,
-                "version": settings.LIB_VERSION
+        if 'applicationInfo' in request_data:
+            request_data['applicationInfo'].update({
+                "adyenLibrary": {
+                    "name": settings.LIB_NAME,
+                    "version": settings.LIB_VERSION
+                }
+            })
+        else:
+            request_data['applicationInfo'] = {
+                "adyenLibrary": {
+                    "name": settings.LIB_NAME,
+                    "version": settings.LIB_VERSION
+                }
             }
-        }
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
@@ -699,7 +724,8 @@ class AdyenClient(object):
                 psp=psp_ref,
                 headers=headers, error_code=response_obj.get("errorCode"))
 
-    def _error_from_hpp(self, html):
+    @staticmethod
+    def _error_from_hpp(html):
         # Must be updated when Adyen response is changed:
         match_obj = re.search(r'>Error:\s*(.*?)<br', html)
         if match_obj:

@@ -1,10 +1,13 @@
 import Adyen
 import unittest
-from BaseTest import BaseTest
+
+try:
+    from BaseTest import BaseTest
+except ImportError:
+    from .BaseTest import BaseTest
 
 
 class TestPayments(unittest.TestCase):
-
     adyen = Adyen.Adyen()
 
     client = adyen.client
@@ -200,7 +203,6 @@ class TestPayments(unittest.TestCase):
 
 
 class TestPaymentsWithXapiKey(unittest.TestCase):
-
     adyen = Adyen.Adyen()
 
     client = adyen.client
