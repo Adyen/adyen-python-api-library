@@ -108,6 +108,8 @@ class AdyenClient(object):
             api_version = settings.API_RECURRING_VERSION
         elif service == "Payout":
             api_version = settings.API_PAYOUT_VERSION
+        elif service == "BinLookup":
+            api_version = settings.API_BIN_LOOKUP_VERSION
         else:
             api_version = settings.API_PAYMENT_VERSION
         return '/'.join([base_uri, service, api_version, action])
