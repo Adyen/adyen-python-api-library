@@ -15,7 +15,6 @@ class TestDetermineUrl(unittest.TestCase):
     client = adyen.client
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
-    client.app_name = "appname"
 
     def test_checkout_api_url_custom(self):
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
