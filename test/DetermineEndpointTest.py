@@ -50,6 +50,7 @@ class TestDetermineUrl(unittest.TestCase):
 
         self.client.platform = "live"
         self.client.live_endpoint_prefix = None
+
         try:
             self.adyen.checkout.payments(request)
         except AdyenEndpointInvalidFormat as error:

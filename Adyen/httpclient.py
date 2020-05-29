@@ -35,10 +35,9 @@ import base64
 
 
 class HTTPClient(object):
-    def __init__(self, app_name, user_agent_suffix,
-                 lib_version, force_request=None):
+    def __init__(self, user_agent_suffix, lib_version, force_request=None):
         # Check if requests already available, default to urllib
-        self.user_agent = app_name + " " + user_agent_suffix + lib_version
+        self.user_agent = " " + user_agent_suffix + lib_version
         # In case the app_name is empty
         self.user_agent = self.user_agent.strip()
         if not force_request:

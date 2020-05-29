@@ -7,7 +7,7 @@ from Adyen import AdyenClient
 
 class AdyenBase(object):
     def __setattr__(self, attr, value):
-        client_attr = ["username", "password", "platform", "app_name"]
+        client_attr = ["username", "password", "platform"]
         if attr in client_attr:
             if value:
                 self.client[attr] = value
