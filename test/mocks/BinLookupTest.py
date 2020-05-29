@@ -19,7 +19,6 @@ class TestBinLookup(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    client.app_name = "appname"
 
     def test_get_cost_estimate_success(self):
         self.ady.client.http_client.request.reset_mock()

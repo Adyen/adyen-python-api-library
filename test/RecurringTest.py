@@ -13,7 +13,6 @@ class TestRecurring(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    client.app_name = "appname"
 
     def test_list_recurring_details(self):
         request = {}

@@ -47,7 +47,6 @@ ady.payment.client.hmac = "HMAC key for skin code"
 ady.payment.client.platform = "test" # Environment to use the library in.
 ady.payment.client.merchant_account = "merchant account name from CA"
 ady.payment.client.password = "webservice user password"
-ady.payment.client.app_name = "your app name"
 ```
 
 ## Documentation
