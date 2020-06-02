@@ -15,7 +15,6 @@ class TestThirdPartyPayout(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    client.app_name = "appname"
     client.review_payout_username = "YourReviewPayoutUser"
     client.review_payout_password = "YourReviewPayoutPassword"
     client.store_payout_username = "YourStorePayoutUser"

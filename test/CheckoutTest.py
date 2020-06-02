@@ -14,7 +14,6 @@ class TestCheckout(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    client.app_name = "appname"
 
     def test_payment_methods_success_mocked(self):
         request = {'merchantAccount': "YourMerchantAccount"}

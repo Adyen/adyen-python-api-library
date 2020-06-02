@@ -14,7 +14,6 @@ class TestModifications(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    client.app_name = "appname"
 
     def test_capture_success(self):
         request = {}

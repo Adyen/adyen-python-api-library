@@ -15,7 +15,6 @@ class TestPayments(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    client.app_name = "appname"
     client.xapikey = ""
 
     def test_authorise_success_mocked(self):
@@ -208,7 +207,6 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
     client = adyen.client
     test = BaseTest(adyen)
     client.platform = "test"
-    client.app_name = "appname"
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.xapikey = ""

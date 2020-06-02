@@ -71,7 +71,7 @@ class AdyenClient(object):
                  store_payout_username=None, store_payout_password=None,
                  platform="test", merchant_account=None,
                  merchant_specific_url=None, skin_code=None,
-                 hmac=None, app_name="",
+                 hmac=None,
                  http_force=None, live_endpoint_prefix=None):
         self.username = username
         self.password = password
@@ -86,7 +86,6 @@ class AdyenClient(object):
         self.merchant_account = merchant_account
         self.skin_code = skin_code
         self.psp_list = []
-        self.app_name = app_name
         self.LIB_VERSION = settings.LIB_VERSION
         self.USER_AGENT_SUFFIX = settings.LIB_NAME + "/"
         self.http_init = False
@@ -108,6 +107,8 @@ class AdyenClient(object):
             api_version = settings.API_RECURRING_VERSION
         elif service == "Payout":
             api_version = settings.API_PAYOUT_VERSION
+        elif service == "BinLookup":
+            api_version = settings.API_BIN_LOOKUP_VERSION
         else:
             api_version = settings.API_PAYMENT_VERSION
         return '/'.join([base_uri, service, api_version, action])
@@ -219,8 +220,7 @@ class AdyenClient(object):
                 succesful.
         """
         if not self.http_init:
-            self.http_client = HTTPClient(self.app_name,
-                                          self.USER_AGENT_SUFFIX,
+            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
                                           self.LIB_VERSION,
                                           self.http_force)
             self.http_init = True
@@ -358,8 +358,7 @@ class AdyenClient(object):
                 :param hmac_key:
         """
         if not self.http_init:
-            self.http_client = HTTPClient(self.app_name,
-                                          self.USER_AGENT_SUFFIX,
+            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
                                           self.LIB_VERSION,
                                           self.http_force)
             self.http_init = True
@@ -423,8 +422,7 @@ class AdyenClient(object):
             action (str): The specific action of the API service to be called
         """
         if not self.http_init:
-            self.http_client = HTTPClient(self.app_name,
-                                          self.USER_AGENT_SUFFIX,
+            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
                                           self.LIB_VERSION,
                                           self.http_force)
             self.http_init = True
@@ -495,8 +493,7 @@ class AdyenClient(object):
     def hpp_payment(self, request_data, action, hmac_key="", **kwargs):
 
         if not self.http_init:
-            self.http_client = HTTPClient(self.app_name,
-                                          self.USER_AGENT_SUFFIX,
+            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
                                           self.LIB_VERSION,
                                           self.http_force)
             self.http_init = True

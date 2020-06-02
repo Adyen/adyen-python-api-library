@@ -20,7 +20,6 @@ class TestDirectoryLookup(unittest.TestCase):
     client.platform = "test"
     client.hmac = "DFB1EB5485895CFA84146406857104A" \
                   "BB4CBCABDC8AAF103A624C8F6A3EAAB00"
-    client.app_name = "appname"
 
     def test_get_post_parameters(self):
         request = {
