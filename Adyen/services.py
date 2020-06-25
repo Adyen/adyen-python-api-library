@@ -128,6 +128,7 @@ class AdyenPayment(AdyenServiceBase):
     API calls currently implemented:
         authorise
         authorise3d
+        adjustAuthorisation
         cancel
         capture
         refund
@@ -166,6 +167,12 @@ class AdyenPayment(AdyenServiceBase):
 
     def authorise3d(self, request, **kwargs):
         action = "authorise3d"
+
+        return self.client.call_api(request, self.service,
+                                    action, **kwargs)
+
+    def adjustAuthorisation(self, request, **kwargs):
+        action = "adjustAuthorisation"
 
         return self.client.call_api(request, self.service,
                                     action, **kwargs)
