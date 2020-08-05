@@ -64,15 +64,25 @@ class AdyenClient(object):
         skin_code (str, optional): skin_code to place directory_lookup requests
             and generate hpp signatures with.
         hmac (str, optional): Hmac key that is used for signature calculation.
+        http_timeout (int, optional): The timeout in seconds for HTTP calls,
+            default 30.
     """
 
-    def __init__(self, username=None, password=None, xapikey=None,
-                 review_payout_username=None, review_payout_password=None,
-                 store_payout_username=None, store_payout_password=None,
-                 platform="test", merchant_account=None,
-                 merchant_specific_url=None, skin_code=None,
-                 hmac=None,
-                 http_force=None, live_endpoint_prefix=None):
+    def __init__(
+        self,
+        username=None,
+        password=None,
+        xapikey=None,
+        review_payout_username=None,
+        review_payout_password=None,
+        store_payout_username=None, store_payout_password=None,
+        platform="test", merchant_account=None,
+        merchant_specific_url=None, skin_code=None,
+        hmac=None,
+        http_force=None,
+        live_endpoint_prefix=None,
+        http_timeout=30,
+    ):
         self.username = username
         self.password = password
         self.xapikey = xapikey
@@ -91,6 +101,7 @@ class AdyenClient(object):
         self.http_init = False
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
+        self.http_timeout = http_timeout
 
     @staticmethod
     def _determine_api_url(platform, service, action):
@@ -199,8 +210,14 @@ class AdyenClient(object):
         'Adyen.store_payout_password = 'Your payout password'"""
         raise AdyenInvalidRequestError(errorstring)
 
-    def call_api(self, request_data, service, action, idempotency=False,
-                 **kwargs):
+    def call_api(
+        self,
+        request_data,
+        service,
+        action,
+        idempotency=False,
+        **kwargs
+    ):
         """This will call the adyen api. username, password, merchant_account,
         and platform are pulled from root module level and or self object.
         AdyenResult will be returned on 200 response. Otherwise, an exception
@@ -217,12 +234,15 @@ class AdyenClient(object):
                 https://docs.adyen.com/manuals/api-manual#apiidempotency
         Returns:
             AdyenResult: The AdyenResult is returned when a request was
-                succesful.
+                successful.
         """
         if not self.http_init:
-            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
-                                          self.LIB_VERSION,
-                                          self.http_force)
+            self.http_client = HTTPClient(
+                user_agent_suffix=self.USER_AGENT_SUFFIX,
+                lib_version=self.LIB_VERSION,
+                force_request=self.http_force,
+                timeout=self.http_timeout,
+            )
             self.http_init = True
 
         # username at self object has highest priority. fallback to root module
