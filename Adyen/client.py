@@ -103,8 +103,7 @@ class AdyenClient(object):
         self.live_endpoint_prefix = live_endpoint_prefix
         self.http_timeout = http_timeout
 
-    @staticmethod
-    def _determine_api_url(platform, service, action):
+    def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
         service and action.
 
@@ -113,7 +112,13 @@ class AdyenClient(object):
             service (str): API service to place request through.
             action (str): the API action to perform.
         """
-        base_uri = settings.BASE_PAL_URL.format(platform)
+        if platform == "live" and self.live_endpoint_prefix:
+            base_uri = settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(
+                self.live_endpoint_prefix
+            )
+        else:
+            base_uri = settings.BASE_PAL_URL.format(platform)
+
         if service == "Recurring":
             api_version = settings.API_RECURRING_VERSION
         elif service == "Payout":

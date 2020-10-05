@@ -54,3 +54,44 @@ class TestDetermineUrl(unittest.TestCase):
             self.adyen.checkout.payments(request)
         except AdyenEndpointInvalidFormat as error:
             self.assertIsNotNone(error)
+
+    def test_pal_url_live_endpoint_prefix_live_platform(self):
+        self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        url = self.adyen.client._determine_api_url(
+            "live", "Payment", "payments"
+        )
+        self.assertEqual(
+            url,
+            ("https://1797a841fbb37ca7-AdyenDemo-pal-"
+             "live.adyenpayments.com/pal/servlet/Payment/v49/payments")
+        )
+
+    def test_pal_url_live_endpoint_prefix_test_platform(self):
+        self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        url = self.adyen.client._determine_api_url(
+            "test", "Payment", "payments"
+        )
+        self.assertEqual(
+            url,
+            "https://pal-test.adyen.com/pal/servlet/Payment/v49/payments"
+        )
+
+    def test_pal_url_no_live_endpoint_prefix_live_platform(self):
+        self.client.live_endpoint_prefix = None
+        url = self.adyen.client._determine_api_url(
+            "live", "Payment", "payments"
+        )
+        self.assertEqual(
+            url,
+            "https://pal-live.adyen.com/pal/servlet/Payment/v49/payments"
+        )
+
+    def test_pal_url_no_live_endpoint_prefix_test_platform(self):
+        self.client.live_endpoint_prefix = None
+        url = self.adyen.client._determine_api_url(
+            "test", "Payment", "payments"
+        )
+        self.assertEqual(
+            url,
+            "https://pal-test.adyen.com/pal/servlet/Payment/v49/payments"
+        )
