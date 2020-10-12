@@ -63,7 +63,7 @@ class TestDetermineUrl(unittest.TestCase):
         self.assertEqual(
             url,
             ("https://1797a841fbb37ca7-AdyenDemo-pal-"
-             "live.adyenpayments.com/pal/servlet/Payment/v49/payments")
+             "live.adyenpayments.com/pal/servlet/Payment/v64/payments")
         )
 
     def test_pal_url_live_endpoint_prefix_test_platform(self):
@@ -73,7 +73,7 @@ class TestDetermineUrl(unittest.TestCase):
         )
         self.assertEqual(
             url,
-            "https://pal-test.adyen.com/pal/servlet/Payment/v49/payments"
+            "https://pal-test.adyen.com/pal/servlet/Payment/v64/payments"
         )
 
     def test_pal_url_no_live_endpoint_prefix_live_platform(self):
@@ -83,7 +83,7 @@ class TestDetermineUrl(unittest.TestCase):
         )
         self.assertEqual(
             url,
-            "https://pal-live.adyen.com/pal/servlet/Payment/v49/payments"
+            "https://pal-live.adyen.com/pal/servlet/Payment/v64/payments"
         )
 
     def test_pal_url_no_live_endpoint_prefix_test_platform(self):
@@ -93,7 +93,7 @@ class TestDetermineUrl(unittest.TestCase):
         )
         self.assertEqual(
             url,
-            "https://pal-test.adyen.com/pal/servlet/Payment/v49/payments"
+            "https://pal-test.adyen.com/pal/servlet/Payment/v64/payments"
         )
 
     def test_binlookup_url_no_live_endpoint_prefix_test_platform(self):
