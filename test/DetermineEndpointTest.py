@@ -95,3 +95,14 @@ class TestDetermineUrl(unittest.TestCase):
             url,
             "https://pal-test.adyen.com/pal/servlet/Payment/v49/payments"
         )
+
+    def test_binlookup_url_no_live_endpoint_prefix_test_platform(self):
+        self.client.live_endpoint_prefix = None
+        url = self.adyen.client._determine_api_url(
+            "test", "BinLookup", "get3dsAvailability"
+        )
+        self.assertEqual(
+            url,
+            ("https://pal-test.adyen.com/pal/servlet/"
+             "BinLookup/v50/get3dsAvailability")
+        )
