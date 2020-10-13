@@ -1,5 +1,7 @@
 # Those constants are used from the library only
 BASE_PAL_URL = "https://pal-{}.adyen.com/pal/servlet"
+PAL_LIVE_ENDPOINT_URL_TEMPLATE = "https://{}-pal-live" \
+                                 ".adyenpayments.com/pal/servlet"
 BASE_HPP_URL = "https://{}.adyen.com/hpp"
 ENDPOINT_CHECKOUT_TEST = "https://checkout-test.adyen.com"
 ENDPOINT_CHECKOUT_LIVE_SUFFIX = "https://{}-checkout-live" \
