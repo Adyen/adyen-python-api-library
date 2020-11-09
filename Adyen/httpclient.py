@@ -35,7 +35,13 @@ import base64
 
 
 class HTTPClient(object):
-    def __init__(self, user_agent_suffix, lib_version, force_request=None):
+    def __init__(
+        self,
+        user_agent_suffix,
+        lib_version,
+        force_request=None,
+        timeout=None,
+    ):
         # Check if requests already available, default to urllib
         self.user_agent = user_agent_suffix + lib_version
         if not force_request:
@@ -53,17 +59,20 @@ class HTTPClient(object):
             else:
                 self.request = self._urllib_post
 
-    def _pycurl_post(self,
-                     url,
-                     json=None,
-                     data=None,
-                     username="",
-                     password="",
-                     xapikey="",
-                     headers=None,
-                     timeout=30):
+        self.timeout = timeout
+
+    def _pycurl_post(
+        self,
+        url,
+        json=None,
+        data=None,
+        username="",
+        password="",
+        xapikey="",
+        headers=None
+     ):
         """This function will POST to the url endpoint using pycurl. returning
-        an AdyenResult object on 200 HTTP responce. Either json or data has to
+        an AdyenResult object on 200 HTTP response. Either json or data has to
         be provided. If username and password are provided, basic auth will be
         used.
 
@@ -129,7 +138,7 @@ class HTTPClient(object):
         raw_request = json_lib.dumps(json) if json else urlencode(data)
         curl.setopt(curl.POSTFIELDS, raw_request)
 
-        curl.setopt(curl.TIMEOUT, timeout)
+        curl.setopt(curl.TIMEOUT, self.timeout)
         curl.perform()
 
         # Grab the response content
@@ -143,14 +152,16 @@ class HTTPClient(object):
 
         return result, raw_request, status_code, response_headers
 
-    def _requests_post(self, url,
-                       json=None,
-                       data=None,
-                       username="",
-                       password="",
-                       xapikey="",
-                       headers=None,
-                       timeout=30):
+    def _requests_post(
+        self,
+        url,
+        json=None,
+        data=None,
+        username="",
+        password="",
+        xapikey="",
+        headers=None
+    ):
         """This function will POST to the url endpoint using requests.
         Returning an AdyenResult object on 200 HTTP response.
         Either json or data has to be provided.
@@ -191,8 +202,14 @@ class HTTPClient(object):
         # can be identified as coming from the Adyen Python library.
         headers['User-Agent'] = self.user_agent
 
-        request = requests.post(url, auth=auth, data=data, json=json,
-                                headers=headers, timeout=timeout)
+        request = requests.post(
+            url=url,
+            auth=auth,
+            data=data,
+            json=json,
+            headers=headers,
+            timeout=self.timeout
+        )
 
         # Ensure either json or data is returned for raw request
         # Updated: Only return regular dict,
@@ -201,14 +218,16 @@ class HTTPClient(object):
 
         return request.text, message, request.status_code, request.headers
 
-    def _urllib_post(self, url,
-                     json=None,
-                     data=None,
-                     username="",
-                     password="",
-                     xapikey="",
-                     headers=None,
-                     timeout=30):
+    def _urllib_post(
+        self,
+        url,
+        json=None,
+        data=None,
+        username="",
+        password="",
+        xapikey="",
+        headers=None,
+    ):
 
         """This function will POST to the url endpoint using urllib2. returning
         an AdyenResult object on 200 HTTP responce. Either json or data has to
@@ -228,7 +247,6 @@ class HTTPClient(object):
             xapikey (str, optional):    Adyen API key.  Will be used for auth
                                         if username and password are absent.
             headers (dict, optional):   Key/Value pairs of headers to include
-            timeout (int, optional): Default 30. Timeout for the request.
 
         Returns:
             str:    Raw response received
@@ -279,7 +297,7 @@ class HTTPClient(object):
 
         # URLlib raises all non 200 responses as en error.
         try:
-            response = urlopen(url_request, timeout=timeout)
+            response = urlopen(url_request, timeout=self.timeout)
         except HTTPError as e:
             raw_response = e.read()
 
@@ -293,13 +311,15 @@ class HTTPClient(object):
             return (raw_response, raw_request,
                     response.getcode(), dict(response.info()))
 
-    def request(self, url,
-                json="",
-                data="",
-                username="",
-                password="",
-                headers=None,
-                timout=30):
+    def request(
+        self,
+        url,
+        json="",
+        data="",
+        username="",
+        password="",
+        headers=None,
+    ):
         """This is overridden on module initialization. This function will make
         an HTTP POST to a given url. Either json/data will be what is posted to
         the end point. he HTTP request needs to be basicAuth when username and
@@ -313,7 +333,7 @@ class HTTPClient(object):
                                         key/value of request to place as
                                         www-form
             username (str, optional):    Username for basic auth. Must be
-                                        uncluded as part of password.
+                                        included as part of password.
             password (str, optional):   Password for basic auth. Must be
                                         included as part of username.
             xapikey (str, optional):    Adyen API key.  Will be used for auth
@@ -324,7 +344,6 @@ class HTTPClient(object):
             str:    Raw response received
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
-            :param timout:
         """
         raise NotImplementedError('request of HTTPClient should have been '
                                   'overridden on initialization. '
