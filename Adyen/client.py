@@ -328,13 +328,7 @@ class AdyenClient(object):
                     "version": settings.LIB_VERSION
                 }
             })
-        else:
-            request_data['applicationInfo'] = {
-                "adyenLibrary": {
-                    "name": settings.LIB_NAME,
-                    "version": settings.LIB_VERSION
-                }
-            }
+
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
@@ -490,13 +484,7 @@ class AdyenClient(object):
                     "version": settings.LIB_VERSION
                 }
             })
-        else:
-            request_data['applicationInfo'] = {
-                "adyenLibrary": {
-                    "name": settings.LIB_NAME,
-                    "version": settings.LIB_VERSION
-                }
-            }
+
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
