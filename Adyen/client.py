@@ -483,20 +483,30 @@ class AdyenClient(object):
         if not request_data.get('merchantAccount'):
             request_data['merchantAccount'] = self.merchant_account
 
-        if 'applicationInfo' in request_data:
-            request_data['applicationInfo'].update({
-                "adyenLibrary": {
-                    "name": settings.LIB_NAME,
-                    "version": settings.LIB_VERSION
+        with_app_info = [
+            "authorise",
+            "authorise3d",
+            "authorise3ds2",
+            "payments",
+            "paymentSession",
+            "paymentLinks"
+        ]
+
+        if action in with_app_info:
+            if 'applicationInfo' in request_data:
+                request_data['applicationInfo'].update({
+                    "adyenLibrary": {
+                        "name": settings.LIB_NAME,
+                        "version": settings.LIB_VERSION
+                    }
+                })
+            else:
+                request_data['applicationInfo'] = {
+                    "adyenLibrary": {
+                        "name": settings.LIB_NAME,
+                        "version": settings.LIB_VERSION
+                    }
                 }
-            })
-        else:
-            request_data['applicationInfo'] = {
-                "adyenLibrary": {
-                    "name": settings.LIB_NAME,
-                    "version": settings.LIB_VERSION
-                }
-            }
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}

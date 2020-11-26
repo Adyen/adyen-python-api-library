@@ -89,6 +89,32 @@ class TestCheckout(unittest.TestCase):
                                                               "-data-422"
                                                               ".json")
         result = self.adyen.checkout.payments(request)
+
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'https://checkout-test.adyen.com/v64/payments',
+            headers={},
+            json={
+                'returnUrl': 'https://your-company.com/...',
+                u'applicationInfo': {
+                    u'adyenLibrary': {
+                        u'version': '3.1.0',
+                        u'name': 'adyen-python-api-library'
+                    }
+                },
+                'reference': '54431',
+                'merchantAccount': 'YourMerchantAccount',
+                'amount': {'currency': 'EUR', 'value': '100000'},
+                'paymentMethod': {
+                    'expiryYear': '2018',
+                    'holderName': 'John Smith',
+                    'number': '4111111111111111',
+                    'expiryMonth': '08',
+                    'type': 'scheme',
+                    'cvc': '737'
+                }
+            },
+            xapikey='YourXapikey'
+        )
         self.assertEqual(422, result.message['status'])
         self.assertEqual("130", result.message['errorCode'])
         self.assertEqual("Reference Missing", result.message['message'])
@@ -104,7 +130,19 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "paymentsdetails"
                                                               "-success.json")
+
         result = self.adyen.checkout.payments_details(request)
+
+        self.adyen.client.http_client.request.assert_called_once_with(
+            u'https://checkout-test.adyen.com/v64/payments/details',
+            headers={},
+            json={
+                'paymentData': 'Hee57361f99....',
+                u'merchantAccount': None,
+                'details': {'MD': 'sdfsdfsdf...', 'PaRes': 'sdkfhskdjfsdf...'}
+            },
+            xapikey='YourXapikey'
+        )
         self.assertEqual("8515232733321252", result.message['pspReference'])
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertEqual("true",
