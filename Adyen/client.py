@@ -1,7 +1,7 @@
 #!/bin/python
 
 from __future__ import absolute_import, division, unicode_literals
-
+import logging
 import json as json_lib
 import re
 
@@ -17,6 +17,48 @@ from .exceptions import (
     AdyenAPIInvalidAmount,
     AdyenEndpointInvalidFormat)
 from . import settings
+
+_logger = logging.getLogger(__name__)
+
+payment_completion_details = [
+    "MD",
+    "PaReq",
+    "PaRes",
+    "billingToken",
+    "cupsecureplus.smscode",
+    "facilitatorAccessToken",
+    "oneTimePasscode",
+    "orderID",
+    "payerID",
+    "payload",
+    "paymentID",
+    "paymentStatus",
+    "redirectResult",
+    "returnUrlQueryString",
+    "threeds2.challengeResult",
+    "threeds2.fingerprint",
+]
+
+def filter_completion_details(details):
+    """
+        Filter authorized details in order to pass just those ones to the API
+    
+        :param details: The details values as a dict
+        :type details: dict
+    """
+    if not details:
+        return
+    unknown_params = []
+    for key, value in details.items():
+        if not key in payment_completion_details:
+            details.pop(key)
+            unknown_params.append(key)
+    if unknown_params:
+        # Log unknown keys
+        message = "PaymentCompletionDetails contains unknown params: %s" %\
+            ",".join([str(param) for param in unknown_params]) 
+        _logger.info(message)
+    return details
 
 
 class AdyenResult(object):

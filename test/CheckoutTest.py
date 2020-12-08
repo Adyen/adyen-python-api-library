@@ -150,6 +150,37 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual("AUTHORISED",
                          result.message['additionalData']['refusalReasonRaw'])
 
+    def test_payments_details_unknown_success_mocked(self):
+        request = {'paymentData': "Hee57361f99....", 'details': {
+            "MD": "sdfsdfsdf...",
+            "PaRes": "sdkfhskdjfsdf...",
+            "unknownParam": "test"
+        }}
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsdetails"
+                                                              "-success.json")
+
+        result = self.adyen.checkout.payments_details(request)
+
+        self.adyen.client.http_client.request.assert_called_once_with(
+            u'https://checkout-test.adyen.com/v64/payments/details',
+            headers={},
+            json={
+                'paymentData': 'Hee57361f99....',
+                u'merchantAccount': None,
+                'details': {'MD': 'sdfsdfsdf...', 'PaRes': 'sdkfhskdjfsdf...'}
+            },
+            xapikey='YourXapikey'
+        )
+        self.assertEqual("8515232733321252", result.message['pspReference'])
+        self.assertEqual("Authorised", result.message['resultCode'])
+        self.assertEqual("true",
+                         result.message['additionalData']['liabilityShift'])
+        self.assertEqual("AUTHORISED",
+                         result.message['additionalData']['refusalReasonRaw'])
+
     def test_payments_details_error_mocked(self):
         request = {'paymentData': "Hee57361f99....", 'details': {
             "MD": "sdfsdfsdf...",

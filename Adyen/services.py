@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, unicode_literals
 
 import datetime
-
+from .client import filter_completion_details
 from Adyen import AdyenClient
 
 
@@ -302,6 +302,9 @@ class AdyenCheckoutApi(AdyenServiceBase):
 
     def payments_details(self, request=None, **kwargs):
         action = "paymentsDetails"
+        if "details" in request:
+            details = filter_completion_details(request["details"])
+            request["details"] = details
         return self.client.call_checkout_api(request, action, **kwargs)
 
     def payment_session(self, request=None, **kwargs):
