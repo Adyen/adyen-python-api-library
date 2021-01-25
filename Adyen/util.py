@@ -57,7 +57,7 @@ def generate_notification_sig(dict_object, hmac_key):
     def escape_val(val):
         if isinstance(val, int):
             return val
-        return val.replace('\\', '\\\\').replace(':', '\\:')
+        return val.replace('\\', '\\\\')
 
     hmac_key = binascii.a2b_hex(hmac_key)
 
