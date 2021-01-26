@@ -146,7 +146,7 @@ class AdyenPayment(AdyenServiceBase):
         super(AdyenPayment, self).__init__(client=client)
         self.service = "Payment"
 
-    def authorise(self, request, **kwargs):
+    def authorise(self, request,idempotency_key=None, **kwargs):
 
         action = "authorise"
 
@@ -162,13 +162,13 @@ class AdyenPayment(AdyenServiceBase):
                     ' name when authorising recurring contracts.')
 
         return self.client.call_api(request, self.service,
-                                    action, **kwargs)
+                                    action, idempotency_key, **kwargs)
 
-    def authorise3d(self, request, **kwargs):
+    def authorise3d(self, request, idempotency_key=None, **kwargs):
         action = "authorise3d"
 
         return self.client.call_api(request, self.service,
-                                    action, **kwargs)
+                                    action, idempotency_key, **kwargs)
 
     def cancel(self, request, **kwargs):
         action = "cancel"
@@ -296,9 +296,9 @@ class AdyenCheckoutApi(AdyenServiceBase):
 
         return self.client.call_checkout_api(request, action, **kwargs)
 
-    def payments(self, request, **kwargs):
+    def payments(self, request, idempotency_key=None, **kwargs):
         action = "payments"
-        return self.client.call_checkout_api(request, action, **kwargs)
+        return self.client.call_checkout_api(request, action, idempotency_key, **kwargs)
 
     def payments_details(self, request=None, **kwargs):
         action = "paymentsDetails"
