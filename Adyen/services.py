@@ -146,7 +146,7 @@ class AdyenPayment(AdyenServiceBase):
         super(AdyenPayment, self).__init__(client=client)
         self.service = "Payment"
 
-    def authorise(self, request,idempotency_key=None, **kwargs):
+    def authorise(self, request, idempotency_key=None, **kwargs):
 
         action = "authorise"
 
@@ -298,7 +298,8 @@ class AdyenCheckoutApi(AdyenServiceBase):
 
     def payments(self, request, idempotency_key=None, **kwargs):
         action = "payments"
-        return self.client.call_checkout_api(request, action, idempotency_key, **kwargs)
+        return self.client.call_checkout_api(request, action, idempotency_key,
+                                             **kwargs)
 
     def payments_details(self, request=None, **kwargs):
         action = "paymentsDetails"

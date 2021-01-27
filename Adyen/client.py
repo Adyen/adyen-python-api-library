@@ -231,7 +231,8 @@ class AdyenClient(object):
         is raised.
 
         Args:
-            idempotency_key: https://docs.adyen.com/development-resources/api-idempotency
+            idempotency_key: https://docs.adyen.com/development-resources
+            /api-idempotency
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
                 https://docs.adyen.com/manuals/api-manual
@@ -438,14 +439,16 @@ class AdyenClient(object):
                                              status_code, headers, message)
         return adyen_result
 
-    def call_checkout_api(self, request_data, action, idempotency_key=None, **kwargs):
+    def call_checkout_api(self, request_data, action, idempotency_key=None,
+                          **kwargs):
         """This will call the checkout adyen api. xapi key merchant_account,
         and platform are pulled from root module level and or self object.
         AdyenResult will be returned on 200 response. Otherwise, an exception
         is raised.
 
         Args:
-            idempotency_key: https://docs.adyen.com/development-resources/api-idempotency
+            idempotency_key: https://docs.adyen.com/development-resources
+            /api-idempotency
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
                 https://docs.adyen.com/developers/checkout/api-integration
