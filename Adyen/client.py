@@ -45,6 +45,7 @@ class AdyenResult(object):
 
 
 class AdyenClient(object):
+    IDEMPOTENCY_HEADER_NAME = 'Idempotency-Key'
     """A requesting client that interacts with Adyen. This class holds the
     adyen logic of Adyen HTTP API communication. This is the object that can
     maintain its own username, password, merchant_account, hmac and skin_code.
@@ -220,7 +221,7 @@ class AdyenClient(object):
         request_data,
         service,
         action,
-        idempotency=False,
+        idempotency_key=None,
         **kwargs
     ):
         """This will call the adyen api. username, password, merchant_account,
@@ -229,6 +230,8 @@ class AdyenClient(object):
         is raised.
 
         Args:
+            idempotency_key: https://docs.adyen.com/development-resources
+            /api-idempotency
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
                 https://docs.adyen.com/manuals/api-manual
@@ -338,8 +341,8 @@ class AdyenClient(object):
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
-        if idempotency:
-            headers['Pragma'] = 'process-retry'
+        if idempotency_key:
+            headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
 
         url = self._determine_api_url(platform, service, action)
 
@@ -373,9 +376,6 @@ class AdyenClient(object):
                 https://docs.adyen.com/manuals/api-manual
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
-            idempotency (bool, optional): Whether the transaction should be
-                processed idempotently.
-                https://docs.adyen.com/manuals/api-manual#apiidempotency
         Returns:
             AdyenResult: The AdyenResult is returned when a request was
                 succesful.
@@ -433,13 +433,16 @@ class AdyenClient(object):
                                              status_code, headers, message)
         return adyen_result
 
-    def call_checkout_api(self, request_data, action, **kwargs):
+    def call_checkout_api(self, request_data, action, idempotency_key=None,
+                          **kwargs):
         """This will call the checkout adyen api. xapi key merchant_account,
         and platform are pulled from root module level and or self object.
         AdyenResult will be returned on 200 response. Otherwise, an exception
         is raised.
 
         Args:
+            idempotency_key: https://docs.adyen.com/development-resources
+            /api-idempotency
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
                 https://docs.adyen.com/developers/checkout/api-integration
@@ -510,7 +513,8 @@ class AdyenClient(object):
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
-
+        if idempotency_key:
+            headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
         url = self._determine_checkout_url(platform, action)
 
         raw_response, raw_request, status_code, headers = \
