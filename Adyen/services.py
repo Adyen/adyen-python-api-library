@@ -170,11 +170,11 @@ class AdyenPayment(AdyenServiceBase):
         return self.client.call_api(request, self.service,
                                     action, idempotency_key, **kwargs)
 
-    def cancel(self, request, **kwargs):
+    def cancel(self, request, idempotency_key=None, **kwargs):
         action = "cancel"
 
         return self.client.call_api(request, self.service,
-                                    action, **kwargs)
+                                    action, idempotency_key, **kwargs)
 
     def capture(self, request, idempotency_key=None, **kwargs):
 
@@ -209,11 +209,11 @@ class AdyenPayment(AdyenServiceBase):
             return self.client.call_api(request, self.service,
                                         action, idempotency_key, **kwargs)
 
-    def cancel_or_refund(self, request, **kwargs):
+    def cancel_or_refund(self, request, idempotency_key=None, **kwargs):
         action = "cancelOrRefund"
 
         return self.client.call_api(
-            request, self.service, action, **kwargs
+            request, self.service, action, idempotency_key, **kwargs
         )
 
 
@@ -301,9 +301,10 @@ class AdyenCheckoutApi(AdyenServiceBase):
         return self.client.call_checkout_api(request, action, idempotency_key,
                                              **kwargs)
 
-    def payments_details(self, request=None, **kwargs):
+    def payments_details(self, request=None, idempotency_key=None, **kwargs):
         action = "paymentsDetails"
-        return self.client.call_checkout_api(request, action, **kwargs)
+        return self.client.call_checkout_api(request, action, idempotency_key,
+                                             **kwargs)
 
     def payment_session(self, request=None, **kwargs):
         action = "paymentSession"
