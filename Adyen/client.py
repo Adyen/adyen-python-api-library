@@ -221,7 +221,6 @@ class AdyenClient(object):
         request_data,
         service,
         action,
-        idempotency=False,
         idempotency_key=None,
         **kwargs
     ):
@@ -344,8 +343,6 @@ class AdyenClient(object):
         headers = {}
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
-        if idempotency:
-            headers['Pragma'] = 'process-retry'
 
         url = self._determine_api_url(platform, service, action)
 
@@ -379,9 +376,6 @@ class AdyenClient(object):
                 https://docs.adyen.com/manuals/api-manual
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
-            idempotency (bool, optional): Whether the transaction should be
-                processed idempotently.
-                https://docs.adyen.com/manuals/api-manual#apiidempotency
         Returns:
             AdyenResult: The AdyenResult is returned when a request was
                 succesful.

@@ -176,7 +176,7 @@ class AdyenPayment(AdyenServiceBase):
         return self.client.call_api(request, self.service,
                                     action, **kwargs)
 
-    def capture(self, request, **kwargs):
+    def capture(self, request, idempotency_key=None, **kwargs):
 
         action = "capture"
 
@@ -192,10 +192,10 @@ class AdyenPayment(AdyenServiceBase):
                              "reference of the transaction to be modified")
 
         response = self.client.call_api(request, self.service,
-                                        action, **kwargs)
+                                        action, idempotency_key, **kwargs)
         return response
 
-    def refund(self, request, **kwargs):
+    def refund(self, request, idempotency_key=None, **kwargs):
 
         action = "refund"
 
@@ -207,7 +207,7 @@ class AdyenPayment(AdyenServiceBase):
                 "to partially refund this payment.")
         else:
             return self.client.call_api(request, self.service,
-                                        action, **kwargs)
+                                        action, idempotency_key, **kwargs)
 
     def cancel_or_refund(self, request, **kwargs):
         action = "cancelOrRefund"
