@@ -91,7 +91,7 @@ class TestCheckout(unittest.TestCase):
         result = self.adyen.checkout.payments(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
-            'https://checkout-test.adyen.com/v66/payments',
+            'https://checkout-test.adyen.com/v67/payments',
             headers={},
             json={
                 'returnUrl': 'https://your-company.com/...',
@@ -134,7 +134,7 @@ class TestCheckout(unittest.TestCase):
         result = self.adyen.checkout.payments_details(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
-            u'https://checkout-test.adyen.com/v66/payments/details',
+            u'https://checkout-test.adyen.com/v67/payments/details',
             headers={},
             json={
                 'paymentData': 'Hee57361f99....',
