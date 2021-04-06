@@ -83,6 +83,19 @@ class TestModifications(unittest.TestCase):
         result = self.ady.payment.cancel(request)
         self.assertEqual("[cancel-received]", result.message['response'])
 
+    def test_adjust_authorisation_received(self):
+        request = {}
+        request['merchantAccount'] = "YourMerchantAccount"
+        request['reference'] = "YourReference"
+        request['modificationAmount'] = {"value": "1234", "currency": "EUR"}
+        request['originalReference'] = "YourOriginalReference"
+        self.ady.client = self.test.create_client_from_file(200, request,
+                                                            'test/mocks/'
+                                                            'adjust-authorisation-received'
+                                                            '.json')
+        result = self.ady.payment.adjustAuthorisation(request)
+        self.assertEqual("[adjustAuthorisation-received]", result.message['response'])
+
 
 TestModifications.client.http_force = "requests"
 suite = unittest.TestLoader().loadTestsFromTestCase(TestModifications)
