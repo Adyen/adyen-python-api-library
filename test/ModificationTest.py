@@ -91,10 +91,12 @@ class TestModifications(unittest.TestCase):
         request['originalReference'] = "YourOriginalReference"
         self.ady.client = self.test.create_client_from_file(200, request,
                                                             'test/mocks/'
-                                                            'adjust-authorisation-received'
-                                                            '.json')
+                                                            'adjust-'
+                                                            'authorisation-'
+                                                            'received.json')
         result = self.ady.payment.adjustAuthorisation(request)
-        self.assertEqual("[adjustAuthorisation-received]", result.message['response'])
+        self.assertEqual("[adjustAuthorisation-received]",
+                         result.message['response'])
 
 
 TestModifications.client.http_force = "requests"
