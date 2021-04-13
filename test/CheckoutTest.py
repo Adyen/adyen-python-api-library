@@ -235,3 +235,31 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
         self.assertEqual("validation", result.message['errorType'])
+
+
+    def test_orders_success(self):
+        request = {'merchantAccount': "YourMerchantAccount"}
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "orders"
+                                                              "-success.json")
+        result = self.adyen.checkout.orders(request)
+        self.assertEqual("8515930288670953", result.message['pspReference'])
+        self.assertEqual("Success", result.message['resultCode'])
+        self.assertEqual("order reference", result.message['reference'])
+        self.assertEqual("EUR", result.message['remainingAmount']["currency"])
+        self.assertEqual(2500, result.message['remainingAmount']['value'])
+
+
+
+    def test_orders_cancel_success(self):
+        request = {'merchantAccount': "YourMerchantAccount"}
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "orders-cancel"
+                                                              "-success.json")
+        result = self.adyen.checkout.payment_methods(request)
+        self.assertEqual("8515931182066678", result.message['pspReference'])
+        self.assertEqual("Received", result.message['resultCode'])
