@@ -124,7 +124,7 @@ class TestDetermineUrl(unittest.TestCase):
     def test_checkout_api_url_order_payment_methods_balance(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_checkout_url("test",
-                                                    "paymentMethodsBalance")
-        self.assertEqual(url, "https://checkout-test.adyen.com"
-                                  "/v67/paymentMethods/balance")
-
+                                                        "paymentMethods"
+                                                        "Balance")
+        self.assertEqual(url, "https://checkout-test.adyen.com""/v67/"
+                              "paymentMethods/balance")

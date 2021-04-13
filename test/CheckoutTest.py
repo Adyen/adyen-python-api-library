@@ -236,7 +236,6 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual("Invalid payload provided", result.message['message'])
         self.assertEqual("validation", result.message['errorType'])
 
-
     def test_orders_success(self):
         request = {'merchantAccount': "YourMerchantAccount"}
         self.adyen.client = self.test.create_client_from_file(200, request,
@@ -250,8 +249,6 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual("order reference", result.message['reference'])
         self.assertEqual("EUR", result.message['remainingAmount']["currency"])
         self.assertEqual(2500, result.message['remainingAmount']['value'])
-
-
 
     def test_orders_cancel_success(self):
         request = {'merchantAccount': "YourMerchantAccount"}

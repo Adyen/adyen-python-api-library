@@ -328,12 +328,12 @@ class AdyenCheckoutApi(AdyenServiceBase):
 
     # Orders endpoints
 
-    #/paymentMethods/balance
+    # /paymentMethods/balance
     def payment_methods_balance(self, request, **kwargs):
         action = "paymentMethodsBalance"
         return self.client.call_checkout_api(request, action, **kwargs)
 
-    #/orders
+    # /orders
     def orders(self, request, **kwargs):
         action = "orders"
         return self.client.call_checkout_api(request, action, **kwargs)
