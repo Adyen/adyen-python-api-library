@@ -257,7 +257,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "orders-cancel"
                                                               "-success.json")
-        result = self.adyen.checkout.payment_methods(request)
+        result = self.adyen.checkout.orders_cancel(request)
         self.assertEqual("8515931182066678", result.message['pspReference'])
         self.assertEqual("Received", result.message['resultCode'])
 
@@ -269,7 +269,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentmethods"
                                                               "-balance"
                                                               "-success.json")
-        result = self.adyen.checkout.payment_methods(request)
+        result = self.adyen.checkout.payment_methods_balance(request)
         self.assertEqual("851611111111713K", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
         self.assertEqual(100, result.message['balance']['value'])
