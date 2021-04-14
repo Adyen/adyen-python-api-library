@@ -497,11 +497,7 @@ class AdyenClient(object):
             "payments",
             "paymentSession",
             "paymentLinks",
-            "orders",
-            "ordersCancel",
             "paymentMethodsBalance"
-
-
         ]
 
         if action in with_app_info:

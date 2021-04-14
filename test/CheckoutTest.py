@@ -260,3 +260,17 @@ class TestCheckout(unittest.TestCase):
         result = self.adyen.checkout.payment_methods(request)
         self.assertEqual("8515931182066678", result.message['pspReference'])
         self.assertEqual("Received", result.message['resultCode'])
+
+    def test_paymentmethods_balance_success(self):
+        request = {'merchantAccount': "YourMerchantAccount"}
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentmethods"
+                                                              "-balance"
+                                                              "-success.json")
+        result = self.adyen.checkout.payment_methods(request)
+        self.assertEqual("851611111111713K", result.message['pspReference'])
+        self.assertEqual("Success", result.message['resultCode'])
+        self.assertEqual(100, result.message['balance']['value'])
+        self.assertEqual("EUR", result.message['balance']['currency'])
