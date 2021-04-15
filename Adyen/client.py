@@ -173,6 +173,10 @@ class AdyenClient(object):
             action = "payments/result"
         if action == "originKeys":
             api_version = settings.API_CHECKOUT_UTILITY_VERSION
+        if action == "paymentMethodsBalance":
+            action = "paymentMethods/balance"
+        if action == "ordersCancel":
+            action = "orders/cancel"
 
         return '/'.join([base_uri, api_version, action])
 
@@ -492,7 +496,8 @@ class AdyenClient(object):
             "authorise3ds2",
             "payments",
             "paymentSession",
-            "paymentLinks"
+            "paymentLinks",
+            "paymentMethodsBalance"
         ]
 
         if action in with_app_info:

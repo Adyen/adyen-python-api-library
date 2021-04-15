@@ -1,0 +1,12 @@
+{
+    "pspReference": "851611111111713K",
+    "resultCode": "Success",
+    "balance": {
+        "currency": "EUR",
+        "value": 100
+    },
+    "transactionLimit": {
+        "currency": "EUR",
+        "value": 5000
+    }
+}

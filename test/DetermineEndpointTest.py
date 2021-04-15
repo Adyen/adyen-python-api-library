@@ -106,3 +106,25 @@ class TestDetermineUrl(unittest.TestCase):
             ("https://pal-test.adyen.com/pal/servlet/"
              "BinLookup/v50/get3dsAvailability")
         )
+
+    def test_checkout_api_url_orders(self):
+        self.client.live_endpoint_prefix = None
+        url = self.adyen.client._determine_checkout_url("test",
+                                                        "orders")
+        self.assertEqual(url, "https://checkout-test.adyen.com"
+                              "/v67/orders")
+
+    def test_checkout_api_url_order_cancel(self):
+        self.client.live_endpoint_prefix = None
+        url = self.adyen.client._determine_checkout_url("test",
+                                                        "ordersCancel")
+        self.assertEqual(url, "https://checkout-test.adyen.com"
+                              "/v67/orders/cancel")
+
+    def test_checkout_api_url_order_payment_methods_balance(self):
+        self.client.live_endpoint_prefix = None
+        url = self.adyen.client._determine_checkout_url("test",
+                                                        "paymentMethods"
+                                                        "Balance")
+        self.assertEqual(url, "https://checkout-test.adyen.com""/v67/"
+                              "paymentMethods/balance")
