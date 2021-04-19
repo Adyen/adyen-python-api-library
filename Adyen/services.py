@@ -128,6 +128,7 @@ class AdyenPayment(AdyenServiceBase):
     API calls currently implemented:
         authorise
         authorise3d
+        adjustAuthorisation
         cancel
         capture
         refund
@@ -169,6 +170,12 @@ class AdyenPayment(AdyenServiceBase):
 
         return self.client.call_api(request, self.service,
                                     action, idempotency_key, **kwargs)
+
+    def adjustAuthorisation(self, request, **kwargs):
+        action = "adjustAuthorisation"
+
+        return self.client.call_api(request, self.service,
+                                    action, **kwargs)
 
     def cancel(self, request, idempotency_key=None, **kwargs):
         action = "cancel"
@@ -272,6 +279,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
         payments
         payments/details
         originKeys
+
     Please refer to the checkout documentation for specifics around the API.
     https://docs.adyen.com/developers/checkout
 
@@ -316,6 +324,23 @@ class AdyenCheckoutApi(AdyenServiceBase):
 
     def origin_keys(self, request=None, **kwargs):
         action = "originKeys"
+        return self.client.call_checkout_api(request, action, **kwargs)
+
+    # Orders endpoints
+
+    # /paymentMethods/balance
+    def payment_methods_balance(self, request, **kwargs):
+        action = "paymentMethodsBalance"
+        return self.client.call_checkout_api(request, action, **kwargs)
+
+    # /orders
+    def orders(self, request, **kwargs):
+        action = "orders"
+        return self.client.call_checkout_api(request, action, **kwargs)
+
+    # /orders/cancel
+    def orders_cancel(self, request, **kwargs):
+        action = "ordersCancel"
         return self.client.call_checkout_api(request, action, **kwargs)
 
 
