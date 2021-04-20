@@ -42,15 +42,14 @@ pip install Adyen
 ## Using the library
  
  
-### General use with basic auth
+### General use with API key
  
 ~~~~ python
 import Adyen
 
 ady = Adyen.Adyen()
 
-ady.payment.client.username = "webservice user name"
-ady.payment.client.password = "webservice user password"
+ady.payment.client.xapikey = "YourXapikey"
 ady.payment.client.skin_code = "skin code for Hosted Payment pages"
 ady.payment.client.hmac = "HMAC key for skin code"
 ady.payment.client.platform = "test" # Environment to use the library in.
