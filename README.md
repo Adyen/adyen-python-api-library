@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/Adyen/adyen-python-api-library.svg?branch=master)](https://travis-ci.org/Adyen/adyen-python-api-library)
 [![Coverage Status](https://coveralls.io/repos/github/Adyen/adyen-python-api-library/badge.svg?branch=master)](https://coveralls.io/github/Adyen/adyen-python-api-library?branch=master)
 
-This is the officially supported python library for using Adyen's APIs.
+This is the officially supported Python library for using Adyen's APIs.
 ## Integration 
 The library supports all APIs under the following services:
  
@@ -58,7 +58,7 @@ ady.payment.client.merchant_account = "merchant account name from CA"
  
 ### Example integration
  
-For a closer look at how our python library works, clone our [example integration](https://github.com/adyen-examples/adyen-python-online-payments). This includes commented code, highlighting key features and concepts, and examples of API calls that can be made using the library.
+For a closer look at how our Python library works, clone our [example integration](https://github.com/adyen-examples/adyen-python-online-payments). This includes commented code, highlighting key features and concepts, and examples of API calls that can be made using the library.
 
 
 ## Contributing
@@ -70,7 +70,7 @@ Have a look at our [contributing guidelines](https://github.com/Adyen/adyen-pyth
  
  
 ## Support
-If you have a feature request, or spotted a bug or a technical problem, [create an issue here](https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2FAdyen%2Fadyen-web%2Fissues%2Fnew%2Fchoose).
+If you have a feature request, or spotted a bug or a technical problem, [create an issue here](https://github.com/Adyen/adyen-web/issues/new/choose).
  
 For other questions, [contact our Support Team](https://www.adyen.help/hc/en-us/requests/new?ticket_form_id=360000705420).
  
@@ -83,4 +83,3 @@ This repository is available under the [MIT license](https://github.com/Adyen/ad
 * [Example integration](https://github.com/adyen-examples/adyen-python-online-payments)
 * [Adyen docs](https://docs.adyen.com/)
 * [API Explorer](https://docs.adyen.com/api-explorer/)
-
