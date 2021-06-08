@@ -274,6 +274,7 @@ class TestCheckout(unittest.TestCase):
 
     def test_payments_cancels_success_mocked(self):
         requests = {"reference": "Your wro order number", "merchantAccount": "YOUR_MERCHANT_ACCOUNT"}
+
         reference_id = "8836183819713023"
         self.adyen.client = self.test.create_client_from_file(200, requests,
                                                               "test/mocks/"
@@ -375,6 +376,7 @@ class TestCheckout(unittest.TestCase):
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
         }
         psp_reference = "8836183819713023"
+
         self.adyen.client = self.test.create_client_from_file(200, requests,
                                                               "test/mocks/"
                                                               "checkout/"
