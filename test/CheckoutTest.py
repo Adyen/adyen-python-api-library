@@ -236,6 +236,33 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual("Invalid payload provided", result.message['message'])
         self.assertEqual("validation", result.message['errorType'])
 
+    def test_payments_cancels_success_mocked(self):
+        requests = {"reference": "Your wro order number", "merchantAccount":"YOUR_MERCHANT_ACCOUNT"}
+        reference_id = "8836183819713023"
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentscancels"
+                                                              "-success.json")
+        result = self.adyen.checkout.payment_cancels(request=requests, path_param=reference_id)
+        self.assertEqual(reference_id, result.message["paymentPspReference"])
+        self.assertEqual("received", result.message['status'])
+
+    def test_payments_cancels_fail_mocked(self):
+        requests = {"reference": "Your wro order number"}
+        reference_id = "8836183819713023"
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsresult-error-invalid-"
+                                                              "data-payload-422.json")
+        result = self.adyen.checkout.payment_cancels(request=requests, path_param=reference_id)
+        self.assertEqual(422, result.message['status'])
+        self.assertEqual("14_018", result.message['errorCode'])
+        self.assertEqual("Invalid payload provided", result.message['message'])
+        self.assertEqual("validation", result.message['errorType'])
+
+
     def test_orders_success(self):
         request = {'merchantAccount': "YourMerchantAccount"}
         self.adyen.client = self.test.create_client_from_file(200, request,

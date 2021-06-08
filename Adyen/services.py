@@ -322,6 +322,10 @@ class AdyenCheckoutApi(AdyenServiceBase):
         action = "paymentsResult"
         return self.client.call_checkout_api(request, action, **kwargs)
 
+    def payment_cancels(self, request=None, path_param=None,**kwargs):
+        action = "paymentsCancels"
+        return self.client.call_checkout_api(request, action, path_param=path_param, **kwargs)
+
     def origin_keys(self, request=None, **kwargs):
         action = "originKeys"
         return self.client.call_checkout_api(request, action, **kwargs)
