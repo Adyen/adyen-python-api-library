@@ -145,13 +145,14 @@ class AdyenClient(object):
         result = '/'.join([base_uri, service])
         return result
 
-    def _determine_checkout_url(self, platform, action):
+    def _determine_checkout_url(self, platform, action, path_param=None):
         """This returns the Adyen API endpoint based on the provided platform,
         service and action.
 
         Args:
             platform (str): Adyen platform, ie 'live' or 'test'.
             action (str): the API action to perform.
+            path_param Optional[(str)]: a generic id that can be used to modify a payment e.g. paymentPspReference.
         """
         api_version = settings.API_CHECKOUT_VERSION
         if platform == "test":
@@ -171,6 +172,14 @@ class AdyenClient(object):
             action = "payments/details"
         if action == "paymentsResult":
             action = "payments/result"
+        if action == "paymentsCancelsWithoutReference":
+            action = "payments/cancels"
+        if action == "paymentsCancelsWithReference":
+            action = f"payments/{path_param}/cancels"
+        if action == "paymentsReversals":
+            action = f"payments/{path_param}/reversals"
+        if action == "payments/Refunds":
+            action = f"payments/{path_param}/refunds"
         if action == "originKeys":
             api_version = settings.API_CHECKOUT_UTILITY_VERSION
         if action == "paymentMethodsBalance":
@@ -437,7 +446,7 @@ class AdyenClient(object):
                                              status_code, headers, message)
         return adyen_result
 
-    def call_checkout_api(self, request_data, action, idempotency_key=None,
+    def call_checkout_api(self, request_data, action, idempotency_key=None, path_param=None,
                           **kwargs):
         """This will call the checkout adyen api. xapi key merchant_account,
         and platform are pulled from root module level and or self object.
@@ -452,6 +461,7 @@ class AdyenClient(object):
                 https://docs.adyen.com/developers/checkout/api-integration
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
+            path_param (str): This is used to pass the id or referenceID to the API sercie
         """
         if not self.http_init:
             self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
@@ -520,7 +530,7 @@ class AdyenClient(object):
         headers = {}
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
-        url = self._determine_checkout_url(platform, action)
+        url = self._determine_checkout_url(platform, action, path_param)
 
         raw_response, raw_request, status_code, headers = \
             self.http_client.request(url, json=request_data,
