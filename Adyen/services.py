@@ -330,7 +330,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
         return self.client.call_checkout_api(request, action, **kwargs)
 
     def payment_captures(self, path_param, request=None, idempotency_key=None, **kwargs):
-        if path_param is None or "":
+        if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
@@ -350,7 +350,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
         return self.client.call_checkout_api(request, action, path_param, idempotency_key, **kwargs)
 
     def payments_reversals(self, path_param, request=None, idempotency_key=None, **kwargs):
-        if path_param is None or "":
+        if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
@@ -358,7 +358,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
         return self.client.call_checkout_api(request, action, path_param, idempotency_key, **kwargs)
 
     def payments_refunds(self, path_param, request=None, idempotency_key=None, **kwargs):
-        if path_param is None or "":
+        if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
