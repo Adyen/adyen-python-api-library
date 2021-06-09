@@ -1,0 +1,11 @@
+{
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "paymentPspReference": "8536214160615591",
+  "pspReference": "8836226171638872",
+  "reference": "YOUR_UNIQUE_REFERENCE",
+  "status": "received",
+  "amount": {
+    "currency": "EUR",
+    "value": 2500
+  }
+}

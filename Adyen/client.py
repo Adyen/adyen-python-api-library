@@ -172,8 +172,14 @@ class AdyenClient(object):
             action = "payments/details"
         if action == "paymentsResult":
             action = "payments/result"
-        if action == "paymentsCancels":
+        if action == "paymentsCancelsWithoutReference":
+            action = "payments/cancels"
+        if action == "paymentsCancelsWithReference":
             action = f"payments/{path_param}/cancels"
+        if action == "paymentsReversals":
+            action = f"payments/{path_param}/reversals"
+        if action == "payments/Refunds":
+            action = f"payments/{path_param}/refunds"
         if action == "originKeys":
             api_version = settings.API_CHECKOUT_UTILITY_VERSION
         if action == "paymentMethodsBalance":
