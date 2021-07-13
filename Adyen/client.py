@@ -461,7 +461,7 @@ class AdyenClient(object):
                 https://docs.adyen.com/developers/checkout/api-integration
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
-            path_param (str): This is used to pass the id or referenceID to the API sercie
+            path_param (str): This is used to pass the ID or referenceID to the API service
         """
         if not self.http_init:
             self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
