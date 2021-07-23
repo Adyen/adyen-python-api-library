@@ -238,12 +238,12 @@ class AdyenClient(object):
             /api-idempotency
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
-                https://docs.adyen.com/manuals/api-manual
+                https://docs.adyen.com/api-explorer
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
             idempotency (bool, optional): Whether the transaction should be
                 processed idempotently.
-                https://docs.adyen.com/manuals/api-manual#apiidempotency
+                https://docs.adyen.com/development-resources/api-idempotency
         Returns:
             AdyenResult: The AdyenResult is returned when a request was
                 successful.
@@ -377,7 +377,7 @@ class AdyenClient(object):
         Args:
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
-                https://docs.adyen.com/manuals/api-manual
+                https://docs.adyen.com/online-payments/classic-integrations/hosted-payment-pages/hosted-payment-pages-api
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
         Returns:
@@ -449,7 +449,7 @@ class AdyenClient(object):
             /api-idempotency
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
-                https://docs.adyen.com/developers/checkout/api-integration
+                https://docs.adyen.com/api-explorer/#/CheckoutService
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
         """
