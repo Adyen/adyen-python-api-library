@@ -83,6 +83,12 @@ class AdyenClient(object):
         http_force=None,
         live_endpoint_prefix=None,
         http_timeout=30,
+        api_bin_lookup_version=None,
+        api_checkout_utility_version=None,
+        api_checkout_version=None,
+        api_payment_version=None,
+        api_payout_version=None,
+        api_recurring_version=None,
     ):
         self.username = username
         self.password = password
@@ -103,6 +109,12 @@ class AdyenClient(object):
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
         self.http_timeout = http_timeout
+        self.api_bin_lookup_version = api_bin_lookup_version or settings.API_BIN_LOOKUP_VERSION
+        self.api_checkout_utility_version = api_checkout_utility_version or settings.API_CHECKOUT_UTILITY_VERSION
+        self.api_checkout_version = api_checkout_version or settings.API_CHECKOUT_VERSION
+        self.api_payment_version = api_payment_version or settings.API_PAYMENT_VERSION
+        self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
+        self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
 
     def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
@@ -121,13 +133,13 @@ class AdyenClient(object):
             base_uri = settings.BASE_PAL_URL.format(platform)
 
         if service == "Recurring":
-            api_version = settings.API_RECURRING_VERSION
+            api_version = self.api_recurring_version
         elif service == "Payout":
-            api_version = settings.API_PAYOUT_VERSION
+            api_version = self.api_payout_version
         elif service == "BinLookup":
-            api_version = settings.API_BIN_LOOKUP_VERSION
+            api_version = self.api_bin_lookup_version
         else:
-            api_version = settings.API_PAYMENT_VERSION
+            api_version = self.api_payment_version
         return '/'.join([base_uri, service, api_version, action])
 
     @staticmethod
@@ -153,7 +165,7 @@ class AdyenClient(object):
             platform (str): Adyen platform, ie 'live' or 'test'.
             action (str): the API action to perform.
         """
-        api_version = settings.API_CHECKOUT_VERSION
+        api_version = self.api_checkout_version
         if platform == "test":
             base_uri = settings.ENDPOINT_CHECKOUT_TEST
         elif self.live_endpoint_prefix is not None and platform == "live":
@@ -172,7 +184,7 @@ class AdyenClient(object):
         if action == "paymentsResult":
             action = "payments/result"
         if action == "originKeys":
-            api_version = settings.API_CHECKOUT_UTILITY_VERSION
+            api_version = self.api_checkout_utility_version
         if action == "paymentMethodsBalance":
             action = "paymentMethods/balance"
         if action == "ordersCancel":
