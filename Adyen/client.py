@@ -89,6 +89,7 @@ class AdyenClient(object):
         api_payment_version=None,
         api_payout_version=None,
         api_recurring_version=None,
+        api_terminal_version=None,
     ):
         self.username = username
         self.password = password
@@ -115,6 +116,7 @@ class AdyenClient(object):
         self.api_payment_version = api_payment_version or settings.API_PAYMENT_VERSION
         self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
         self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
+        self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
 
     def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
@@ -138,6 +140,9 @@ class AdyenClient(object):
             api_version = self.api_payout_version
         elif service == "BinLookup":
             api_version = self.api_bin_lookup_version
+        elif service == "terminal":
+            base_uri = settings.BASE_TERMINAL_URL.format(platform)
+            api_version = self.api_terminal_version
         else:
             api_version = self.api_payment_version
         return '/'.join([base_uri, service, api_version, action])

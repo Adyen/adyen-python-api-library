@@ -1,0 +1,16 @@
+{
+  "companyAccount": "YOUR_COMPANY_ACCOUNT",
+  "merchantAccounts": [
+    {
+      "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+      "stores": [
+        {
+          "store": "YOUR_STORE",
+          "inStoreTerminals": [
+            "M400-401972715"
+          ]
+        }
+      ]
+    }
+  ]
+}
