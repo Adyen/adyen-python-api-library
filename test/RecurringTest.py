@@ -1,9 +1,14 @@
+import pkg_resources
+
 import Adyen
 import unittest
 try:
     from BaseTest import BaseTest
 except ImportError:
     from .BaseTest import BaseTest
+
+
+VERSION = pkg_resources.get_distribution("Adyen").version
 
 
 class TestRecurring(unittest.TestCase):
@@ -67,6 +72,53 @@ class TestRecurring(unittest.TestCase):
             "Unexpected error",
             self.ady.recurring.disable,
             request
+        )
+
+    def test_create_permit(self):
+        request = {
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "shopperReference": "YOUR_SHOPPER_REFERENCE",
+            "recurringDetailReference": "9915822945128604",
+            "permits": [
+                {
+                    "partnerId": "F435FDFF5454",
+                    "resultKey": "RESULT_KEY",
+                    "validTillDate": "2020-02-22T13:21:00Z"
+                }
+            ]
+        }
+        self.test.create_client_from_file(
+            200, request, "test/mocks/recurring/createPermit.json"
+        )
+        result = self.ady.recurring.create_permit(request)
+        result_list = result.message['permitResultList']
+        self.assertIn("pspReference", result.message)
+        self.assertEqual(len(result_list), 1)
+        self.assertEqual(result_list[0]["permitResult"]["resultKey"], "RESULT_KEY")
+        self.assertIn("token", result_list[0]["permitResult"])
+        self.client.http_client.request.assert_called_once_with(
+            "https://pal-test.adyen.com/pal/servlet/Recurring/v49/createPermit",
+            headers={},
+            json={
+                "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+                "shopperReference": "YOUR_SHOPPER_REFERENCE",
+                "recurringDetailReference": "9915822945128604",
+                "permits": [
+                    {
+                        "partnerId": "F435FDFF5454",
+                        "resultKey": "RESULT_KEY",
+                        "validTillDate": "2020-02-22T13:21:00Z"
+                    }
+                ],
+                "applicationInfo": {
+                    "adyenLibrary": {
+                        "version": VERSION,
+                        "name": "adyen-python-api-library"
+                    }
+                },
+            },
+            username="YourWSUser",
+            password="YourWSPassword"
         )
 
 

@@ -62,6 +62,9 @@ class AdyenRecurring(AdyenServiceBase):
             return self.client.call_api(request, self.service,
                                         action, **kwargs)
 
+    def create_permit(self, request, **kwargs):
+        return self.client.call_api(request, self.service, "createPermit", **kwargs)
+
 
 class AdyenHPP(AdyenServiceBase):
     """This represents the Adyen HPP  Service.
