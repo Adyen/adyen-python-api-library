@@ -261,13 +261,7 @@ class AdyenClient(object):
                 successful.
         """
         if not self.http_init:
-            self.http_client = HTTPClient(
-                user_agent_suffix=self.USER_AGENT_SUFFIX,
-                lib_version=self.LIB_VERSION,
-                force_request=self.http_force,
-                timeout=self.http_timeout,
-            )
-            self.http_init = True
+            self._init_http_client()
 
         # username at self object has highest priority. fallback to root module
         # and ensure that it is set.
@@ -380,6 +374,15 @@ class AdyenClient(object):
 
         return adyen_result
 
+    def _init_http_client(self):
+        self.http_client = HTTPClient(
+            user_agent_suffix=self.USER_AGENT_SUFFIX,
+            lib_version=self.LIB_VERSION,
+            force_request=self.http_force,
+            timeout=self.http_timeout,
+        )
+        self.http_init = True
+
     def call_hpp(self, message, action, hmac_key="", **kwargs):
         """This will call the adyen hpp. hmac_key and platform are pulled from
         root module level and or self object.
@@ -399,10 +402,7 @@ class AdyenClient(object):
                 :param hmac_key:
         """
         if not self.http_init:
-            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
-                                          self.LIB_VERSION,
-                                          self.http_force)
-            self.http_init = True
+            self._init_http_client()
 
         # hmac provided in function has highest priority. fallback to self then
         # root module and ensure that it is set.
@@ -466,10 +466,7 @@ class AdyenClient(object):
             action (str): The specific action of the API service to be called
         """
         if not self.http_init:
-            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
-                                          self.LIB_VERSION,
-                                          self.http_force)
-            self.http_init = True
+            self._init_http_client()
 
         # xapi at self object has highest priority. fallback to root module
         # and ensure that it is set.
@@ -547,12 +544,8 @@ class AdyenClient(object):
         return adyen_result
 
     def hpp_payment(self, request_data, action, hmac_key="", **kwargs):
-
         if not self.http_init:
-            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
-                                          self.LIB_VERSION,
-                                          self.http_force)
-            self.http_init = True
+            self._init_http_client()
 
         platform = self.platform
         if not isinstance(platform, str):
