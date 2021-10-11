@@ -189,6 +189,8 @@ class AdyenClient(object):
             action = "paymentMethods/balance"
         if action == "ordersCancel":
             action = "orders/cancel"
+        if action == "sessions":
+            action = "sessions"
 
         return '/'.join([base_uri, api_version, action])
 
@@ -509,7 +511,8 @@ class AdyenClient(object):
             "payments",
             "paymentSession",
             "paymentLinks",
-            "paymentMethodsBalance"
+            "paymentMethodsBalance",
+            "sessions"
         ]
 
         if action in with_app_info:
