@@ -189,8 +189,6 @@ class AdyenClient(object):
             action = "paymentMethods/balance"
         if action == "ordersCancel":
             action = "orders/cancel"
-        if action == "sessions":
-            action = "sessions"
 
         return '/'.join([base_uri, api_version, action])
 
