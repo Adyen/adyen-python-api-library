@@ -6,3 +6,4 @@ releaseguide.md
 venv/
 .idea/
 .coverage
+.vagrant/

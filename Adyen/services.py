@@ -325,6 +325,9 @@ class AdyenCheckoutApi(AdyenServiceBase):
         action = "originKeys"
         return self.client.call_checkout_api(request, action, **kwargs)
 
+    def sessions(self, request=None, **kwargs):
+        action = "sessions"
+        return self.client.call_checkout_api(request, action, **kwargs)
     # Orders endpoints
 
     # /paymentMethods/balance
