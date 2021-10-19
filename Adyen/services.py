@@ -33,7 +33,7 @@ class AdyenRecurring(AdyenServiceBase):
 
     API calls currently implemented: listRecurringDetails and disable. Please
     refer to the Recurring Manual for specifics around the API.
-    https://docs.adyen.com/developers/recurring-manual
+    https://docs.adyen.com/online-payments/tokenization
 
     Args:
         client (AdyenAPIClient, optional): An API client for the service to
@@ -69,7 +69,7 @@ class AdyenHPP(AdyenServiceBase):
     This currently only implements the directory_lookup request which will
     return the list of payment methods available for given shopper. Please
     refer to the HPP manual and the directory lookup section for the specifics.
-    https://docs.adyen.com/developers/hpp-manual#directorylookup
+    https://docs.adyen.com/online-payments/classic-integrations/hosted-payment-pages/directory-lookup
 
     Args:
         client (AdyenAPIClient, optional): An API client for the service to
@@ -133,8 +133,8 @@ class AdyenPayment(AdyenServiceBase):
         capture
         refund
         cancelOrRefund
-    Please refer to the Recurring Manual for specifics around the API.
-    https://docs.adyen.com/developers/recurring-manual
+    Please refer to our API Explorer for specifics around these APIs.
+    https://docs.adyen.com/api-explorer/
 
     The AdyenPayment class, is accessible as adyen.payment.method(args)
 
@@ -225,9 +225,8 @@ class AdyenPayment(AdyenServiceBase):
 
 
 class AdyenThirdPartyPayout(AdyenServiceBase):
-    """This represents the Adyen API Third Party Payouts Service.
-
-    https://docs.adyen.com/developers/api-reference/third-party-payouts-api
+    """This represents the Adyen Payouts Service.
+    https://docs.adyen.com/api-explorer/#/Payout/overview
 
     The AdyenThirdPartyPayout class is accessible as adyen.payout.method(args)
 
@@ -281,7 +280,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
         originKeys
 
     Please refer to the checkout documentation for specifics around the API.
-    https://docs.adyen.com/developers/checkout
+    https://docs.adyen.com/online-payments
 
     The AdyenPayment class, is accessible as adyen.payment.method(args)
 
@@ -326,6 +325,9 @@ class AdyenCheckoutApi(AdyenServiceBase):
         action = "originKeys"
         return self.client.call_checkout_api(request, action, **kwargs)
 
+    def sessions(self, request=None, **kwargs):
+        action = "sessions"
+        return self.client.call_checkout_api(request, action, **kwargs)
     # Orders endpoints
 
     # /paymentMethods/balance
@@ -349,7 +351,7 @@ class AdyenBinLookup(AdyenServiceBase):
 
     API call currently implemented: getCostEstimate.
     Please refer to the Bin Lookup Manual for specifics around the API.
-    https://docs.adyen.com/api-explorer/#/BinLookup/v50/overview
+    https://docs.adyen.com/api-explorer/#/BinLookup/
 
     Args:
         client (AdyenAPIClient, optional): An API client for the service to

@@ -83,6 +83,12 @@ class AdyenClient(object):
         http_force=None,
         live_endpoint_prefix=None,
         http_timeout=30,
+        api_bin_lookup_version=None,
+        api_checkout_utility_version=None,
+        api_checkout_version=None,
+        api_payment_version=None,
+        api_payout_version=None,
+        api_recurring_version=None,
     ):
         self.username = username
         self.password = password
@@ -103,6 +109,12 @@ class AdyenClient(object):
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
         self.http_timeout = http_timeout
+        self.api_bin_lookup_version = api_bin_lookup_version or settings.API_BIN_LOOKUP_VERSION
+        self.api_checkout_utility_version = api_checkout_utility_version or settings.API_CHECKOUT_UTILITY_VERSION
+        self.api_checkout_version = api_checkout_version or settings.API_CHECKOUT_VERSION
+        self.api_payment_version = api_payment_version or settings.API_PAYMENT_VERSION
+        self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
+        self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
 
     def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
@@ -121,13 +133,13 @@ class AdyenClient(object):
             base_uri = settings.BASE_PAL_URL.format(platform)
 
         if service == "Recurring":
-            api_version = settings.API_RECURRING_VERSION
+            api_version = self.api_recurring_version
         elif service == "Payout":
-            api_version = settings.API_PAYOUT_VERSION
+            api_version = self.api_payout_version
         elif service == "BinLookup":
-            api_version = settings.API_BIN_LOOKUP_VERSION
+            api_version = self.api_bin_lookup_version
         else:
-            api_version = settings.API_PAYMENT_VERSION
+            api_version = self.api_payment_version
         return '/'.join([base_uri, service, api_version, action])
 
     @staticmethod
@@ -153,7 +165,7 @@ class AdyenClient(object):
             platform (str): Adyen platform, ie 'live' or 'test'.
             action (str): the API action to perform.
         """
-        api_version = settings.API_CHECKOUT_VERSION
+        api_version = self.api_checkout_version
         if platform == "test":
             base_uri = settings.ENDPOINT_CHECKOUT_TEST
         elif self.live_endpoint_prefix is not None and platform == "live":
@@ -172,7 +184,7 @@ class AdyenClient(object):
         if action == "paymentsResult":
             action = "payments/result"
         if action == "originKeys":
-            api_version = settings.API_CHECKOUT_UTILITY_VERSION
+            api_version = self.api_checkout_utility_version
         if action == "paymentMethodsBalance":
             action = "paymentMethods/balance"
         if action == "ordersCancel":
@@ -238,24 +250,18 @@ class AdyenClient(object):
             /api-idempotency
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
-                https://docs.adyen.com/manuals/api-manual
+                https://docs.adyen.com/api-explorer
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
             idempotency (bool, optional): Whether the transaction should be
                 processed idempotently.
-                https://docs.adyen.com/manuals/api-manual#apiidempotency
+                https://docs.adyen.com/development-resources/api-idempotency
         Returns:
             AdyenResult: The AdyenResult is returned when a request was
                 successful.
         """
         if not self.http_init:
-            self.http_client = HTTPClient(
-                user_agent_suffix=self.USER_AGENT_SUFFIX,
-                lib_version=self.LIB_VERSION,
-                force_request=self.http_force,
-                timeout=self.http_timeout,
-            )
-            self.http_init = True
+            self._init_http_client()
 
         # username at self object has highest priority. fallback to root module
         # and ensure that it is set.
@@ -368,6 +374,15 @@ class AdyenClient(object):
 
         return adyen_result
 
+    def _init_http_client(self):
+        self.http_client = HTTPClient(
+            user_agent_suffix=self.USER_AGENT_SUFFIX,
+            lib_version=self.LIB_VERSION,
+            force_request=self.http_force,
+            timeout=self.http_timeout,
+        )
+        self.http_init = True
+
     def call_hpp(self, message, action, hmac_key="", **kwargs):
         """This will call the adyen hpp. hmac_key and platform are pulled from
         root module level and or self object.
@@ -377,7 +392,7 @@ class AdyenClient(object):
         Args:
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
-                https://docs.adyen.com/manuals/api-manual
+                https://docs.adyen.com/online-payments/classic-integrations/hosted-payment-pages/hosted-payment-pages-api
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
         Returns:
@@ -387,10 +402,7 @@ class AdyenClient(object):
                 :param hmac_key:
         """
         if not self.http_init:
-            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
-                                          self.LIB_VERSION,
-                                          self.http_force)
-            self.http_init = True
+            self._init_http_client()
 
         # hmac provided in function has highest priority. fallback to self then
         # root module and ensure that it is set.
@@ -449,15 +461,12 @@ class AdyenClient(object):
             /api-idempotency
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
-                https://docs.adyen.com/developers/checkout/api-integration
+                https://docs.adyen.com/api-explorer/#/CheckoutService
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
         """
         if not self.http_init:
-            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
-                                          self.LIB_VERSION,
-                                          self.http_force)
-            self.http_init = True
+            self._init_http_client()
 
         # xapi at self object has highest priority. fallback to root module
         # and ensure that it is set.
@@ -497,7 +506,8 @@ class AdyenClient(object):
             "payments",
             "paymentSession",
             "paymentLinks",
-            "paymentMethodsBalance"
+            "paymentMethodsBalance",
+            "sessions"
         ]
 
         if action in with_app_info:
@@ -535,12 +545,8 @@ class AdyenClient(object):
         return adyen_result
 
     def hpp_payment(self, request_data, action, hmac_key="", **kwargs):
-
         if not self.http_init:
-            self.http_client = HTTPClient(self.USER_AGENT_SUFFIX,
-                                          self.LIB_VERSION,
-                                          self.http_force)
-            self.http_init = True
+            self._init_http_client()
 
         platform = self.platform
         if not isinstance(platform, str):
@@ -588,7 +594,7 @@ class AdyenClient(object):
         Returns:
             AdyenResult: Result object if successful.
         """
-        if status_code != 200:
+        if (status_code != 200 and status_code !=  201):
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:

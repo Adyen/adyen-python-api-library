@@ -91,13 +91,13 @@ class TestCheckout(unittest.TestCase):
         result = self.adyen.checkout.payments(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
-            'https://checkout-test.adyen.com/v67/payments',
+            'https://checkout-test.adyen.com/v68/payments',
             headers={},
             json={
                 'returnUrl': 'https://your-company.com/...',
                 u'applicationInfo': {
                     u'adyenLibrary': {
-                        u'version': '5.1.0',
+                        u'version': '6.0.0',
                         u'name': 'adyen-python-api-library'
                     }
                 },
@@ -134,7 +134,7 @@ class TestCheckout(unittest.TestCase):
         result = self.adyen.checkout.payments_details(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
-            u'https://checkout-test.adyen.com/v67/payments/details',
+            u'https://checkout-test.adyen.com/v68/payments/details',
             headers={},
             json={
                 'paymentData': 'Hee57361f99....',
@@ -274,3 +274,30 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual("Success", result.message['resultCode'])
         self.assertEqual(100, result.message['balance']['value'])
         self.assertEqual("EUR", result.message['balance']['currency'])
+
+    def test_sessions_success(self):
+        request = {'merchantAccount': "YourMerchantAccount"}
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "sessions"
+                                                              "-success.json")
+        result = self.adyen.checkout.sessions(request)
+        self.assertEqual("session-test-id", result.message['id'])
+        self.assertEqual("TestReference", result.message['reference'])
+        self.assertEqual("http://test-url.com", result.message['returnUrl'])
+
+    def test_sessions_error(self):
+        request = {'merchantAccount': "YourMerchantAccount"}
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "sessions"
+                                                              "-error"
+                                                              "-invalid"
+                                                              "-data-422"
+                                                              ".json")
+        result = self.adyen.checkout.sessions(request)
+        self.assertEqual(422, result.message['status'])
+        self.assertEqual("130", result.message['errorCode'])
+        self.assertEqual("validation", result.message['errorType'])
