@@ -109,12 +109,18 @@ class AdyenClient(object):
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
         self.http_timeout = http_timeout
-        self.api_bin_lookup_version = api_bin_lookup_version or settings.API_BIN_LOOKUP_VERSION
-        self.api_checkout_utility_version = api_checkout_utility_version or settings.API_CHECKOUT_UTILITY_VERSION
-        self.api_checkout_version = api_checkout_version or settings.API_CHECKOUT_VERSION
-        self.api_payment_version = api_payment_version or settings.API_PAYMENT_VERSION
-        self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
-        self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
+        self.api_bin_lookup_version = api_bin_lookup_version or \
+            settings.API_BIN_LOOKUP_VERSION
+        self.api_checkout_utility_version = api_checkout_utility_version or \
+            settings.API_CHECKOUT_UTILITY_VERSION
+        self.api_checkout_version = api_checkout_version or \
+            settings.API_CHECKOUT_VERSION
+        self.api_payment_version = api_payment_version or \
+            settings.API_PAYMENT_VERSION
+        self.api_payout_version = api_payout_version or \
+            settings.API_PAYOUT_VERSION
+        self.api_recurring_version = api_recurring_version or \
+            settings.API_RECURRING_VERSION
 
     def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
@@ -594,7 +600,7 @@ class AdyenClient(object):
         Returns:
             AdyenResult: Result object if successful.
         """
-        if (status_code != 200 and status_code !=  201):
+        if (status_code != 200 and status_code != 201):
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:
