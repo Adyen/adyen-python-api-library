@@ -329,19 +329,19 @@ class AdyenCheckoutApi(AdyenServiceBase):
         action = "paymentsResult"
         return self.client.call_checkout_api(request, action, **kwargs)
 
-    def payment_captures(self, path_param, request=None, idempotency_key=None, **kwargs):
-        if path_param is None or "":
+    def payment_captures(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
         action = "paymentsCapture"
         return self.client.call_checkout_api(request, action, path_param, idempotency_key, **kwargs)
 
-    def payments_cancels_without_reference(self, request=None, idempotency_key=None, **kwargs):
-        action = "paymentsCancelsWithoutReference"
+    def payments_cancels_without_reference(self, request, idempotency_key=None, **kwargs):
+        action = "cancels"
         return self.client.call_checkout_api(request, action, idempotency_key, **kwargs)
 
-    def payments_cancels_with_reference(self, path_param, request=None, idempotency_key=None, **kwargs):
+    def payments_cancels_with_reference(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
@@ -349,16 +349,16 @@ class AdyenCheckoutApi(AdyenServiceBase):
         action = "paymentsCancelsWithReference"
         return self.client.call_checkout_api(request, action, path_param, idempotency_key, **kwargs)
 
-    def payments_reversals(self, path_param, request=None, idempotency_key=None, **kwargs):
-        if path_param is None or "":
+    def payments_reversals(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
         action = "paymentsReversals"
         return self.client.call_checkout_api(request, action, path_param, idempotency_key, **kwargs)
 
-    def payments_refunds(self, path_param, request=None, idempotency_key=None, **kwargs):
-        if path_param is None or "":
+    def payments_refunds(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )

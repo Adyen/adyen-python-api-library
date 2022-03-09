@@ -312,7 +312,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentscancel-"
                                                               "withoutreference-succes.json")
 
-        result = self.adyen.checkout.payments_cancels_without_reference(request=requests, path_param=psp_reference)
+        result = self.adyen.checkout.payments_refunds(request=requests, path_param=psp_reference)
         self.assertEqual(psp_reference, result.message["paymentReference"])
         self.assertIsNotNone(result.message["pspReference"])
         self.assertEqual("received", result.message['status'])
@@ -330,13 +330,13 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsresult-error-invalid-"
                                                               "data-payload-422.json")
 
-        result = self.adyen.checkout.payments_cancels_without_reference(request=requests, path_param=reference_id)
+        result = self.adyen.checkout.payments_refunds(request=requests, path_param=reference_id)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
         self.assertEqual("validation", result.message['errorType'])
 
-    def test_payments_refunds_raises_vaulue_error(self):
+    def test_payments_refunds_raises_value_error(self):
         requests = {
             "paymentReference": "Payment123",
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
@@ -348,7 +348,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentscancel-"
                                                               "withoutreference-succes.json")
         with self.assertRaises(ValueError) as exc:
-            self.adyen.checkout.payments_cancels_with_reference(request=requests, path_param="")
+            self.adyen.checkout.payments_refunds(request=requests, path_param="")
         self.assertEqual(exc.exception.__class__, ValueError)
         self.assertEqual(exc.exception.__str__(), 'must contain a pspReference in the path_param, path_param cannot '
                                                   'be empty')
