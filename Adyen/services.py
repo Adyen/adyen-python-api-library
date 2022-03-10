@@ -335,7 +335,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
         action = "paymentsCapture"
-        return self.client.call_checkout_api(request, action, path_param, idempotency_key, **kwargs)
+        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
 
     def payments_cancels_without_reference(self, request, idempotency_key=None, **kwargs):
         action = "cancels"
@@ -347,7 +347,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
         action = "paymentsCancelsWithReference"
-        return self.client.call_checkout_api(request, action, path_param, idempotency_key, **kwargs)
+        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
 
     def payments_reversals(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
@@ -355,7 +355,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
         action = "paymentsReversals"
-        return self.client.call_checkout_api(request, action, path_param, idempotency_key, **kwargs)
+        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
 
     def payments_refunds(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
@@ -363,7 +363,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
         action = "paymentsRefunds"
-        return self.client.call_checkout_api(request, action, path_param, idempotency_key, **kwargs)
+        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
 
     def origin_keys(self, request=None, **kwargs):
         action = "originKeys"
