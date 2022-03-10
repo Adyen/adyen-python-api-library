@@ -405,7 +405,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentcapture-"
                                                               "success.json")
 
-        result = self.adyen.checkout.payment_captures(request=request, path_param=psp_reference)
+        result = self.adyen.checkout.payments_captures(request=request, path_param=psp_reference)
         self.assertEqual(psp_reference, result.message["paymentPspReference"])
         self.assertIsNotNone(result.message["pspReference"])
         self.assertEqual("received", result.message['status'])
@@ -427,7 +427,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsresult-error-invalid-"
                                                               "data-payload-422.json")
 
-        result = self.adyen.checkout.payment_captures(request=request, path_param=psp_reference)
+        result = self.adyen.checkout.payments_captures(request=request, path_param=psp_reference)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])

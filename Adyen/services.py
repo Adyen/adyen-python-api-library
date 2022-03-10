@@ -329,7 +329,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
         action = "paymentsResult"
         return self.client.call_checkout_api(request, action, **kwargs)
 
-    def payment_captures(self, request, idempotency_key=None, path_param=None, **kwargs):
+    def payments_captures(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
