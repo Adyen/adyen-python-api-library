@@ -1,11 +1,15 @@
+# Adyen APIs Library for Python
+
 [![Build Status](https://travis-ci.org/Adyen/adyen-python-api-library.svg?branch=main)](https://travis-ci.org/Adyen/adyen-python-api-library)
 [![Coverage Status](https://coveralls.io/repos/github/Adyen/adyen-python-api-library/badge.svg?branch=main)](https://coveralls.io/github/Adyen/adyen-python-api-library?branch=main)
+[![version](https://img.shields.io/badge/version-7.0.0-blue.svg)](https://docs.adyen.com/development-resources/libraries)
 
 This is the officially supported Python library for using Adyen's APIs.
+
 ## Integration 
 The library supports all APIs under the following services:
  
-* [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v68/overview): Our latest integration for accepting online payments. Current supported version:  **v68**
+* [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v69/overview): Our latest integration for accepting online payments. Current supported version:  **v69**
 * [Payments API](https://docs.adyen.com/api-explorer/#/Payment/v64/overview): Our classic integration for online payments. Current supported version:  **v64**
 * [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v49/overview): Endpoints for managing saved payment details. Current supported version:  **v49**
 * [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v64/overview): Endpoints for sending funds to your customers. Current supported version:  **v64**
