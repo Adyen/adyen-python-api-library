@@ -1,7 +1,5 @@
 # Adyen APIs Library for Python
 
-[![Build Status](https://travis-ci.org/Adyen/adyen-python-api-library.svg?branch=main)](https://travis-ci.org/Adyen/adyen-python-api-library)
-[![Coverage Status](https://coveralls.io/repos/github/Adyen/adyen-python-api-library/badge.svg?branch=main)](https://coveralls.io/github/Adyen/adyen-python-api-library?branch=main)
 [![version](https://img.shields.io/badge/version-7.0.0-blue.svg)](https://docs.adyen.com/development-resources/libraries)
 
 This is the officially supported Python library for using Adyen's APIs.
