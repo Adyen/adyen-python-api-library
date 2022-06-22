@@ -236,6 +236,203 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual("Invalid payload provided", result.message['message'])
         self.assertEqual("validation", result.message['errorType'])
 
+    def test_payments_cancels_without_reference(self):
+        requests = {
+            "paymentReference": "Payment123",
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "reference": "YourCancelReference",
+        }
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentscancel-"
+                                                              "withoutreference-succes.json")
+        results = self.adyen.checkout.payments_cancels_without_reference(request=requests)
+        self.assertIsNotNone(results.message['paymentReference'])
+        self.assertEqual("8412534564722331", results.message['pspReference'])
+        self.assertEqual("received", results.message['status'])
+
+    def test_payments_cancels_without_reference_error_mocked(self):
+        requests = {
+            "paymentReference": "Payment123",
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "reference": "YourCancelReference",
+        }
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsresult"
+                                                              "-error-invalid-"
+                                                              "data-payload-"
+                                                              "422.json")
+
+        result = self.adyen.checkout.payments_cancels_without_reference(requests)
+        self.assertEqual(422, result.message['status'])
+        self.assertEqual("14_018", result.message['errorCode'])
+        self.assertEqual("Invalid payload provided", result.message['message'])
+        self.assertEqual("validation", result.message['errorType'])
+
+    def test_payments_cancels_success_mocked(self):
+        requests = {"reference": "Your wro order number", "merchantAccount": "YOUR_MERCHANT_ACCOUNT"}
+
+        reference_id = "8836183819713023"
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentscancels"
+                                                              "-success.json")
+        result = self.adyen.checkout.payments_cancels_with_reference(request=requests, path_param=reference_id)
+        self.assertEqual(reference_id, result.message["paymentPspReference"])
+        self.assertEqual("received", result.message['status'])
+
+    def test_payments_cancels_error_mocked(self):
+        requests = {"reference": "Your wro order number"}
+        psp_reference = "8836183819713023"
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsresult-error-invalid-"
+                                                              "data-payload-422.json")
+        result = self.adyen.checkout.payments_cancels_with_reference(request=requests, path_param=psp_reference)
+        self.assertEqual(422, result.message['status'])
+        self.assertEqual("14_018", result.message['errorCode'])
+        self.assertEqual("Invalid payload provided", result.message['message'])
+        self.assertEqual("validation", result.message['errorType'])
+
+    def test_payments_refunds_success_mocked(self):
+        requests = {
+            "paymentReference": "Payment123",
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "reference": "YourCancelReference",
+        }
+        psp_reference = "Payment123"
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentscancel-"
+                                                              "withoutreference-succes.json")
+
+        result = self.adyen.checkout.payments_refunds(request=requests, path_param=psp_reference)
+        self.assertEqual(psp_reference, result.message["paymentReference"])
+        self.assertIsNotNone(result.message["pspReference"])
+        self.assertEqual("received", result.message['status'])
+
+    def test_payments_refunds_error_mocked(self):
+        requests = {
+            "paymentReference": "Payment123",
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "reference": "YourCancelReference",
+        }
+        reference_id = "Payment123"
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsresult-error-invalid-"
+                                                              "data-payload-422.json")
+
+        result = self.adyen.checkout.payments_refunds(request=requests, path_param=reference_id)
+        self.assertEqual(422, result.message['status'])
+        self.assertEqual("14_018", result.message['errorCode'])
+        self.assertEqual("Invalid payload provided", result.message['message'])
+        self.assertEqual("validation", result.message['errorType'])
+
+    def test_payments_refunds_raises_value_error(self):
+        requests = {
+            "paymentReference": "Payment123",
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "reference": "YourCancelReference",
+        }
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentscancel-"
+                                                              "withoutreference-succes.json")
+        with self.assertRaises(ValueError) as exc:
+            self.adyen.checkout.payments_refunds(request=requests, path_param="")
+        self.assertEqual(exc.exception.__class__, ValueError)
+        self.assertEqual(exc.exception.__str__(), 'must contain a pspReference in the path_param, path_param cannot '
+                                                  'be empty')
+
+    def test_reversals_success_mocked(self):
+        requests = {
+            "reference": "YourReversalReference",
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+        }
+        psp_reference = "8836183819713023"
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsreversals-"
+                                                              "success.json")
+
+        result = self.adyen.checkout.payments_reversals(request=requests, path_param=psp_reference)
+        self.assertEqual(psp_reference, result.message["paymentPspReference"])
+        self.assertIsNotNone(result.message["pspReference"])
+        self.assertEqual("received", result.message['status'])
+
+    def test_payments_reversals_failure_mocked(self):
+        requests = {
+            "reference": "YourReversalReference",
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+        }
+        psp_reference = "8836183819713023"
+
+        self.adyen.client = self.test.create_client_from_file(200, requests,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsresult-error-invalid-"
+                                                              "data-payload-422.json")
+
+        result = self.adyen.checkout.payments_reversals(request=requests, path_param=psp_reference)
+        self.assertEqual(422, result.message['status'])
+        self.assertEqual("14_018", result.message['errorCode'])
+        self.assertEqual("Invalid payload provided", result.message['message'])
+        self.assertEqual("validation", result.message['errorType'])
+
+    def test_payments_capture_success_mocked(self):
+        request = {
+          "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+          "amount": {
+            "value": 2500,
+            "currency": "EUR"
+          },
+          "reference": "YOUR_UNIQUE_REFERENCE"
+        }
+        psp_reference = "8536214160615591"
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentcapture-"
+                                                              "success.json")
+
+        result = self.adyen.checkout.payments_captures(request=request, path_param=psp_reference)
+        self.assertEqual(psp_reference, result.message["paymentPspReference"])
+        self.assertIsNotNone(result.message["pspReference"])
+        self.assertEqual("received", result.message['status'])
+        self.assertEqual(2500, result.message['amount']['value'])
+
+    def test_payments_capture_error_mocked(self):
+        request = {
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "amount": {
+                "value": 2500,
+                "currency": "EUR"
+            },
+            "reference": "YOUR_UNIQUE_REFERENCE"
+        }
+        psp_reference = "8536214160615591"
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentsresult-error-invalid-"
+                                                              "data-payload-422.json")
+
+        result = self.adyen.checkout.payments_captures(request=request, path_param=psp_reference)
+        self.assertEqual(422, result.message['status'])
+        self.assertEqual("14_018", result.message['errorCode'])
+        self.assertEqual("Invalid payload provided", result.message['message'])
+        self.assertEqual("validation", result.message['errorType'])
+
     def test_orders_success(self):
         request = {'merchantAccount': "YourMerchantAccount"}
         self.adyen.client = self.test.create_client_from_file(200, request,
