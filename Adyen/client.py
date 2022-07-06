@@ -199,6 +199,8 @@ class AdyenClient(object):
             action = f"payments/{path_param}/reversals"
         if action == "payments/Refunds":
             action = f"payments/{path_param}/refunds"
+        if action == "patchLink":
+            action = f"paymentsLinks/{path_param}"
         if action == "originKeys":
             api_version = self.api_checkout_utility_version
         if action == "paymentMethodsBalance":
@@ -611,7 +613,7 @@ class AdyenClient(object):
         Returns:
             AdyenResult: Result object if successful.
         """
-        if (status_code != 200 and status_code !=  201):
+        if status_code != 200 and status_code != 201:
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:

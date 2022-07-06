@@ -1,0 +1,15 @@
+{
+  "amount": {
+    "currency": "EUR",
+    "value": 2500
+  },
+  "expiresAt": "2022-07-07T09:29:17Z",
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "reference": "YOUR_UNIQUE_REFERENCE",
+  "reusable": false,
+  "storePaymentMethodMode": "disabled",
+  "id": "PLDD1ED8F457456D09",
+  "status": "active",
+  "url": "https://test.adyen.link/PLDD1ED8F457456D09",
+  "shopperEmail": "customer@adyen.com"
+}
