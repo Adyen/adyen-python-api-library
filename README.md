@@ -13,6 +13,7 @@ The library supports all APIs under the following services:
 * [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v64/overview): Endpoints for sending funds to your customers. Current supported version:  **v64**
 * [Orders API](https://docs.adyen.com/api-explorer/#/CheckoutService/v67/post/orders): Endpoints for creating and canceling orders. Current supported version:  **v67**
 * [Utility API](https://docs.adyen.com/api-explorer/#/CheckoutService/v67/post/originKeys): This operation takes the origin domains and returns a JSON object containing the corresponding origin keys for the domains. Current supported version:  **v67**
+* [Terminal API](https://docs.adyen.com/api-explorer/#/postfmapi/v1/overview): Endpoints for interacting with POS terminals. **v1**
  
 For more information, refer to our [documentation](https://docs.adyen.com/) or the [API Explorer](https://docs.adyen.com/api-explorer/).
  
