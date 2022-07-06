@@ -646,7 +646,7 @@ class AdyenClient(object):
         else:
             try:
                 response = json_lib.loads(raw_response)
-                psp = headers.get('pspReference', response.get('pspReference'))
+                psp = self._get_psp(response, headers)
                 return AdyenResult(message=response, status_code=status_code,
                                    psp=psp, raw_request=raw_request,
                                    raw_response=raw_response)
@@ -794,3 +794,11 @@ class AdyenClient(object):
         match_obj = re.search(r'>Error:\s*(.*?)<br', html)
         if match_obj:
             return match_obj.group(1)
+
+    @staticmethod
+    def _get_psp(response, header):
+        psp_ref = response.get('pspReference')
+        if psp_ref == "":
+            return header.get('pspReference')
+        else:
+            return psp_ref
