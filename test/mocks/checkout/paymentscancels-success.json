@@ -1,0 +1,7 @@
+{
+    "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+    "paymentPspReference": "8836183819713023",
+    "pspReference" : "8412534564722331",
+    "reference": "Cancel123",
+    "status" : "received"
+}
