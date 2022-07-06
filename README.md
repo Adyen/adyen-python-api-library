@@ -1,16 +1,19 @@
-[![Build Status](https://travis-ci.org/Adyen/adyen-python-api-library.svg?branch=master)](https://travis-ci.org/Adyen/adyen-python-api-library)
-[![Coverage Status](https://coveralls.io/repos/github/Adyen/adyen-python-api-library/badge.svg?branch=master)](https://coveralls.io/github/Adyen/adyen-python-api-library?branch=master)
+# Adyen APIs Library for Python
+
+[![version](https://img.shields.io/badge/version-7.0.0-blue.svg)](https://docs.adyen.com/development-resources/libraries)
 
 This is the officially supported Python library for using Adyen's APIs.
+
 ## Integration 
 The library supports all APIs under the following services:
  
-* [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v68/overview): Our latest integration for accepting online payments. Current supported version:  **v68**
+* [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v69/overview): Our latest integration for accepting online payments. Current supported version:  **v69**
 * [Payments API](https://docs.adyen.com/api-explorer/#/Payment/v64/overview): Our classic integration for online payments. Current supported version:  **v64**
 * [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v49/overview): Endpoints for managing saved payment details. Current supported version:  **v49**
 * [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v64/overview): Endpoints for sending funds to your customers. Current supported version:  **v64**
 * [Orders API](https://docs.adyen.com/api-explorer/#/CheckoutService/v67/post/orders): Endpoints for creating and canceling orders. Current supported version:  **v67**
 * [Utility API](https://docs.adyen.com/api-explorer/#/CheckoutService/v67/post/originKeys): This operation takes the origin domains and returns a JSON object containing the corresponding origin keys for the domains. Current supported version:  **v67**
+* [Terminal API](https://docs.adyen.com/api-explorer/#/postfmapi/v1/overview): Endpoints for interacting with POS terminals. **v1**
  
 For more information, refer to our [documentation](https://docs.adyen.com/) or the [API Explorer](https://docs.adyen.com/api-explorer/).
  
@@ -76,7 +79,7 @@ For other questions, [contact our Support Team](https://www.adyen.help/hc/en-us/
  
  
 ## Licence
-This repository is available under the [MIT license](https://github.com/Adyen/adyen-python-api-library/blob/master/LICENSE.md).
+This repository is available under the [MIT license](https://github.com/Adyen/adyen-python-api-library/blob/main/LICENSE.md).
  
  
 ## See also

@@ -89,6 +89,7 @@ class AdyenClient(object):
         api_payment_version=None,
         api_payout_version=None,
         api_recurring_version=None,
+        api_terminal_version=None,
     ):
         self.username = username
         self.password = password
@@ -109,18 +110,13 @@ class AdyenClient(object):
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
         self.http_timeout = http_timeout
-        self.api_bin_lookup_version = api_bin_lookup_version or \
-            settings.API_BIN_LOOKUP_VERSION
-        self.api_checkout_utility_version = api_checkout_utility_version or \
-            settings.API_CHECKOUT_UTILITY_VERSION
-        self.api_checkout_version = api_checkout_version or \
-            settings.API_CHECKOUT_VERSION
-        self.api_payment_version = api_payment_version or \
-            settings.API_PAYMENT_VERSION
-        self.api_payout_version = api_payout_version or \
-            settings.API_PAYOUT_VERSION
-        self.api_recurring_version = api_recurring_version or \
-            settings.API_RECURRING_VERSION
+        self.api_bin_lookup_version = api_bin_lookup_version or settings.API_BIN_LOOKUP_VERSION
+        self.api_checkout_utility_version = api_checkout_utility_version or settings.API_CHECKOUT_UTILITY_VERSION
+        self.api_checkout_version = api_checkout_version or settings.API_CHECKOUT_VERSION
+        self.api_payment_version = api_payment_version or settings.API_PAYMENT_VERSION
+        self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
+        self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
+        self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
 
     def _determine_api_url(self, platform, service, action):
         """This returns the Adyen API endpoint based on the provided platform,
@@ -144,6 +140,9 @@ class AdyenClient(object):
             api_version = self.api_payout_version
         elif service == "BinLookup":
             api_version = self.api_bin_lookup_version
+        elif service == "terminal":
+            base_uri = settings.BASE_TERMINAL_URL.format(platform)
+            api_version = self.api_terminal_version
         else:
             api_version = self.api_payment_version
         return '/'.join([base_uri, service, api_version, action])
@@ -163,13 +162,14 @@ class AdyenClient(object):
         result = '/'.join([base_uri, service])
         return result
 
-    def _determine_checkout_url(self, platform, action):
+    def _determine_checkout_url(self, platform, action, path_param=None):
         """This returns the Adyen API endpoint based on the provided platform,
         service and action.
 
         Args:
             platform (str): Adyen platform, ie 'live' or 'test'.
             action (str): the API action to perform.
+            path_param Optional[(str)]: a generic id that can be used to modify a payment e.g. paymentPspReference.
         """
         api_version = self.api_checkout_version
         if platform == "test":
@@ -189,6 +189,16 @@ class AdyenClient(object):
             action = "payments/details"
         if action == "paymentsResult":
             action = "payments/result"
+        if action == "cancels":
+            action = "/cancels"
+        if action == "paymentsCancelsWithReference":
+            action = f"payments/{path_param}/cancels"
+        if action == "paymentsCapture":
+            action = f"/payments/{path_param}/captures"
+        if action == "paymentsReversals":
+            action = f"payments/{path_param}/reversals"
+        if action == "payments/Refunds":
+            action = f"payments/{path_param}/refunds"
         if action == "originKeys":
             api_version = self.api_checkout_utility_version
         if action == "paymentMethodsBalance":
@@ -455,7 +465,7 @@ class AdyenClient(object):
                                              status_code, headers, message)
         return adyen_result
 
-    def call_checkout_api(self, request_data, action, idempotency_key=None,
+    def call_checkout_api(self, request_data, action, idempotency_key=None, path_param=None,
                           **kwargs):
         """This will call the checkout adyen api. xapi key merchant_account,
         and platform are pulled from root module level and or self object.
@@ -470,6 +480,7 @@ class AdyenClient(object):
                 https://docs.adyen.com/api-explorer/#/CheckoutService
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
+            path_param (str): This is used to pass the id or referenceID to the API sercie
         """
         if not self.http_init:
             self._init_http_client()
@@ -536,7 +547,7 @@ class AdyenClient(object):
         headers = {}
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
-        url = self._determine_checkout_url(platform, action)
+        url = self._determine_checkout_url(platform, action, path_param)
 
         raw_response, raw_request, status_code, headers = \
             self.http_client.request(url, json=request_data,

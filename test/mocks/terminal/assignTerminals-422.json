@@ -1,0 +1,6 @@
+{
+  "status": 422,
+  "errorCode": "000",
+  "message": "Terminals not found: P400Plus-123456789",
+  "errorType": "validation"
+}

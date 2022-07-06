@@ -279,6 +279,13 @@ class AdyenCheckoutApi(AdyenServiceBase):
         payments/details
         originKeys
 
+        Modifications:
+        capture
+        refunds
+        cancels
+        reversals
+
+
     Please refer to the checkout documentation for specifics around the API.
     https://docs.adyen.com/online-payments
 
@@ -320,6 +327,42 @@ class AdyenCheckoutApi(AdyenServiceBase):
     def payment_result(self, request=None, **kwargs):
         action = "paymentsResult"
         return self.client.call_checkout_api(request, action, **kwargs)
+
+    def payments_captures(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == "":
+            raise ValueError(
+                'must contain a pspReference in the path_param, path_param cannot be empty'
+            )
+        action = "paymentsCapture"
+        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def payments_cancels_without_reference(self, request, idempotency_key=None, **kwargs):
+        action = "cancels"
+        return self.client.call_checkout_api(request, action, idempotency_key, **kwargs)
+
+    def payments_cancels_with_reference(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == "":
+            raise ValueError(
+                'must contain a pspReference in the path_param, path_param cannot be empty'
+            )
+        action = "paymentsCancelsWithReference"
+        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def payments_reversals(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == "":
+            raise ValueError(
+                'must contain a pspReference in the path_param, path_param cannot be empty'
+            )
+        action = "paymentsReversals"
+        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def payments_refunds(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == "":
+            raise ValueError(
+                'must contain a pspReference in the path_param, path_param cannot be empty'
+            )
+        action = "paymentsRefunds"
+        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
 
     def origin_keys(self, request=None, **kwargs):
         action = "originKeys"
@@ -367,3 +410,40 @@ class AdyenBinLookup(AdyenServiceBase):
         action = "getCostEstimate"
 
         return self.client.call_api(request, self.service, action, **kwargs)
+
+
+class AdyenTerminal(AdyenServiceBase):
+    """This represents the Adyen API Terminal service.
+
+    API call currently implemented:
+        - assignTerminals
+        - findTerminal
+        - getStoreUnderAccount
+        - getTerminalDetails
+        - getTerminalsUnderAccount
+    Please refer to the Terminal Manual for specifics around the API.
+    https://docs.adyen.com/api-explorer/#/postfmapi/
+
+    Args:
+        client (AdyenAPIClient, optional): An API client for the service to
+            use. If not provided, a new API client will be created.
+    """
+
+    def __init__(self, client=None):
+        super(AdyenTerminal, self).__init__(client=client)
+        self.service = "terminal"
+
+    def assign_terminals(self, request="", **kwargs):
+        return self.client.call_api(request, self.service, "assignTerminals", **kwargs)
+
+    def find_terminal(self, request="", **kwargs):
+        return self.client.call_api(request, self.service, "findTerminal", **kwargs)
+
+    def get_stores_under_account(self, request="", **kwargs):
+        return self.client.call_api(request, self.service, "getStoresUnderAccount", **kwargs)
+
+    def get_terminal_details(self, request="", **kwargs):
+        return self.client.call_api(request, self.service, "getTerminalDetails", **kwargs)
+
+    def get_terminals_under_account(self, request="", **kwargs):
+        return self.client.call_api(request, self.service, "getTerminalsUnderAccount", **kwargs)
