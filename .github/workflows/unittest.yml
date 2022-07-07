@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.6","3.7", "3.8"]
+        python-version: ['3.6','3.7', '3.8']
 
     steps:
       - uses: actions/checkout@v1
@@ -23,13 +23,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox tox-gh-actions
           pip install mock
-
       - name: Test with tox
-        if: matrix.python-version == "3.6"
+        if: matrix.python-version == '3.6'
         run: tox -e py36
       - name: Test with tox
-        if: matrix.python-version == "3.7"
+        if: matrix.python-version == '3.7'
         run: tox -e py37
       - name: Test with tox
-        if: matrix.python-version == "3.8"
+        if: matrix.python-version == '3.8'
         run: tox -e py38
