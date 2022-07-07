@@ -25,11 +25,11 @@ jobs:
           pip install mock
 
       - name: Test with tox
-        if: ${{ matrix.python-version = "3.6"}}
+        if: matrix.python-version = "3.6"
         run: tox -e py36
       - name: Test with tox
-        if: ${{ matrix.python-version = "3.7"}}
+        if: matrix.python-version = "3.7"
         run: tox -e py37
       - name: Test with tox
-        if: ${{ matrix.python-version = "3.8"}}
+        if: matrix.python-version = "3.8"
         run: tox -e py38
