@@ -23,11 +23,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox
       - name: Test with tox
-        if: matrix.python-version == '3.6'
-        run: tox -e py36
-      - name: Test with tox
-        if: matrix.python-version == '3.7'
-        run: tox -e py37
-      - name: Test with tox
-        if: matrix.python-version == '3.8'
-        run: tox -e py38
+        run: tox
