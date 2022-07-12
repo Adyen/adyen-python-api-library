@@ -1,6 +1,6 @@
 # Adyen APIs Library for Python
 
-[![version](https://img.shields.io/badge/version-7.0.0-blue.svg)](https://docs.adyen.com/development-resources/libraries)
+[![version](https://img.shields.io/badge/version-7.1.0-blue.svg)](https://docs.adyen.com/development-resources/libraries)
 
 This is the officially supported Python library for using Adyen's APIs.
 
