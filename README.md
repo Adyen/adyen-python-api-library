@@ -22,7 +22,7 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
  
 -   [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
 -   [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
-- Python 2.7 **(deprecated)** or 3.6
+- Python 2.7 or 3.6
 - Packages: requests or pycurl ( optional )
  
 
