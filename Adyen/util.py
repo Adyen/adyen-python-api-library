@@ -45,7 +45,7 @@ def is_valid_hmac(dict_object, hmac_key):
             del dict_object['additionalData']
             merchant_sign = generate_hpp_sig(dict_object, hmac_key)
             merchant_sign_str = merchant_sign.decode("utf-8")
-            return merchant_sign_str == expected_sign
+            return hmac.compare_digest(merchant_sign_str, expected_sign)
 
 
 def generate_notification_sig(dict_object, hmac_key):
@@ -97,4 +97,4 @@ def is_valid_hmac_notification(dict_object, hmac_key):
             del dict_object['additionalData']
             merchant_sign = generate_notification_sig(dict_object, hmac_key)
             merchant_sign_str = merchant_sign.decode("utf-8")
-            return merchant_sign_str == expected_sign
+            return hmac.compare_digest(merchant_sign_str, expected_sign)
