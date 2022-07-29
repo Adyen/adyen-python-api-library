@@ -393,28 +393,3 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                 " Adyen base class. Please reach out to your"
                                 " Adyen Admin if the problem persists",
                                 self.adyen.payment.authorise, request)
-
-
-TestPayments.client.http_force = "requests"
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPayments)
-unittest.TextTestRunner(verbosity=2).run(suite)
-TestPayments.client.http_force = "pycurl"
-TestPayments.client.http_init = False
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPayments)
-unittest.TextTestRunner(verbosity=2).run(suite)
-TestPayments.client.http_force = "other"
-TestPayments.client.http_init = False
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPayments)
-unittest.TextTestRunner(verbosity=2).run(suite)
-
-TestPaymentsWithXapiKey.client.http_force = "requests"
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPaymentsWithXapiKey)
-unittest.TextTestRunner(verbosity=2).run(suite)
-TestPaymentsWithXapiKey.client.http_force = "pycurl"
-TestPaymentsWithXapiKey.client.http_init = False
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPaymentsWithXapiKey)
-unittest.TextTestRunner(verbosity=2).run(suite)
-TestPaymentsWithXapiKey.client.http_force = "other"
-TestPaymentsWithXapiKey.client.http_init = False
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPaymentsWithXapiKey)
-unittest.TextTestRunner(verbosity=2).run(suite)

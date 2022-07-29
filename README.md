@@ -1,6 +1,6 @@
 # Adyen APIs Library for Python
 
-[![version](https://img.shields.io/badge/version-7.0.0-blue.svg)](https://docs.adyen.com/development-resources/libraries)
+[![version](https://img.shields.io/badge/version-7.1.0-blue.svg)](https://docs.adyen.com/development-resources/libraries)
 
 This is the officially supported Python library for using Adyen's APIs.
 
@@ -22,7 +22,7 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
  
 -   [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
 -   [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
-- Python 2.7 or 3.6
+- Python 2.7 **(Deprecated)** or 3.6
 - Packages: requests or pycurl ( optional )
  
 

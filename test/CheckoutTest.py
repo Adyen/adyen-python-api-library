@@ -97,7 +97,9 @@ class TestCheckout(unittest.TestCase):
                 'returnUrl': 'https://your-company.com/...',
                 u'applicationInfo': {
                     u'adyenLibrary': {
-                        u'version': '7.0.0',
+
+                        u'version': '7.1.0',
+
                         u'name': 'adyen-python-api-library'
                     }
                 },

@@ -34,6 +34,9 @@ class UtilTest(unittest.TestCase):
         self.assertEqual(hmac_calculation_str, expected_hmac)
         request['additionalData'] = {'hmacSignature': hmac_calculation_str}
         hmac_validate = is_valid_hmac(request, key)
+        self.assertIn('additionalData', request)
+        self.assertDictEqual(request['additionalData'],
+                             {'hmacSignature': hmac_calculation_str})
         self.assertTrue(hmac_validate)
 
     def test_notification_request_item_hmac(self):
@@ -49,9 +52,9 @@ class UtilTest(unittest.TestCase):
             "success": "true",
             "eventDate": "2019-05-06T17:15:34.121+02:00",
             "operations": [
-               "CANCEL",
-               "CAPTURE",
-               "REFUND"
+                "CANCEL",
+                "CAPTURE",
+                "REFUND"
             ],
             "paymentMethod": "visa",
         }
@@ -64,4 +67,7 @@ class UtilTest(unittest.TestCase):
         self.assertEqual(hmac_calculation_str, expected_hmac)
         request['additionalData'] = {'hmacSignature': hmac_calculation_str}
         hmac_validate = is_valid_hmac_notification(request, key)
+        self.assertIn('additionalData', request)
+        self.assertDictEqual(request['additionalData'],
+                             {'hmacSignature': hmac_calculation_str})
         self.assertTrue(hmac_validate)
