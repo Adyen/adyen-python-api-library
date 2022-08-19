@@ -289,7 +289,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
     Please refer to the checkout documentation for specifics around the API.
     https://docs.adyen.com/online-payments
 
-    The AdyenPayment class, is accessible as adyen.payment.method(args)
+    The AdyenCheckout class, is accessible as adyen.checkout.method(args)
 
     Args:
         client (AdyenAPIClient, optional): An API client for the service to
@@ -447,3 +447,42 @@ class AdyenTerminal(AdyenServiceBase):
 
     def get_terminals_under_account(self, request="", **kwargs):
         return self.client.call_api(request, self.service, "getTerminalsUnderAccount", **kwargs)
+
+
+class AdyenManagementApi(AdyenServiceBase):
+    """This represents the Adyen Management API .
+
+        API calls currently implemented:
+
+
+        Please refer to the checkout documentation for specifics around the API.
+        https://docs.adyen.com/online-payments
+
+        The AdyenCheckout class, is accessible as adyen.management.method(args)
+
+        Args:
+            client (AdyenAPIClient, optional): An API client for the service to
+                use. If not provided, a new API client will be created.
+        """
+    def __init__(self, client=None):
+        super(AdyenManagementApi, self).__init__(client=client)
+        self.service = "management"
+
+    #Account - merchant level
+
+    def create_merchant_account(self):
+        action = "createMerchantAccount"
+        pass
+
+
+    def activate_merchant_accounts(self):
+        action = "merchants/{merchantmerc"
+        pass
+
+    def get_merchant_account(self, request="", **kwargs):
+        action = "merchants"
+        return self.client.call_management_api(request, action, **kwargs)
+
+    def get_list_of_merchant_accounts(self):
+        action = "getListOfMerchantAccounts"
+        pass

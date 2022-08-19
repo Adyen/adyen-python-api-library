@@ -86,6 +86,7 @@ class AdyenClient(object):
         api_bin_lookup_version=None,
         api_checkout_utility_version=None,
         api_checkout_version=None,
+        api_management_version=None,
         api_payment_version=None,
         api_payout_version=None,
         api_recurring_version=None,
@@ -113,6 +114,7 @@ class AdyenClient(object):
         self.api_bin_lookup_version = api_bin_lookup_version or settings.API_BIN_LOOKUP_VERSION
         self.api_checkout_utility_version = api_checkout_utility_version or settings.API_CHECKOUT_UTILITY_VERSION
         self.api_checkout_version = api_checkout_version or settings.API_CHECKOUT_VERSION
+        self.api_management_version = api_management_version or settings.API_MANAGEMENT_VERSION
         self.api_payment_version = api_payment_version or settings.API_PAYMENT_VERSION
         self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
         self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
@@ -207,6 +209,28 @@ class AdyenClient(object):
             action = "orders/cancel"
 
         return '/'.join([base_uri, api_version, action])
+
+    def _determine_management_url(self, platform, action, path_param=None):
+        """This returns the Adyen API endpoint based on the provided platform,
+                service and action.
+
+                :arg
+                    platform (str): Adyen platform, ie 'live' or 'test'.
+                    action (str): the API action to perform.
+                    path_param Optional[(str)]: a generic id that can be used to modify a payment e.g. paymentPspReference.
+
+                :returns
+                    str: url for the request
+                    str: method of the request
+                """
+        api_version = self.api_management_version
+        base_uri = settings.BASE_MANAGEMENT_URL.format(platform)
+
+        if action == "merchants":
+            action = "merchants"
+            method = "GET"
+
+        return '/'.join([base_uri, api_version, action]), method
 
     def _review_payout_username(self, **kwargs):
         if 'username' in kwargs:
@@ -480,7 +504,7 @@ class AdyenClient(object):
                 https://docs.adyen.com/api-explorer/#/CheckoutService
             service (str): This is the API service to be called.
             action (str): The specific action of the API service to be called
-            path_param (str): This is used to pass the id or referenceID to the API sercie
+            path_param (str): This is used to pass the id or referenceID to the API service
         """
         if not self.http_init:
             self._init_http_client()
@@ -560,6 +584,76 @@ class AdyenClient(object):
                                              request_data)
 
         return adyen_result
+
+    def call_management_api(self, request_data, action, idempotency_key=None, path_param=None,
+                          **kwargs):
+        """This will call the management adyen api. xapi key merchant_account,
+                and platform are pulled from root module level and or self object.
+                AdyenResult will be returned on 200 response. Otherwise, an exception
+                is raised.
+
+                Args:
+                    idempotency_key: https://docs.adyen.com/development-resources
+                    /api-idempotency
+                    request_data (dict): The dictionary of the request to place. This
+                        should be in the structure of the Adyen API.
+                        https://docs.adyen.com/api-explorer/#/CheckoutService
+                    service (str): This is the API service to be called.
+                    action (str): The specific action of the API service to be called
+                    path_param (str): This is used to pass the id or referenceID to the API service
+                """
+        if not self.http_init:
+            self._init_http_client()
+
+        # xapi at self object has highest priority. fallback to root module
+        # and ensure that it is set.
+        xapikey = False
+        if self.xapikey:
+            xapikey = self.xapikey
+        elif 'xapikey' in kwargs:
+            xapikey = kwargs.pop("xapikey")
+
+        if not xapikey:
+            errorstring = """Please set your webservice xapikey.
+                     You can do this by running 'Adyen.xapikey = 'Your xapikey'"""
+            raise AdyenInvalidRequestError(errorstring)
+
+        # platform at self object has highest priority. fallback to root module
+        # and ensure that it is set to either 'live' or 'test'.
+        platform = None
+        if self.platform:
+            platform = self.platform
+        elif 'platform' in kwargs:
+            platform = kwargs.pop('platform')
+
+        if not isinstance(platform, str):
+            errorstring = "'platform' value must be type of string"
+            raise TypeError(errorstring)
+        elif platform.lower() not in ['live', 'test']:
+            errorstring = "'platform' must be the value of 'live' or 'test'"
+            raise ValueError(errorstring)
+
+
+
+        # Adyen requires this header to be set and uses the combination of
+        # merchant account and merchant reference to determine uniqueness.
+        headers = {}
+        if idempotency_key:
+            headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
+        url = self._determine_management_url(platform, action, path_param)
+
+        raw_response, raw_request, status_code, headers = \
+            self.http_client.get_request(url,
+                                     xapikey=xapikey, headers=headers,
+                                     **kwargs)
+
+        # Creates AdyenResponse if request was successful, raises error if not.
+        adyen_result = self._handle_response(url, raw_response, raw_request,
+                                             status_code, headers,
+                                             request_data)
+
+        return adyen_result
+
 
     def hpp_payment(self, request_data, action, hmac_key="", **kwargs):
         if not self.http_init:

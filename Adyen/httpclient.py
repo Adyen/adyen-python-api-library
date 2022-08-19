@@ -44,6 +44,7 @@ class HTTPClient(object):
     ):
         # Check if requests already available, default to urllib
         self.user_agent = user_agent_suffix + lib_version
+        self.get_request = self._requests_get
         if not force_request:
             if requests:
                 self.request = self._requests_post
@@ -311,6 +312,65 @@ class HTTPClient(object):
             return (raw_response, raw_request,
                     response.getcode(), dict(response.info()))
 
+    def _requests_get(
+        self,
+        url,
+        username="",
+        password="",
+        xapikey="",
+        headers=None
+    ):
+        """This function will GET to the url endpoint using requests.
+        Returning an AdyenResult object on 200 HTTP response.
+        Either json or data has to be provided.
+        If username and password are provided, basic auth will be used.
+
+
+        Args:
+            url (str): url to send the POST
+
+            username (str, optionl): Username for basic auth. Must be included
+                as part of password.
+            password (str, optional): Password for basic auth. Must be included
+                as part of username.
+            xapikey (str, optional):    Adyen API key.  Will be used for auth
+                                        if username and password are absent.
+            headers (dict, optional): Key/Value pairs of headers to include
+            timeout (int, optional): Default 30. Timeout for the request.
+
+        Returns:
+            str:    Raw response received
+            str:    Raw request placed
+            int:    HTTP status code, eg 200,404,401
+            dict:   Key/Value pairs of the headers received.
+        """
+        if headers is None:
+            headers = {}
+
+        # Adding basic auth if username and password provided.
+        auth = None
+        if username and password:
+            auth = requests.auth.HTTPBasicAuth(username, password)
+        elif xapikey:
+            headers['x-api-key'] = xapikey
+
+        # Add User-Agent header to request so that the request
+        # can be identified as coming from the Adyen Python library.
+        headers['User-Agent'] = self.user_agent
+
+        request = requests.get(
+            url=url,
+            auth=auth,
+            headers=headers,
+            timeout=self.timeout
+        )
+
+        # Ensure either json or data is returned for raw request
+        # Updated: Only return regular dict,
+        # don't switch out formats if this is not important.
+
+        return request.text, url, request.status_code, request.headers
+
     def request(
         self,
         url,
@@ -349,3 +409,36 @@ class HTTPClient(object):
                                   'overridden on initialization. '
                                   'Otherwise, can be overridden to '
                                   'supply your own post method')
+    def get_request(
+        self,
+        url,
+        username="",
+        password="",
+        headers=None,
+    ):
+        """This is overridden on module initialization. This function will make
+        an HTTP GET to a given url. The HTTP request needs to be basicAuth when username and
+        password are provided. a headers dict maybe provided,
+        whatever the values are should be applied.
+
+        Args:
+            url (str):                  url to send the POST
+
+            username (str, optional):    Username for basic auth. Must be
+                                        included as part of password.
+            password (str, optional):   Password for basic auth. Must be
+                                        included as part of username.
+            xapikey (str, optional):    Adyen API key.  Will be used for auth
+                                        if username and password are absent.
+            headers (dict, optional):   Key/Value pairs of headers to include
+        Returns:
+            str:    Raw request placed
+            str:    Raw response received
+            int:    HTTP status code, eg 200,404,401
+            dict:   Key/Value pairs of the headers received.
+        """
+        raise NotImplementedError('request of HTTPClient should have been '
+                                  'overridden on initialization. '
+                                  'Otherwise, can be overridden to '
+                                  'supply your own post method')
+

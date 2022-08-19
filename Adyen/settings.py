@@ -1,4 +1,5 @@
 # Those constants are used from the library only
+BASE_MANAGEMENT_URL ="https://management-{}.adyen.com"
 BASE_PAL_URL = "https://pal-{}.adyen.com/pal/servlet"
 BASE_TERMINAL_URL = "https://postfmapi-{}.adyen.com/postfmapi"
 PAL_LIVE_ENDPOINT_URL_TEMPLATE = "https://{}-pal-live" \
@@ -14,5 +15,6 @@ API_RECURRING_VERSION = "v49"
 API_PAYMENT_VERSION = "v64"
 API_PAYOUT_VERSION = "v64"
 API_TERMINAL_VERSION = "v1"
+API_MANAGEMENT_VERSION = "v1"
 LIB_VERSION = "7.1.0"
 LIB_NAME = "adyen-python-api-library"

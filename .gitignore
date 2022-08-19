@@ -7,3 +7,8 @@ venv/
 .idea/
 .coverage
 .vagrant/
+Adyen.egg-info/top_level.txt
+Adyen.egg-info/SOURCES.txt
+Adyen.egg-info/PKG-INFO
+Adyen.egg-info/dependency_links.txt
+.env
