@@ -226,9 +226,20 @@ class AdyenClient(object):
         api_version = self.api_management_version
         base_uri = settings.BASE_MANAGEMENT_URL.format(platform)
 
-        if action == "merchants":
+        if action == "merchant":
+            action = f'merchants/{path_param}'
+            method = "GET"
+        if action == "createMerchants":
+            action = "merchants"
+            method = "POST"
+        if action == "activateMerchant":
+            action = f'merchants/{path_param}/activate'
+            method = "POST"
+        if action == "getListOfMerchantAccounts":
             action = "merchants"
             method = "GET"
+
+        print('/'.join([base_uri, api_version, action]))
 
         return '/'.join([base_uri, api_version, action]), method
 
@@ -640,12 +651,19 @@ class AdyenClient(object):
         headers = {}
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
-        url = self._determine_management_url(platform, action, path_param)
+        print(path_param)
+        url, method = self._determine_management_url(platform, action, path_param)
 
-        raw_response, raw_request, status_code, headers = \
-            self.http_client.get_request(url,
-                                     xapikey=xapikey, headers=headers,
-                                     **kwargs)
+        if method == "GET":
+            raw_response, raw_request, status_code, headers = \
+                self.http_client.get_request(url,
+                                         xapikey=xapikey, headers=headers,
+                                         **kwargs)
+        elif method == "POST":
+            raw_response, raw_request, status_code, headers = \
+                self.http_client.request(url, json=request_data,
+                                         xapikey=xapikey, headers=headers,
+                                         **kwargs)
 
         # Creates AdyenResponse if request was successful, raises error if not.
         adyen_result = self._handle_response(url, raw_response, raw_request,

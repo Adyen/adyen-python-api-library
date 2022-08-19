@@ -470,19 +470,27 @@ class AdyenManagementApi(AdyenServiceBase):
 
     #Account - merchant level
 
-    def create_merchant_account(self):
-        action = "createMerchantAccount"
-        pass
+    def create_merchant_account(self, request, idempotency_key=None, **kwargs):
+        action = "createMerchants"
+        return self.client.call_management_api(request,action, idempotency_key, **kwargs)
 
 
-    def activate_merchant_accounts(self):
-        action = "merchants/{merchantmerc"
-        pass
+    def activate_merchant_accounts(self, request=None, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == None:
+            raise ValueError(
+                'must contain a merchantAccountID in the path_param, path_param cannot be empty'
+            )
+        action = "activateMerchant"
+        return self.client.call_management_api(request, action,idempotency_key, path_param, **kwargs)
 
-    def get_merchant_account(self, request="", **kwargs):
-        action = "merchants"
-        return self.client.call_management_api(request, action, **kwargs)
+    def get_merchant_account(self,request=None, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == None:
+            raise ValueError(
+                'must contain a merchantAccountID in the path_param, path_param cannot be empty'
+            )
+        action = "merchant"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
 
-    def get_list_of_merchant_accounts(self):
+    def get_list_of_merchant_accounts(self, request=None, idempotency_key=None, **kwargs):
         action = "getListOfMerchantAccounts"
-        pass
+        return self.client.call_management_api(request, action, idempotency_key, **kwargs)
