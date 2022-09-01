@@ -44,26 +44,26 @@ class HTTPClient(object):
     ):
         # Check if requests already available, default to urllib
         self.user_agent = user_agent_suffix + lib_version
-        self.get_request = self._requests_get
         if not force_request:
             if requests:
-                self.request = self._requests_post
+                self.request = self._requests_requests
             elif pycurl:
-                self.request = self._pycurl_post
+                self.request = self._pycurl_request
             else:
-                self.request = self._urllib_post
+                self.request = self._urllib_requests
         else:
             if force_request == 'requests':
-                self.request = self._requests_post
+                self.request = self._requests_requests
             elif force_request == 'pycurl':
-                self.request = self._pycurl_post
+                self.request = self._pycurl_request
             else:
-                self.request = self._urllib_post
+                self.request = self._urllib_requests
 
         self.timeout = timeout
 
-    def _pycurl_post(
+    def _pycurl_request(
         self,
+        method,
         url,
         json=None,
         data=None,
@@ -153,8 +153,9 @@ class HTTPClient(object):
 
         return result, raw_request, status_code, response_headers
 
-    def _requests_post(
+    def _requests_requests(
         self,
+        method,
         url,
         json=None,
         data=None,
@@ -203,7 +204,8 @@ class HTTPClient(object):
         # can be identified as coming from the Adyen Python library.
         headers['User-Agent'] = self.user_agent
 
-        request = requests.post(
+        request = requests.request(
+            method=method,
             url=url,
             auth=auth,
             data=data,
@@ -219,8 +221,9 @@ class HTTPClient(object):
 
         return request.text, message, request.status_code, request.headers
 
-    def _urllib_post(
+    def _urllib_requests(
         self,
+        method,
         url,
         json=None,
         data=None,
@@ -259,22 +262,30 @@ class HTTPClient(object):
         if headers is None:
             headers = {}
 
-        # Store regular dict to return later:
-        raw_store = json
 
-        raw_request = json_lib.dumps(json) if json else urlencode(data)
-        url_request = Request(url, data=raw_request.encode('utf8'))
-        if json:
-            url_request.add_header('Content-Type', 'application/json')
-        elif not data:
-            raise ValueError("Please provide either a json or a data field.")
+        if method == "POST" or method =="PATCH":
+
+            # Store regular dict to return later:
+            raw_store = json
+
+            raw_request = json_lib.dumps(json) if json else urlencode(data)
+            url_request = Request(url, data=raw_request.encode('utf8'))
+            raw_request = raw_store
+            if json:
+                url_request.add_header('Content-Type', 'application/json')
+            elif not data:
+                raise ValueError("Please provide either a json or a data field.")
+
+        elif method == "GET" or method == "DELETE":
+            url_request = Request(url)
+            raw_request = None
 
         # Add User-Agent header to request so that the
         # request can be identified as coming from the Adyen Python library.
         headers['User-Agent'] = self.user_agent
 
         # Set regular dict to return as raw_request:
-        raw_request = raw_store
+
 
         # Adding basic auth is username and password provided.
         if username and password:
@@ -312,67 +323,10 @@ class HTTPClient(object):
             return (raw_response, raw_request,
                     response.getcode(), dict(response.info()))
 
-    def _requests_get(
-        self,
-        url,
-        username="",
-        password="",
-        xapikey="",
-        headers=None
-    ):
-        """This function will GET to the url endpoint using requests.
-        Returning an AdyenResult object on 200 HTTP response.
-        Either json or data has to be provided.
-        If username and password are provided, basic auth will be used.
-
-
-        Args:
-            url (str): url to send the POST
-
-            username (str, optionl): Username for basic auth. Must be included
-                as part of password.
-            password (str, optional): Password for basic auth. Must be included
-                as part of username.
-            xapikey (str, optional):    Adyen API key.  Will be used for auth
-                                        if username and password are absent.
-            headers (dict, optional): Key/Value pairs of headers to include
-            timeout (int, optional): Default 30. Timeout for the request.
-
-        Returns:
-            str:    Raw response received
-            str:    Raw request placed
-            int:    HTTP status code, eg 200,404,401
-            dict:   Key/Value pairs of the headers received.
-        """
-        if headers is None:
-            headers = {}
-
-        # Adding basic auth if username and password provided.
-        auth = None
-        if username and password:
-            auth = requests.auth.HTTPBasicAuth(username, password)
-        elif xapikey:
-            headers['x-api-key'] = xapikey
-
-        # Add User-Agent header to request so that the request
-        # can be identified as coming from the Adyen Python library.
-        headers['User-Agent'] = self.user_agent
-
-        request = requests.get(
-            url=url,
-            auth=auth,
-            headers=headers,
-            timeout=self.timeout
-        )
-
-        # Ensure either json or data is returned for raw request
-        # Updated: Only return regular dict,
-        # don't switch out formats if this is not important.
-
-        return request.text, url, request.status_code, request.headers
 
     def request(
         self,
+        method,
         url,
         json="",
         data="",
@@ -409,36 +363,3 @@ class HTTPClient(object):
                                   'overridden on initialization. '
                                   'Otherwise, can be overridden to '
                                   'supply your own post method')
-    def get_request(
-        self,
-        url,
-        username="",
-        password="",
-        headers=None,
-    ):
-        """This is overridden on module initialization. This function will make
-        an HTTP GET to a given url. The HTTP request needs to be basicAuth when username and
-        password are provided. a headers dict maybe provided,
-        whatever the values are should be applied.
-
-        Args:
-            url (str):                  url to send the POST
-
-            username (str, optional):    Username for basic auth. Must be
-                                        included as part of password.
-            password (str, optional):   Password for basic auth. Must be
-                                        included as part of username.
-            xapikey (str, optional):    Adyen API key.  Will be used for auth
-                                        if username and password are absent.
-            headers (dict, optional):   Key/Value pairs of headers to include
-        Returns:
-            str:    Raw request placed
-            str:    Raw response received
-            int:    HTTP status code, eg 200,404,401
-            dict:   Key/Value pairs of the headers received.
-        """
-        raise NotImplementedError('request of HTTPClient should have been '
-                                  'overridden on initialization. '
-                                  'Otherwise, can be overridden to '
-                                  'supply your own post method')
-

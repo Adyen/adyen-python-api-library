@@ -35,7 +35,8 @@ request['reference'] = f"Reference test"  # provide your unique payment referenc
 request['returnUrl'] = f"/redirect?shopperOrder=myRef"
 request['countryCode'] = "NL"
 
-#result = adyen.management.activate_merchant_accounts(path_param="AntoniStroinski") API Exception 422, resource not found
+result = adyen.management.get_list_of_merchant_accounts()
+#result = adyen.management.activate_merchant_accounts(path_param="AntoniStroinski") #API Exception 422, resource not found
 # result = adyen.management.create_merchant_account({
 #   "companyId": "AdyenTechSupport",
 #   "legalEntityId": "LE322KH223222D5FJ89349536",
@@ -43,5 +44,5 @@ request['countryCode'] = "NL"
 #   "description": "Testing API account",
 #   "reference": "AntoniStroinski2"
 # }) Not implemented as well
-
 print(result)
+

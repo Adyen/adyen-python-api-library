@@ -35,6 +35,7 @@ class TestTerminal(unittest.TestCase):
         self.assertIn("P400Plus-275479597", result.message["results"])
 
         self.client.http_client.request.assert_called_once_with(
+            "POST",
             "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/assignTerminals",
             headers={},
             json={
@@ -84,6 +85,7 @@ class TestTerminal(unittest.TestCase):
         self.assertIn("P400Plus-275479597", result.message["terminal"])
 
         self.client.http_client.request.assert_called_once_with(
+            "POST",
             "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/findTerminal",
             headers={},
             json={
@@ -137,6 +139,7 @@ class TestTerminal(unittest.TestCase):
         ])
 
         self.client.http_client.request.assert_called_once_with(
+            "POST",
             "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getStoresUnderAccount",
             headers={},
             json={
@@ -167,6 +170,7 @@ class TestTerminal(unittest.TestCase):
         self.assertEqual(result.message["terminal"], "P400Plus-275479597")
 
         self.client.http_client.request.assert_called_once_with(
+            "POST",
             "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getTerminalDetails",
             headers={},
             json={
@@ -224,6 +228,7 @@ class TestTerminal(unittest.TestCase):
         ])
 
         self.client.http_client.request.assert_called_once_with(
+            "POST",
             "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getTerminalsUnderAccount",
             headers={},
             json={
@@ -266,6 +271,7 @@ class TestTerminal(unittest.TestCase):
         ])
 
         self.client.http_client.request.assert_called_once_with(
+            "POST",
             "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getTerminalsUnderAccount",
             headers={},
             json={

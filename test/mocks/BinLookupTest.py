@@ -49,6 +49,7 @@ class TestBinLookup(unittest.TestCase):
         result = self.ady.binlookup.get_cost_estimate(REQUEST_KWARGS)
         self.assertEqual(expected, result.message)
         self.ady.client.http_client.request.assert_called_once_with(
+            "POST",
             'https://pal-test.adyen.com/pal/servlet/'
             'BinLookup/v50/getCostEstimate',
             headers={},
