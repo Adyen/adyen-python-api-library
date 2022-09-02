@@ -371,6 +371,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
     def sessions(self, request=None, **kwargs):
         action = "sessions"
         return self.client.call_checkout_api(request, action, **kwargs)
+
     # Orders endpoints
 
     # /paymentMethods/balance
@@ -406,7 +407,6 @@ class AdyenBinLookup(AdyenServiceBase):
         self.service = "BinLookup"
 
     def get_cost_estimate(self, request="", **kwargs):
-
         action = "getCostEstimate"
 
         return self.client.call_api(request, self.service, action, **kwargs)
@@ -464,33 +464,117 @@ class AdyenManagementApi(AdyenServiceBase):
             client (AdyenAPIClient, optional): An API client for the service to
                 use. If not provided, a new API client will be created.
         """
+
     def __init__(self, client=None):
         super(AdyenManagementApi, self).__init__(client=client)
         self.service = "management"
 
-    #Account - merchant level
+    # Account - company level
+
+    def get_list_of_company_accounts(self, request=None, idempotency_key=None, **kwargs):
+        action = "getListOfCompanyAccounts"
+        return self.client.call_management_api(request, action, idempotency_key, **kwargs)
+
+    def get_company_account(self, request=None, idempotency_key=None, path_param=None, **kwargs):
+        if path_param == None:
+            raise ValueError(
+                'must contain a companyId in the path_param, path_param cannot be empty'
+            )
+        action = "getCompanyAccount"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def get_list_of_merchant_accounts_under_company(self, request=None, idempotency_key=None, path_param=None,
+                                                    **kwargs):
+        if path_param == None:
+            raise ValueError(
+                'must contain a companyId in the path_param, path_param cannot be empty'
+            )
+        action = "getListOfMerchantAccountsUnderCompany"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+
+    # Account - merchant level
 
     def create_merchant_account(self, request, idempotency_key=None, **kwargs):
         action = "createMerchants"
-        return self.client.call_management_api(request,action, idempotency_key, **kwargs)
-
+        return self.client.call_management_api(request, action, idempotency_key, **kwargs)
 
     def activate_merchant_accounts(self, request=None, idempotency_key=None, path_param=None, **kwargs):
-        if path_param == None:
+        if path_param is None:
             raise ValueError(
-                'must contain a merchantAccountID in the path_param, path_param cannot be empty'
+                'must contain a merchantAccountId in the path_param, path_param cannot be empty'
             )
         action = "activateMerchant"
-        return self.client.call_management_api(request, action,idempotency_key, path_param, **kwargs)
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
 
-    def get_merchant_account(self,request=None, idempotency_key=None, path_param=None, **kwargs):
-        if path_param == None:
+    def get_merchant_account(self, request=None, idempotency_key=None, path_param=None, **kwargs):
+        if path_param is None:
             raise ValueError(
-                'must contain a merchantAccountID in the path_param, path_param cannot be empty'
+                'must contain a merchantAccountId in the path_param, path_param cannot be empty'
             )
-        action = "merchant"
+        action = "getMerchantAccount"
         return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
 
     def get_list_of_merchant_accounts(self, request=None, idempotency_key=None, **kwargs):
         action = "getListOfMerchantAccounts"
         return self.client.call_management_api(request, action, idempotency_key, **kwargs)
+
+    # Accounts - store level
+
+    def create_store(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param is None:
+            raise ValueError(
+                'must contain a merchantAccountId in the path_param, path_param cannot be empty'
+            )
+        action = "createStore"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def get_list_of_stores_under_merchant_account(self, request=None, idempotency_key=None, path_param=None, **kwargs):
+        if path_param is None:
+            raise ValueError(
+                'must contain a merchantAccountId in the path_param, path_param cannot be empty'
+            )
+        action = "getListOfStoresUnderMerchantAccounts"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def get_store_under_merchant_account(self, request=None, idempotency_key=None, path_param=None, **kwargs):
+        if path_param is None or path_param.find(',') == -1:
+            raise ValueError(
+                'must contain a merchantAccountId and storeId comma'
+                'separated in the path_param, path_param cannot be empty'
+            )
+        action = "getStoreUnderMerchantAccount"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def update_store_under_merchant_account(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param is None or path_param.find(',') == -1:
+            raise ValueError(
+                'must contain a merchantAccountId and storeId comma'
+                'separated in the path_param, path_param cannot be empty'
+            )
+        action = "updateStoreUnderMerchantAccount"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def get_list_of_stores(self, request=None, idempotency_key=None, path_param=None, **kwargs):
+        action = "getListOfStores"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def create_store(self, request, idempotency_key=None, path_param=None, **kwargs):
+        action = "createStore"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def get_store(self, request = None, idempotency_key=None, path_param=None, **kwargs):
+        if path_param is None:
+            raise ValueError(
+                'must contain a storeId in the path_param, path_param cannot be empty'
+            )
+        action = "getStore"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+
+    def update_store(self, request, idempotency_key=None, path_param=None, **kwargs):
+        if path_param is None:
+            raise ValueError(
+                'must contain a storeId in the path_param, path_param cannot be empty'
+            )
+        action = "updateStore"
+        return self.client.call_management_api(request, action, idempotency_key, path_param, **kwargs)
+

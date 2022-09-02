@@ -226,7 +226,16 @@ class AdyenClient(object):
         api_version = self.api_management_version
         base_uri = settings.BASE_MANAGEMENT_URL.format(platform)
 
-        if action == "merchant":
+        if action == "getListOfCompanyAccounts":
+            action = "companies"
+            method = "GET"
+        if action == "getCompanyAccount":
+            action = f'companies/{path_param}'
+            method = "GET"
+        if action == "getListOfMerchantAccountsUnderCompany":
+            action = f'companies/{path_param}/merchants'
+            method = "GET"
+        if action == "getMerchantAccount":
             action = f'merchants/{path_param}'
             method = "GET"
         if action == "createMerchants":
@@ -238,8 +247,32 @@ class AdyenClient(object):
         if action == "getListOfMerchantAccounts":
             action = "merchants"
             method = "GET"
-
-
+        if action == "createStore":
+            action = f'merchants/{path_param}/stores'
+            method = "POST"
+        if action == "getListOfStoresUnderMerchantAccounts":
+            action = f'merchants/{path_param}/stores'
+            method = "GET"
+        if action == "getStoreUnderMerchantAccount":
+            merchant, store = path_param.split()
+            action = f'merchants/{merchant}/stores/{store}'
+            method = "GET"
+        if action == "updateStoreUnderMerchantAccount":
+            merchant, store = path_param.split()
+            action = f'merchants/{merchant}/stores/{store}'
+            method = "PATCH"
+        if action == "getListOfStores":
+            action = "stores"
+            method = "GET"
+        if action == "createStore":
+            action = "stores"
+            method = "POST"
+        if action == "getStore":
+            action = f'stores/{path_param}'
+            method = "GET"
+        if action == "updateStore":
+            action = f'stores/{path_param}'
+            method = "PATCH"
 
         return '/'.join([base_uri, api_version, action]), method
 

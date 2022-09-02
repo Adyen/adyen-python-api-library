@@ -72,18 +72,18 @@ class HTTPClient(object):
         xapikey="",
         headers=None
      ):
-        """This function will POST to the url endpoint using pycurl. returning
-        an AdyenResult object on 200 HTTP response. Either json or data has to
-        be provided. If username and password are provided, basic auth will be
-        used.
+        """This function will send a request with a specified method to the url endpoint using pycurl.
+        Returning an AdyenResult object on 200 HTTP response.
+        Either json or data has to be provided for POST/PATCH.
+        If username and password are provided, basic auth will be used.
 
 
         Args:
-            url (str): url to send the POST
-            json (dict, optional): Dict of the JSON to POST
-            data (dict, optional): Dict, presumed flat structure
-                of key/value of request to place
-            username (str, optional): Username for basic auth. Must be included
+            url (str): url to send the request
+            json (dict, optional): Dict of the JSON to POST/PATCH
+            data (dict, optional): Dict, presumed flat structure of key/value
+                of request to place
+            username (str, optionl): Username for basic auth. Must be included
                 as part of password.
             password (str, optional): Password for basic auth. Must be included
                 as part of username.
@@ -164,15 +164,15 @@ class HTTPClient(object):
         xapikey="",
         headers=None
     ):
-        """This function will POST to the url endpoint using requests.
+        """This function will send a request with a specified method to the url endpoint using requests.
         Returning an AdyenResult object on 200 HTTP response.
-        Either json or data has to be provided.
+        Either json or data has to be provided for POST/PATCH.
         If username and password are provided, basic auth will be used.
 
 
         Args:
-            url (str): url to send the POST
-            json (dict, optional): Dict of the JSON to POST
+            url (str): url to send the request
+            json (dict, optional): Dict of the JSON to POST/PATCH
             data (dict, optional): Dict, presumed flat structure of key/value
                 of request to place
             username (str, optionl): Username for basic auth. Must be included
@@ -233,31 +233,32 @@ class HTTPClient(object):
         headers=None,
     ):
 
-        """This function will POST to the url endpoint using urllib2. returning
-        an AdyenResult object on 200 HTTP responce. Either json or data has to
-        be provided. If username and password are provided, basic auth will be
-        used.
+        """This function will send a request with a specified method to the url endpoint using urlib2.
+                Returning an AdyenResult object on 200 HTTP response.
+                Either json or data has to be provided for POST/PATCH.
+                If username and password are provided, basic auth will be used.
 
-        Args:
-            url (str):                  url to send the POST
-            json (dict, optional):      Dict of the JSON to POST
-            data (dict, optional):      Dict, presumed flat structure of
-                                        key/value of request to place as
-                                        www-form
-            username (str, optional):    Username for basic auth. Must be
-                                        uncluded as part of password.
-            password (str, optional):   Password for basic auth. Must be
-                                        included as part of username.
-            xapikey (str, optional):    Adyen API key.  Will be used for auth
-                                        if username and password are absent.
-            headers (dict, optional):   Key/Value pairs of headers to include
 
-        Returns:
-            str:    Raw response received
-            str:    Raw request placed
-            int:    HTTP status code, eg 200,404,401
-            dict:   Key/Value pairs of the headers received.
-        """
+                Args:
+                    url (str): url to send the request
+                    json (dict, optional): Dict of the JSON to POST/PATCH
+                    data (dict, optional): Dict, presumed flat structure of key/value
+                        of request to place
+                    username (str, optionl): Username for basic auth. Must be included
+                        as part of password.
+                    password (str, optional): Password for basic auth. Must be included
+                        as part of username.
+                    xapikey (str, optional):    Adyen API key.  Will be used for auth
+                                                if username and password are absent.
+                    headers (dict, optional): Key/Value pairs of headers to include
+                    timeout (int, optional): Default 30. Timeout for the request.
+
+                Returns:
+                    str:    Raw response received
+                    str:    Raw request placed
+                    int:    HTTP status code, eg 200,404,401
+                    dict:   Key/Value pairs of the headers received.
+                """
 
         if headers is None:
             headers = {}
