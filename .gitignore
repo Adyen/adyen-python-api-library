@@ -13,3 +13,5 @@ Adyen.egg-info/PKG-INFO
 Adyen.egg-info/dependency_links.txt
 .env
 test.py
+.vscode
+.gitignore

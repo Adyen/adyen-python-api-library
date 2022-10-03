@@ -1,0 +1,22 @@
+{
+    "storeId": "ST322LJ223223K5F4SQNR9XL5",
+    "address": {
+      "city": "Springfield",
+      "country": "US",
+      "line1": "200 Main Street",
+      "line2": "Building 5A",
+      "line3": "Suite 3",
+      "postalCode": "20250",
+      "stateOrProvince": "NY"
+    },
+    "description": "City centre store",
+    "merchantId": "YOUR_MERCHANT_ACCOUNT_ID",
+    "phoneNumber": "+1813702551707653",
+    "reference": "Springfield Shop",
+    "status": "active",
+    "_links": {
+      "self": {
+        "href": "https://management-test.adyen.com/v1/stores/ST322LJ223223K5F4SQNR9XL5"
+      }
+    }
+  }

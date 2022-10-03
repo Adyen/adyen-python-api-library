@@ -140,10 +140,11 @@ class HTTPClient(object):
             raw_request = json_lib.dumps(json) if json else urlencode(data)
             curl.setopt(curl.POSTFIELDS, raw_request)
 
-            curl.setopt(curl.TIMEOUT, self.timeout)
+            
         elif method == "GET" or method == "DELETE":
             raw_store = None
 
+        curl.setopt(curl.TIMEOUT, self.timeout)
         curl.perform()
 
         # Grab the response content

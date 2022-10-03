@@ -254,11 +254,11 @@ class AdyenClient(object):
             action = f'merchants/{path_param}/stores'
             method = "GET"
         if action == "getStoreUnderMerchantAccount":
-            merchant, store = path_param.split()
+            merchant, store = path_param.split(',')
             action = f'merchants/{merchant}/stores/{store}'
             method = "GET"
         if action == "updateStoreUnderMerchantAccount":
-            merchant, store = path_param.split()
+            merchant, store = path_param.split(',')
             action = f'merchants/{merchant}/stores/{store}'
             method = "PATCH"
         if action == "getListOfStores":

@@ -1,0 +1,24 @@
+{
+    "id": "YOUR_MERCHANT_ACCOUNT",
+    "name": "YOUR_MERCHANT_NAME",
+    "captureDelay": "manual",
+    "defaultShopperInteraction": "Ecommerce",
+    "status": "Active",
+    "shopWebAddress": "YOUR_SHOP_URL",
+    "merchantCity": "Amsterdam",
+    "primarySettlementCurrency": "EUR",
+    "_links": {
+      "self": {
+        "href": "https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT"
+      },
+      "apiCredentials": {
+        "href": "https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT/apiCredentials"
+      },
+      "users": {
+        "href": "https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT/users"
+      },
+      "webhooks": {
+        "href": "https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT/webhooks"
+      }
+    }
+  }
