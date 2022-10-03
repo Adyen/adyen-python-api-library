@@ -133,13 +133,17 @@ class HTTPClient(object):
         curl.setopt(pycurl.HTTPHEADER, header_list)
 
         # Return regular dict instead of JSON encoded dict for request:
-        raw_store = json
+        if method == "POST" or method == "PATCH":
+            raw_store = json
 
-        # Set the request body.
-        raw_request = json_lib.dumps(json) if json else urlencode(data)
-        curl.setopt(curl.POSTFIELDS, raw_request)
+            # Set the request body.
+            raw_request = json_lib.dumps(json) if json else urlencode(data)
+            curl.setopt(curl.POSTFIELDS, raw_request)
 
-        curl.setopt(curl.TIMEOUT, self.timeout)
+            curl.setopt(curl.TIMEOUT, self.timeout)
+        elif method == "GET" or method == "DELETE":
+            raw_store = None
+
         curl.perform()
 
         # Grab the response content
