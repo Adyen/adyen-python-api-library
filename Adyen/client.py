@@ -199,7 +199,7 @@ class AdyenClient(object):
             action = f"/payments/{path_param}/captures"
         if action == "paymentsReversals":
             action = f"payments/{path_param}/reversals"
-        if action == "payments/Refunds":
+        if action == "paymentsRefunds":
             action = f"payments/{path_param}/refunds"
         if action == "originKeys":
             api_version = self.api_checkout_utility_version
