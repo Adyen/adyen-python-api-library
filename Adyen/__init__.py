@@ -19,7 +19,6 @@ from .services import (
     AdyenRecurring,
     AdyenPayment,
     AdyenThirdPartyPayout,
-    AdyenHPP,
     AdyenCheckoutApi,
     AdyenTerminal
 )
@@ -33,7 +32,6 @@ class Adyen(AdyenBase):
         self.payment = AdyenPayment(client=self.client)
         self.binlookup = AdyenBinLookup(client=self.client)
         self.payout = AdyenThirdPartyPayout(client=self.client)
-        self.hpp = AdyenHPP(client=self.client)
         self.recurring = AdyenRecurring(client=self.client)
         self.checkout = AdyenCheckoutApi(client=self.client)
         self.terminal = AdyenTerminal(client=self.client)
@@ -41,7 +39,6 @@ class Adyen(AdyenBase):
 
 _base_adyen_obj = Adyen()
 recurring = _base_adyen_obj.recurring
-hpp = _base_adyen_obj.hpp
 payment = _base_adyen_obj.payment
 payout = _base_adyen_obj.payout
 checkout = _base_adyen_obj.checkout
