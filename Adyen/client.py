@@ -51,7 +51,7 @@ class AdyenClient(object):
     When these values aren't within this object, the root adyen module
     variables will be used.
 
-    The public methods, call_api, only return AdyenResult objects.
+    The public methods and call_api only return AdyenResult objects.
     Otherwise raising various validation and communication errors.
 
     Args:
