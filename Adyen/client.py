@@ -3,7 +3,6 @@
 from __future__ import absolute_import, division, unicode_literals
 
 import json as json_lib
-import re
 
 from . import util
 from .httpclient import HTTPClient
@@ -52,7 +51,7 @@ class AdyenClient(object):
     When these values aren't within this object, the root adyen module
     variables will be used.
 
-    The public methods, call_api and call_hpp, only return AdyenResult objects.
+    The public methods, call_api, only return AdyenResult objects.
     Otherwise raising various validation and communication errors.
 
     Args:
@@ -62,8 +61,6 @@ class AdyenClient(object):
             placed through
         platform (str, optional): Defaults "test". The Adyen platform to make
             requests against.
-        skin_code (str, optional): skin_code to place directory_lookup requests
-            and generate hpp signatures with.
         hmac (str, optional): Hmac key that is used for signature calculation.
         http_timeout (int, optional): The timeout in seconds for HTTP calls,
             default 30.
@@ -102,7 +99,6 @@ class AdyenClient(object):
         self.merchant_specific_url = merchant_specific_url
         self.hmac = hmac
         self.merchant_account = merchant_account
-        self.skin_code = skin_code
         self.psp_list = []
         self.LIB_VERSION = settings.LIB_VERSION
         self.USER_AGENT_SUFFIX = settings.LIB_NAME + "/"
@@ -118,14 +114,14 @@ class AdyenClient(object):
         self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
         self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
 
-    def _determine_api_url(self, platform, service, action):
+    def _determine_api_url(self, platform, service, endpoint):
         """This returns the Adyen API endpoint based on the provided platform,
-        service and action.
+        service and endpoint.
 
         Args:
             platform (str): Adyen platform, ie 'live' or 'test'.
             service (str): API service to place request through.
-            action (str): the API action to perform.
+            endpoint (str): the API endpoint to call.
         """
         if platform == "live" and self.live_endpoint_prefix:
             base_uri = settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(
@@ -145,31 +141,15 @@ class AdyenClient(object):
             api_version = self.api_terminal_version
         else:
             api_version = self.api_payment_version
-        return '/'.join([base_uri, service, api_version, action])
+        return '/'.join([base_uri, service, api_version, endpoint])
 
-    @staticmethod
-    def _determine_hpp_url(platform, action):
-        """This returns the Adyen HPP endpoint based on the provided platform,
-        and action.
-
-        Args:
-            platform (str): Adyen platform, ie 'live' or 'test'.
-            action (str):   the HPP action to perform.
-            possible actions: select, pay, skipDetails, directory
-        """
-        base_uri = settings.BASE_HPP_URL.format(platform)
-        service = action + '.shtml'
-        result = '/'.join([base_uri, service])
-        return result
-
-    def _determine_checkout_url(self, platform, action, path_param=None):
+    def _determine_checkout_url(self, platform, endpoint):
         """This returns the Adyen API endpoint based on the provided platform,
-        service and action.
+        service and endpoint.
 
         Args:
             platform (str): Adyen platform, ie 'live' or 'test'.
-            action (str): the API action to perform.
-            path_param Optional[(str)]: a generic id that can be used to modify a payment e.g. paymentPspReference.
+            endpoint (str): the API endpoint to call.
         """
         api_version = self.api_checkout_version
         if platform == "test":
@@ -185,28 +165,10 @@ class AdyenClient(object):
         else:
             raise AdyenEndpointInvalidFormat("invalid config")
 
-        if action == "paymentsDetails":
-            action = "payments/details"
-        if action == "paymentsResult":
-            action = "payments/result"
-        if action == "cancels":
-            action = "/cancels"
-        if action == "paymentsCancelsWithReference":
-            action = f"payments/{path_param}/cancels"
-        if action == "paymentsCapture":
-            action = f"/payments/{path_param}/captures"
-        if action == "paymentsReversals":
-            action = f"payments/{path_param}/reversals"
-        if action == "paymentsRefunds":
-            action = f"payments/{path_param}/refunds"
-        if action == "originKeys":
+        if endpoint == "originKeys":
             api_version = self.api_checkout_utility_version
-        if action == "paymentMethodsBalance":
-            action = "paymentMethods/balance"
-        if action == "ordersCancel":
-            action = "orders/cancel"
 
-        return '/'.join([base_uri, api_version, action])
+        return '/'.join([base_uri, api_version, endpoint])
 
     def _review_payout_username(self, **kwargs):
         if 'username' in kwargs:
@@ -252,7 +214,7 @@ class AdyenClient(object):
         self,
         request_data,
         service,
-        action,
+        endpoint,
         idempotency_key=None,
         **kwargs
     ):
@@ -268,7 +230,7 @@ class AdyenClient(object):
                 should be in the structure of the Adyen API.
                 https://docs.adyen.com/api-explorer
             service (str): This is the API service to be called.
-            action (str): The specific action of the API service to be called
+            endpoint (str): The specific endpoint of the API service to be called
             idempotency (bool, optional): Whether the transaction should be
                 processed idempotently.
                 https://docs.adyen.com/development-resources/api-idempotency
@@ -293,7 +255,7 @@ class AdyenClient(object):
         elif 'username' in kwargs:
             username = kwargs.pop("username")
         if service == "Payout":
-            if any(substring in action for substring in
+            if any(substring in endpoint for substring in
                    ["store", "submit"]):
                 username = self._store_payout_username(**kwargs)
             else:
@@ -314,7 +276,7 @@ class AdyenClient(object):
         elif 'password' in kwargs:
             password = kwargs.pop("password")
         if service == "Payout":
-            if any(substring in action for substring in
+            if any(substring in endpoint for substring in
                    ["store", "submit"]):
                 password = self._store_payout_pass(**kwargs)
             else:
@@ -370,7 +332,7 @@ class AdyenClient(object):
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
 
-        url = self._determine_api_url(platform, service, action)
+        url = self._determine_api_url(platform, service, endpoint)
 
         if xapikey:
             raw_response, raw_request, status_code, headers = \
@@ -399,73 +361,7 @@ class AdyenClient(object):
         )
         self.http_init = True
 
-    def call_hpp(self, message, action, hmac_key="", **kwargs):
-        """This will call the adyen hpp. hmac_key and platform are pulled from
-        root module level and or self object.
-        AdyenResult will be returned on 200 response.
-        Otherwise, an exception is raised.
-
-        Args:
-            request_data (dict): The dictionary of the request to place. This
-                should be in the structure of the Adyen API.
-                https://docs.adyen.com/online-payments/classic-integrations/hosted-payment-pages/hosted-payment-pages-api
-            service (str): This is the API service to be called.
-            action (str): The specific action of the API service to be called
-        Returns:
-            AdyenResult: The AdyenResult is returned when a request was
-                succesful.
-                :param message:
-                :param hmac_key:
-        """
-        if not self.http_init:
-            self._init_http_client()
-
-        # hmac provided in function has highest priority. fallback to self then
-        # root module and ensure that it is set.
-        hmac = hmac_key
-        if self.hmac:
-            hmac = self.hmac
-        elif not hmac:
-            errorstring = """Please set an hmac with your Adyen.Adyen
-            class instance.
-            'Adyen.hmac = \"!WR#F@...\"' or as an additional
-             parameter in the function call ie.
-            'Adyen.hpp.directory_lookup(hmac=\"!WR#F@...\"'. Please reach
-            out to support@Adyen.com if the issue persists."""
-            raise AdyenInvalidRequestError(errorstring)
-
-        # platform provided in self has highest priority,
-        # fallback to root module and ensure that it is set.
-        platform = self.platform
-        if not isinstance(platform, str):
-            errorstring = "'platform' must be type string"
-            raise TypeError(errorstring)
-        elif platform.lower() not in ['live', 'test']:
-            errorstring = " 'platform' must be the value of 'live' or 'test' "
-            raise ValueError(errorstring)
-
-        if 'skinCode' not in message:
-            message['skinCode'] = self.skin_code
-
-        if 'merchantAccount' not in message:
-            message['merchantAccount'] = self.merchant_account
-        if message['merchantAccount'] == "":
-            message['merchantAccount'] = self.merchant_account
-
-        message["merchantSig"] = util.generate_hpp_sig(message, hmac)
-
-        url = self._determine_hpp_url(platform, action)
-
-        raw_response, raw_request, status_code, headers = \
-            self.http_client.request(url, data=message,
-                                     username="", password="", **kwargs)
-
-        # Creates AdyenResponse if request was successful, raises error if not.
-        adyen_result = self._handle_response(url, raw_response, raw_request,
-                                             status_code, headers, message)
-        return adyen_result
-
-    def call_checkout_api(self, request_data, action, idempotency_key=None, path_param=None,
+    def call_checkout_api(self, request_data, endpoint, idempotency_key=None,
                           **kwargs):
         """This will call the checkout adyen api. xapi key merchant_account,
         and platform are pulled from root module level and or self object.
@@ -478,9 +374,7 @@ class AdyenClient(object):
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
                 https://docs.adyen.com/api-explorer/#/CheckoutService
-            service (str): This is the API service to be called.
-            action (str): The specific action of the API service to be called
-            path_param (str): This is used to pass the id or referenceID to the API sercie
+            endpoint (str): The specific endpoint of the API service to be called
         """
         if not self.http_init:
             self._init_http_client()
@@ -523,11 +417,11 @@ class AdyenClient(object):
             "payments",
             "paymentSession",
             "paymentLinks",
-            "paymentMethodsBalance",
+            "paymentMethods/balance",
             "sessions"
         ]
 
-        if action in with_app_info:
+        if endpoint in with_app_info:
             if 'applicationInfo' in request_data:
                 request_data['applicationInfo'].update({
                     "adyenLibrary": {
@@ -547,7 +441,7 @@ class AdyenClient(object):
         headers = {}
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
-        url = self._determine_checkout_url(platform, action, path_param)
+        url = self._determine_checkout_url(platform, endpoint)
 
         raw_response, raw_request, status_code, headers = \
             self.http_client.request(url, json=request_data,
@@ -558,39 +452,6 @@ class AdyenClient(object):
         adyen_result = self._handle_response(url, raw_response, raw_request,
                                              status_code, headers,
                                              request_data)
-
-        return adyen_result
-
-    def hpp_payment(self, request_data, action, hmac_key="", **kwargs):
-        if not self.http_init:
-            self._init_http_client()
-
-        platform = self.platform
-        if not isinstance(platform, str):
-            errorstring = "'platform' must be type string"
-            raise TypeError(errorstring)
-        elif platform.lower() not in ['live', 'test']:
-            errorstring = " 'platform' must be the value of 'live' or 'test' "
-            raise ValueError(errorstring)
-
-        if 'skinCode' not in request_data:
-            request_data['skinCode'] = self.skin_code
-
-        hmac = self.hmac
-
-        if 'merchantAccount' not in request_data:
-            request_data['merchantAccount'] = self.merchant_account
-        if request_data['merchantAccount'] == "":
-            request_data['merchantAccount'] = self.merchant_account
-
-        request_data["merchantSig"] = util.generate_hpp_sig(request_data, hmac)
-
-        url = self._determine_hpp_url(platform, action)
-
-        adyen_result = {
-            'url': url,
-            'message': request_data
-        }
 
         return adyen_result
 
@@ -611,7 +472,7 @@ class AdyenClient(object):
         Returns:
             AdyenResult: Result object if successful.
         """
-        if (status_code != 200 and status_code != 201):
+        if status_code != 200 and status_code != 201:
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:
@@ -644,29 +505,11 @@ class AdyenClient(object):
                 erstr = 'KeyError: errorCode'
                 raise AdyenAPICommunicationError(erstr)
         else:
-            try:
-                response = json_lib.loads(raw_response)
-                psp = self._get_psp(response, headers)
-                return AdyenResult(message=response, status_code=status_code,
-                                   psp=psp, raw_request=raw_request,
-                                   raw_response=raw_response)
-            except ValueError:
-                # Couldn't parse json so try to pull error from html.
-
-                error = self._error_from_hpp(raw_response)
-
-                message = request_dict
-
-                reference = message.get("reference",
-                                        message.get("merchantReference"))
-
-                errorstring = """Unable to retrieve payment "
-                list. Received the error: {}. Please verify your request "
-                and try again. If the issue persists, please reach out to "
-                support@adyen.com including the "
-                merchantReference: {}""".format(error, reference),
-
-                raise AdyenInvalidRequestError(errorstring)
+            response = json_lib.loads(raw_response)
+            psp = self._get_psp(response, headers)
+            return AdyenResult(message=response, status_code=status_code,
+                               psp=psp, raw_request=raw_request,
+                               raw_response=raw_response)
 
     def _handle_http_error(self, url, response_obj, status_code, psp_ref,
                            raw_request, raw_response, headers, message):
@@ -787,13 +630,6 @@ class AdyenClient(object):
                 url=url,
                 psp=psp_ref,
                 headers=headers, error_code=response_obj.get("errorCode"))
-
-    @staticmethod
-    def _error_from_hpp(html):
-        # Must be updated when Adyen response is changed:
-        match_obj = re.search(r'>Error:\s*(.*?)<br', html)
-        if match_obj:
-            return match_obj.group(1)
 
     @staticmethod
     def _get_psp(response, header):

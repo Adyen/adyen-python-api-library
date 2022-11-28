@@ -32,89 +32,89 @@ class AdyenCheckoutApi(AdyenServiceBase):
         self.service = "Checkout"
 
     def payment_methods(self, request, **kwargs):
-        action = "paymentMethods"
+        endpoint = "paymentMethods"
         if 'merchantAccount' in request:
             if request['merchantAccount'] == '':
                 raise ValueError(
                     'merchantAccount must contain the merchant account'
                     ' when retrieving payment methods.')
 
-        return self.client.call_checkout_api(request, action, **kwargs)
+        return self.client.call_checkout_api(request, endpoint, **kwargs)
 
     def payments(self, request, idempotency_key=None, **kwargs):
-        action = "payments"
-        return self.client.call_checkout_api(request, action, idempotency_key,
+        endpoint = "payments"
+        return self.client.call_checkout_api(request, endpoint, idempotency_key,
                                              **kwargs)
 
     def payments_details(self, request=None, idempotency_key=None, **kwargs):
-        action = "paymentsDetails"
-        return self.client.call_checkout_api(request, action, idempotency_key,
+        endpoint = "payments/details"
+        return self.client.call_checkout_api(request, endpoint, idempotency_key,
                                              **kwargs)
 
     def payment_session(self, request=None, **kwargs):
-        action = "paymentSession"
-        return self.client.call_checkout_api(request, action, **kwargs)
+        endpoint = "paymentSession"
+        return self.client.call_checkout_api(request, endpoint, **kwargs)
 
     def payment_result(self, request=None, **kwargs):
-        action = "paymentsResult"
-        return self.client.call_checkout_api(request, action, **kwargs)
+        endpoint = "payments/result"
+        return self.client.call_checkout_api(request, endpoint, **kwargs)
 
     def payments_captures(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
-        action = "paymentsCapture"
-        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
+        endpoint = f"payments/{path_param}/captures"
+        return self.client.call_checkout_api(request, endpoint, idempotency_key, **kwargs)
 
     def payments_cancels_without_reference(self, request, idempotency_key=None, **kwargs):
-        action = "cancels"
-        return self.client.call_checkout_api(request, action, idempotency_key, **kwargs)
+        endpoint = "cancels"
+        return self.client.call_checkout_api(request, endpoint, idempotency_key, **kwargs)
 
     def payments_cancels_with_reference(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
-        action = "paymentsCancelsWithReference"
-        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
+        endpoint = f"payments/{path_param}/cancels"
+        return self.client.call_checkout_api(request, endpoint, idempotency_key, **kwargs)
 
     def payments_reversals(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
-        action = "paymentsReversals"
-        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
+        endpoint = f"payments/{path_param}/reversals"
+        return self.client.call_checkout_api(request, endpoint, idempotency_key, **kwargs)
 
     def payments_refunds(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
             raise ValueError(
                 'must contain a pspReference in the path_param, path_param cannot be empty'
             )
-        action = "paymentsRefunds"
-        return self.client.call_checkout_api(request, action, idempotency_key, path_param, **kwargs)
+        endpoint = f"payments/{path_param}/refunds"
+        return self.client.call_checkout_api(request, endpoint, idempotency_key, **kwargs)
 
     def origin_keys(self, request=None, **kwargs):
-        action = "originKeys"
-        return self.client.call_checkout_api(request, action, **kwargs)
+        endpoint = "originKeys"
+        return self.client.call_checkout_api(request, endpoint, **kwargs)
 
     def sessions(self, request=None, **kwargs):
-        action = "sessions"
-        return self.client.call_checkout_api(request, action, **kwargs)
+        endpoint = "sessions"
+        return self.client.call_checkout_api(request, endpoint, **kwargs)
     # Orders endpoints
 
     # /paymentMethods/balance
     def payment_methods_balance(self, request, **kwargs):
-        action = "paymentMethodsBalance"
-        return self.client.call_checkout_api(request, action, **kwargs)
+        endpoint = "paymentMethods/balance"
+        return self.client.call_checkout_api(request, endpoint, **kwargs)
 
     # /orders
     def orders(self, request, **kwargs):
-        action = "orders"
-        return self.client.call_checkout_api(request, action, **kwargs)
+        endpoint = "orders"
+        return self.client.call_checkout_api(request, endpoint, **kwargs)
 
     # /orders/cancel
     def orders_cancel(self, request, **kwargs):
-        action = "ordersCancel"
-        return self.client.call_checkout_api(request, action, **kwargs)
+        endpoint = "orders/cancel"
+        return self.client.call_checkout_api(request, endpoint, **kwargs)
