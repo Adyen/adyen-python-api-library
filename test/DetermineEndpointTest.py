@@ -26,7 +26,7 @@ class TestDetermineUrl(unittest.TestCase):
     def test_checkout_api_url(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_checkout_url("test",
-                                                        "paymentsDetails")
+                                                        "payments/details")
         self.assertEqual(url, "https://checkout-test.adyen.com"
                               "/v69/payments/details")
 
@@ -117,15 +117,15 @@ class TestDetermineUrl(unittest.TestCase):
     def test_checkout_api_url_order_cancel(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_checkout_url("test",
-                                                        "ordersCancel")
+                                                        "orders/cancel")
         self.assertEqual(url, "https://checkout-test.adyen.com"
                               "/v69/orders/cancel")
 
     def test_checkout_api_url_order_payment_methods_balance(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_checkout_url("test",
-                                                        "paymentMethods"
-                                                        "Balance")
+                                                        "paymentMethods/"
+                                                        "balance")
         self.assertEqual(url, "https://checkout-test.adyen.com""/v69/"
                               "paymentMethods/balance")
 
