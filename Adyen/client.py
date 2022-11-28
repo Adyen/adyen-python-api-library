@@ -149,7 +149,7 @@ class AdyenClient(object):
 
         Args:
             platform (str): Adyen platform, ie 'live' or 'test'.
-            endpoint (str): the API endpoint to call.
+            endpoint (str): The API endpoint to call.
         """
         api_version = self.api_checkout_version
         if platform == "test":
