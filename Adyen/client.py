@@ -632,9 +632,8 @@ class AdyenClient(object):
                 headers=headers, error_code=response_obj.get("errorCode"))
 
     @staticmethod
-    def _get_psp(response, header):
+    def _get_psp(response, headers):
         psp_ref = response.get('pspReference')
-        if psp_ref == "":
-            return header.get('pspReference')
-        else:
-            return psp_ref
+        if psp_ref is None:
+            psp_ref = headers.get('pspReference')
+        return psp_ref
