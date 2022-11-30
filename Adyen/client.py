@@ -634,6 +634,6 @@ class AdyenClient(object):
     @staticmethod
     def _get_psp(response, headers):
         psp_ref = response.get('pspReference')
-        if not psp_ref:
+        if psp_ref is None:
             psp_ref = headers.get('pspReference')
         return psp_ref
