@@ -118,3 +118,8 @@ class AdyenCheckoutApi(AdyenServiceBase):
     def orders_cancel(self, request, **kwargs):
         endpoint = "orders/cancel"
         return self.client.call_checkout_api(request, endpoint, **kwargs)
+
+    # Apple Pay session validation
+    def applepay_session(self, request, **kwargs):
+        endpoint = "applePay/sessions"
+        return self.client.call_checkout_api(request,endpoint,**kwargs)

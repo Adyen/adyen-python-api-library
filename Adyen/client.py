@@ -407,8 +407,13 @@ class AdyenClient(object):
             errorstring = "'platform' must be the value of 'live' or 'test'"
             raise ValueError(errorstring)
 
-        if not request_data.get('merchantAccount'):
-            request_data['merchantAccount'] = self.merchant_account
+        merchant_account_not_required = [
+            'applePay/sessions'
+        ]
+
+        if request_data.get('merchantAccount') is None:
+            if endpoint not in merchant_account_not_required:
+                request_data['merchantAccount'] = self.merchant_account
 
         with_app_info = [
             "authorise",

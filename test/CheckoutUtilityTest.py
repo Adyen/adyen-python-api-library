@@ -54,3 +54,16 @@ class TestCheckoutUtility(unittest.TestCase):
         url = self.ady.client._determine_checkout_url("test", "originKeys")
 
         self.assertEqual(url, "https://checkout-test.adyen.com/v1/originKeys")
+
+    def test_applePay_session(self):
+        request = {
+          "displayName": "YOUR_MERCHANT_NAME",
+          "domainName": "YOUR_DOMAIN_NAME",
+          "merchantIdentifier": "YOUR_MERCHANT_ID"
+        }
+        self.ady.client = self.test.create_client_from_file(200, request, "test/mocks/"
+                                                                            "checkoututility/"
+                                                                            "applepay-sessions"
+                                                                            "-success.json")
+        result = self.ady.checkout.applepay_session(request)
+        self.assertEqual("BASE_64_ENCODED_DATA", result.message['data'])

@@ -7,3 +7,4 @@ venv/
 .idea/
 .coverage
 .vagrant/
+test.py
