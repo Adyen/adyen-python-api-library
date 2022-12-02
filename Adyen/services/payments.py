@@ -29,7 +29,6 @@ class AdyenPayment(AdyenServiceBase):
     def authorise(self, request, idempotency_key=None, **kwargs):
 
         endpoint = "authorise"
-        method = "POST"
 
         if 'shopperEmail' in request:
             if request['shopperEmail'] == '':
@@ -70,7 +69,6 @@ class AdyenPayment(AdyenServiceBase):
     def capture(self, request, idempotency_key=None, **kwargs):
 
         endpoint = "capture"
-        method = "POST"
 
         if request['modificationAmount']["value"] == "" or \
                 request['modificationAmount']['value'] == "0":
