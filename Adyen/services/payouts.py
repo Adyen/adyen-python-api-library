@@ -17,31 +17,36 @@ class AdyenThirdPartyPayout(AdyenServiceBase):
         self.service = "Payout"
 
     def confirm(self, request=None, **kwargs):
-        action = "confirmThirdParty"
+        endpoint = "confirmThirdParty"
+        method = "POST"
         return self.client.call_api(
-            request, self.service, action, **kwargs
+            request, self.service, method, endpoint, **kwargs
         )
 
     def decline(self, request=None, **kwargs):
-        action = "declineThirdParty"
+        endpoint = "declineThirdParty"
+        method = "POST"
         return self.client.call_api(
-            request, self.service, action, **kwargs
+            request, self.service, method, endpoint, **kwargs
         )
 
     def store_detail(self, request=None, **kwargs):
-        action = "storeDetail"
+        endpoint = "storeDetail"
+        method = "POST"
         return self.client.call_api(
-            request, self.service, action, **kwargs
+            request, self.service, method, endpoint, **kwargs
         )
 
     def submit(self, request=None, **kwargs):
-        action = "submitThirdParty"
+        endpoint = "submitThirdParty"
+        method = "POST"
         return self.client.call_api(
-            request, self.service, action, **kwargs
+            request, self.service, method, endpoint, **kwargs
         )
 
     def store_detail_and_submit(self, request=None, **kwargs):
-        action = "storeDetailAndSubmitThirdParty"
+        endpoint = "storeDetailAndSubmitThirdParty"
+        method = "POST"
         return self.client.call_api(
-            request, self.service, action, **kwargs
+            request, self.service, method, endpoint, **kwargs
         )
