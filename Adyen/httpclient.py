@@ -235,7 +235,6 @@ class HTTPClient(object):
                     int:    HTTP status code, eg 200,404,401
                     dict:   Key/Value pairs of the headers received.
                 """
-
         if headers is None:
             headers = {}
 
@@ -252,7 +251,7 @@ class HTTPClient(object):
                 raise ValueError("Please provide either a json or a data field.")
 
         elif method == "GET" or method == "DELETE":
-            url_request = Request(url,method=method)
+            url_request = Request(url, method=method)
             raw_request = None
 
         # Add User-Agent header to request so that the

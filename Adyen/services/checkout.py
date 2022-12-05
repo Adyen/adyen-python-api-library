@@ -146,7 +146,12 @@ class AdyenCheckoutApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_checkout_api(request, method, endpoint, idempotency_key, **kwargs)
 
-    def get_payment_link(self, request=None, path_param=None, idempotency_key=None, **kwargs):
+    def get_payment_link(self, path_param=None, idempotency_key=None, **kwargs):
         endpoint = f"paymentLinks/{path_param}"
         method = "GET"
+        return self.client.call_checkout_api(None, method, endpoint, idempotency_key, **kwargs)
+
+    def update_payment_link(self, request, path_param=None, idempotency_key=None, **kwargs):
+        endpoint = f"paymentLinks/{path_param}"
+        method = "PATCH"
         return self.client.call_checkout_api(request, method, endpoint, idempotency_key, **kwargs)

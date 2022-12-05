@@ -310,9 +310,6 @@ class AdyenClient(object):
 
         message = request_data
 
-        if not message.get('merchantAccount'):
-            message['merchantAccount'] = self.merchant_account
-
         # Add application info
         if 'applicationInfo' in request_data:
             request_data['applicationInfo'].update({
@@ -409,15 +406,6 @@ class AdyenClient(object):
         elif platform.lower() not in ['live', 'test']:
             errorstring = "'platform' must be the value of 'live' or 'test'"
             raise ValueError(errorstring)
-
-        merchant_account_not_required = [
-            'applePay/sessions'
-        ]
-
-        if request_data is not None:
-            if request_data.get('merchantAccount') is None:
-                if endpoint not in merchant_account_not_required:
-                    request_data['merchantAccount'] = self.merchant_account
 
         with_app_info = [
             "authorise",

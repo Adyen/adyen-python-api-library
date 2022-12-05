@@ -140,7 +140,6 @@ class TestCheckout(unittest.TestCase):
             headers={},
             json={
                 'paymentData': 'Hee57361f99....',
-                u'merchantAccount': None,
                 'details': {'MD': 'sdfsdfsdf...', 'PaRes': 'sdkfhskdjfsdf...'}
             },
             xapikey='YourXapikey'
@@ -393,12 +392,12 @@ class TestCheckout(unittest.TestCase):
 
     def test_payments_capture_success_mocked(self):
         request = {
-          "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-          "amount": {
-            "value": 2500,
-            "currency": "EUR"
-          },
-          "reference": "YOUR_UNIQUE_REFERENCE"
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "amount": {
+                "value": 2500,
+                "currency": "EUR"
+            },
+            "reference": "YOUR_UNIQUE_REFERENCE"
         }
         psp_reference = "8536214160615591"
         self.adyen.client = self.test.create_client_from_file(200, request,
@@ -500,3 +499,84 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual(422, result.message['status'])
         self.assertEqual("130", result.message['errorCode'])
         self.assertEqual("validation", result.message['errorType'])
+
+    def test_payment_link(self):
+        request = {
+            "reference": "YOUR_ORDER_NUMBER",
+            "amount": {
+                "value": 1250,
+                "currency": "BRL"
+            },
+            "countryCode": "BR",
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "shopperReference": "YOUR_UNIQUE_SHOPPER_ID",
+            "shopperEmail": "test@email.com",
+            "shopperLocale": "pt-BR",
+            "billingAddress": {
+                "street": "Roque Petroni Jr",
+                "postalCode": "59000060",
+                "city": "São Paulo",
+                "houseNumberOrName": "999",
+                "country": "BR",
+                "stateOrProvince": "SP"
+            },
+            "deliveryAddress": {
+                "street": "Roque Petroni Jr",
+                "postalCode": "59000060",
+                "city": "São Paulo",
+                "houseNumberOrName": "999",
+                "country": "BR",
+                "stateOrProvince": "SP"
+            }
+        }
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentlinks"
+                                                              "-success"
+                                                              ".json")
+        result = self.adyen.checkout.payment_links(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            'https://checkout-test.adyen.com/v69/paymentLinks',
+            headers={},
+            xapikey='YourXapikey',
+            json=request
+        )
+        self.assertEqual("YOUR_ORDER_NUMBER", result.message["reference"])
+
+    def test_get_payment_link(self):
+        id = "PL61C53A8B97E6915A"
+        self.adyen.client = self.test.create_client_from_file(200, None,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "getpaymenlinks"
+                                                              "-succes.json")
+        result = self.adyen.checkout.get_payment_link(id)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'GET'
+            f'https://checkout-test.adyen.com/v69/paymentLinks/{id}',
+            headers={},
+            xapikey="YourXapikey",
+            json=None
+        )
+        self.assertEqual("TestMerchantCheckout", result.message["merchantAccount"])
+
+    def test_update_payment_link(self):
+        id = "PL61C53A8B97E6915A"
+        request = {
+            "status": "expired"
+        }
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/checkout"
+                                                              "/updatepaymentlinks"
+                                                              "-success.json")
+        result = self.adyen.checkout.update_payment_link(request, id)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'PATCH',
+            f'https://checkout-test.adyen.com/v69/paymentLinks/{id}',
+            headers={},
+            xapikey="YourXapikey",
+            json=request
+        )
+        self.assertEqual("expired",result.message["status"])
