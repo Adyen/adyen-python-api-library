@@ -554,7 +554,7 @@ class TestCheckout(unittest.TestCase):
                                                               "-succes.json")
         result = self.adyen.checkout.get_payment_link(id)
         self.adyen.client.http_client.request.assert_called_once_with(
-            'GET'
+            'GET',
             f'https://checkout-test.adyen.com/v69/paymentLinks/{id}',
             headers={},
             xapikey="YourXapikey",
