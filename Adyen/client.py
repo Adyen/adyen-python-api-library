@@ -75,7 +75,7 @@ class AdyenClient(object):
         review_payout_password=None,
         store_payout_username=None, store_payout_password=None,
         platform="test", merchant_account=None,
-        merchant_specific_url=None, skin_code=None,
+        merchant_specific_url=None,
         hmac=None,
         http_force=None,
         live_endpoint_prefix=None,
@@ -214,6 +214,7 @@ class AdyenClient(object):
         self,
         request_data,
         service,
+        method,
         endpoint,
         idempotency_key=None,
         **kwargs
@@ -230,6 +231,7 @@ class AdyenClient(object):
                 should be in the structure of the Adyen API.
                 https://docs.adyen.com/api-explorer
             service (str): This is the API service to be called.
+            method (str): This is the method used to send the request to an endpoint.
             endpoint (str): The specific endpoint of the API service to be called
             idempotency (bool, optional): Whether the transaction should be
                 processed idempotently.
@@ -308,9 +310,6 @@ class AdyenClient(object):
 
         message = request_data
 
-        if not message.get('merchantAccount'):
-            message['merchantAccount'] = self.merchant_account
-
         # Add application info
         if 'applicationInfo' in request_data:
             request_data['applicationInfo'].update({
@@ -336,12 +335,12 @@ class AdyenClient(object):
 
         if xapikey:
             raw_response, raw_request, status_code, headers = \
-                self.http_client.request(url, json=request_data,
+                self.http_client.request(method, url, json=request_data,
                                          xapikey=xapikey, headers=headers,
                                          **kwargs)
         else:
             raw_response, raw_request, status_code, headers = \
-                self.http_client.request(url, json=message, username=username,
+                self.http_client.request(method, url, json=message, username=username,
                                          password=password,
                                          headers=headers,
                                          **kwargs)
@@ -361,7 +360,7 @@ class AdyenClient(object):
         )
         self.http_init = True
 
-    def call_checkout_api(self, request_data, endpoint, idempotency_key=None,
+    def call_checkout_api(self, request_data, method, endpoint, idempotency_key=None,
                           **kwargs):
         """This will call the checkout adyen api. xapi key merchant_account,
         and platform are pulled from root module level and or self object.
@@ -374,6 +373,7 @@ class AdyenClient(object):
             request_data (dict): The dictionary of the request to place. This
                 should be in the structure of the Adyen API.
                 https://docs.adyen.com/api-explorer/#/CheckoutService
+            method (str): This is the method used to send the request to an endpoint.
             endpoint (str): The specific endpoint of the API service to be called
         """
         if not self.http_init:
@@ -406,14 +406,6 @@ class AdyenClient(object):
         elif platform.lower() not in ['live', 'test']:
             errorstring = "'platform' must be the value of 'live' or 'test'"
             raise ValueError(errorstring)
-
-        merchant_account_not_required = [
-            'applePay/sessions'
-        ]
-
-        if request_data.get('merchantAccount') is None:
-            if endpoint not in merchant_account_not_required:
-                request_data['merchantAccount'] = self.merchant_account
 
         with_app_info = [
             "authorise",
@@ -449,7 +441,7 @@ class AdyenClient(object):
         url = self._determine_checkout_url(platform, endpoint)
 
         raw_response, raw_request, status_code, headers = \
-            self.http_client.request(url, json=request_data,
+            self.http_client.request(method, url, json=request_data,
                                      xapikey=xapikey, headers=headers,
                                      **kwargs)
 

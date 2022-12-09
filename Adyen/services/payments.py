@@ -28,7 +28,7 @@ class AdyenPayment(AdyenServiceBase):
 
     def authorise(self, request, idempotency_key=None, **kwargs):
 
-        action = "authorise"
+        endpoint = "authorise"
 
         if 'shopperEmail' in request:
             if request['shopperEmail'] == '':
@@ -40,31 +40,35 @@ class AdyenPayment(AdyenServiceBase):
                 raise ValueError(
                     'shopperReference must contain the shopper'
                     ' name when authorising recurring contracts.')
+        method = "POST"
 
-        return self.client.call_api(request, self.service,
-                                    action, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method,
+                                    endpoint, idempotency_key, **kwargs)
 
     def authorise3d(self, request, idempotency_key=None, **kwargs):
-        action = "authorise3d"
+        endpoint = "authorise3d"
+        method = "POST"
 
-        return self.client.call_api(request, self.service,
-                                    action, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method,
+                                    endpoint, idempotency_key, **kwargs)
 
     def adjustAuthorisation(self, request, **kwargs):
-        action = "adjustAuthorisation"
+        endpoint = "adjustAuthorisation"
+        method = "POST"
 
-        return self.client.call_api(request, self.service,
-                                    action, **kwargs)
+        return self.client.call_api(request, self.service, method,
+                                    endpoint, **kwargs)
 
     def cancel(self, request, idempotency_key=None, **kwargs):
-        action = "cancel"
+        endpoint = "cancel"
+        method = "POST"
 
-        return self.client.call_api(request, self.service,
-                                    action, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method,
+                                    endpoint, idempotency_key, **kwargs)
 
     def capture(self, request, idempotency_key=None, **kwargs):
 
-        action = "capture"
+        endpoint = "capture"
 
         if request['modificationAmount']["value"] == "" or \
                 request['modificationAmount']['value'] == "0":
@@ -75,15 +79,17 @@ class AdyenPayment(AdyenServiceBase):
                 " keys: {'currency':,'value':}")
         if request['originalReference'] == "":
             raise ValueError("Set the 'originalReference' to the psp "
-                             "reference of the transaction to be modified")
+                             "reference of the transendpoint to be modified")
+        method = "POST"
 
-        response = self.client.call_api(request, self.service,
-                                        action, idempotency_key, **kwargs)
+        response = self.client.call_api(request, self.service, method,
+                                        endpoint, idempotency_key, **kwargs)
         return response
 
     def refund(self, request, idempotency_key=None, **kwargs):
 
-        action = "refund"
+        endpoint = "refund"
+        method = "POST"
 
         if request['modificationAmount']['value'] == "" or \
                 request['modificationAmount']['value'] == "0":
@@ -92,12 +98,13 @@ class AdyenPayment(AdyenServiceBase):
                 "Set the value to less than the original amount, "
                 "to partially refund this payment.")
         else:
-            return self.client.call_api(request, self.service,
-                                        action, idempotency_key, **kwargs)
+            return self.client.call_api(request, self.service, method,
+                                        endpoint, idempotency_key, **kwargs)
 
     def cancel_or_refund(self, request, idempotency_key=None, **kwargs):
-        action = "cancelOrRefund"
+        endpoint = "cancelOrRefund"
+        method = "POST"
 
         return self.client.call_api(
-            request, self.service, action, idempotency_key, **kwargs
+            request, self.service, method, endpoint, idempotency_key, **kwargs
         )

@@ -23,16 +23,21 @@ class AdyenTerminal(AdyenServiceBase):
         self.service = "terminal"
 
     def assign_terminals(self, request="", **kwargs):
-        return self.client.call_api(request, self.service, "assignTerminals", **kwargs)
+        method = "POST"
+        return self.client.call_api(request, self.service, method, "assignTerminals", **kwargs)
 
     def find_terminal(self, request="", **kwargs):
-        return self.client.call_api(request, self.service, "findTerminal", **kwargs)
+        method = "POST"
+        return self.client.call_api(request, self.service, method, "findTerminal", **kwargs)
 
     def get_stores_under_account(self, request="", **kwargs):
-        return self.client.call_api(request, self.service, "getStoresUnderAccount", **kwargs)
+        method = "POST"
+        return self.client.call_api(request, self.service, method, "getStoresUnderAccount", **kwargs)
 
     def get_terminal_details(self, request="", **kwargs):
-        return self.client.call_api(request, self.service, "getTerminalDetails", **kwargs)
+        method = "POST"
+        return self.client.call_api(request, self.service, method, "getTerminalDetails", **kwargs)
 
     def get_terminals_under_account(self, request="", **kwargs):
-        return self.client.call_api(request, self.service, "getTerminalsUnderAccount", **kwargs)
+        method = "POST"
+        return self.client.call_api(request, self.service, method, "getTerminalsUnderAccount", **kwargs)
