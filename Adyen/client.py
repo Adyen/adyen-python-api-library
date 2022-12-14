@@ -465,7 +465,7 @@ class AdyenClient(object):
 
     def call_management_api(self, request_data, method, endpoint, idempotency_key=None,
                             **kwargs):
-        """This will call the checkout adyen api. xapi key merchant_account,
+        """This will call the management adyen api. xapi key merchant_account,
         and platform are pulled from root module level and or self object.
         AdyenResult will be returned on 200 response. Otherwise, an exception
         is raised.
