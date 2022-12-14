@@ -135,3 +135,8 @@ class TestDetermineUrl(unittest.TestCase):
                                                         "sessions")
         self.assertEqual(url, "https://checkout-test.adyen.com""/v69/"
                               "sessions")
+
+    def test_management_api_url_companies(self):
+        companyId = "YOUR_COMPANY_ID"
+        url = self.adyen.client._determine_management_url("test",f'companies/{companyId}/users')
+        self.assertEqual(url, "https://management-test.adyen.com/v1/companies/YOUR_COMPANY_ID/users")

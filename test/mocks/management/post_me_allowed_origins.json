@@ -1,0 +1,9 @@
+{
+    "id": "YOUR_DOMAIN_ID",
+    "domain": "YOUR_DOMAIN",
+    "_links": {
+        "self": {
+            "href": "https://management-test.adyen.com/v1/me/allowedOrigins/YOUR_DOMAIN_ID"
+        }
+    }
+}

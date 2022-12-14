@@ -83,6 +83,7 @@ class AdyenClient(object):
         api_bin_lookup_version=None,
         api_checkout_utility_version=None,
         api_checkout_version=None,
+        api_management_version=None,
         api_payment_version=None,
         api_payout_version=None,
         api_recurring_version=None,
@@ -109,6 +110,7 @@ class AdyenClient(object):
         self.api_bin_lookup_version = api_bin_lookup_version or settings.API_BIN_LOOKUP_VERSION
         self.api_checkout_utility_version = api_checkout_utility_version or settings.API_CHECKOUT_UTILITY_VERSION
         self.api_checkout_version = api_checkout_version or settings.API_CHECKOUT_VERSION
+        self.api_management_version = api_management_version or settings.API_MANAGEMENT_VERSION
         self.api_payment_version = api_payment_version or settings.API_PAYMENT_VERSION
         self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
         self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
@@ -167,6 +169,15 @@ class AdyenClient(object):
 
         if endpoint == "originKeys":
             api_version = self.api_checkout_utility_version
+
+        return '/'.join([base_uri, api_version, endpoint])
+
+    def _determine_management_url(self, platform, endpoint):
+        api_version = self.api_management_version
+        if platform == "test":
+            base_uri = settings.ENDPOINT_MANAGEMENT_TEST
+        else:
+            base_uri = settings.ENDPOINT_MANAGEMENT_LIVE
 
         return '/'.join([base_uri, api_version, endpoint])
 
@@ -452,6 +463,72 @@ class AdyenClient(object):
 
         return adyen_result
 
+    def call_management_api(self, request_data, method, endpoint, idempotency_key=None,
+                            **kwargs):
+        """This will call the checkout adyen api. xapi key merchant_account,
+        and platform are pulled from root module level and or self object.
+        AdyenResult will be returned on 200 response. Otherwise, an exception
+        is raised.
+
+        Args:
+            idempotency_key: https://docs.adyen.com/development-resources
+            /api-idempotency
+            request_data (dict): The dictionary of the request to place. This
+                should be in the structure of the Adyen API.
+                https://docs.adyen.com/api-explorer/#/CheckoutService
+            method (str): This is the method used to send the request to an endpoint.
+            endpoint (str): The specific endpoint of the API service to be called
+        """
+        if not self.http_init:
+            self._init_http_client()
+
+        # xapi at self object has highest priority. fallback to root module
+        # and ensure that it is set.
+        xapikey = False
+        if self.xapikey:
+            xapikey = self.xapikey
+        elif 'xapikey' in kwargs:
+            xapikey = kwargs.pop("xapikey")
+
+        if not xapikey:
+            errorstring = """Please set your webservice xapikey.
+             You can do this by running 'Adyen.xapikey = 'Your xapikey'"""
+            raise AdyenInvalidRequestError(errorstring)
+
+        # platform at self object has highest priority. fallback to root module
+        # and ensure that it is set to either 'live' or 'test'.
+        platform = None
+        if self.platform:
+            platform = self.platform
+        elif 'platform' in kwargs:
+            platform = kwargs.pop('platform')
+
+        if not isinstance(platform, str):
+            errorstring = "'platform' value must be type of string"
+            raise TypeError(errorstring)
+        elif platform.lower() not in ['live', 'test']:
+            errorstring = "'platform' must be the value of 'live' or 'test'"
+            raise ValueError(errorstring)
+
+        # Adyen requires this header to be set and uses the combination of
+        # merchant account and merchant reference to determine uniqueness.
+        headers = {}
+        if idempotency_key:
+            headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
+        url = self._determine_management_url(platform, endpoint)
+
+        raw_response, raw_request, status_code, headers = \
+            self.http_client.request(method, url, json=request_data,
+                                     xapikey=xapikey, headers=headers,
+                                     **kwargs)
+
+        # Creates AdyenResponse if request was successful, raises error if not.
+        adyen_result = self._handle_response(url, raw_response, raw_request,
+                                             status_code, headers,
+                                             request_data)
+
+        return adyen_result
+
     def _handle_response(self, url, raw_response, raw_request,
                          status_code, headers, request_dict):
         """This parses the content from raw communication, raising an error if
@@ -469,7 +546,8 @@ class AdyenClient(object):
         Returns:
             AdyenResult: Result object if successful.
         """
-        if status_code != 200 and status_code != 201:
+
+        if status_code != 200 and status_code != 201 and status_code != 204:
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:
@@ -502,7 +580,10 @@ class AdyenClient(object):
                 erstr = 'KeyError: errorCode'
                 raise AdyenAPICommunicationError(erstr)
         else:
-            response = json_lib.loads(raw_response)
+            if status_code != 204:
+                response = json_lib.loads(raw_response)
+            else:
+                response = {}
             psp = self._get_psp(response, headers)
             return AdyenResult(message=response, status_code=status_code,
                                psp=psp, raw_request=raw_request,
