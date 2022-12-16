@@ -1,0 +1,22 @@
+{
+  "androidApps": [
+    {
+      "id": "ANDA422LZ223223K5F694GCCF732K8",
+      "packageName": "com.your_company.posapp",
+      "versionCode": 7700203,
+      "description": "POS2",
+      "label": "POS system",
+      "versionName": "7.7",
+      "status": "ready"
+    },
+    {
+      "id": "ANDA422LZ223223K5F694FWCF738PL",
+      "packageName": "com.your_company.posapp",
+      "versionCode": 7602003,
+      "description": "POS1",
+      "label": "POS system",
+      "versionName": "7.6",
+      "status": "ready"
+    }
+  ]
+}
