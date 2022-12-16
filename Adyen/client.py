@@ -67,27 +67,27 @@ class AdyenClient(object):
     """
 
     def __init__(
-        self,
-        username=None,
-        password=None,
-        xapikey=None,
-        review_payout_username=None,
-        review_payout_password=None,
-        store_payout_username=None, store_payout_password=None,
-        platform="test", merchant_account=None,
-        merchant_specific_url=None,
-        hmac=None,
-        http_force=None,
-        live_endpoint_prefix=None,
-        http_timeout=30,
-        api_bin_lookup_version=None,
-        api_checkout_utility_version=None,
-        api_checkout_version=None,
-        api_management_version=None,
-        api_payment_version=None,
-        api_payout_version=None,
-        api_recurring_version=None,
-        api_terminal_version=None,
+            self,
+            username=None,
+            password=None,
+            xapikey=None,
+            review_payout_username=None,
+            review_payout_password=None,
+            store_payout_username=None, store_payout_password=None,
+            platform="test", merchant_account=None,
+            merchant_specific_url=None,
+            hmac=None,
+            http_force=None,
+            live_endpoint_prefix=None,
+            http_timeout=30,
+            api_bin_lookup_version=None,
+            api_checkout_utility_version=None,
+            api_checkout_version=None,
+            api_management_version=None,
+            api_payment_version=None,
+            api_payout_version=None,
+            api_recurring_version=None,
+            api_terminal_version=None,
     ):
         self.username = username
         self.password = password
@@ -222,13 +222,13 @@ class AdyenClient(object):
         raise AdyenInvalidRequestError(errorstring)
 
     def call_api(
-        self,
-        request_data,
-        service,
-        method,
-        endpoint,
-        idempotency_key=None,
-        **kwargs
+            self,
+            request_data,
+            service,
+            method,
+            endpoint,
+            idempotency_key=None,
+            **kwargs
     ):
         """This will call the adyen api. username, password, merchant_account,
         and platform are pulled from root module level and or self object.
@@ -547,7 +547,7 @@ class AdyenClient(object):
             AdyenResult: Result object if successful.
         """
 
-        if status_code >= 200 and status_code <= 204:
+        if status_code < 200 or status_code >= 300:
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:
