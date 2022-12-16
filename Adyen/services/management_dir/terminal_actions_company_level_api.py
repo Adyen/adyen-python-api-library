@@ -29,7 +29,7 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/androidApps"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_android_certificates(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/androidCertificates"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_terminal_actions(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalActions"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_terminal_actions_action_id(self, companyId, actionId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalActions/{actionId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

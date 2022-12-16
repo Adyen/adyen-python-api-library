@@ -29,7 +29,7 @@ class AllowedOriginsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
         endpoint = endpoint.replace('/','',1)
         method = "DELETE"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_api_credentials_api_credential_id_allowed_origins(self, merchantId, apiCredentialId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class AllowedOriginsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_api_credentials_api_credential_id_allowed_origins_origin_id(self, merchantId, apiCredentialId, originId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class AllowedOriginsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_merchants_merchant_id_api_credentials_api_credential_id_allowed_origins(self, request, merchantId, apiCredentialId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class AllowedOriginsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

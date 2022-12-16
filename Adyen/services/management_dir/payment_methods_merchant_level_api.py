@@ -29,7 +29,7 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_payment_method_settings_payment_method_id(self, merchantId, paymentMethodId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_payment_method_settings_payment_method_id_get_apple_pay_domains(self, merchantId, paymentMethodId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_merchants_merchant_id_payment_method_settings_payment_method_id(self, request, merchantId, paymentMethodId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_merchants_merchant_id_payment_method_settings(self, request, merchantId, idempotency_key=None, **kwargs):
         """
@@ -65,7 +65,7 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_merchants_merchant_id_payment_method_settings_payment_method_id_add_apple_pay_domains(self, request, merchantId, paymentMethodId, idempotency_key=None, **kwargs):
         """
@@ -74,7 +74,7 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

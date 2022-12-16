@@ -29,7 +29,7 @@ class TerminalSettingsCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalLogos"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_terminal_settings(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class TerminalSettingsCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalSettings"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_companies_company_id_terminal_logos(self, request, companyId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class TerminalSettingsCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalLogos"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_companies_company_id_terminal_settings(self, request, companyId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class TerminalSettingsCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalSettings"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

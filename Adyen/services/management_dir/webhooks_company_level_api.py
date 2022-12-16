@@ -29,7 +29,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/webhooks/{webhookId}"
         endpoint = endpoint.replace('/','',1)
         method = "DELETE"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_webhooks(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/webhooks"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_webhooks_webhook_id(self, companyId, webhookId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/webhooks/{webhookId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_companies_company_id_webhooks_webhook_id(self, request, companyId, webhookId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/webhooks/{webhookId}"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_companies_company_id_webhooks(self, request, companyId, idempotency_key=None, **kwargs):
         """
@@ -65,7 +65,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/webhooks"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_companies_company_id_webhooks_webhook_id_generate_hmac(self, companyId, webhookId, idempotency_key=None, **kwargs):
         """
@@ -74,7 +74,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/webhooks/{webhookId}/generateHmac"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_companies_company_id_webhooks_webhook_id_test(self, request, companyId, webhookId, idempotency_key=None, **kwargs):
         """
@@ -83,7 +83,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/webhooks/{webhookId}/test"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

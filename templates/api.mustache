@@ -23,7 +23,7 @@ class {{classname}}(AdyenServiceBase):
         endpoint = f"{{{path}}}"
         endpoint = endpoint.replace('/','',1)
         method = "{{httpMethod}}"
-        return self.client.call_{{serviceName}}_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
     {{/bodyParams}}
     {{^bodyParams}}
     def {{operationId}}(self, {{#requiredParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/requiredParams}}idempotency_key=None, **kwargs):
@@ -33,7 +33,7 @@ class {{classname}}(AdyenServiceBase):
         endpoint = f"{{{path}}}"
         endpoint = endpoint.replace('/','',1)
         method = "{{httpMethod}}"
-        return self.client.call_{{serviceName}}_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
     {{/bodyParams}}
 
 {{/operation}}

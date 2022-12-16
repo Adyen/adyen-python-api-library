@@ -16,6 +16,7 @@ from .exceptions import (
     AdyenAPIInvalidAmount,
     AdyenEndpointInvalidFormat)
 from . import settings
+from re import match
 
 
 class AdyenResult(object):
@@ -67,27 +68,27 @@ class AdyenClient(object):
     """
 
     def __init__(
-        self,
-        username=None,
-        password=None,
-        xapikey=None,
-        review_payout_username=None,
-        review_payout_password=None,
-        store_payout_username=None, store_payout_password=None,
-        platform="test", merchant_account=None,
-        merchant_specific_url=None,
-        hmac=None,
-        http_force=None,
-        live_endpoint_prefix=None,
-        http_timeout=30,
-        api_bin_lookup_version=None,
-        api_checkout_utility_version=None,
-        api_checkout_version=None,
-        api_management_version=None,
-        api_payment_version=None,
-        api_payout_version=None,
-        api_recurring_version=None,
-        api_terminal_version=None,
+            self,
+            username=None,
+            password=None,
+            xapikey=None,
+            review_payout_username=None,
+            review_payout_password=None,
+            store_payout_username=None, store_payout_password=None,
+            platform="test", merchant_account=None,
+            merchant_specific_url=None,
+            hmac=None,
+            http_force=None,
+            live_endpoint_prefix=None,
+            http_timeout=30,
+            api_bin_lookup_version=None,
+            api_checkout_utility_version=None,
+            api_checkout_version=None,
+            api_management_version=None,
+            api_payment_version=None,
+            api_payout_version=None,
+            api_recurring_version=None,
+            api_terminal_version=None,
     ):
         self.username = username
         self.password = password
@@ -121,22 +122,22 @@ class AdyenClient(object):
             'Recurring': {
                 'version': self.api_recurring_version,
                 'base_url': {
-                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix)+'/Recurring',
-                    'test': settings.BASE_PAL_URL.format(platform)+'/Recurring',
+                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix) + '/Recurring',
+                    'test': settings.BASE_PAL_URL.format(platform) + '/Recurring',
                 }
             },
             'Payout': {
                 'version': self.api_payout_version,
                 'base_url': {
-                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix)+'/Payout',
-                    'test': settings.BASE_PAL_URL.format(platform)+'/Payout'
+                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix) + '/Payout',
+                    'test': settings.BASE_PAL_URL.format(platform) + '/Payout'
                 }
             },
             'BinLookup': {
                 'version': self.api_bin_lookup_version,
                 'base_url': {
-                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix)+'/BinLookup',
-                    'test': settings.BASE_PAL_URL.format(platform)+'/BinLookup'
+                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix) + '/BinLookup',
+                    'test': settings.BASE_PAL_URL.format(platform) + '/BinLookup'
                 }
             },
             'terminal': {
@@ -149,8 +150,8 @@ class AdyenClient(object):
             'Payment': {
                 'version': self.api_payment_version,
                 'base_url': {
-                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix)+'/Payment',
-                    'test': settings.BASE_PAL_URL.format(platform)+'/Payment'
+                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix) + '/Payment',
+                    'test': settings.BASE_PAL_URL.format(platform) + '/Payment'
                 }
             },
             'checkout': {
@@ -172,72 +173,9 @@ class AdyenClient(object):
         base_url = versions_and_urls[service]['base_url'][platform]
         return version, base_url
 
-    def _determine_url(self, platform, service, endpoint):
-        api_version, base_url = self._determine_base_uri_and_version(platform,service)
-        return '/'.join([base_url, api_version, endpoint])
-
-
     def _determine_api_url(self, platform, service, endpoint):
-        """This returns the Adyen API endpoint based on the provided platform,
-        service and endpoint.
-
-        Args:
-            platform (str): Adyen platform, ie 'live' or 'test'.
-            service (str): API service to place request through.
-            endpoint (str): the API endpoint to call.
-        """
-        if platform == "live" and self.live_endpoint_prefix:
-            base_uri = settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(
-                self.live_endpoint_prefix
-            )
-        else:
-            base_uri = settings.BASE_PAL_URL.format(platform)
-
-        if service == "Recurring":
-            api_version = self.api_recurring_version
-        elif service == "Payout":
-            api_version = self.api_payout_version
-        elif service == "BinLookup":
-            api_version = self.api_bin_lookup_version
-        elif service == "terminal":
-            base_uri = settings.BASE_TERMINAL_URL.format(platform)
-            api_version = self.api_terminal_version
-        else:
-            api_version = self.api_payment_version
-        return '/'.join([base_uri, service, api_version, endpoint])
-
-    def _determine_checkout_url(self, platform, endpoint):
-        """This returns the Adyen API endpoint based on the provided platform,
-        service and endpoint.
-
-        Args:
-            platform (str): Adyen platform, ie 'live' or 'test'.
-            endpoint (str): The API endpoint to call.
-        """
-        api_version = self.api_checkout_version
-        if platform == "test":
-            base_uri = settings.ENDPOINT_CHECKOUT_TEST
-        elif self.live_endpoint_prefix is not None and platform == "live":
-            base_uri = settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX.format(
-                self.live_endpoint_prefix)
-        elif self.live_endpoint_prefix is None and platform == "live":
-            errorstring = """Please set your live suffix. You can set it
-                   by running 'settings.
-                   ENDPOINT_CHECKOUT_LIVE_SUFFIX = 'Your live suffix'"""
-            raise AdyenEndpointInvalidFormat(errorstring)
-        else:
-            raise AdyenEndpointInvalidFormat("invalid config")
-
-        if endpoint == "originKeys":
-            api_version = self.api_checkout_utility_version
-
-        return '/'.join([base_uri, api_version, endpoint])
-
-    def _determine_management_url(self, platform, endpoint):
-        api_version = self.api_management_version
-        base_uri = settings.BASE_MANAGEMENT_URL.format(platform)
-
-        return '/'.join([base_uri, api_version, endpoint])
+        api_version, base_url = self._determine_base_uri_and_version(platform, service)
+        return '/'.join([base_url, api_version, endpoint])
 
     def _review_payout_username(self, **kwargs):
         if 'username' in kwargs:
@@ -279,14 +217,87 @@ class AdyenClient(object):
         'Adyen.store_payout_password = 'Your payout password'"""
         raise AdyenInvalidRequestError(errorstring)
 
+    def _set_credentials(self, service, endpoint, **kwargs):
+        xapikey = None
+        username = None
+        password = None
+
+        # username at self object has highest priority. fallback to root module
+        # and ensure that it is set.
+
+        if self.xapikey:
+            xapikey = self.xapikey
+        elif 'xapikey' in kwargs:
+            xapikey = kwargs.pop("xapikey")
+
+        if self.username:
+            username = self.username
+        elif 'username' in kwargs:
+            username = kwargs.pop("username")
+        if service == "Payout":
+            if any(substring in endpoint for substring in
+                   ["store", "submit"]):
+                username = self._store_payout_username(**kwargs)
+            else:
+                username = self._review_payout_username(**kwargs)
+
+        if not username and not xapikey:
+            errorstring = """Please set your webservice username.
+                     You can do this by running
+                     'Adyen.username = 'Your username'"""
+            raise AdyenInvalidRequestError(errorstring)
+            # password at self object has highest priority.
+            # fallback to root module
+            # and ensure that it is set.
+
+        if self.password and not xapikey:
+            password = self.password
+        elif 'password' in kwargs:
+            password = kwargs.pop("password")
+        if service == "Payout":
+            if any(substring in endpoint for substring in
+                   ["store", "submit"]):
+                password = self._store_payout_pass(**kwargs)
+            else:
+                password = self._review_payout_pass(**kwargs)
+
+        if not password and not xapikey:
+            errorstring = """Please set your webservice password.
+                     You can do this by running
+                     'Adyen.password = 'Your password'"""
+            raise AdyenInvalidRequestError(errorstring)
+            # xapikey at self object has highest priority.
+            # fallback to root module
+            # and ensure that it is set.
+
+        return xapikey, username, password
+
+    def _set_platform(self, **kwargs):
+        # platform at self object has highest priority. fallback to root module
+        # and ensure that it is set to either 'live' or 'test'.
+        platform = None
+        if self.platform:
+            platform = self.platform
+        elif 'platform' in kwargs:
+            platform = kwargs.pop('platform')
+
+        if not isinstance(platform, str):
+            errorstring = "'platform' value must be type of string"
+            raise TypeError(errorstring)
+        elif platform.lower() not in ['live', 'test']:
+            errorstring = "'platform' must be the value of 'live' or 'test'"
+            raise ValueError(errorstring)
+
+        return platform
+
     def call_api(
-        self,
-        request_data,
-        service,
-        method,
-        endpoint,
-        idempotency_key=None,
-        **kwargs
+            self,
+            request_data,
+            service,
+            method,
+            endpoint,
+            idempotency_key=None,
+            **kwargs
     ):
         """This will call the adyen api. username, password, merchant_account,
         and platform are pulled from root module level and or self object.
@@ -309,91 +320,31 @@ class AdyenClient(object):
             AdyenResult: The AdyenResult is returned when a request was
                 successful.
         """
+        # Initialize http client
         if not self.http_init:
             self._init_http_client()
 
-        # username at self object has highest priority. fallback to root module
-        # and ensure that it is set.
-        xapikey = None
-        if self.xapikey:
-            xapikey = self.xapikey
-        elif 'xapikey' in kwargs:
-            xapikey = kwargs.pop("xapikey")
-
-        username = None
-        if self.username:
-            username = self.username
-        elif 'username' in kwargs:
-            username = kwargs.pop("username")
-        if service == "Payout":
-            if any(substring in endpoint for substring in
-                   ["store", "submit"]):
-                username = self._store_payout_username(**kwargs)
-            else:
-                username = self._review_payout_username(**kwargs)
-
-        if not username and not xapikey:
-            errorstring = """Please set your webservice username.
-              You can do this by running
-              'Adyen.username = 'Your username'"""
-            raise AdyenInvalidRequestError(errorstring)
-            # password at self object has highest priority.
-            # fallback to root module
-            # and ensure that it is set.
-
-        password = None
-        if self.password and not xapikey:
-            password = self.password
-        elif 'password' in kwargs:
-            password = kwargs.pop("password")
-        if service == "Payout":
-            if any(substring in endpoint for substring in
-                   ["store", "submit"]):
-                password = self._store_payout_pass(**kwargs)
-            else:
-                password = self._review_payout_pass(**kwargs)
-
-        if not password and not xapikey:
-            errorstring = """Please set your webservice password.
-              You can do this by running
-              'Adyen.password = 'Your password'"""
-            raise AdyenInvalidRequestError(errorstring)
-            # xapikey at self object has highest priority.
-            # fallback to root module
-            # and ensure that it is set.
-
-        # platform at self object has highest priority. fallback to root module
-        # and ensure that it is set to either 'live' or 'test'.
-        platform = None
-        if self.platform:
-            platform = self.platform
-        elif 'platform' in kwargs:
-            platform = kwargs.pop('platform')
-
-        if not isinstance(platform, str):
-            errorstring = "'platform' value must be type of string"
-            raise TypeError(errorstring)
-        elif platform.lower() not in ['live', 'test']:
-            errorstring = "'platform' must be the value of 'live' or 'test'"
-            raise ValueError(errorstring)
-
+        # Set credentials
+        xapikey, username, password = self._set_credentials(service, endpoint, **kwargs)
+        # Set platform
+        platform = self._set_platform(**kwargs)
         message = request_data
 
-        # Add application info
-        if 'applicationInfo' in request_data:
-            request_data['applicationInfo'].update({
-                "adyenLibrary": {
-                    "name": settings.LIB_NAME,
-                    "version": settings.LIB_VERSION
+        if service != 'management' and (method == 'POST' or method == 'PATCH'):
+            if 'applicationInfo' in request_data:
+                request_data['applicationInfo'].update({
+                    "adyenLibrary": {
+                        "name": settings.LIB_NAME,
+                        "version": settings.LIB_VERSION
+                    }
+                })
+            else:
+                request_data['applicationInfo'] = {
+                    "adyenLibrary": {
+                        "name": settings.LIB_NAME,
+                        "version": settings.LIB_VERSION
+                    }
                 }
-            })
-        else:
-            request_data['applicationInfo'] = {
-                "adyenLibrary": {
-                    "name": settings.LIB_NAME,
-                    "version": settings.LIB_VERSION
-                }
-            }
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
         headers = {}
@@ -401,6 +352,12 @@ class AdyenClient(object):
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
 
         url = self._determine_api_url(platform, service, endpoint)
+        # Match urls that require a live prefix and do not have one
+        if match("https://None-.*", url):
+            errorstring = """Please set your live suffix. You can set it
+                               by running 'settings.
+                               ENDPOINT_CHECKOUT_LIVE_SUFFIX = 'Your live suffix'"""
+            raise AdyenEndpointInvalidFormat(errorstring)
 
         if xapikey:
             raw_response, raw_request, status_code, headers = \
@@ -428,164 +385,6 @@ class AdyenClient(object):
             timeout=self.http_timeout,
         )
         self.http_init = True
-
-    def call_checkout_api(self, request_data, method, endpoint, idempotency_key=None,
-                          **kwargs):
-        """This will call the checkout adyen api. xapi key merchant_account,
-        and platform are pulled from root module level and or self object.
-        AdyenResult will be returned on 200 response. Otherwise, an exception
-        is raised.
-
-        Args:
-            idempotency_key: https://docs.adyen.com/development-resources
-            /api-idempotency
-            request_data (dict): The dictionary of the request to place. This
-                should be in the structure of the Adyen API.
-                https://docs.adyen.com/api-explorer/#/CheckoutService
-            method (str): This is the method used to send the request to an endpoint.
-            endpoint (str): The specific endpoint of the API service to be called
-        """
-        if not self.http_init:
-            self._init_http_client()
-
-        # xapi at self object has highest priority. fallback to root module
-        # and ensure that it is set.
-        xapikey = False
-        if self.xapikey:
-            xapikey = self.xapikey
-        elif 'xapikey' in kwargs:
-            xapikey = kwargs.pop("xapikey")
-
-        if not xapikey:
-            errorstring = """Please set your webservice xapikey.
-             You can do this by running 'Adyen.xapikey = 'Your xapikey'"""
-            raise AdyenInvalidRequestError(errorstring)
-
-        # platform at self object has highest priority. fallback to root module
-        # and ensure that it is set to either 'live' or 'test'.
-        platform = None
-        if self.platform:
-            platform = self.platform
-        elif 'platform' in kwargs:
-            platform = kwargs.pop('platform')
-
-        if not isinstance(platform, str):
-            errorstring = "'platform' value must be type of string"
-            raise TypeError(errorstring)
-        elif platform.lower() not in ['live', 'test']:
-            errorstring = "'platform' must be the value of 'live' or 'test'"
-            raise ValueError(errorstring)
-
-        with_app_info = [
-            "authorise",
-            "authorise3d",
-            "authorise3ds2",
-            "payments",
-            "paymentSession",
-            "paymentLinks",
-            "paymentMethods/balance",
-            "sessions"
-        ]
-
-        if endpoint in with_app_info:
-            if 'applicationInfo' in request_data:
-                request_data['applicationInfo'].update({
-                    "adyenLibrary": {
-                        "name": settings.LIB_NAME,
-                        "version": settings.LIB_VERSION
-                    }
-                })
-            else:
-                request_data['applicationInfo'] = {
-                    "adyenLibrary": {
-                        "name": settings.LIB_NAME,
-                        "version": settings.LIB_VERSION
-                    }
-                }
-        # Adyen requires this header to be set and uses the combination of
-        # merchant account and merchant reference to determine uniqueness.
-        headers = {}
-        if idempotency_key:
-            headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
-        url = self._determine_checkout_url(platform, endpoint)
-
-        raw_response, raw_request, status_code, headers = \
-            self.http_client.request(method, url, json=request_data,
-                                     xapikey=xapikey, headers=headers,
-                                     **kwargs)
-
-        # Creates AdyenResponse if request was successful, raises error if not.
-        adyen_result = self._handle_response(url, raw_response, raw_request,
-                                             status_code, headers,
-                                             request_data)
-
-        return adyen_result
-
-    def call_management_api(self, request_data, method, endpoint, idempotency_key=None,
-                            **kwargs):
-        """This will call the checkout adyen api. xapi key merchant_account,
-        and platform are pulled from root module level and or self object.
-        AdyenResult will be returned on 200 response. Otherwise, an exception
-        is raised.
-
-        Args:
-            idempotency_key: https://docs.adyen.com/development-resources
-            /api-idempotency
-            request_data (dict): The dictionary of the request to place. This
-                should be in the structure of the Adyen API.
-                https://docs.adyen.com/api-explorer/#/CheckoutService
-            method (str): This is the method used to send the request to an endpoint.
-            endpoint (str): The specific endpoint of the API service to be called
-        """
-        if not self.http_init:
-            self._init_http_client()
-
-        # xapi at self object has highest priority. fallback to root module
-        # and ensure that it is set.
-        xapikey = False
-        if self.xapikey:
-            xapikey = self.xapikey
-        elif 'xapikey' in kwargs:
-            xapikey = kwargs.pop("xapikey")
-
-        if not xapikey:
-            errorstring = """Please set your webservice xapikey.
-             You can do this by running 'Adyen.xapikey = 'Your xapikey'"""
-            raise AdyenInvalidRequestError(errorstring)
-
-        # platform at self object has highest priority. fallback to root module
-        # and ensure that it is set to either 'live' or 'test'.
-        platform = None
-        if self.platform:
-            platform = self.platform
-        elif 'platform' in kwargs:
-            platform = kwargs.pop('platform')
-
-        if not isinstance(platform, str):
-            errorstring = "'platform' value must be type of string"
-            raise TypeError(errorstring)
-        elif platform.lower() not in ['live', 'test']:
-            errorstring = "'platform' must be the value of 'live' or 'test'"
-            raise ValueError(errorstring)
-
-        # Adyen requires this header to be set and uses the combination of
-        # merchant account and merchant reference to determine uniqueness.
-        headers = {}
-        if idempotency_key:
-            headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
-        url = self._determine_management_url(platform, endpoint)
-
-        raw_response, raw_request, status_code, headers = \
-            self.http_client.request(method, url, json=request_data,
-                                     xapikey=xapikey, headers=headers,
-                                     **kwargs)
-
-        # Creates AdyenResponse if request was successful, raises error if not.
-        adyen_result = self._handle_response(url, raw_response, raw_request,
-                                             status_code, headers,
-                                             request_data)
-
-        return adyen_result
 
     def _handle_response(self, url, raw_response, raw_request,
                          status_code, headers, request_dict):

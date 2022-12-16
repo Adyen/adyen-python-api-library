@@ -29,7 +29,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/stores"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_stores_store_id(self, merchantId, storeId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/stores/{storeId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_stores(self, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         endpoint = f"/stores"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_stores_store_id(self, storeId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         endpoint = f"/stores/{storeId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_merchants_merchant_id_stores_store_id(self, request, merchantId, storeId, idempotency_key=None, **kwargs):
         """
@@ -65,7 +65,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/stores/{storeId}"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_stores_store_id(self, request, storeId, idempotency_key=None, **kwargs):
         """
@@ -74,7 +74,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         endpoint = f"/stores/{storeId}"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_merchants_merchant_id_stores(self, request, merchantId, idempotency_key=None, **kwargs):
         """
@@ -83,7 +83,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/stores"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_stores(self, request, idempotency_key=None, **kwargs):
         """
@@ -92,7 +92,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         endpoint = f"/stores"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

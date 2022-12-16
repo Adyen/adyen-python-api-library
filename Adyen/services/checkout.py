@@ -29,7 +29,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
 
     def __init__(self, client=None):
         super(AdyenCheckoutApi, self).__init__(client=client)
-        self.service = "Checkout"
+        self.service = "checkout"
 
     def payment_methods(self, request, **kwargs):
         endpoint = "paymentMethods"
@@ -40,29 +40,29 @@ class AdyenCheckoutApi(AdyenServiceBase):
                     ' when retrieving payment methods.')
         method = "POST"
 
-        return self.client.call_checkout_api(request, method, endpoint, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, **kwargs)
 
     def payments(self, request, idempotency_key=None, **kwargs):
         endpoint = "payments"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, idempotency_key,
-                                             **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key,
+                                    **kwargs)
 
     def payments_details(self, request=None, idempotency_key=None, **kwargs):
         endpoint = "payments/details"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, idempotency_key,
-                                             **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key,
+                                    **kwargs)
 
     def payment_session(self, request=None, **kwargs):
         endpoint = "paymentSession"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, **kwargs)
 
     def payment_result(self, request=None, **kwargs):
         endpoint = "payments/result"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, **kwargs)
 
     def payments_captures(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
@@ -71,12 +71,12 @@ class AdyenCheckoutApi(AdyenServiceBase):
             )
         endpoint = f"payments/{path_param}/captures"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def payments_cancels_without_reference(self, request, idempotency_key=None, **kwargs):
         endpoint = "cancels"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def payments_cancels_with_reference(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
@@ -85,7 +85,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
             )
         endpoint = f"payments/{path_param}/cancels"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def payments_reversals(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
@@ -94,7 +94,7 @@ class AdyenCheckoutApi(AdyenServiceBase):
             )
         endpoint = f"payments/{path_param}/reversals"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def payments_refunds(self, request, idempotency_key=None, path_param=None, **kwargs):
         if path_param == "":
@@ -103,55 +103,56 @@ class AdyenCheckoutApi(AdyenServiceBase):
             )
         endpoint = f"payments/{path_param}/refunds"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def origin_keys(self, request=None, **kwargs):
         endpoint = "originKeys"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, **kwargs)
 
     def sessions(self, request=None, **kwargs):
         endpoint = "sessions"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, **kwargs)
+
     # Orders endpoints
 
     # /paymentMethods/balance
     def payment_methods_balance(self, request, **kwargs):
         endpoint = "paymentMethods/balance"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, **kwargs)
 
     # /orders
     def orders(self, request, **kwargs):
         endpoint = "orders"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, **kwargs)
 
     # /orders/cancel
     def orders_cancel(self, request, **kwargs):
         endpoint = "orders/cancel"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, **kwargs)
 
     # Apple Pay session validation
     def applepay_session(self, request, **kwargs):
         endpoint = "applePay/sessions"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, **kwargs)
 
     # Payment links endpoints
     def payment_links(self, request, idempotency_key=None, **kwargs):
         endpoint = "paymentLinks"
         method = "POST"
-        return self.client.call_checkout_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_payment_link(self, path_param=None, idempotency_key=None, **kwargs):
         endpoint = f"paymentLinks/{path_param}"
         method = "GET"
-        return self.client.call_checkout_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def update_payment_link(self, request, path_param=None, idempotency_key=None, **kwargs):
         endpoint = f"paymentLinks/{path_param}"
         method = "PATCH"
-        return self.client.call_checkout_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
