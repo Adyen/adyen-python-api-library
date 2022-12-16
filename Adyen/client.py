@@ -116,6 +116,67 @@ class AdyenClient(object):
         self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
         self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
 
+    def _determine_base_uri_and_version(self, platform, service):
+        versions_and_urls = {
+            'Recurring': {
+                'version': self.api_recurring_version,
+                'base_url': {
+                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix)+'/Recurring',
+                    'test': settings.BASE_PAL_URL.format(platform)+'/Recurring',
+                }
+            },
+            'Payout': {
+                'version': self.api_payout_version,
+                'base_url': {
+                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix)+'/Payout',
+                    'test': settings.BASE_PAL_URL.format(platform)+'/Payout'
+                }
+            },
+            'BinLookup': {
+                'version': self.api_bin_lookup_version,
+                'base_url': {
+                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix)+'/BinLookup',
+                    'test': settings.BASE_PAL_URL.format(platform)+'/BinLookup'
+                }
+            },
+            'terminal': {
+                'version': self.api_terminal_version,
+                'base_url': {
+                    'live': settings.BASE_TERMINAL_URL.format(platform),
+                    'test': settings.BASE_TERMINAL_URL.format(platform)
+                }
+            },
+            'Payment': {
+                'version': self.api_payment_version,
+                'base_url': {
+                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix)+'/Payment',
+                    'test': settings.BASE_PAL_URL.format(platform)+'/Payment'
+                }
+            },
+            'checkout': {
+                'version': self.api_checkout_version,
+                'base_url': {
+                    'live': settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX.format(self.live_endpoint_prefix),
+                    'test': settings.ENDPOINT_CHECKOUT_TEST
+                }
+            },
+            'management': {
+                'version': self.api_management_version,
+                'base_url': {
+                    'live': settings.BASE_MANAGEMENT_URL.format(platform),
+                    'test': settings.BASE_MANAGEMENT_URL.format(platform)
+                }
+            }
+        }
+        version = versions_and_urls[service]['version']
+        base_url = versions_and_urls[service]['base_url'][platform]
+        return version, base_url
+
+    def _determine_url(self, platform, service, endpoint):
+        api_version, base_url = self._determine_base_uri_and_version(platform,service)
+        return '/'.join([base_url, api_version, endpoint])
+
+
     def _determine_api_url(self, platform, service, endpoint):
         """This returns the Adyen API endpoint based on the provided platform,
         service and endpoint.
@@ -174,10 +235,7 @@ class AdyenClient(object):
 
     def _determine_management_url(self, platform, endpoint):
         api_version = self.api_management_version
-        if platform == "test":
-            base_uri = settings.ENDPOINT_MANAGEMENT_TEST
-        else:
-            base_uri = settings.ENDPOINT_MANAGEMENT_LIVE
+        base_uri = settings.BASE_MANAGEMENT_URL.format(platform)
 
         return '/'.join([base_uri, api_version, endpoint])
 
