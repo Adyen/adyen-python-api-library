@@ -313,9 +313,6 @@ class AdyenClient(object):
             service (str): This is the API service to be called.
             method (str): This is the method used to send the request to an endpoint.
             endpoint (str): The specific endpoint of the API service to be called
-            idempotency (bool, optional): Whether the transaction should be
-                processed idempotently.
-                https://docs.adyen.com/development-resources/api-idempotency
         Returns:
             AdyenResult: The AdyenResult is returned when a request was
                 successful.
