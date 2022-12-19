@@ -1,6 +1,6 @@
 # Those constants are used from the library only
 BASE_PAL_URL = "https://pal-{}.adyen.com/pal/servlet"
-BASE_TERMINAL_URL = "https://postfmapi-{}.adyen.com/postfmapi"
+BASE_TERMINAL_URL = "https://postfmapi-{}.adyen.com/postfmapi/terminal"
 BASE_MANAGEMENT_URL = "https://management-{}.adyen.com"
 PAL_LIVE_ENDPOINT_URL_TEMPLATE = "https://{}-pal-live" \
                                  ".adyenpayments.com/pal/servlet"
