@@ -7,6 +7,8 @@ PAL_LIVE_ENDPOINT_URL_TEMPLATE = "https://{}-pal-live" \
 ENDPOINT_CHECKOUT_TEST = "https://checkout-test.adyen.com"
 ENDPOINT_CHECKOUT_LIVE_SUFFIX = "https://{}-checkout-live" \
                                 ".adyenpayments.com/checkout"
+ENDPOINT_MANAGEMENT_TEST = "https://management-test.adyen.com"
+ENDPOINT_MANAGEMENT_LIVE = "https://management-live.adyen.com"
 API_BIN_LOOKUP_VERSION = "v50"
 API_CHECKOUT_VERSION = "v69"
 API_CHECKOUT_UTILITY_VERSION = "v1"
