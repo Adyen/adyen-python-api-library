@@ -42,29 +42,29 @@ class AdyenPayment(AdyenServiceBase):
                     ' name when authorising recurring contracts.')
         method = "POST"
 
-        return self.client.call_api(request, self.service, method,
-                                    endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method,
+                                          endpoint, idempotency_key, **kwargs)
 
     def authorise3d(self, request, idempotency_key=None, **kwargs):
         endpoint = "authorise3d"
         method = "POST"
 
-        return self.client.call_api(request, self.service, method,
-                                    endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method,
+                                          endpoint, idempotency_key, **kwargs)
 
     def adjustAuthorisation(self, request, **kwargs):
         endpoint = "adjustAuthorisation"
         method = "POST"
 
-        return self.client.call_api(request, self.service, method,
-                                    endpoint, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method,
+                                          endpoint, **kwargs)
 
     def cancel(self, request, idempotency_key=None, **kwargs):
         endpoint = "cancel"
         method = "POST"
 
-        return self.client.call_api(request, self.service, method,
-                                    endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method,
+                                          endpoint, idempotency_key, **kwargs)
 
     def capture(self, request, idempotency_key=None, **kwargs):
 
@@ -82,8 +82,8 @@ class AdyenPayment(AdyenServiceBase):
                              "reference of the transendpoint to be modified")
         method = "POST"
 
-        response = self.client.call_api(request, self.service, method,
-                                        endpoint, idempotency_key, **kwargs)
+        response = self.client.call_adyen_api(request, self.service, method,
+                                              endpoint, idempotency_key, **kwargs)
         return response
 
     def refund(self, request, idempotency_key=None, **kwargs):
@@ -98,13 +98,13 @@ class AdyenPayment(AdyenServiceBase):
                 "Set the value to less than the original amount, "
                 "to partially refund this payment.")
         else:
-            return self.client.call_api(request, self.service, method,
-                                        endpoint, idempotency_key, **kwargs)
+            return self.client.call_adyen_api(request, self.service, method,
+                                              endpoint, idempotency_key, **kwargs)
 
     def cancel_or_refund(self, request, idempotency_key=None, **kwargs):
         endpoint = "cancelOrRefund"
         method = "POST"
 
-        return self.client.call_api(
+        return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
         )

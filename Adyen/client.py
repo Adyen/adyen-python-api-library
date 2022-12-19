@@ -290,7 +290,7 @@ class AdyenClient(object):
 
         return platform
 
-    def call_api(
+    def call_adyen_api(
             self,
             request_data,
             service,

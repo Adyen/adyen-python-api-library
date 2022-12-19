@@ -29,7 +29,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/billingEntities"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_shipping_locations(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/shippingLocations"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_terminal_models(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/terminalModels"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_terminal_orders(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/terminalOrders"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_terminal_orders_order_id(self, merchantId, orderId, idempotency_key=None, **kwargs):
         """
@@ -65,7 +65,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/terminalOrders/{orderId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_terminal_products(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -74,7 +74,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/terminalProducts"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_merchants_merchant_id_terminal_orders_order_id(self, request, merchantId, orderId, idempotency_key=None, **kwargs):
         """
@@ -83,7 +83,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/terminalOrders/{orderId}"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_merchants_merchant_id_shipping_locations(self, request, merchantId, idempotency_key=None, **kwargs):
         """
@@ -92,7 +92,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/shippingLocations"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_merchants_merchant_id_terminal_orders(self, request, merchantId, idempotency_key=None, **kwargs):
         """
@@ -101,7 +101,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/terminalOrders"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_merchants_merchant_id_terminal_orders_order_id_cancel(self, merchantId, orderId, idempotency_key=None, **kwargs):
         """
@@ -110,7 +110,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/terminalOrders/{orderId}/cancel"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

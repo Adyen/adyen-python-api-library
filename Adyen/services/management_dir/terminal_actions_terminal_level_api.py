@@ -29,7 +29,7 @@ class TerminalActionsTerminalLevelApi(AdyenServiceBase):
         endpoint = f"/terminals/scheduleActions"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

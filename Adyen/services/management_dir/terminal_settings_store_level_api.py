@@ -29,7 +29,7 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/stores/{reference}/terminalLogos"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_stores_reference_terminal_settings(self, merchantId, reference, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/stores/{reference}/terminalSettings"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_stores_store_id_terminal_logos(self, storeId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         endpoint = f"/stores/{storeId}/terminalLogos"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_stores_store_id_terminal_settings(self, storeId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         endpoint = f"/stores/{storeId}/terminalSettings"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_merchants_merchant_id_stores_reference_terminal_logos(self, request, merchantId, reference, idempotency_key=None, **kwargs):
         """
@@ -65,7 +65,7 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/stores/{reference}/terminalLogos"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_merchants_merchant_id_stores_reference_terminal_settings(self, request, merchantId, reference, idempotency_key=None, **kwargs):
         """
@@ -74,7 +74,7 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/stores/{reference}/terminalSettings"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_stores_store_id_terminal_logos(self, request, storeId, idempotency_key=None, **kwargs):
         """
@@ -83,7 +83,7 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         endpoint = f"/stores/{storeId}/terminalLogos"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_stores_store_id_terminal_settings(self, request, storeId, idempotency_key=None, **kwargs):
         """
@@ -92,7 +92,7 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         endpoint = f"/stores/{storeId}/terminalSettings"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 
