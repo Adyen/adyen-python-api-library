@@ -44,13 +44,7 @@ class TestTerminal(unittest.TestCase):
                 "store": "YOUR_STORE",
                 "terminals": [
                     "P400Plus-275479597"
-                ],
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": VERSION,
-                        "name": "adyen-python-api-library"
-                    }
-                },
+                ]
             },
             xapikey="YourXapikey"
         )
@@ -91,12 +85,6 @@ class TestTerminal(unittest.TestCase):
             json={
                 "terminal": "P400Plus-275479597",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": VERSION,
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )
@@ -145,12 +133,6 @@ class TestTerminal(unittest.TestCase):
             json={
                "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": VERSION,
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )
@@ -176,12 +158,6 @@ class TestTerminal(unittest.TestCase):
             json={
                 "terminal": "P400Plus-275479597",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": VERSION,
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )
@@ -234,12 +210,6 @@ class TestTerminal(unittest.TestCase):
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": VERSION,
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )
@@ -278,12 +248,6 @@ class TestTerminal(unittest.TestCase):
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                 "store": "YOUR_STORE",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": VERSION,
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )
