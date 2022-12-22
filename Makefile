@@ -30,6 +30,7 @@ platformsHostedOnboardingPage: spec=HopService-v6
 transfer: spec=TransferService-v3
 
 $(services): build/spec
+	rm -rf Adyen/services/$@_dir
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
 		-g $(generator) \
