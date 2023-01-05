@@ -118,7 +118,13 @@ class AdyenClient(object):
         self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
 
     def _determine_base_url_and_version(self, platform, service):
-        live_pal_url = settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(live_prefix=self.live_endpoint_prefix)
+
+        live_pal_url = settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE
+        live_checkout_url = settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX
+
+        if platform is 'live' and self.live_endpoint_prefix:
+            live_pal_url = live_pal_url.format(live_prefix=self.live_endpoint_prefix)
+            live_checkout_url = live_checkout_url.format(live_prefix=self.live_endpoint_prefix)
 
         versions_and_urls = {
             'Recurring': {
@@ -159,7 +165,7 @@ class AdyenClient(object):
             'checkout': {
                 'version': self.api_checkout_version,
                 'base_url': {
-                    'live': settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX.format(live_prefix=self.live_endpoint_prefix),
+                    'live': live_checkout_url,
                     'test': settings.ENDPOINT_CHECKOUT_TEST
                 }
             },
@@ -174,10 +180,10 @@ class AdyenClient(object):
         version = versions_and_urls[service]['version']
         base_url = versions_and_urls[service]['base_url'][platform]
         # Match urls that require a live prefix and do not have one
-        if match("https://None-.*", base_url):
-            errorstring = """Please set your live suffix. You can set it
-                                               by running 'settings.
-                                               ENDPOINT_CHECKOUT_LIVE_SUFFIX = 'Your live suffix'"""
+
+        if platform is 'live' and '{live_prefix}' in base_url:
+            errorstring = "Please set your live suffix. You can set it by running" +\
+                          "adyen.client.live_endpoint_prefix = 'Your live suffix'"
             raise AdyenEndpointInvalidFormat(errorstring)
 
         return version, base_url
