@@ -1,8 +1,8 @@
 {{>partial_header}}
-from .base import AdyenServiceBase
+from ..base import AdyenServiceBase
 {{#apiInfo}}
     {{#apis}}
-from .{{serviceName}}_dir.{{classFilename}} import {{classname}}
+from .{{classFilename}} import {{classname}}
     {{/apis}}
 {{/apiInfo}}
 

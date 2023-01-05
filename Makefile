@@ -9,7 +9,7 @@ coverage:
 
 
 generator:=python
-openapi-generator-cli:=java -jar openapi-generator-cli-6.0.1.jar
+openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 services:=balancePlatform binlookup checkout dataProtection legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration recurring storedValue terminalManagement transfer
 
 binlookup: spec=BinLookupService-v52
@@ -30,7 +30,8 @@ platformsHostedOnboardingPage: spec=HopService-v6
 transfer: spec=TransferService-v3
 
 $(services): build/spec
-	rm -rf Adyen/services/$@_dir
+	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
+	rm -rf Adyen/services/$@
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
 		-g $(generator) \
@@ -39,10 +40,8 @@ $(services): build/spec
 		--global-property apis,apiTests=false,apiDocs=false,supportingFiles=api-single.py\
 		--additional-properties serviceName=$@
 	mkdir -p Adyen/services
-	cp build/api/api-single.py Adyen/services/$@.py
-	cp -r build/openapi_client/api Adyen/services/$@_dir
-	touch Adyen/services/$@_dir/__init__.py
-	touch Adyen/services/__init__.py
+	cp -r build/openapi_client/api Adyen/services/$@
+	cp build/api/api-single.py Adyen/services/$@/__init__.py
 	rm -rf build
 
 build/spec:
