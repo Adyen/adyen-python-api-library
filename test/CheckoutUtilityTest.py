@@ -51,9 +51,9 @@ class TestCheckoutUtility(unittest.TestCase):
                          ['https://www.your-domain2.com'])
 
     def test_checkout_utility_api_url_custom(self):
-        url = self.ady.client._determine_checkout_url("test", "originKeys")
+        url = self.ady.client._determine_api_url("test", "checkout", "originKeys")
 
-        self.assertEqual(url, "https://checkout-test.adyen.com/v1/originKeys")
+        self.assertEqual(url, "https://checkout-test.adyen.com/v69/originKeys")
 
     def test_applePay_session(self):
         request = {

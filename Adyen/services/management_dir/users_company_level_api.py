@@ -29,7 +29,7 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/users"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_users_user_id(self, companyId, userId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/users/{userId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_companies_company_id_users_user_id(self, request, companyId, userId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/users/{userId}"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_companies_company_id_users(self, request, companyId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/users"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

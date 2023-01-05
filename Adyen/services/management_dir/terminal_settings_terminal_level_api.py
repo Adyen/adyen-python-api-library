@@ -29,7 +29,7 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         endpoint = f"/terminals/{terminalId}/terminalLogos"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_terminals_terminal_id_terminal_settings(self, terminalId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         endpoint = f"/terminals/{terminalId}/terminalSettings"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_terminals_terminal_id_terminal_logos(self, request, terminalId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         endpoint = f"/terminals/{terminalId}/terminalLogos"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_terminals_terminal_id_terminal_settings(self, request, terminalId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         endpoint = f"/terminals/{terminalId}/terminalSettings"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

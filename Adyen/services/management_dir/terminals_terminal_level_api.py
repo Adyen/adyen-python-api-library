@@ -29,7 +29,7 @@ class TerminalsTerminalLevelApi(AdyenServiceBase):
         endpoint = f"/terminals"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

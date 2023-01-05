@@ -34,18 +34,18 @@ class HTTPClient(object):
         self.user_agent = user_agent_suffix + lib_version
         if not force_request:
             if requests:
-                self.request = self._requests_requests
+                self.request = self._requests_request
             elif pycurl:
                 self.request = self._pycurl_request
             else:
-                self.request = self._urllib_requests
+                self.request = self._urllib_request
         else:
             if force_request == 'requests':
-                self.request = self._requests_requests
+                self.request = self._requests_request
             elif force_request == 'pycurl':
                 self.request = self._pycurl_request
             else:
-                self.request = self._urllib_requests
+                self.request = self._urllib_request
 
         self.timeout = timeout
 
@@ -136,7 +136,7 @@ class HTTPClient(object):
 
         return result, raw_request, status_code, response_headers
 
-    def _requests_requests(
+    def _requests_request(
             self,
             method,
             url,
@@ -200,7 +200,7 @@ class HTTPClient(object):
 
         return request.text, message, request.status_code, request.headers
 
-    def _urllib_requests(
+    def _urllib_request(
             self,
             method,
             url,

@@ -29,7 +29,7 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/payoutSettings/{payoutSettingsId}"
         endpoint = endpoint.replace('/','',1)
         method = "DELETE"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_payout_settings(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/payoutSettings"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchants_merchant_id_payout_settings_payout_settings_id(self, merchantId, payoutSettingsId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/payoutSettings/{payoutSettingsId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_merchants_merchant_id_payout_settings_payout_settings_id(self, request, merchantId, payoutSettingsId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/payoutSettings/{payoutSettingsId}"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_merchants_merchant_id_payout_settings(self, request, merchantId, idempotency_key=None, **kwargs):
         """
@@ -65,7 +65,7 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         endpoint = f"/merchants/{merchantId}/payoutSettings"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

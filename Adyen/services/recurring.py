@@ -22,8 +22,8 @@ class AdyenRecurring(AdyenServiceBase):
         endpoint = "listRecurringDetails"
         method = "POST"
 
-        return self.client.call_api(request, self.service, method,
-                                    endpoint, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method,
+                                          endpoint, **kwargs)
 
     def disable(self, request, **kwargs):
 
@@ -34,5 +34,5 @@ class AdyenRecurring(AdyenServiceBase):
             raise ValueError("Include a 'recurringDetailReference'"
                              " to disable a specific recurring contract.")
         else:
-            return self.client.call_api(request, self.service, method,
-                                        endpoint, **kwargs)
+            return self.client.call_adyen_api(request, self.service, method,
+                                              endpoint, **kwargs)

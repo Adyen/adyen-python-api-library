@@ -29,7 +29,7 @@ class MyAPICredentialApi(AdyenServiceBase):
         endpoint = f"/me/allowedOrigins/{originId}"
         endpoint = endpoint.replace('/','',1)
         method = "DELETE"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_me(self, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class MyAPICredentialApi(AdyenServiceBase):
         endpoint = f"/me"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_me_allowed_origins(self, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class MyAPICredentialApi(AdyenServiceBase):
         endpoint = f"/me/allowedOrigins"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_me_allowed_origins_origin_id(self, originId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class MyAPICredentialApi(AdyenServiceBase):
         endpoint = f"/me/allowedOrigins/{originId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_me_allowed_origins(self, request, idempotency_key=None, **kwargs):
         """
@@ -65,7 +65,7 @@ class MyAPICredentialApi(AdyenServiceBase):
         endpoint = f"/me/allowedOrigins"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 

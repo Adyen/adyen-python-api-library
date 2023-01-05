@@ -21,4 +21,4 @@ class AdyenBinLookup(AdyenServiceBase):
 
         action = "getCostEstimate"
         method = "POST"
-        return self.client.call_api(request, self.service, method, action, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, action, **kwargs)

@@ -29,7 +29,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/billingEntities"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_shipping_locations(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -38,7 +38,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/shippingLocations"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_terminal_models(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -47,7 +47,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalModels"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_terminal_orders(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -56,7 +56,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalOrders"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_terminal_orders_order_id(self, companyId, orderId, idempotency_key=None, **kwargs):
         """
@@ -65,7 +65,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalOrders/{orderId}"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_companies_company_id_terminal_products(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -74,7 +74,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalProducts"
         endpoint = endpoint.replace('/','',1)
         method = "GET"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def patch_companies_company_id_terminal_orders_order_id(self, request, companyId, orderId, idempotency_key=None, **kwargs):
         """
@@ -83,7 +83,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalOrders/{orderId}"
         endpoint = endpoint.replace('/','',1)
         method = "PATCH"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_companies_company_id_shipping_locations(self, request, companyId, idempotency_key=None, **kwargs):
         """
@@ -92,7 +92,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/shippingLocations"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_companies_company_id_terminal_orders(self, request, companyId, idempotency_key=None, **kwargs):
         """
@@ -101,7 +101,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalOrders"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(request, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def post_companies_company_id_terminal_orders_order_id_cancel(self, companyId, orderId, idempotency_key=None, **kwargs):
         """
@@ -110,7 +110,7 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         endpoint = f"/companies/{companyId}/terminalOrders/{orderId}/cancel"
         endpoint = endpoint.replace('/','',1)
         method = "POST"
-        return self.client.call_management_api(None, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
 
 
