@@ -412,7 +412,7 @@ class AdyenClient(object):
             AdyenResult: Result object if successful.
         """
 
-        if status_code != 200 and status_code != 201 and status_code != 204:
+        if status_code not in [200, 201, 204]:
             response = {}
             # If the result can't be parsed into json, most likely is raw html.
             # Some response are neither json or raw html, handle them here:
