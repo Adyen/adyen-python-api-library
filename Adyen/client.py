@@ -117,27 +117,29 @@ class AdyenClient(object):
         self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
         self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
 
-    def _determine_base_uri_and_version(self, platform, service):
+    def _determine_base_url_and_version(self, platform, service):
+        live_pal_url = settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(live_prefix=self.live_endpoint_prefix)
+
         versions_and_urls = {
             'Recurring': {
                 'version': self.api_recurring_version,
                 'base_url': {
-                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix) + '/Recurring',
-                    'test': settings.BASE_PAL_URL.format(platform) + '/Recurring',
+                    'live': live_pal_url + '/Recurring',
+                    'test': settings.PAL_TEST_URL + '/Recurring',
                 }
             },
             'Payout': {
                 'version': self.api_payout_version,
                 'base_url': {
-                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix) + '/Payout',
-                    'test': settings.BASE_PAL_URL.format(platform) + '/Payout'
+                    'live': live_pal_url + '/Payout',
+                    'test': settings.PAL_TEST_URL + '/Payout'
                 }
             },
             'BinLookup': {
                 'version': self.api_bin_lookup_version,
                 'base_url': {
-                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix) + '/BinLookup',
-                    'test': settings.BASE_PAL_URL.format(platform) + '/BinLookup'
+                    'live': live_pal_url + '/BinLookup',
+                    'test': settings.PAL_TEST_URL + '/BinLookup'
                 }
             },
             'terminal': {
@@ -150,14 +152,14 @@ class AdyenClient(object):
             'Payment': {
                 'version': self.api_payment_version,
                 'base_url': {
-                    'live': settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE.format(self.live_endpoint_prefix) + '/Payment',
-                    'test': settings.BASE_PAL_URL.format(platform) + '/Payment'
+                    'live': live_pal_url + '/Payment',
+                    'test': settings.PAL_TEST_URL + '/Payment'
                 }
             },
             'checkout': {
                 'version': self.api_checkout_version,
                 'base_url': {
-                    'live': settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX.format(self.live_endpoint_prefix),
+                    'live': settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX.format(live_prefix=self.live_endpoint_prefix),
                     'test': settings.ENDPOINT_CHECKOUT_TEST
                 }
             },
@@ -171,10 +173,17 @@ class AdyenClient(object):
         }
         version = versions_and_urls[service]['version']
         base_url = versions_and_urls[service]['base_url'][platform]
+        # Match urls that require a live prefix and do not have one
+        if match("https://None-.*", base_url):
+            errorstring = """Please set your live suffix. You can set it
+                                               by running 'settings.
+                                               ENDPOINT_CHECKOUT_LIVE_SUFFIX = 'Your live suffix'"""
+            raise AdyenEndpointInvalidFormat(errorstring)
+
         return version, base_url
 
     def _determine_api_url(self, platform, service, endpoint):
-        api_version, base_url = self._determine_base_uri_and_version(platform, service)
+        api_version, base_url = self._determine_base_url_and_version(platform, service)
         return '/'.join([base_url, api_version, endpoint])
 
     def _review_payout_username(self, **kwargs):
@@ -360,12 +369,6 @@ class AdyenClient(object):
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
 
         url = self._determine_api_url(platform, service, endpoint)
-        # Match urls that require a live prefix and do not have one
-        if match("https://None-.*", url):
-            errorstring = """Please set your live suffix. You can set it
-                               by running 'settings.
-                               ENDPOINT_CHECKOUT_LIVE_SUFFIX = 'Your live suffix'"""
-            raise AdyenEndpointInvalidFormat(errorstring)
 
         if xapikey:
             raw_response, raw_request, status_code, headers = \
