@@ -376,6 +376,9 @@ class AdyenClient(object):
 
         url = self._determine_api_url(platform, service, endpoint)
 
+        if 'queryParams' in kwargs:
+            url = url + self.http_client.get_query(kwargs['queryParams'])
+
         if xapikey:
             raw_response, raw_request, status_code, headers = \
                 self.http_client.request(method, url, json=request_data,

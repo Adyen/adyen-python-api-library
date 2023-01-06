@@ -49,6 +49,9 @@ class HTTPClient(object):
 
         self.timeout = timeout
 
+    def get_query(self, queryParams):
+        return '?' + '&'.join([key + '=' + queryParams[key] for key in queryParams])
+
     def _pycurl_request(
             self,
             method,
