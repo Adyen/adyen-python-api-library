@@ -101,4 +101,4 @@ def is_valid_hmac_notification(dict_object, hmac_key):
 
 
 def get_query(query_parameters):
-    return '?' + '&'.join([key + '=' + str(query_parameters[key]) for key in query_parameters])
+    return '?' + '&'.join(["{}={}".format(k, v) for k, v in query_parameters.items()])
