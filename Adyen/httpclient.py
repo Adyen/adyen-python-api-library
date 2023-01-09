@@ -49,6 +49,7 @@ class HTTPClient(object):
 
         self.timeout = timeout
 
+
     def _pycurl_request(
             self,
             method,
