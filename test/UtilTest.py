@@ -6,6 +6,7 @@ from Adyen.util import (
     is_valid_hmac,
     generate_notification_sig,
     is_valid_hmac_notification,
+    get_query
 )
 
 
@@ -71,3 +72,11 @@ class UtilTest(unittest.TestCase):
         self.assertDictEqual(request['additionalData'],
                              {'hmacSignature': hmac_calculation_str})
         self.assertTrue(hmac_validate)
+
+    def test_query_string_creation(self):
+        query_parameters = {
+            "pageSize":7,
+            "pageNumber":3
+        }
+        query_string = get_query(query_parameters)
+        self.assertEqual(query_string,'?pageSize=7&pageNumber=3')

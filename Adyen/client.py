@@ -122,7 +122,7 @@ class AdyenClient(object):
         live_pal_url = settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE
         live_checkout_url = settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX
 
-        if platform is 'live' and self.live_endpoint_prefix:
+        if platform == 'live' and self.live_endpoint_prefix:
             live_pal_url = live_pal_url.format(live_prefix=self.live_endpoint_prefix)
             live_checkout_url = live_checkout_url.format(live_prefix=self.live_endpoint_prefix)
 
@@ -181,7 +181,7 @@ class AdyenClient(object):
         base_url = versions_and_urls[service]['base_url'][platform]
         # Match urls that require a live prefix and do not have one
 
-        if platform is 'live' and '{live_prefix}' in base_url:
+        if platform == 'live' and '{live_prefix}' in base_url:
             errorstring = "Please set your live suffix. You can set it by running" +\
                           "adyen.client.live_endpoint_prefix = 'Your live suffix'"
             raise AdyenEndpointInvalidFormat(errorstring)
@@ -376,8 +376,9 @@ class AdyenClient(object):
 
         url = self._determine_api_url(platform, service, endpoint)
 
-        if 'queryParams' in kwargs:
-            url = url + self.http_client.get_query(kwargs['queryParams'])
+        if 'query_parameters' in kwargs:
+            url = url + util.get_query(kwargs['query_parameters'])
+            kwargs.pop('query_parameters')
 
         if xapikey:
             raw_response, raw_request, status_code, headers = \

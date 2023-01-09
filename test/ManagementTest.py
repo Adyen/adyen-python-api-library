@@ -130,3 +130,26 @@ class TestManagement(unittest.TestCase):
         companyId = "YOUR_COMPANY_ACCOUNT"
         result = self.adyen.management.terminal_actions_company_level_api.get_companies_company_id_terminal_actions(companyId)
         self.assertEqual("ANDA422LZ223223K5F694GCCF732K8",result.message['androidApps'][0]['id'])
+
+    def test_query_paramaters(self):
+        request = {}
+        companyId = "YOUR_COMPANY_ACCOUNT"
+        query_parameters = {
+            'pageNumber': 1,
+            'pageSize':10
+
+        }
+        self.adyen.client = self.test.create_client_from_file(200,request,
+                                                              "test/mocks/"
+                                                              "management/"
+                                                              "get_list_of_merchant_accounts.json")
+        result = self.adyen.management.account_company_level_api.\
+            get_companies_company_id_merchants(companyId, query_parameters=query_parameters)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'GET',
+            'https://management-test.adyen.com/v1/companies/YOUR_COMPANY_ACCOUNT/merchants?pageNumber=1&pageSize=10',
+            headers={},
+            json=None,
+            xapikey="YourXapikey"
+        )
+

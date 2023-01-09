@@ -58,6 +58,18 @@ ady.payment.client.hmac = "HMAC key for skin code"
 ady.payment.client.platform = "test" # Environment to use the library in.
 ady.payment.client.merchant_account = "merchant account name from CA"
 ~~~~
+### Using query parameters
+Define a dictionary with query parameters that you want to use.
+~~~~ python
+query_parameters = {
+   'pageSize':10,
+   'pageNumber':3
+ }
+~~~~
+pass the dictionary to the function as an additional arguemnt.
+~~~~ python
+ady.management.account_company_level_api.get_companies(query_parameters=query_parameters)
+~~~~
  
 ### Example integration
  
