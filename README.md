@@ -66,7 +66,7 @@ query_parameters = {
    'pageNumber':3
  }
 ~~~~
-pass the dictionary to the function as an additional arguemnt.
+pass the dictionary to the method as an additional argument.
 ~~~~ python
 ady.management.account_company_level_api.get_companies(query_parameters=query_parameters)
 ~~~~
