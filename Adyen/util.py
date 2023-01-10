@@ -7,9 +7,6 @@ import binascii
 
 
 def generate_notification_sig(dict_object, hmac_key):
-    if 'issuerId' in dict_object:
-        if dict_object['issuerId'] == "":
-            del dict_object['issuerId']
 
     if not isinstance(dict_object, dict):
         raise ValueError("Must Provide dictionary object")
