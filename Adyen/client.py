@@ -182,7 +182,7 @@ class AdyenClient(object):
         # Match urls that require a live prefix and do not have one
 
         if platform == 'live' and '{live_prefix}' in base_url:
-            errorstring = "Please set your live suffix. You can set it by running" +\
+            errorstring = "Please set your live suffix. You can set it by running " \
                           "adyen.client.live_endpoint_prefix = 'Your live suffix'"
             raise AdyenEndpointInvalidFormat(errorstring)
 
@@ -197,9 +197,9 @@ class AdyenClient(object):
             return kwargs['username']
         elif self.review_payout_username:
             return self.review_payout_username
-        errorstring = """Please set your review payout
-        webservice username. You can do this by running
-        'Adyen.review_payout_username = 'Your payout username' """
+        errorstring = "Please set your review payout " \
+                      "webservice username. You can do this by running " \
+                      "Adyen.review_payout_username = 'Your payout username'"
         raise AdyenInvalidRequestError(errorstring)
 
     def _review_payout_pass(self, **kwargs):
@@ -207,9 +207,9 @@ class AdyenClient(object):
             return kwargs["password"]
         elif self.review_payout_password:
             return self.review_payout_password
-        errorstring = """Please set your review payout
-        webservice password. You can do this by running
-        'Adyen.review_payout_password = 'Your payout password'"""
+        errorstring = "Please set your review payout " \
+                      "webservice password. You can do this by running " \
+                      "Adyen.review_payout_password = 'Your payout password"
         raise AdyenInvalidRequestError(errorstring)
 
     def _store_payout_username(self, **kwargs):
@@ -217,9 +217,9 @@ class AdyenClient(object):
             return kwargs['username']
         elif self.store_payout_username:
             return self.store_payout_username
-        errorstring = """Please set your store payout
-        webservice username. You can do this by running
-        'Adyen.store_payout_username = 'Your payout username'"""
+        errorstring = "Please set your review payout " \
+                      "webservice username. You can do this by running " \
+                      "Adyen.review_payout_username = 'Your payout username'"
         raise AdyenInvalidRequestError(errorstring)
 
     def _store_payout_pass(self, **kwargs):
@@ -227,9 +227,9 @@ class AdyenClient(object):
             return kwargs["password"]
         elif self.store_payout_password:
             return self.store_payout_password
-        errorstring = """Please set your store payout
-        webservice password. You can do this by running
-        'Adyen.store_payout_password = 'Your payout password'"""
+        errorstring = "Please set your review payout " \
+                      "webservice password. You can do this by running " \
+                      "Adyen.review_payout_password = 'Your payout password"
         raise AdyenInvalidRequestError(errorstring)
 
     def _set_credentials(self, service, endpoint, **kwargs):
@@ -257,9 +257,8 @@ class AdyenClient(object):
                 username = self._review_payout_username(**kwargs)
 
         if not username and not xapikey:
-            errorstring = """Please set your webservice username.
-                     You can do this by running
-                     'Adyen.username = 'Your username'"""
+            errorstring = "Please set your webservice username.You can do this by running " \
+                          "Adyen.username = 'Your username'"
             raise AdyenInvalidRequestError(errorstring)
             # password at self object has highest priority.
             # fallback to root module
@@ -277,9 +276,8 @@ class AdyenClient(object):
                 password = self._review_payout_pass(**kwargs)
 
         if not password and not xapikey:
-            errorstring = """Please set your webservice password.
-                     You can do this by running
-                     'Adyen.password = 'Your password'"""
+            errorstring = "Please set your webservice password.You can do this by running " \
+                          "Adyen.password = 'Your password'"
             raise AdyenInvalidRequestError(errorstring)
             # xapikey at self object has highest priority.
             # fallback to root module
