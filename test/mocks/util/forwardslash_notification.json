@@ -1,0 +1,41 @@
+{
+  "amount": {
+    "value": 1000,
+    "currency": "EUR"
+  },
+  "reason": "087330:1111:03/2030",
+  "success": "true",
+  "eventCode": "AUTHORISATION",
+  "eventDate": "2023-01-10T13:37:30+01:00",
+  "operations": [
+    "CANCEL",
+    "CAPTURE",
+    "REFUND"
+  ],
+  "pspReference": "X3GWNS6KJ8NKGK82",
+  "paymentMethod": "visa",
+  "additionalData": {
+    "authCode": "087330",
+    "avsResult": "5 No AVS data provided",
+    "cvcResult": "1 Matches",
+    "expiryDate": "03/2030",
+    "cardSummary": "1111",
+    "acquirerCode": "TestPmmAcquirer",
+    "avsResultRaw": "5",
+    "cvcResultRaw": "M",
+    "hmacSignature": "9Z0xdpG9Xi3zcmXv14t/BvMBut77O/Xq9D4CQXSDUi4=",
+    "paymentMethod": "visa",
+    "refusalReasonRaw": "AUTHORISED",
+    "acquirerReference": "HHCCC326PH6",
+    "scaExemptionRequested": "lowValue",
+    "checkout.cardAddedBrand": "visa",
+    "retry.attempt1.acquirer": "TestPmmAcquirer",
+    "retry.attempt1.rawResponse": "AUTHORISED",
+    "retry.attempt1.avsResultRaw": "5",
+    "retry.attempt1.responseCode": "Approved",
+    "retry.attempt1.acquirerAccount": "TestPmmAcquirerAccount",
+    "retry.attempt1.scaExemptionRequested": "lowValue"
+  },
+  "merchantReference": "//slashes are fun",
+  "merchantAccountCode": "AntoniStroinski"
+}
