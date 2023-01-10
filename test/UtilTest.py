@@ -1,5 +1,5 @@
 import unittest
-
+from json import load
 import Adyen
 from Adyen.util import (
     generate_notification_sig,
@@ -44,6 +44,22 @@ class UtilTest(unittest.TestCase):
         self.assertDictEqual(request['additionalData'],
                              {'hmacSignature': hmac_calculation_str})
         self.assertTrue(hmac_validate)
+
+    def test_notifications_with_slashes(self):
+        hmac_key = "74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174"
+        with open('test/mocks/util/backslash_notification.json') as file:
+            backslash_notification = load(file)
+            self.assertTrue(is_valid_hmac_notification(backslash_notification, hmac_key))
+        with open('test/mocks/util/colon_notification.json') as file:
+            colon_notification = load(file)
+            self.assertTrue(is_valid_hmac_notification(colon_notification, hmac_key))
+        with open('test/mocks/util/forwardslash_notification.json') as file:
+            forwardslash_notification = load(file)
+            self.assertTrue(is_valid_hmac_notification(forwardslash_notification, hmac_key))
+        with open('test/mocks/util/mixed_notification.json') as file:
+            mixed_notification = load(file)
+            self.assertTrue(is_valid_hmac_notification(mixed_notification, hmac_key))
+
 
     def test_query_string_creation(self):
         query_parameters = {
