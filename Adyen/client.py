@@ -483,82 +483,35 @@ class AdyenClient(object):
         Returns:
             None
         """
-        print(response_obj.get('errorCode'))
+
         if response_obj == {}:
             message = raw_response
         else:
             message = response_obj
-        if status_code == 404:
-            raise AdyenAPICommunicationError(message,
-                                             raw_request=raw_request,
-                                             raw_response=raw_response,
-                                             url=url,
-                                             psp=psp_ref,
-                                             headers=headers,
-                                             status_code=status_code,
-                                             error_code=response_obj.get(
-                                                 "errorCode"))
-        elif status_code == 400:
-            raise AdyenAPIValidationError(message,
-                                          raw_request=raw_request,
-                                          raw_response=raw_response,
-                                          url=url,
-                                          psp=psp_ref,
-                                          headers=headers,
-                                          status_code=status_code,
-                                          error_code=response_obj.get(
-                                              "errorCode"))
-        elif status_code == 401:
-            raise AdyenAPIAuthenticationError(message,
-                                              raw_request=raw_request,
-                                              raw_response=raw_response,
-                                              url=url,
-                                              psp=psp_ref,
-                                              headers=headers,
-                                              status_code=status_code,
-                                              error_code=response_obj.get(
-                                                  "errorCode"))
-        elif status_code == 403:
-            raise AdyenAPIInvalidPermission(message,
-                                            raw_request=raw_request,
-                                            raw_response=raw_response,
-                                            url=url,
-                                            psp=psp_ref,
-                                            headers=headers,
-                                            status_code=status_code,
-                                            error_code=response_obj.get(
-                                                "errorCode"))
-        elif status_code == 422:
-            raise AdyenAPIUnprocessableEntity(message,
-                                              raw_request=raw_request,
-                                              raw_response=raw_response,
-                                              url=url,
-                                              psp=psp_ref,
-                                              headers=headers,
-                                              status_code=status_code,
-                                              error_code=response_obj.get(
-                                            "errorCode"))
 
+        error_code = response_obj.get("errorCode")
+
+        if status_code == 404:
+            raise AdyenAPICommunicationError(message, raw_request, raw_response, url, psp_ref, headers, status_code,
+                                             error_code)
+        elif status_code == 400:
+            raise AdyenAPIValidationError(message, raw_request, raw_response, url, psp_ref, headers, status_code,
+                                          error_code)
+        elif status_code == 401:
+            raise AdyenAPIAuthenticationError(message, raw_request, raw_response, url, psp_ref, headers, status_code,
+                                              error_code)
+        elif status_code == 403:
+            raise AdyenAPIInvalidPermission(message, raw_request, raw_response, url, psp_ref, headers, status_code,
+                                            error_code)
+        elif status_code == 422:
+            raise AdyenAPIUnprocessableEntity(message, raw_request, raw_response, url, psp_ref, headers, status_code,
+                                              error_code)
         elif status_code == 500:
-            raise AdyenAPICommunicationError(message,
-                                             raw_request=raw_request,
-                                             raw_response=raw_response,
-                                             url=url,
-                                             psp=psp_ref,
-                                             headers=headers,
-                                             status_code=status_code,
-                                             error_code=response_obj.get(
-                                                 "errorCode"))
+            raise AdyenAPICommunicationError(message, raw_request, raw_response, url, psp_ref, headers, status_code,
+                                             error_code)
         else:
-            raise AdyenAPIResponseError(message,
-                                        raw_request=raw_request,
-                                        raw_response=raw_response,
-                                        url=url,
-                                        psp=psp_ref,
-                                        headers=headers,
-                                        status_code=status_code,
-                                        error_code=response_obj.get(
-                                            "errorCode"))
+            raise AdyenAPIResponseError(message, raw_request, raw_response, url, psp_ref, headers, status_code,
+                                        error_code)
 
     @staticmethod
     def _get_psp(response, headers):
