@@ -62,9 +62,9 @@ class TestRecurring(unittest.TestCase):
                                                             'recurring/'
                                                             'disable-error-803'
                                                             '.json')
-        self.assertRaisesRegexp(
-            Adyen.AdyenAPICommunicationError,
-            "Unexpected error",
+        self.assertRaisesRegex(
+            Adyen.AdyenAPIUnprocessableEntity,
+            "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '803', 'message': 'PaymentDetail not found', 'errorType': 'validation'}",
             self.ady.recurring.disable,
             request
         )

@@ -12,8 +12,8 @@ from .exceptions import (
     AdyenAPIInvalidPermission,
     AdyenAPIValidationError,
     AdyenInvalidRequestError,
-    AdyenAPIInvalidFormat,
-    AdyenAPIInvalidAmount,
+    AdyenAPIResponseError,
+    AdyenAPIUnprocessableEntity,
     AdyenEndpointInvalidFormat)
 from . import settings
 from re import match
@@ -392,7 +392,7 @@ class AdyenClient(object):
 
         # Creates AdyenResponse if request was successful, raises error if not.
         adyen_result = self._handle_response(url, raw_response, raw_request,
-                                             status_code, headers, message)
+                                             status_code, headers)
 
         return adyen_result
 
@@ -406,7 +406,7 @@ class AdyenClient(object):
         self.http_init = True
 
     def _handle_response(self, url, raw_response, raw_request,
-                         status_code, headers, request_dict):
+                         status_code, headers):
         """This parses the content from raw communication, raising an error if
         anything other than 200 was returned.
 
@@ -433,7 +433,7 @@ class AdyenClient(object):
             self._handle_http_error(url, response, status_code,
                                     headers.get('pspReference'),
                                     raw_request, raw_response,
-                                    headers, request_dict)
+                                    headers)
 
             try:
                 if response['errorCode']:
@@ -466,7 +466,7 @@ class AdyenClient(object):
                                raw_response=raw_response)
 
     def _handle_http_error(self, url, response_obj, status_code, psp_ref,
-                           raw_request, raw_response, headers, message):
+                           raw_request, raw_response, headers):
         """This function handles the non 200 responses from Adyen, raising an
         error that should provide more information.
 
@@ -483,107 +483,82 @@ class AdyenClient(object):
         Returns:
             None
         """
-
+        print(response_obj.get('errorCode'))
+        if response_obj == {}:
+            message = raw_response
+        else:
+            message = response_obj
         if status_code == 404:
-            if url == self.merchant_specific_url:
-                erstr = "Received a 404 for url:'{}'. Please ensure that" \
-                        " the custom merchant specific url is correct" \
-                    .format(url)
-                raise AdyenAPICommunicationError(erstr,
-                                                 error_code=response_obj.get(
-                                                     "errorCode"))
-            else:
-                erstr = "Unexpected error while communicating with Adyen." \
-                        " Please reach out to support@adyen.com" \
-                        " if the problem persists"
-                raise AdyenAPICommunicationError(erstr,
-                                                 raw_request=raw_request,
-                                                 raw_response=raw_response,
-                                                 url=url,
-                                                 psp=psp_ref,
-                                                 headers=headers,
-                                                 error_code=response_obj.get(
-                                                     "errorCode"))
+            raise AdyenAPICommunicationError(message,
+                                             raw_request=raw_request,
+                                             raw_response=raw_response,
+                                             url=url,
+                                             psp=psp_ref,
+                                             headers=headers,
+                                             status_code=status_code,
+                                             error_code=response_obj.get(
+                                                 "errorCode"))
         elif status_code == 400:
-            erstr = "Received validation error with errorCode: %s," \
-                    " message: %s, HTTP Code: %s. Please verify" \
-                    " the values provided. Please reach out" \
-                    " to support@adyen.com if the problem persists," \
-                    " providing the PSP reference: %s" % (
-                        response_obj["errorCode"], response_obj["message"],
-                        status_code, psp_ref)
-
-            raise AdyenAPIValidationError(erstr, error_code=response_obj.get(
-                "errorCode"))
+            raise AdyenAPIValidationError(message,
+                                          raw_request=raw_request,
+                                          raw_response=raw_response,
+                                          url=url,
+                                          psp=psp_ref,
+                                          headers=headers,
+                                          status_code=status_code,
+                                          error_code=response_obj.get(
+                                              "errorCode"))
         elif status_code == 401:
-            erstr = "Unable to authenticate with Adyen's Servers." \
-                    " Please verify the credentials set with the Adyen base" \
-                    " class. Please reach out to your Adyen Admin" \
-                    " if the problem persists"
-            raise AdyenAPIAuthenticationError(erstr,
+            raise AdyenAPIAuthenticationError(message,
+                                              raw_request=raw_request,
+                                              raw_response=raw_response,
+                                              url=url,
+                                              psp=psp_ref,
+                                              headers=headers,
+                                              status_code=status_code,
                                               error_code=response_obj.get(
                                                   "errorCode"))
         elif status_code == 403:
-
-            if response_obj.get("message") == "Invalid Merchant Account":
-                erstr = ("You provided the merchant account:'%s' that"
-                         " doesn't exist or you don't have access to it.\n"
-                         "Please verify the merchant account provided. \n"
-                         "Reach out to support@adyen.com"
-                         " if the issue persists") \
-                        % raw_request['merchantAccount']
-                raise AdyenAPIInvalidPermission(erstr,
-                                                error_code=response_obj.get(
-                                                    "errorCode"))
-
-            erstr = "Unable to perform the requested action. message: %s." \
-                    " If you think your webservice user: %s might not have" \
-                    " the necessary permissions to perform this request." \
-                    " Please reach out to support@adyen.com, providing" \
-                    " the PSP reference: %s" % (
-                        response_obj["message"], self.username, psp_ref)
-            raise AdyenAPIInvalidPermission(erstr, error_code=response_obj.get(
-                "errorCode"))
+            raise AdyenAPIInvalidPermission(message,
+                                            raw_request=raw_request,
+                                            raw_response=raw_response,
+                                            url=url,
+                                            psp=psp_ref,
+                                            headers=headers,
+                                            status_code=status_code,
+                                            error_code=response_obj.get(
+                                                "errorCode"))
         elif status_code == 422:
-            if response_obj.get("message") == "Invalid amount specified":
-                raise AdyenAPIInvalidAmount(
-                    "Invalid amount specified"
-                    "Amount may be improperly formatted, too small or too big."
-                    "If the issue persists, contact support@adyen.com",
-                    error_code=response_obj.get("errorCode"))
+            raise AdyenAPIUnprocessableEntity(message,
+                                              raw_request=raw_request,
+                                              raw_response=raw_response,
+                                              url=url,
+                                              psp=psp_ref,
+                                              headers=headers,
+                                              status_code=status_code,
+                                              error_code=response_obj.get(
+                                            "errorCode"))
 
         elif status_code == 500:
-            if response_obj.get("errorType") == "validation":
-                err_args = (response_obj.get("errorCode"),
-                            response_obj.get("message"),
-                            status_code)
-                erstr = "Received validation error with errorCode: %s," \
-                        " message: %s, HTTP Code: %s. Please verify" \
-                        " the values provided." % err_args
-                raise AdyenAPIValidationError(erstr,
-                                              error_code=response_obj.get(
-                                                  "errorCode"))
-
-            if response_obj.get("message") == "Failed to serialize node " \
-                                              "Failed to parse [123.34]" \
-                                              " as a Long":
-                raise AdyenAPIInvalidFormat(
-                    "The payment amount must be set in cents,"
-                    " and can not contain commas or points.",
-                    error_code=response_obj.get("errorCode")
-                )
+            raise AdyenAPICommunicationError(message,
+                                             raw_request=raw_request,
+                                             raw_response=raw_response,
+                                             url=url,
+                                             psp=psp_ref,
+                                             headers=headers,
+                                             status_code=status_code,
+                                             error_code=response_obj.get(
+                                                 "errorCode"))
         else:
-            raise AdyenAPICommunicationError(
-                "Unexpected error while communicating with Adyen. Received the"
-                " response data:'{}', HTTP Code:'{}'. Please reach out to "
-                "support@adyen.com if the problem persists"
-                " with the psp:{}".format(raw_response, status_code, psp_ref),
-                status_code=status_code,
-                raw_request=raw_request,
-                raw_response=raw_response,
-                url=url,
-                psp=psp_ref,
-                headers=headers, error_code=response_obj.get("errorCode"))
+            raise AdyenAPIResponseError(message,
+                                        raw_request=raw_request,
+                                        raw_response=raw_response,
+                                        url=url,
+                                        psp=psp_ref,
+                                        headers=headers,
+                                        status_code=status_code,
+                                        error_code=response_obj.get(
+                                            "errorCode"))
 
     @staticmethod
     def _get_psp(response, headers):

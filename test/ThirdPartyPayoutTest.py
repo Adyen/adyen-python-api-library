@@ -39,11 +39,9 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/confirm-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
-        self.assertRaisesRegexp(
-            Adyen.AdyenAPIValidationError,
-            "Received validation error with errorCode: 702,"
-            " message: Required field 'merchantAccount' is null,"
-            " HTTP Code: 500. Please verify the values provided.",
+        self.assertRaisesRegex(
+            Adyen.AdyenAPICommunicationError,
+            "AdyenAPICommunicationError:{'status': 500, 'errorCode': '702', 'message': \"Required field 'merchantAccount' is null\", 'errorType': 'validation'}",
             self.ady.payout.confirm,
             request
         )
@@ -67,11 +65,9 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/decline-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(500, request, resp)
-        self.assertRaisesRegexp(
-            Adyen.AdyenAPIValidationError,
-            "Received validation error with errorCode: 702,"
-            " message: Required field 'merchantAccount' is null,"
-            " HTTP Code: 500. Please verify the values provided.",
+        self.assertRaisesRegex(
+            Adyen.AdyenAPICommunicationError,
+            "AdyenAPICommunicationError:{'status': 500, 'errorCode': '702', 'message': \"Required field 'merchantAccount' is null\", 'errorType': 'validation'}",
             self.ady.payout.confirm,
             request
         )
@@ -139,9 +135,10 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/submit-invalid-reference.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
-        self.assertRaisesRegexp(
-            Adyen.AdyenAPICommunicationError,
-            "Unexpected error",
+        self.assertRaisesRegex(
+            Adyen.AdyenAPIUnprocessableEntity,
+            "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '800',"
+            " 'message': 'Contract not found', 'errorType': 'validation'}",
             self.ady.payout.submit,
             request
         )
@@ -168,9 +165,10 @@ class TestThirdPartyPayout(unittest.TestCase):
         resp = 'test/mocks/payout/submit-missing-reference.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
 
-        self.assertRaisesRegexp(
-            Adyen.AdyenAPICommunicationError,
-            "Unexpected error",
+        self.assertRaisesRegex(
+            Adyen.AdyenAPIUnprocessableEntity,
+            "AdyenAPIUnprocessableEntity:{'status': 422, 'message': 'Contract not found',"
+            " 'errorCode': '800', 'errorType': 'validation'}",
             self.ady.payout.store_detail_and_submit,
             request
         )
@@ -191,9 +189,10 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-missing-payment.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
-        self.assertRaisesRegexp(
-            Adyen.AdyenAPICommunicationError,
-            "Unexpected error",
+        self.assertRaisesRegex(
+            Adyen.AdyenAPIUnprocessableEntity,
+            "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '000',"
+            " 'message': 'Please supply paymentDetails', 'errorType': 'validation'}",
             self.ady.payout.store_detail_and_submit,
             request
         )
@@ -219,9 +218,10 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-invalid-iban.json'
         self.ady.client = self.test.create_client_from_file(422, request, resp)
-        self.assertRaisesRegexp(
-            Adyen.AdyenAPICommunicationError,
-            "Unexpected error",
+        self.assertRaisesRegex(
+            Adyen.AdyenAPIUnprocessableEntity,
+            "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '161',"
+            " 'message': 'Invalid iban', 'errorType': 'validation'}",
             self.ady.payout.store_detail_and_submit,
             request
         )
