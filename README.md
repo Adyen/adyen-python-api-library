@@ -12,8 +12,8 @@ The library supports all APIs under the following services:
 * [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v49/overview): Endpoints for managing saved payment details. Current supported version:  **v49**
 * [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v64/overview): Endpoints for sending funds to your customers. Current supported version:  **v64**
 * [Orders API](https://docs.adyen.com/api-explorer/#/CheckoutService/v67/post/orders): Endpoints for creating and canceling orders. Current supported version:  **v67**
-* [Utility API](https://docs.adyen.com/api-explorer/#/CheckoutService/v67/post/originKeys): This operation takes the origin domains and returns a JSON object containing the corresponding origin keys for the domains. Current supported version:  **v67**
 * [Terminal API](https://docs.adyen.com/api-explorer/#/postfmapi/v1/overview): Endpoints for interacting with POS terminals. **v1**
+* [Management API](https://docs.adyen.com/api-explorer/Management/1/overview): Our latest integration for configuring and managing your Adyen company and merchant accounts, stores and payment terminals. **v1**
  
 For more information, refer to our [documentation](https://docs.adyen.com/) or the [API Explorer](https://docs.adyen.com/api-explorer/).
  
@@ -23,12 +23,12 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
 -   [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
 -   [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
 - Python 2.7 **(Deprecated)** or 3.6
-- Packages: requests or pycurl ( optional )
+- Packages: (optional) requests or pycurl 
  
 
  ## Installation
 
-### For development propose
+### For development purposes
 
 Clone this repository and run 
 ~~~~ bash 
@@ -50,13 +50,12 @@ pip install Adyen
 ~~~~ python
 import Adyen
 
-ady = Adyen.Adyen()
+adyen = Adyen.Adyen()
 
-ady.payment.client.xapikey = "YourXapikey"
-ady.payment.client.skin_code = "skin code for Hosted Payment pages"
-ady.payment.client.hmac = "HMAC key for skin code"
-ady.payment.client.platform = "test" # Environment to use the library in.
-ady.payment.client.merchant_account = "merchant account name from CA"
+adyen.payment.client.xapikey = "YourXapikey"
+adyen.payment.client.hmac = "HMAC key for skin code"
+adyen.payment.client.platform = "test" # Environment to use the library in.
+adyen.payment.client.merchant_account = "merchant account name from CA"
 ~~~~
 ### Using query parameters
 Define a dictionary with query parameters that you want to use.
