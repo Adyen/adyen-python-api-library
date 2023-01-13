@@ -6,18 +6,19 @@
 
 This is the officially supported Python library for using Adyen's APIs.
 
-## Integration 
-The library supports all APIs under the following services:
- 
-* [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v69/overview): Our latest integration for accepting online payments. Current supported version:  **v69**
-* [Payments API](https://docs.adyen.com/api-explorer/#/Payment/v64/overview): Our classic integration for online payments. Current supported version:  **v64**
-* [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v49/overview): Endpoints for managing saved payment details. Current supported version:  **v49**
-* [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v64/overview): Endpoints for sending funds to your customers. Current supported version:  **v64**
-* [Orders API](https://docs.adyen.com/api-explorer/#/CheckoutService/v67/post/orders): Endpoints for creating and canceling orders. Current supported version:  **v67**
-* [Terminal API](https://docs.adyen.com/api-explorer/#/postfmapi/v1/overview): Endpoints for interacting with POS terminals. **v1**
-* [Management API](https://docs.adyen.com/api-explorer/Management/1/overview): Our latest integration for configuring and managing your Adyen company and merchant accounts, stores and payment terminals. **v1**
- 
+## Supported API versions
+| API | Description | Service Name | Supported version |
+| --- | ----------- | ------------ | ----------------- | 
+|[BIN lookup API](https://docs.adyen.com/api-explorer/#/BinLookup/v52/overview) | The BIN Lookup API provides endpoints for retrieving information based on a given BIN. | binLookup | **v52** |
+| [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v69/overview)| Our latest integration for accepting online payments. | checkout | **v69** |
+| [Management API](https://docs.adyen.com/api-explorer/#/ManagementService/v1/overview)| Configure and manage your Adyen company and merchant accounts, stores, and payment terminals. | management | **v1** |
+| [Payments API](https://docs.adyen.com/api-explorer/#/Payment/v68/overview)| Our classic integration for online payments. | payments | **v68** |
+| [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v68/overview)| Endpoints for sending funds to your customers. | payouts | **v68** |
+| [POS Terminal Management API](https://docs.adyen.com/api-explorer/#/postfmapi/v1/overview)| Endpoints for managing your point-of-sale payment terminals. | terminal | **v1** |
+| [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v68/overview)| Endpoints for managing saved payment details. | recurring | **v68** |
+
 For more information, refer to our [documentation](https://docs.adyen.com/) or the [API Explorer](https://docs.adyen.com/api-explorer/).
+
  
  
 ## Prerequisites
@@ -25,7 +26,7 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
 -   [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
 -   [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
 - Python 2.7 **(Deprecated)** or 3.6
-- Packages: (optional) requests or pycurl 
+- Packages (optional): requests or pycurl  
  
 
  ## Installation
@@ -59,6 +60,64 @@ adyen.payment.client.hmac = "HMAC key for skin code"
 adyen.payment.client.platform = "test" # Environment to use the library in.
 adyen.payment.client.merchant_account = "merchant account name from CA"
 ~~~~
+### Consuming Services
+Every API the library supports is represented by a service object. The name of the service matching the corresponding API is listed in the [Integrations](#supported-api-versions) section of this document.
+####Using all services
+~~~~python
+import Adyen
+adyen = Adyen.Adyen()
+adyen.payment.client.xapikey = "YourXapikey"
+adyen.payment.client.platform = "test"  # change to live for production
+request = {
+      "amount": {
+        "currency": "USD",
+        "value": 1000 # value in minor units
+      },
+      "reference": "Your order number",
+      "paymentMethod": {
+        "type": "visa",
+        "encryptedCardNumber": "test_4111111111111111",
+        "encryptedExpiryMonth": "test_03",
+        "encryptedExpiryYear": "test_2030",
+        "encryptedSecurityCode": "test_737"
+      },
+      "shopperReference": "YOUR_UNIQUE_SHOPPER_ID_IOfW3k9G2PvXFu2j",
+      "returnUrl": "https://your-company.com/...",
+      "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+    }
+result = adyen.checkout.payments(request)
+~~~~
+####Using one of the services
+~~~~python
+from Adyen import AdyenCheckoutApi
+adyen = AdyenCheckoutApi()
+adyen.client.xapikey = "YourXapikey"
+adyen.client.platform = "test"  # change to live for production
+request = {
+      "amount": {
+        "currency": "USD",
+        "value": 1000 # value in minor units
+      },
+      "reference": "Your order number",
+      "paymentMethod": {
+        "type": "visa",
+        "encryptedCardNumber": "test_4111111111111111",
+        "encryptedExpiryMonth": "test_03",
+        "encryptedExpiryYear": "test_2030",
+        "encryptedSecurityCode": "test_737"
+      },
+      "shopperReference": "YOUR_UNIQUE_SHOPPER_ID_IOfW3k9G2PvXFu2j",
+      "returnUrl": "https://your-company.com/...",
+      "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+    }
+result = adyen.payments(request)
+~~~~
+####Force HTTP library
+~~~~python
+import Adyen
+adyen = Adyen.Adyen()
+adyen.client.http_force = 'requests' # or 'pycurl'
+~~~~
 ### Using query parameters
 Define a dictionary with query parameters that you want to use.
 ~~~~ python
@@ -69,9 +128,19 @@ query_parameters = {
 ~~~~
 pass the dictionary to the method as an additional argument.
 ~~~~ python
-ady.management.account_company_level_api.get_companies(query_parameters=query_parameters)
+adyen.management.account_company_level_api.get_companies(query_parameters=query_parameters)
 ~~~~
- 
+###Handling exceptions
+~~~~python
+try:
+    adyen.checkout.payments(request)
+except Exception as e:
+    print(e)
+~~~~
+To print all the information gathered in the exception you can call the following method.
+~~~~python
+print(e.debug())
+~~~~
 ### Example integration
  
 For a closer look at how our Python library works, clone our [example integration](https://github.com/adyen-examples/adyen-python-online-payments). This includes commented code, highlighting key features and concepts, and examples of API calls that can be made using the library.
