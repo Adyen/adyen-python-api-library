@@ -62,7 +62,7 @@ adyen.payment.client.merchant_account = "merchant account name from CA"
 ~~~~
 ### Consuming Services
 Every API the library supports is represented by a service object. The name of the service matching the corresponding API is listed in the [Integrations](#supported-api-versions) section of this document.
-####Using all services
+#### Using all services
 ~~~~python
 import Adyen
 adyen = Adyen.Adyen()
@@ -87,7 +87,7 @@ request = {
     }
 result = adyen.checkout.payments(request)
 ~~~~
-####Using one of the services
+#### Using one of the services
 ~~~~python
 from Adyen import AdyenCheckoutApi
 adyen = AdyenCheckoutApi()
@@ -112,7 +112,7 @@ request = {
     }
 result = adyen.payments(request)
 ~~~~
-####Force HTTP library
+#### Force HTTP library
 ~~~~python
 import Adyen
 adyen = Adyen.Adyen()
@@ -130,14 +130,14 @@ pass the dictionary to the method as an additional argument.
 ~~~~ python
 adyen.management.account_company_level_api.get_companies(query_parameters=query_parameters)
 ~~~~
-###Handling exceptions
+### Handling exceptions
 ~~~~python
 try:
     adyen.checkout.payments(request)
 except Exception as e:
     print(e)
 ~~~~
-To print all the information gathered in the exception you can call the following method.
+To print all the information gathered in the exception you can call the debug() method.
 ~~~~python
 print(e.debug())
 ~~~~
