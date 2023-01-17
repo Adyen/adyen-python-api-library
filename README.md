@@ -131,7 +131,7 @@ pass the dictionary to the method as an additional argument.
 adyen.management.account_company_level_api.get_companies(query_parameters=query_parameters)
 ~~~~
 ### Handling exceptions
-Adyen service exceptions are extending the AdyenError class. After you catch this exception, you can access the 
+Adyen service exceptions extend the AdyenError class. After you catch this exception, you can access the 
 class arguments for the specifics around this error or use the debug method which prints all the arguments.
 ~~~~python
 try:
