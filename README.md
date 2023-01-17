@@ -131,16 +131,26 @@ pass the dictionary to the method as an additional argument.
 adyen.management.account_company_level_api.get_companies(query_parameters=query_parameters)
 ~~~~
 ### Handling exceptions
+Adyen service exceptions are extending the AdyenError class. After you catch this exception, you can access the 
+class arguments for the specifics around this error or use the debug method which prints all the arguments.
 ~~~~python
 try:
     adyen.checkout.payments(request)
-except Exception as e:
-    print(e)
+except Adyen.exceptions.AdyenErorr as error:
+    error.debug()
 ~~~~
-To print all the information gathered in the exception you can call the debug() method.
-~~~~python
-print(e.debug())
-~~~~
+<details><summary>List of exceptions</summary>
+<p>AdyenInvalidRequestError</p>
+<p>AdyenAPIResponseError</p>
+<p>AdyenAPIAuthenticationError</p>
+<p>AdyenAPIInvalidPermission</p>
+<p>AdyenAPICommunicationError</p>
+<p>AdyenAPIValidationError</p>
+<p>AdyenAPIUnprocessableEntity</p>
+<p>AdyenAPIInvalidFormat</p>
+<p>AdyenEndpointInvalidFormat</p>
+</details>
+
 ### Example integration
  
 For a closer look at how our Python library works, clone our [example integration](https://github.com/adyen-examples/adyen-python-online-payments). This includes commented code, highlighting key features and concepts, and examples of API calls that can be made using the library.
