@@ -193,11 +193,10 @@ class TestPayments(unittest.TestCase):
                                                               'authorise'
                                                               '-error-'
                                                               '010.json')
-        self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError,
-                                "Unable to authenticate with Adyen's Servers."
-                                " Please verify the credentials set with the"
-                                " Adyen base class. Please reach out to your"
-                                " Adyen Admin if the problem persists",
+        self.assertRaisesRegex(Adyen.AdyenAPIAuthenticationError,
+                                "AdyenAPIAuthenticationError:{'status': 403, 'errorCode': '010',"
+                                " 'message': 'Not allowed', 'errorType': 'security',"
+                                " 'pspReference': '8514836072314693'}",
                                 self.adyen.payment.authorise, request)
 
 
@@ -387,9 +386,8 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               'authorise'
                                                               '-error-'
                                                               '010.json')
-        self.assertRaisesRegexp(Adyen.AdyenAPIAuthenticationError,
-                                "Unable to authenticate with Adyen's Servers."
-                                " Please verify the credentials set with the"
-                                " Adyen base class. Please reach out to your"
-                                " Adyen Admin if the problem persists",
+        self.assertRaisesRegex(Adyen.AdyenAPIAuthenticationError,
+                                "AdyenAPIAuthenticationError:{'status': 403, 'errorCode': '010',"
+                                " 'message': 'Not allowed', 'errorType': 'security',"
+                                " 'pspReference': '8514836072314693'}",
                                 self.adyen.payment.authorise, request)

@@ -38,9 +38,9 @@ class TestModifications(unittest.TestCase):
                                                             'test/mocks/'
                                                             'capture-error-167'
                                                             '.json')
-        self.assertRaisesRegexp(
-            Adyen.AdyenAPICommunicationError,
-            "Unexpected error",
+        self.assertRaisesRegex(
+            Adyen.AdyenAPIUnprocessableEntity,
+            "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '167', 'message': 'Original pspReference required for this operation', 'errorType': 'validation'}",
             self.ady.payment.capture,
             request
         )

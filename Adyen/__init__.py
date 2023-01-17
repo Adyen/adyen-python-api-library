@@ -6,6 +6,7 @@ from . import util
 from .exceptions import (
     AdyenAPICommunicationError,
     AdyenAPIAuthenticationError,
+    AdyenAPIUnprocessableEntity,
     AdyenAPIInvalidPermission,
     AdyenAPIValidationError,
     AdyenInvalidRequestError,
