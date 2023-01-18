@@ -15,28 +15,23 @@ class {{classname}}(AdyenServiceBase):
 
 {{#operations}}
 {{#operation}}
-    {{#bodyParams}}
-    def {{operationId}}(self, request, {{#requiredParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/requiredParams}}idempotency_key=None, **kwargs):
+    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}(self, {{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/requiredParams}}idempotency_key=None, **kwargs):
         """
         {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
         """
         endpoint = f"{{{path}}}"
-        endpoint = endpoint.replace('/','',1)
+        endpoint = endpoint.replace('/', '', 1)
         method = "{{httpMethod}}"
+    {{#bodyParams}}
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
     {{/bodyParams}}
     {{^bodyParams}}
-    def {{operationId}}(self, {{#requiredParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/requiredParams}}idempotency_key=None, **kwargs):
-        """
-        {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
-        """
-        endpoint = f"{{{path}}}"
-        endpoint = endpoint.replace('/','',1)
-        method = "{{httpMethod}}"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
     {{/bodyParams}}
 
 {{/operation}}
 {{/operations}}
+
+
 
 
