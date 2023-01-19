@@ -25,7 +25,7 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
  
 -   [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
 -   [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
-- Python 2.7 **(Deprecated)** or 3.6
+- Python 3.6
 - Packages (optional): requests or pycurl  
  
 
@@ -56,7 +56,7 @@ import Adyen
 adyen = Adyen.Adyen()
 
 adyen.payment.client.xapikey = "YourXapikey"
-adyen.payment.client.hmac = "HMAC key for skin code"
+adyen.payment.client.hmac = "YourHMACkey"
 adyen.payment.client.platform = "test" # Environment to use the library in.
 adyen.payment.client.merchant_account = "merchant account name from CA"
 ~~~~
@@ -118,7 +118,7 @@ import Adyen
 adyen = Adyen.Adyen()
 adyen.client.http_force = 'requests' # or 'pycurl'
 ~~~~
-### Using query parameters
+### Using query parameters (management API only)
 Define a dictionary with query parameters that you want to use.
 ~~~~ python
 query_parameters = {
