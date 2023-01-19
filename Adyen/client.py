@@ -526,5 +526,8 @@ class AdyenClient(object):
     def _get_psp(response, headers):
         psp_ref = response.get('pspReference')
         if psp_ref is None:
-            psp_ref = headers.get('pspReference')
+            if headers is dict:
+                psp_ref = headers.get('pspReference')
+            else:
+                psp_ref = None
         return psp_ref
