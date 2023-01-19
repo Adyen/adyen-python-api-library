@@ -1,5 +1,6 @@
 import Adyen
 import unittest
+from Adyen import settings
 
 try:
     from BaseTest import BaseTest
@@ -14,6 +15,7 @@ class TestManagement(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
+    lem_version = settings.API_LEGAL_ENTITY_MANAGEMENT_VERSION
 
     def test_creating_legal_entity(self):
         request = {
@@ -42,7 +44,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual('Shelly', result.message['individual']['name']['firstName'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            'https://kyc-test.adyen.com/lem/v2/legalEntities',
+            f'https://kyc-test.adyen.com/lem/{self.lem_version}/legalEntities',
             headers={},
             json=request,
             xapikey="YourXapikey"
@@ -56,7 +58,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(instrumentId, result.message['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
-            'https://kyc-test.adyen.com/lem/v2/transferInstruments/SE322JV223222F5GNXSR89TMW',
+            f'https://kyc-test.adyen.com/lem/{self.lem_version}/transferInstruments/{instrumentId}',
             headers={},
             json=None,
             xapikey="YourXapikey"
@@ -78,7 +80,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(businessLineId, result.message['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
-            'https://kyc-test.adyen.com/lem/v2/businessLines/SE322JV223222F5GVGMLNB83F',
+            f'https://kyc-test.adyen.com/lem/{self.lem_version}/businessLines/{businessLineId}',
             headers={},
             json=request,
             xapikey="YourXapikey"
@@ -96,7 +98,7 @@ class TestManagement(unittest.TestCase):
                                                                                       documentId)
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
-            'https://kyc-test.adyen.com/lem/v2/legalEntities/legalId/termsOfService/documentId',
+            f'https://kyc-test.adyen.com/lem/{self.lem_version}/legalEntities/{legalEntityId}/termsOfService/{documentId}',
             headers={},
             json=request,
             xapikey="YourXapikey"
