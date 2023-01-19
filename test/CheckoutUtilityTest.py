@@ -31,7 +31,7 @@ class TestCheckoutUtility(unittest.TestCase):
                                                             "checkoututility/"
                                                             "originkeys"
                                                             "-success.json")
-        result = self.ady.checkout.origin_keys(request)
+        result = self.ady.checkout.utility_api.create_originkey_values_for_domains(request)
 
         self.assertEqual("pub.v2.7814286629520534.aHR0cHM6Ly93d3cu"
                          "eW91ci1kb21haW4xLmNvbQ.UEwIBmW9-c_uXo5wS"
@@ -66,5 +66,5 @@ class TestCheckoutUtility(unittest.TestCase):
                                                                             "checkoututility/"
                                                                             "applepay-sessions"
                                                                             "-success.json")
-        result = self.ady.checkout.applepay_session(request)
+        result = self.ady.checkout.utility_api.get_apple_pay_session(request)
         self.assertEqual("BASE_64_ENCODED_DATA", result.message['data'])

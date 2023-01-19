@@ -40,7 +40,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentmethods-"
                                                               "error-forbidden"
                                                               "-403.json")
-        result = self.adyen.checkout.payment_methods(request)
+        result = self.adyen.checkout.payments_api.list_available_payment_methods(request)
         self.assertEqual(403, result.message['status'])
         self.assertEqual("901", result.message['errorCode'])
         self.assertEqual("Invalid Merchant Account", result.message['message'])
@@ -444,7 +444,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "orders"
                                                               "-success.json")
-        result = self.adyen.checkout.orders(request)
+        result = self.adyen.checkout.orders_api.create_order(request)
         self.assertEqual("8515930288670953", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
         self.assertEqual("order reference", result.message['reference'])
@@ -458,7 +458,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "orders-cancel"
                                                               "-success.json")
-        result = self.adyen.checkout.orders_cancel(request)
+        result = self.adyen.checkout.orders_api.cancel_order(request)
         self.assertEqual("8515931182066678", result.message['pspReference'])
         self.assertEqual("Received", result.message['resultCode'])
 
@@ -470,7 +470,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentmethods"
                                                               "-balance"
                                                               "-success.json")
-        result = self.adyen.checkout.payment_methods_balance(request)
+        result = self.adyen.checkout.orders_api.get_balance_of_gift_card(request)
         self.assertEqual("851611111111713K", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
         self.assertEqual(100, result.message['balance']['value'])
@@ -483,7 +483,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "sessions"
                                                               "-success.json")
-        result = self.adyen.checkout.sessions(request)
+        result = self.adyen.checkout.payments_api.create_payment_session(request)
         self.assertEqual("session-test-id", result.message['id'])
         self.assertEqual("TestReference", result.message['reference'])
         self.assertEqual("http://test-url.com", result.message['returnUrl'])
@@ -538,7 +538,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentlinks"
                                                               "-success"
                                                               ".json")
-        result = self.adyen.checkout.payment_links(request)
+        result = self.adyen.checkout.payment_links_api.create_payment_link(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks',
@@ -555,7 +555,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "getpaymenlinks"
                                                               "-succes.json")
-        result = self.adyen.checkout.get_payment_link(id)
+        result = self.adyen.checkout.payment_links_api.get_payment_link(id)
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks/{id}',

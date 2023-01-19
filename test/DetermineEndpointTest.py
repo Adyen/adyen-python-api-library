@@ -55,7 +55,7 @@ class TestDetermineUrl(unittest.TestCase):
         self.client.live_endpoint_prefix = None
 
         try:
-            self.adyen.checkout.payments(request)
+            self.adyen.checkout.payments_api.create_payment_session(request)
         except AdyenEndpointInvalidFormat as error:
             self.assertIsNotNone(error)
 
