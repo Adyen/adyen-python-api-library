@@ -1,0 +1,16 @@
+{
+  "capability": "issueBankAccount",
+  "industryCode": "55",
+  "legalEntityId": "LE322KH223222F5GVGMLF3WBL",
+  "sourceOfFunds": {
+    "adyenProcessedFunds": false,
+    "description": "Funds from my flower shop business",
+    "type": "business"
+  },
+  "webData": [
+    {
+      "webAddress": "https://www.example.com"
+    }
+  ],
+  "id": "SE322JV223222F5GVGMLNB83F"
+}

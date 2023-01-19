@@ -21,7 +21,8 @@ from .services import (
     AdyenThirdPartyPayout,
     AdyenManagementApi,
     AdyenCheckoutApi,
-    AdyenTerminal
+    AdyenTerminal,
+    AdyenLegalEntityManagementApi
 )
 
 from .httpclient import HTTPClient
@@ -37,6 +38,7 @@ class Adyen(AdyenBase):
         self.checkout = AdyenCheckoutApi(client=self.client)
         self.terminal = AdyenTerminal(client=self.client)
         self.management = AdyenManagementApi(client=self.client)
+        self.legalEntityManagement = AdyenLegalEntityManagementApi(client=self.client)
 
 
 _base_adyen_obj = Adyen()
@@ -47,3 +49,4 @@ checkout = _base_adyen_obj.checkout
 binlookup = _base_adyen_obj.binlookup
 terminal = _base_adyen_obj.terminal
 management = _base_adyen_obj.management
+legalEntityManagement = _base_adyen_obj.legalEntityManagement

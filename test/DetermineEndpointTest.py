@@ -93,7 +93,7 @@ class TestDetermineUrl(unittest.TestCase):
         self.assertEqual(
             url,
             ("https://pal-test.adyen.com/pal/servlet/"
-             "BinLookup/v50/get3dsAvailability")
+             "BinLookup/v52/get3dsAvailability")
         )
 
     def test_checkout_api_url_orders(self):

@@ -1,0 +1,103 @@
+import Adyen
+import unittest
+
+try:
+    from BaseTest import BaseTest
+except ImportError:
+    from .BaseTest import BaseTest
+
+
+class TestManagement(unittest.TestCase):
+    adyen = Adyen.Adyen()
+
+    client = adyen.client
+    test = BaseTest(adyen)
+    client.xapikey = "YourXapikey"
+    client.platform = "test"
+
+    def test_creating_legal_entity(self):
+        request = {
+            "type": "individual",
+            "individual": {
+                "residentialAddress": {
+                    "city": "Amsterdam",
+                    "country": "NL",
+                    "postalCode": "1011DJ",
+                    "street": "Simon Carmiggeltstraat 6 - 50"
+                },
+                "name": {
+                    "firstName": "Shelly",
+                    "lastName": "Eller"
+                },
+                "birthData": {
+                    "dateOfBirth": "1990-06-21"
+                },
+                "email": "s.eller@example.com"
+            }
+        }
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/legalEntityManagement/"
+                                                              "individual_legal_entity_created.json")
+        result = self.adyen.legalEntityManagement.legal_entities_api.create_legal_entity(request)
+        self.assertEqual('Shelly', result.message['individual']['name']['firstName'])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            'https://kyc-test.adyen.com/lem/v2/legalEntities',
+            headers={},
+            json=request,
+            xapikey="YourXapikey"
+        )
+
+    def test_get_transfer_instrument(self):
+        instrumentId = "SE322JV223222F5GNXSR89TMW"
+        self.adyen.client = self.test.create_client_from_file(200, None, "test/mocks/legalEntityManagement/"
+                                                                         "details_of_trainsfer_instrument.json")
+        result = self.adyen.legalEntityManagement.transfer_instruments_api.get_transfer_instrument(instrumentId)
+        self.assertEqual(instrumentId, result.message['id'])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'GET',
+            'https://kyc-test.adyen.com/lem/v2/transferInstruments/SE322JV223222F5GNXSR89TMW',
+            headers={},
+            json=None,
+            xapikey="YourXapikey"
+        )
+
+    def test_update_business_line(self):
+        businessLineId = "SE322JV223222F5GVGMLNB83F"
+        request = {
+            "industryCode": "55",
+            "webData": [
+                {
+                    "webAddress": "https://www.example.com"
+                }
+            ]
+        }
+        self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/legalEntityManagement/"
+                                                                            "business_line_updated.json")
+        result = self.adyen.legalEntityManagement.business_lines_api.update_business_line(request, businessLineId)
+        self.assertEqual(businessLineId, result.message['id'])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'PATCH',
+            'https://kyc-test.adyen.com/lem/v2/businessLines/SE322JV223222F5GVGMLNB83F',
+            headers={},
+            json=request,
+            xapikey="YourXapikey"
+        )
+
+    def test_accept_terms_of_service(self):
+        legalEntityId = "legalId"
+        documentId = "documentId"
+        request = {
+            'acceptedBy': "UserId",
+            'ipAddress': "UserIpAddress"
+        }
+        self.adyen.client = self.test.create_client_from_file(204, request)
+        self.adyen.legalEntityManagement.terms_of_service_api.accept_terms_of_service(request, legalEntityId,
+                                                                                      documentId)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'PATCH',
+            'https://kyc-test.adyen.com/lem/v2/legalEntities/legalId/termsOfService/documentId',
+            headers={},
+            json=request,
+            xapikey="YourXapikey"
+        )
