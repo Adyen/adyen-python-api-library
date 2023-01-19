@@ -1,14 +1,11 @@
-import pkg_resources
 import unittest
-
 import Adyen
+from Adyen import settings
 
 try:
     from BaseTest import BaseTest
 except ImportError:
     from .BaseTest import BaseTest
-
-VERSION = pkg_resources.get_distribution("Adyen").version
 
 
 class TestTerminal(unittest.TestCase):
@@ -18,6 +15,7 @@ class TestTerminal(unittest.TestCase):
                         xapikey="YourXapikey")
     test = BaseTest(adyen)
     client = adyen.client
+    terminal_version = settings.API_TERMINAL_VERSION
 
     def test_assign_terminals(self):
         request = {
@@ -36,7 +34,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/assignTerminals",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/assignTerminals",
             headers={},
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
@@ -80,7 +78,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/findTerminal",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/findTerminal",
             headers={},
             json={
                 "terminal": "P400Plus-275479597",
@@ -128,7 +126,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getStoresUnderAccount",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getStoresUnderAccount",
             headers={},
             json={
                "companyAccount": "YOUR_COMPANY_ACCOUNT",
@@ -153,7 +151,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getTerminalDetails",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getTerminalDetails",
             headers={},
             json={
                 "terminal": "P400Plus-275479597",
@@ -205,7 +203,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getTerminalsUnderAccount",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getTerminalsUnderAccount",
             headers={},
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
@@ -242,7 +240,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getTerminalsUnderAccount",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getTerminalsUnderAccount",
             headers={},
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",

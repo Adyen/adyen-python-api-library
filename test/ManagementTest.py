@@ -1,4 +1,5 @@
 import Adyen
+from Adyen import settings
 import unittest
 
 try:
@@ -14,6 +15,7 @@ class TestManagement(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
+    management_version = settings.API_MANAGEMENT_VERSION
 
     def test_get_company_account(self):
         request = None
@@ -28,7 +30,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(id, result.message['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
-            'https://management-test.adyen.com/v1/companies/YOUR_COMPANY_ACCOUNT',
+            f'https://management-test.adyen.com/{self.management_version}/companies/{id}',
             headers={},
             json=None,
             xapikey="YourXapikey"
@@ -51,7 +53,7 @@ class TestManagement(unittest.TestCase):
         result = self.adyen.management.my_api_credential_api.delete_me_allowed_origins_origin_id(originId)
         self.adyen.client.http_client.request.assert_called_once_with(
             'DELETE',
-            f'https://management-test.adyen.com/v1/me/allowedOrigins/{originId}',
+            f'https://management-test.adyen.com/{self.management_version}/me/allowedOrigins/{originId}',
             headers={},
             json=None,
             xapikey="YourXapikey"
@@ -78,7 +80,7 @@ class TestManagement(unittest.TestCase):
                                                                                                            storeId)
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
-            f'https://management-test.adyen.com/v1/merchants/{merchantId}/stores/{storeId}',
+            f'https://management-test.adyen.com/{self.management_version}/merchants/{merchantId}/stores/{storeId}',
             headers={},
             json=request,
             xapikey="YourXapikey"
@@ -113,7 +115,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(request['name']['firstName'],result.message['name']['firstName'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://management-test.adyen.com/v1/companies/{companyId}/users',
+            f'https://management-test.adyen.com/{self.management_version}/companies/{companyId}/users',
             json=request,
             headers={},
             xapikey="YourXapikey"
@@ -147,7 +149,7 @@ class TestManagement(unittest.TestCase):
             get_companies_company_id_merchants(companyId, query_parameters=query_parameters)
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
-            'https://management-test.adyen.com/v1/companies/YOUR_COMPANY_ACCOUNT/merchants?pageNumber=1&pageSize=10',
+            f'https://management-test.adyen.com/{self.management_version}/companies/{companyId}/merchants?pageNumber=1&pageSize=10',
             headers={},
             json=None,
             xapikey="YourXapikey"

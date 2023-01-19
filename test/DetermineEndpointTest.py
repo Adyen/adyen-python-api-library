@@ -1,4 +1,5 @@
 import Adyen
+from Adyen import settings
 import unittest
 
 try:
@@ -15,19 +16,23 @@ class TestDetermineUrl(unittest.TestCase):
     client = adyen.client
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
+    checkout_version = settings.API_CHECKOUT_VERSION
+    payment_version = settings.API_PAYMENT_VERSION
+    binLookup_version = settings.API_BIN_LOOKUP_VERSION
+    management_version = settings.API_MANAGEMENT_VERSION
 
     def test_checkout_api_url_custom(self):
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
         url = self.adyen.client._determine_api_url("live", "checkout", "payments")
         self.assertEqual("https://1797a841fbb37ca7-AdyenDemo-checkout-"
-                              "live.adyenpayments.com/checkout/v69/payments", url)
+                         f"live.adyenpayments.com/checkout/{self.checkout_version}/payments", url)
 
     def test_checkout_api_url(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url("test", "checkout",
                                                    "payments/details")
         self.assertEqual(url, "https://checkout-test.adyen.com"
-                              "/v69/payments/details")
+                              f"/{self.checkout_version}/payments/details")
 
     def test_payments_invalid_platform(self):
 
@@ -62,7 +67,7 @@ class TestDetermineUrl(unittest.TestCase):
         self.assertEqual(
             url,
             ("https://1797a841fbb37ca7-AdyenDemo-pal-"
-             "live.adyenpayments.com/pal/servlet/Payment/v64/payments")
+             f"live.adyenpayments.com/pal/servlet/Payment/{self.payment_version}/payments")
         )
 
     def test_pal_url_live_endpoint_prefix_test_platform(self):
@@ -72,8 +77,7 @@ class TestDetermineUrl(unittest.TestCase):
         )
         self.assertEqual(
             url,
-            "https://pal-test.adyen.com/pal/servlet/Payment/v64/payments"
-        )
+            f"https://pal-test.adyen.com/pal/servlet/Payment/{self.payment_version}/payments")
 
     def test_pal_url_no_live_endpoint_prefix_test_platform(self):
         self.client.live_endpoint_prefix = None
@@ -82,8 +86,7 @@ class TestDetermineUrl(unittest.TestCase):
         )
         self.assertEqual(
             url,
-            "https://pal-test.adyen.com/pal/servlet/Payment/v64/payments"
-        )
+            f"https://pal-test.adyen.com/pal/servlet/Payment/{self.payment_version}/payments")
 
     def test_binlookup_url_no_live_endpoint_prefix_test_platform(self):
         self.client.live_endpoint_prefix = None
@@ -93,7 +96,7 @@ class TestDetermineUrl(unittest.TestCase):
         self.assertEqual(
             url,
             ("https://pal-test.adyen.com/pal/servlet/"
-             "BinLookup/v50/get3dsAvailability")
+             f"BinLookup/{self.binLookup_version}/get3dsAvailability")
         )
 
     def test_checkout_api_url_orders(self):
@@ -101,31 +104,32 @@ class TestDetermineUrl(unittest.TestCase):
         url = self.adyen.client._determine_api_url("test", "checkout",
                                                    "orders")
         self.assertEqual(url, "https://checkout-test.adyen.com"
-                              "/v69/orders")
+                              f"/{self.checkout_version}/orders")
 
     def test_checkout_api_url_order_cancel(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url("test", "checkout",
                                                    "orders/cancel")
         self.assertEqual(url, "https://checkout-test.adyen.com"
-                              "/v69/orders/cancel")
+                              f"/{self.checkout_version}/orders/cancel")
 
     def test_checkout_api_url_order_payment_methods_balance(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url("test", "checkout",
                                                    "paymentMethods/"
                                                    "balance")
-        self.assertEqual(url, "https://checkout-test.adyen.com""/v69/"
+        self.assertEqual(url, f"https://checkout-test.adyen.com/{self.checkout_version}/"
                               "paymentMethods/balance")
 
     def test_checkout_api_url_sessions(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url("test", "checkout",
                                                    "sessions")
-        self.assertEqual(url, "https://checkout-test.adyen.com""/v69/"
+        self.assertEqual(url, f"https://checkout-test.adyen.com/{self.checkout_version}/"
                               "sessions")
 
     def test_management_api_url_companies(self):
         companyId = "YOUR_COMPANY_ID"
         url = self.adyen.client._determine_api_url("test", "management", f'companies/{companyId}/users')
-        self.assertEqual(url, "https://management-test.adyen.com/v1/companies/YOUR_COMPANY_ID/users")
+        self.assertEqual(url, f"https://management-test.adyen.com/{self.management_version}/"
+                              "companies/YOUR_COMPANY_ID/users")

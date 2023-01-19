@@ -89,6 +89,7 @@ class AdyenClient(object):
             api_payout_version=None,
             api_recurring_version=None,
             api_terminal_version=None,
+            api_legal_entity_management_version=None,
     ):
         self.username = username
         self.password = password
@@ -116,6 +117,7 @@ class AdyenClient(object):
         self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
         self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
         self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
+        self.api_legal_entity_management_version = api_legal_entity_management_version or settings.API_LEGAL_ENTITY_MANAGEMENT_VERSION
 
     def _determine_base_url_and_version(self, platform, service):
 
@@ -174,6 +176,13 @@ class AdyenClient(object):
                 'base_url': {
                     'live': settings.BASE_MANAGEMENT_URL.format(platform),
                     'test': settings.BASE_MANAGEMENT_URL.format(platform)
+                }
+            },
+            'legalEntityManagement': {
+                'version': self.api_legal_entity_management_version,
+                'base_url': {
+                    'live': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform),
+                    'test': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform)
                 }
             }
         }

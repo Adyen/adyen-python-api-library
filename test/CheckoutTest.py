@@ -1,5 +1,6 @@
 import Adyen
 import unittest
+from Adyen import settings
 
 try:
     from BaseTest import BaseTest
@@ -14,6 +15,8 @@ class TestCheckout(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
+    checkout_version = settings.API_CHECKOUT_VERSION
+    lib_version = settings.LIB_VERSION
 
     def test_payment_methods_success_mocked(self):
         request = {'merchantAccount': "YourMerchantAccount"}
@@ -92,13 +95,13 @@ class TestCheckout(unittest.TestCase):
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            'https://checkout-test.adyen.com/v69/payments',
+            'https://checkout-test.adyen.com/{}/payments'.format(self.checkout_version),
             headers={},
             json={
                 'returnUrl': 'https://your-company.com/...',
                 u'applicationInfo': {
                     u'adyenLibrary': {
-                        u'version': '7.1.1',
+                        u'version': f"{self.lib_version}",
                         u'name': 'adyen-python-api-library'
                     }
                 },
@@ -136,7 +139,7 @@ class TestCheckout(unittest.TestCase):
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            u'https://checkout-test.adyen.com/v69/payments/details',
+            u'https://checkout-test.adyen.com/{}/payments/details'.format(self.checkout_version),
             headers={},
             json={
                 'paymentData': 'Hee57361f99....',
@@ -538,7 +541,7 @@ class TestCheckout(unittest.TestCase):
         result = self.adyen.checkout.payment_links(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            'https://checkout-test.adyen.com/v69/paymentLinks',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks',
             headers={},
             xapikey='YourXapikey',
             json=request
@@ -555,7 +558,7 @@ class TestCheckout(unittest.TestCase):
         result = self.adyen.checkout.get_payment_link(id)
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
-            f'https://checkout-test.adyen.com/v69/paymentLinks/{id}',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks/{id}',
             headers={},
             xapikey="YourXapikey",
             json=None
@@ -574,7 +577,7 @@ class TestCheckout(unittest.TestCase):
         result = self.adyen.checkout.update_payment_link(request, id)
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
-            f'https://checkout-test.adyen.com/v69/paymentLinks/{id}',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks/{id}',
             headers={},
             xapikey="YourXapikey",
             json=request
