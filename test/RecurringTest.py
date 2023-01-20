@@ -28,7 +28,7 @@ class TestRecurring(unittest.TestCase):
                                                             'listRecurring'
                                                             'Details-'
                                                             'success.json')
-        result = self.ady.recurring.list_recurring_details(request)
+        result = self.ady.recurring.get_stored_payment_details(request)
         self.assertEqual(1, len(result.message['details']))
         self.assertEqual(1, len(result.message['details'][0]))
         recurringDetail = result.message['details'][0]['RecurringDetail']
@@ -47,7 +47,7 @@ class TestRecurring(unittest.TestCase):
                                                             'recurring/'
                                                             'disable-success'
                                                             '.json')
-        result = self.ady.recurring.disable(request)
+        result = self.ady.recurring.disable_stored_payment_details(request)
         self.assertEqual(1, len(result.message['details']))
         self.assertEqual("[detail-successfully-disabled]",
                          result.message['response'])
@@ -65,7 +65,7 @@ class TestRecurring(unittest.TestCase):
         self.assertRaisesRegex(
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '803', 'message': 'PaymentDetail not found', 'errorType': 'validation'}",
-            self.ady.recurring.disable,
+            self.ady.recurring.disable_stored_payment_details,
             request
         )
 
