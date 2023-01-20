@@ -393,6 +393,13 @@ class TestCheckout(unittest.TestCase):
                                                               "success.json")
 
         result = self.adyen.checkout.modifications_api.capture_authorised_payment(request, psp_reference)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/payments/{psp_reference}/captures',
+            json=request,
+            xapikey='YourXapikey',
+            headers={}
+        )
         self.assertEqual(psp_reference, result.message["paymentPspReference"])
         self.assertIsNotNone(result.message["pspReference"])
         self.assertEqual("received", result.message['status'])
@@ -428,6 +435,13 @@ class TestCheckout(unittest.TestCase):
                                                               "orders"
                                                               "-success.json")
         result = self.adyen.checkout.orders_api.create_order(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/orders',
+            json=request,
+            xapikey='YourXapikey',
+            headers={}
+        )
         self.assertEqual("8515930288670953", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
         self.assertEqual("order reference", result.message['reference'])
@@ -442,6 +456,13 @@ class TestCheckout(unittest.TestCase):
                                                               "orders-cancel"
                                                               "-success.json")
         result = self.adyen.checkout.orders_api.cancel_order(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/orders/cancel',
+            json=request,
+            xapikey='YourXapikey',
+            headers={}
+        )
         self.assertEqual("8515931182066678", result.message['pspReference'])
         self.assertEqual("Received", result.message['resultCode'])
 
@@ -454,6 +475,13 @@ class TestCheckout(unittest.TestCase):
                                                               "-balance"
                                                               "-success.json")
         result = self.adyen.checkout.orders_api.get_balance_of_gift_card(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/paymentMethods/balance',
+            json=request,
+            xapikey='YourXapikey',
+            headers={}
+        )
         self.assertEqual("851611111111713K", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
         self.assertEqual(100, result.message['balance']['value'])
@@ -467,6 +495,7 @@ class TestCheckout(unittest.TestCase):
                                                               "sessions"
                                                               "-success.json")
         result = self.adyen.checkout.payments_api.create_payment_session(request)
+
         self.assertEqual("session-test-id", result.message['id'])
         self.assertEqual("TestReference", result.message['reference'])
         self.assertEqual("http://test-url.com", result.message['returnUrl'])
@@ -482,6 +511,13 @@ class TestCheckout(unittest.TestCase):
                                                               "-data-422"
                                                               ".json")
         result = self.adyen.checkout.payments_api.create_payment_session(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/sessions',
+            json={'merchantAccount': 'YourMerchantAccount', 'applicationInfo': {'adyenLibrary': {'name': 'adyen-python-api-library', 'version': '7.1.1'}}},
+            xapikey='YourXapikey',
+            headers={}
+        )
         self.assertEqual(422, result.message['status'])
         self.assertEqual("130", result.message['errorCode'])
         self.assertEqual("validation", result.message['errorType'])
