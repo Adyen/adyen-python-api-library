@@ -40,7 +40,7 @@ class ModificationsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def cancel_authorised_payment(self, request, paymentPspReference, idempotency_key=None, **kwargs):
+    def cancel_authorised_payment_with_psp_reference(self, request, paymentPspReference, idempotency_key=None, **kwargs):
         """
         Cancel an authorised payment
         """
