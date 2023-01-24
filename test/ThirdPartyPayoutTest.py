@@ -27,7 +27,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/confirm-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.confirm(request)
+        result = self.ady.payout.reviewing_api.confirm_payout(request)
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-confirm-received]"
         self.assertEqual(expected, result.message['resultCode'])
@@ -42,7 +42,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.assertRaisesRegex(
             Adyen.AdyenAPICommunicationError,
             "AdyenAPICommunicationError:{'status': 500, 'errorCode': '702', 'message': \"Required field 'merchantAccount' is null\", 'errorType': 'validation'}",
-            self.ady.payout.confirm,
+            self.ady.payout.reviewing_api.confirm_payout,
             request
         )
 
@@ -53,7 +53,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/decline-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.confirm(request)
+        result = self.ady.payout.reviewing_api.confirm_payout(request)
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-decline-received]"
         self.assertEqual(expected, result.message['resultCode'])
@@ -68,7 +68,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.assertRaisesRegex(
             Adyen.AdyenAPICommunicationError,
             "AdyenAPICommunicationError:{'status': 500, 'errorCode': '702', 'message': \"Required field 'merchantAccount' is null\", 'errorType': 'validation'}",
-            self.ady.payout.confirm,
+            self.ady.payout.reviewing_api.confirm_payout,
             request
         )
 
@@ -92,7 +92,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetail-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.store_detail(request)
+        result = self.ady.payout.initialization_api.store_payout_details(request)
         self.assertIsNotNone(result.message['pspReference'])
         self.assertIsNotNone(result.message['recurringDetailReference'])
         expected = "Success"
@@ -114,7 +114,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/submit-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.submit(request)
+        result = self.ady.payout.initialization_api.submit_payout(request)
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-submit-received]"
         self.assertEqual(expected, result.message['resultCode'])
@@ -139,7 +139,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '800',"
             " 'message': 'Contract not found', 'errorType': 'validation'}",
-            self.ady.payout.submit,
+            self.ady.payout.initialization_api.submit_payout,
             request
         )
 
@@ -169,7 +169,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'message': 'Contract not found',"
             " 'errorCode': '800', 'errorType': 'validation'}",
-            self.ady.payout.store_detail_and_submit,
+            self.ady.payout.initialization_api.store_details_and_submit_payout,
             request
         )
 
@@ -193,7 +193,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '000',"
             " 'message': 'Please supply paymentDetails', 'errorType': 'validation'}",
-            self.ady.payout.store_detail_and_submit,
+            self.ady.payout.initialization_api.store_details_and_submit_payout,
             request
         )
 
@@ -222,7 +222,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '161',"
             " 'message': 'Invalid iban', 'errorType': 'validation'}",
-            self.ady.payout.store_detail_and_submit,
+            self.ady.payout.initialization_api.store_details_and_submit_payout,
             request
         )
 
@@ -249,7 +249,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-card-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.store_detail_and_submit(request)
+        result = self.ady.payout.initialization_api.store_details_and_submit_payout(request)
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-submit-received]"
         self.assertEqual(expected, result.message['resultCode'])
@@ -275,7 +275,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-bank-success.json'
         self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.store_detail_and_submit(request)
+        result = self.ady.payout.initialization_api.store_details_and_submit_payout(request)
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-submit-received]"
         self.assertEqual(expected, result.message['resultCode'])
