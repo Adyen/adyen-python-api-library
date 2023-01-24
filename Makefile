@@ -44,6 +44,7 @@ $(services): build/spec
 		--skip-validate-spec
 	mkdir -p Adyen/services
 	cp -r build/openapi_client/api Adyen/services/$@
+	rm -f Adyen/services/$@/*-small.py
 	cp build/api/api-single.py Adyen/services/$@/__init__.py
 	rm -rf build
 
