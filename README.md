@@ -29,16 +29,19 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
 - Packages (optional): requests or pycurl  
  
 
- ## Installation
+## Installation
 
 ### For development purposes
 
-Clone this repository and run 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=codespaces&repo=55730153)
+
+Once the Codespace is open, run tests with the built in test runner or terminal:
+
 ~~~~ bash 
-make install
+make tests
 ~~~~
 
-### For usage propose
+### For usage purpose
 
 Use pip command: 
 ~~~~ bash 
