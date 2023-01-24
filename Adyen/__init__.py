@@ -17,7 +17,7 @@ from .services import (
     AdyenBase,
     AdyenBinLookup,
     AdyenRecurring,
-    AdyenPayment,
+    AdyenPaymentsApi,
     AdyenThirdPartyPayout,
     AdyenManagementApi,
     AdyenCheckoutApi,
@@ -31,7 +31,7 @@ from .httpclient import HTTPClient
 class Adyen(AdyenBase):
     def __init__(self, **kwargs):
         self.client = AdyenClient(**kwargs)
-        self.payment = AdyenPayment(client=self.client)
+        self.payment = AdyenPaymentsApi(client=self.client)
         self.binlookup = AdyenBinLookup(client=self.client)
         self.payout = AdyenThirdPartyPayout(client=self.client)
         self.recurring = AdyenRecurring(client=self.client)

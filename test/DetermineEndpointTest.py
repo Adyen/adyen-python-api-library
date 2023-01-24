@@ -62,7 +62,7 @@ class TestDetermineUrl(unittest.TestCase):
     def test_pal_url_live_endpoint_prefix_live_platform(self):
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
         url = self.adyen.client._determine_api_url(
-            "live", "Payment", "payments"
+            "live", "payments", "payments"
         )
         self.assertEqual(
             url,
@@ -73,7 +73,7 @@ class TestDetermineUrl(unittest.TestCase):
     def test_pal_url_live_endpoint_prefix_test_platform(self):
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
         url = self.adyen.client._determine_api_url(
-            "test", "Payment", "payments"
+            "test", "payments", "payments"
         )
         self.assertEqual(
             url,
@@ -82,7 +82,7 @@ class TestDetermineUrl(unittest.TestCase):
     def test_pal_url_no_live_endpoint_prefix_test_platform(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url(
-            "test", "Payment", "payments"
+            "test", "payments", "payments"
         )
         self.assertEqual(
             url,

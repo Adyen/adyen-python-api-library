@@ -157,7 +157,7 @@ class AdyenClient(object):
                     'test': settings.BASE_TERMINAL_URL.format(platform)
                 }
             },
-            'Payment': {
+            'payments': {
                 'version': self.api_payment_version,
                 'base_url': {
                     'live': live_pal_url + '/Payment',
