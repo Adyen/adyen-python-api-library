@@ -150,7 +150,7 @@ class AdyenClient(object):
                     'test': settings.PAL_TEST_URL + '/BinLookup'
                 }
             },
-            'terminal': {
+            'terminalManagement': {
                 'version': self.api_terminal_version,
                 'base_url': {
                     'live': settings.BASE_TERMINAL_URL.format(platform),

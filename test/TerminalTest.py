@@ -29,7 +29,7 @@ class TestTerminal(unittest.TestCase):
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/assignTerminals.json"
         )
-        result = self.adyen.terminal.assign_terminals(request=request)
+        result = self.adyen.terminalManagement.post_assign_terminals(request)
         self.assertIn("P400Plus-275479597", result.message["results"])
 
         self.client.http_client.request.assert_called_once_with(
@@ -59,7 +59,7 @@ class TestTerminal(unittest.TestCase):
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/assignTerminals-422.json"
         )
-        result = self.adyen.terminal.assign_terminals(request=request)
+        result = self.adyen.terminalManagement.post_assign_terminals(request=request)
         self.assertEqual(422, result.message["status"])
         self.assertEqual("000", result.message["errorCode"])
         self.assertEqual("Terminals not found: P400Plus-123456789", result.message["message"])
@@ -73,7 +73,7 @@ class TestTerminal(unittest.TestCase):
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/findTerminal.json"
         )
-        result = self.adyen.terminal.find_terminal(request=request)
+        result = self.adyen.terminalManagement.post_find_terminal(request=request)
         self.assertIn("P400Plus-275479597", result.message["terminal"])
 
         self.client.http_client.request.assert_called_once_with(
@@ -94,7 +94,7 @@ class TestTerminal(unittest.TestCase):
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/findTerminal-422.json"
         )
-        result = self.adyen.terminal.find_terminal(request=request)
+        result = self.adyen.terminalManagement.post_find_terminal(request=request)
         self.assertEqual(422, result.message["status"])
         self.assertEqual("000", result.message["errorCode"])
         self.assertEqual("Terminal not found", result.message["message"])
@@ -108,7 +108,7 @@ class TestTerminal(unittest.TestCase):
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/getStoresUnderAccount.json"
         )
-        result = self.adyen.terminal.get_stores_under_account(request=request)
+        result = self.adyen.terminalManagement.post_get_stores_under_account(request=request)
         self.assertEqual(result.message["stores"], [
             {
                 "store": "YOUR_STORE",
@@ -144,7 +144,7 @@ class TestTerminal(unittest.TestCase):
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/getTerminalDetails.json"
         )
-        result = self.adyen.terminal.get_terminal_details(request=request)
+        result = self.adyen.terminalManagement.post_get_terminal_details(request=request)
 
         self.assertEqual(result.message["deviceModel"], "P400Plus")
         self.assertEqual(result.message["terminal"], "P400Plus-275479597")
@@ -167,7 +167,7 @@ class TestTerminal(unittest.TestCase):
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/getTerminalDetails-422.json"
         )
-        result = self.adyen.terminal.get_terminal_details(request=request)
+        result = self.adyen.terminalManagement.post_get_terminal_details(request=request)
         self.assertEqual(422, result.message["status"])
         self.assertEqual("000", result.message["errorCode"])
         self.assertEqual("Terminal not found", result.message["message"])
@@ -182,7 +182,7 @@ class TestTerminal(unittest.TestCase):
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/getTerminalsUnderAccount.json"
         )
-        result = self.adyen.terminal.get_terminals_under_account(request=request)
+        result = self.adyen.terminalManagement.post_get_terminals_under_account(request=request)
 
         self.assertEqual(result.message["merchantAccounts"], [
             {
@@ -222,7 +222,7 @@ class TestTerminal(unittest.TestCase):
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/getTerminalsUnderAccount-store.json"
         )
-        result = self.adyen.terminal.get_terminals_under_account(request=request)
+        result = self.adyen.terminalManagement.post_get_terminals_under_account(request=request)
 
         self.assertEqual(result.message["merchantAccounts"], [
             {
