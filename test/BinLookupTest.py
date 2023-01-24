@@ -1,8 +1,9 @@
 from unittest.mock import ANY
 import unittest
 
-from BaseTest import BaseTest
+from .BaseTest import BaseTest
 import Adyen
+from Adyen import settings
 
 
 REQUEST_KWARGS = {
@@ -19,6 +20,7 @@ class TestBinLookup(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
+    binLookup_version = settings.API_BIN_LOOKUP_VERSION
 
     def test_get_cost_estimate_success(self):
         self.ady.client.http_client.request.reset_mock()
@@ -46,21 +48,17 @@ class TestBinLookup(unittest.TestCase):
             filename='test/mocks/binlookup/getcostestimate-success.json'
         )
 
-        result = self.ady.binlookup.get_cost_estimate(REQUEST_KWARGS)
+        result = self.ady.binlookup.get_fees_cost_estimate(REQUEST_KWARGS)
         self.assertEqual(expected, result.message)
         self.ady.client.http_client.request.assert_called_once_with(
+            'POST',
             'https://pal-test.adyen.com/pal/servlet/'
-            'BinLookup/v50/getCostEstimate',
+            f'BinLookup/{self.binLookup_version}/getCostEstimate',
             headers={},
             json={
                 'merchantAccount': 'YourMerchantAccount',
-                'amount': '1000', 'applicationInfo': {
-                    'adyenLibrary': {
-                        'name': 'adyen-python-api-library',
-                        'version': ANY
-                    }
-                }
-            },
+                'amount': '1000',
+                },
             password='YourWSPassword',
             username='YourWSUser'
         )
@@ -75,7 +73,7 @@ class TestBinLookup(unittest.TestCase):
             )
         )
 
-        result = self.ady.binlookup.get_cost_estimate(REQUEST_KWARGS)
+        result = self.ady.binlookup.get_fees_cost_estimate(REQUEST_KWARGS)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("101", result.message['errorCode'])
         self.assertEqual("Invalid card number", result.message['message'])
