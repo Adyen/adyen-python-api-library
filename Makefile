@@ -10,7 +10,8 @@ coverage:
 
 generator:=python
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
-services:=balancePlatform binlookup checkout dataProtection legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration recurring storedValue terminalManagement transfer
+services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration terminalManagement transfer
+smallServices:= recurring binlookup dataProtection storedValue balanceControlService
 
 binlookup: spec=BinLookupService-v52
 checkout: spec=CheckoutService-v69
@@ -28,6 +29,7 @@ platformsFund: spec=FundService-v6
 platformsNotificationConfiguration: spec=NotificationConfigurationService-v6
 platformsHostedOnboardingPage: spec=HopService-v6
 transfer: spec=TransferService-v3
+balanceControlService: spec=BalanceControlService-v1
 
 $(services): build/spec
 	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
@@ -42,8 +44,25 @@ $(services): build/spec
 		--skip-validate-spec
 	mkdir -p Adyen/services
 	cp -r build/openapi_client/api Adyen/services/$@
+	rm -f Adyen/services/$@/*-small.py
 	cp build/api/api-single.py Adyen/services/$@/__init__.py
 	rm -rf build
+
+$(smallServices): build/spec
+	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
+	rm -rf Adyen/services/$@
+	$(openapi-generator-cli) generate \
+		-i build/spec/json/$(spec).json \
+		-g $(generator) \
+		-c ./templates/config.yaml \
+		-o build \
+		--global-property apis,apiTests=false,apiDocs=false\
+		--additional-properties serviceName=$@\
+		--skip-validate-spec
+	mkdir -p Adyen/services
+	cp build/openapi_client/api/general_api-small.py Adyen/services/$@.py
+	rm -rf build
+
 
 build/spec:
 	git clone https://github.com/Adyen/adyen-openapi.git build/spec
