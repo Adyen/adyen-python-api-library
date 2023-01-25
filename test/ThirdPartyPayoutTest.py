@@ -1,17 +1,14 @@
 import Adyen
 import unittest
-
-try:
-    from BaseTest import BaseTest
-except ImportError:
-    from .BaseTest import BaseTest
+from .BaseTest import BaseTest
+from Adyen import settings
 
 
 class TestThirdPartyPayout(unittest.TestCase):
-    ady = Adyen.Adyen()
+    adyen = Adyen.Adyen()
 
-    client = ady.client
-    test = BaseTest(ady)
+    client = adyen.client
+    test = BaseTest(adyen)
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
@@ -19,6 +16,7 @@ class TestThirdPartyPayout(unittest.TestCase):
     client.review_payout_password = "YourReviewPayoutPassword"
     client.store_payout_username = "YourStorePayoutUser"
     client.store_payout_password = "YourStorePayoutPassword"
+    payout_version = settings.API_PAYOUT_VERSION
 
     def test_confirm_success(self):
         request = {
@@ -26,8 +24,16 @@ class TestThirdPartyPayout(unittest.TestCase):
             "originalReference": "YourReference"
         }
         resp = 'test/mocks/payout/confirm-success.json'
-        self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.reviewing_api.confirm_payout(request)
+        self.adyen.client = self.test.create_client_from_file(200, request, resp)
+        result = self.adyen.payout.reviewing_api.confirm_payout(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/confirmThirdParty',
+            headers={},
+            json=request,
+            username='YourWSUser',
+            password='YourWSPassword',
+        )
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-confirm-received]"
         self.assertEqual(expected, result.message['resultCode'])
@@ -38,11 +44,11 @@ class TestThirdPartyPayout(unittest.TestCase):
             "originalReference": ""
         }
         resp = 'test/mocks/payout/confirm-missing-reference.json'
-        self.ady.client = self.test.create_client_from_file(500, request, resp)
+        self.adyen.client = self.test.create_client_from_file(500, request, resp)
         self.assertRaisesRegex(
             Adyen.AdyenAPICommunicationError,
             "AdyenAPICommunicationError:{'status': 500, 'errorCode': '702', 'message': \"Required field 'merchantAccount' is null\", 'errorType': 'validation'}",
-            self.ady.payout.reviewing_api.confirm_payout,
+            self.adyen.payout.reviewing_api.confirm_payout,
             request
         )
 
@@ -52,8 +58,16 @@ class TestThirdPartyPayout(unittest.TestCase):
             "originalReference": "YourReference"
         }
         resp = 'test/mocks/payout/decline-success.json'
-        self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.reviewing_api.confirm_payout(request)
+        self.adyen.client = self.test.create_client_from_file(200, request, resp)
+        result = self.adyen.payout.reviewing_api.cancel_payout(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/declineThirdParty',
+            headers={},
+            json=request,
+            username='YourWSUser',
+            password='YourWSPassword',
+        )
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-decline-received]"
         self.assertEqual(expected, result.message['resultCode'])
@@ -64,11 +78,11 @@ class TestThirdPartyPayout(unittest.TestCase):
             "originalReference": ""
         }
         resp = 'test/mocks/payout/decline-missing-reference.json'
-        self.ady.client = self.test.create_client_from_file(500, request, resp)
+        self.adyen.client = self.test.create_client_from_file(500, request, resp)
         self.assertRaisesRegex(
             Adyen.AdyenAPICommunicationError,
             "AdyenAPICommunicationError:{'status': 500, 'errorCode': '702', 'message': \"Required field 'merchantAccount' is null\", 'errorType': 'validation'}",
-            self.ady.payout.reviewing_api.confirm_payout,
+            self.adyen.payout.reviewing_api.confirm_payout,
             request
         )
 
@@ -91,8 +105,16 @@ class TestThirdPartyPayout(unittest.TestCase):
             "shopperReference": "ref"
         }
         resp = 'test/mocks/payout/storeDetail-success.json'
-        self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.initialization_api.store_payout_details(request)
+        self.adyen.client = self.test.create_client_from_file(200, request, resp)
+        result = self.adyen.payout.initialization_api.store_payout_details(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/storeDetail',
+            headers={},
+            json=request,
+            username='YourWSUser',
+            password='YourWSPassword'
+        )
         self.assertIsNotNone(result.message['pspReference'])
         self.assertIsNotNone(result.message['recurringDetailReference'])
         expected = "Success"
@@ -113,8 +135,16 @@ class TestThirdPartyPayout(unittest.TestCase):
             "selectedRecurringDetailReference": "LATEST"
         }
         resp = 'test/mocks/payout/submit-success.json'
-        self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.initialization_api.submit_payout(request)
+        self.adyen.client = self.test.create_client_from_file(200, request, resp)
+        result = self.adyen.payout.initialization_api.submit_payout(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/submitThirdParty',
+            headers={},
+            json=request,
+            username='YourWSUser',
+            password='YourWSPassword'
+        )
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-submit-received]"
         self.assertEqual(expected, result.message['resultCode'])
@@ -134,12 +164,12 @@ class TestThirdPartyPayout(unittest.TestCase):
             "selectedRecurringDetailReference": "1234"
         }
         resp = 'test/mocks/payout/submit-invalid-reference.json'
-        self.ady.client = self.test.create_client_from_file(422, request, resp)
+        self.adyen.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegex(
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '800',"
             " 'message': 'Contract not found', 'errorType': 'validation'}",
-            self.ady.payout.initialization_api.submit_payout,
+            self.adyen.payout.initialization_api.submit_payout,
             request
         )
 
@@ -163,13 +193,13 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
 
         resp = 'test/mocks/payout/submit-missing-reference.json'
-        self.ady.client = self.test.create_client_from_file(422, request, resp)
+        self.adyen.client = self.test.create_client_from_file(422, request, resp)
 
         self.assertRaisesRegex(
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'message': 'Contract not found',"
             " 'errorCode': '800', 'errorType': 'validation'}",
-            self.ady.payout.initialization_api.store_details_and_submit_payout,
+            self.adyen.payout.initialization_api.store_details_and_submit_payout,
             request
         )
 
@@ -188,12 +218,12 @@ class TestThirdPartyPayout(unittest.TestCase):
             "shopperReference": "ref"
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-missing-payment.json'
-        self.ady.client = self.test.create_client_from_file(422, request, resp)
+        self.adyen.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegex(
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '000',"
             " 'message': 'Please supply paymentDetails', 'errorType': 'validation'}",
-            self.ady.payout.initialization_api.store_details_and_submit_payout,
+            self.adyen.payout.initialization_api.store_details_and_submit_payout,
             request
         )
 
@@ -217,12 +247,12 @@ class TestThirdPartyPayout(unittest.TestCase):
             }
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-invalid-iban.json'
-        self.ady.client = self.test.create_client_from_file(422, request, resp)
+        self.adyen.client = self.test.create_client_from_file(422, request, resp)
         self.assertRaisesRegex(
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '161',"
             " 'message': 'Invalid iban', 'errorType': 'validation'}",
-            self.ady.payout.initialization_api.store_details_and_submit_payout,
+            self.adyen.payout.initialization_api.store_details_and_submit_payout,
             request
         )
 
@@ -248,8 +278,16 @@ class TestThirdPartyPayout(unittest.TestCase):
             }
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-card-success.json'
-        self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.initialization_api.store_details_and_submit_payout(request)
+        self.adyen.client = self.test.create_client_from_file(200, request, resp)
+        result = self.adyen.payout.initialization_api.store_details_and_submit_payout(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/storeDetailAndSubmitThirdParty',
+            headers={},
+            json=request,
+            username='YourWSUser',
+            password='YourWSPassword'
+        )
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-submit-received]"
         self.assertEqual(expected, result.message['resultCode'])
@@ -274,8 +312,16 @@ class TestThirdPartyPayout(unittest.TestCase):
             "shopperReference": "ref"
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-bank-success.json'
-        self.ady.client = self.test.create_client_from_file(200, request, resp)
-        result = self.ady.payout.initialization_api.store_details_and_submit_payout(request)
+        self.adyen.client = self.test.create_client_from_file(200, request, resp)
+        result = self.adyen.payout.initialization_api.store_details_and_submit_payout(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/storeDetailAndSubmitThirdParty',
+            headers={},
+            json=request,
+            username='YourWSUser',
+            password='YourWSPassword'
+        )
         self.assertIsNotNone(result.message['pspReference'])
         expected = "[payout-submit-received]"
         self.assertEqual(expected, result.message['resultCode'])
