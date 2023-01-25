@@ -116,7 +116,7 @@ class AdyenClient(object):
         self.api_payment_version = api_payment_version or settings.API_PAYMENT_VERSION
         self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
         self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
-        self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
+        self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_MANAGEMENT_VERSION
         self.api_legal_entity_management_version = api_legal_entity_management_version or settings.API_LEGAL_ENTITY_MANAGEMENT_VERSION
 
     def _determine_base_url_and_version(self, platform, service):
