@@ -1,5 +1,6 @@
 import Adyen
 import unittest
+from Adyen import settings
 try:
     from BaseTest import BaseTest
 except ImportError:
@@ -7,12 +8,13 @@ except ImportError:
 
 
 class TestRecurring(unittest.TestCase):
-    ady = Adyen.Adyen()
-    client = ady.client
-    test = BaseTest(ady)
+    adyen = Adyen.Adyen()
+    client = adyen.client
+    test = BaseTest(adyen)
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
+    recurring_version = settings.API_RECURRING_VERSION
 
     def test_list_recurring_details(self):
         request = {}
@@ -22,13 +24,21 @@ class TestRecurring(unittest.TestCase):
         request["shopperReference"] = "ref"
         request['recurring'] = {}
         request["recurring"]['contract'] = "RECURRING"
-        self.ady.client = self.test.create_client_from_file(200, request,
+        self.adyen.client = self.test.create_client_from_file(200, request,
                                                             'test/mocks/'
                                                             'recurring/'
                                                             'listRecurring'
                                                             'Details-'
                                                             'success.json')
-        result = self.ady.recurring.list_recurring_details(request)
+        result = self.adyen.recurring.get_stored_payment_details(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://pal-test.adyen.com/pal/servlet/Recurring/{self.recurring_version}/listRecurringDetails',
+            headers={},
+            json=request,
+            username='YourWSUser',
+            password='YourWSPassword'
+        )
         self.assertEqual(1, len(result.message['details']))
         self.assertEqual(1, len(result.message['details'][0]))
         recurringDetail = result.message['details'][0]['RecurringDetail']
@@ -42,12 +52,20 @@ class TestRecurring(unittest.TestCase):
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
         request["recurringDetailReference"] = "12345678889"
-        self.ady.client = self.test.create_client_from_file(200, request,
+        self.adyen.client = self.test.create_client_from_file(200, request,
                                                             'test/mocks/'
                                                             'recurring/'
                                                             'disable-success'
                                                             '.json')
-        result = self.ady.recurring.disable(request)
+        result = self.adyen.recurring.disable_stored_payment_details(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://pal-test.adyen.com/pal/servlet/Recurring/{self.recurring_version}/disable',
+            headers={},
+            json=request,
+            username='YourWSUser',
+            password='YourWSPassword',
+        )
         self.assertEqual(1, len(result.message['details']))
         self.assertEqual("[detail-successfully-disabled]",
                          result.message['response'])
@@ -57,7 +75,7 @@ class TestRecurring(unittest.TestCase):
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
         request["recurringDetailReference"] = "12345678889"
-        self.ady.client = self.test.create_client_from_file(422, request,
+        self.adyen.client = self.test.create_client_from_file(422, request,
                                                             'test/mocks/'
                                                             'recurring/'
                                                             'disable-error-803'
@@ -65,7 +83,7 @@ class TestRecurring(unittest.TestCase):
         self.assertRaisesRegex(
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '803', 'message': 'PaymentDetail not found', 'errorType': 'validation'}",
-            self.ady.recurring.disable,
+            self.adyen.recurring.disable_stored_payment_details,
             request
         )
 
