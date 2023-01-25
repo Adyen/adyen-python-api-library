@@ -3,7 +3,7 @@
 # Adyen APIs Library for Python
 
 [![version](https://img.shields.io/badge/version-7.1.1-blue.svg)](https://docs.adyen.com/development-resources/libraries)
-<a href="https://gitpod.io/#https://github.com/Adyen/adyen-python-api-library">
+<a href="https://gitpod.io/#https://github.com/michaelpaul/adyen-python-api-library">
   <img
     src="https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod"
     alt="Contribute with Gitpod"
