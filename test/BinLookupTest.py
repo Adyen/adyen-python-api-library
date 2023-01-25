@@ -1,10 +1,11 @@
-from unittest.mock import ANY
 import unittest
-
-from .BaseTest import BaseTest
 import Adyen
 from Adyen import settings
 
+try:
+    from BaseTest import BaseTest
+except ImportError:
+    from .BaseTest import BaseTest
 
 REQUEST_KWARGS = {
     'merchantAccount': 'YourMerchantAccount',
