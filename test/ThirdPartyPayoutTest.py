@@ -1,7 +1,10 @@
 import Adyen
 import unittest
-from .BaseTest import BaseTest
 from Adyen import settings
+try:
+    from BaseTest import BaseTest
+except ImportError:
+    from .BaseTest import BaseTest
 
 
 class TestThirdPartyPayout(unittest.TestCase):
