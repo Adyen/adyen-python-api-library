@@ -129,7 +129,7 @@ class AdyenClient(object):
             live_checkout_url = live_checkout_url.format(live_prefix=self.live_endpoint_prefix)
 
         versions_and_urls = {
-            'Recurring': {
+            'recurring': {
                 'version': self.api_recurring_version,
                 'base_url': {
                     'live': live_pal_url + '/Recurring',

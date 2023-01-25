@@ -16,7 +16,7 @@ from .client import AdyenClient
 from .services import (
     AdyenBase,
     AdyenBinlookupApi,
-    AdyenRecurring,
+    AdyenRecurringApi,
     AdyenPayment,
     AdyenThirdPartyPayout,
     AdyenManagementApi,
@@ -34,7 +34,7 @@ class Adyen(AdyenBase):
         self.payment = AdyenPayment(client=self.client)
         self.binlookup = AdyenBinlookupApi(client=self.client)
         self.payout = AdyenThirdPartyPayout(client=self.client)
-        self.recurring = AdyenRecurring(client=self.client)
+        self.recurring = AdyenRecurringApi(client=self.client)
         self.checkout = AdyenCheckoutApi(client=self.client)
         self.terminal = AdyenTerminal(client=self.client)
         self.management = AdyenManagementApi(client=self.client)
