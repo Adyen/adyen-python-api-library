@@ -49,7 +49,7 @@ class TestBinLookup(unittest.TestCase):
             filename='test/mocks/binlookup/getcostestimate-success.json'
         )
 
-        result = self.ady.binlookup.get_fees_cost_estimate(REQUEST_KWARGS)
+        result = self.ady.binlookup.get_cost_estimate(REQUEST_KWARGS)
         self.assertEqual(expected, result.message)
         self.ady.client.http_client.request.assert_called_once_with(
             'POST',
@@ -74,7 +74,7 @@ class TestBinLookup(unittest.TestCase):
             )
         )
 
-        result = self.ady.binlookup.get_fees_cost_estimate(REQUEST_KWARGS)
+        result = self.ady.binlookup.get_cost_estimate(REQUEST_KWARGS)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("101", result.message['errorCode'])
         self.assertEqual("Invalid card number", result.message['message'])
