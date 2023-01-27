@@ -31,7 +31,7 @@ class AdyenBinlookupApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_fees_cost_estimate(self, request, idempotency_key=None, **kwargs):
+    def get_cost_estimate(self, request, idempotency_key=None, **kwargs):
         """
         Get a fees cost estimate
         """
