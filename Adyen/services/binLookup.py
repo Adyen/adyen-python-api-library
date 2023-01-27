@@ -22,7 +22,7 @@ class AdyenBinlookupApi(AdyenServiceBase):
         super(AdyenBinlookupApi, self).__init__(client=client)
         self.service = "binlookup"
 
-    def check_if3d_secure_is_available(self, request, idempotency_key=None, **kwargs):
+    def get_3ds_availability(self, request, idempotency_key=None, **kwargs):
         """
         Check if 3D Secure is available
         """
