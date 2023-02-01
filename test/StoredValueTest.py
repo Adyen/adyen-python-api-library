@@ -30,7 +30,7 @@ class TestManagement(unittest.TestCase):
 
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/storedValue/issue-giftcard.json")
-        result = self.adyen.storedValue.issues_new_card(request)
+        result = self.adyen.storedValue.issue(request)
         self.assertEqual(result.message['paymentMethod']['type'], 'givex')
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -58,7 +58,7 @@ class TestManagement(unittest.TestCase):
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/storedValue/activate-giftcards.json")
-        result = self.adyen.storedValue.changes_the_status_of_the_payment_method(request)
+        result = self.adyen.storedValue.change_status(request)
         self.assertEqual(result.message['currentBalance']['value'], 1000)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -85,7 +85,7 @@ class TestManagement(unittest.TestCase):
             "reference": "YOUR_REFERENCE"
         }
         self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/storedValue/load-funds.json")
-        result = self.adyen.storedValue.loads_the_payment_method(request)
+        result = self.adyen.storedValue.load(request)
         self.assertEqual(result.message['resultCode'], 'Success')
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -107,7 +107,7 @@ class TestManagement(unittest.TestCase):
             "reference": "YOUR_REFERENCE"
         }
         self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/storedValue/check-balance.json")
-        result = self.adyen.storedValue.checks_the_balance(request)
+        result = self.adyen.storedValue.check_balance(request)
         self.assertEqual(result.message['currentBalance']['value'], 5600)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -133,7 +133,7 @@ class TestManagement(unittest.TestCase):
             "reference": "YOUR_REFERENCE"
         }
         self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/storedValue/merge-balance.json")
-        result = self.adyen.storedValue.merge_the_balance_of_two_cards(request)
+        result = self.adyen.storedValue.mergeBalance(request)
         self.assertEqual(result.message['pspReference'], "881564657480267D")
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -151,7 +151,7 @@ class TestManagement(unittest.TestCase):
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/storedValue/undo-transaction.json")
-        result = self.adyen.storedValue.voids_transaction(request)
+        result = self.adyen.storedValue.void_transaction(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/voidTransaction',
