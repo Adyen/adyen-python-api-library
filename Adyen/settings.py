@@ -1,4 +1,5 @@
 # Those constants are used from the library only
+BASE_DATA_PROTECION_URL = "https://ca-{}.adyen.com/ca/services/DataProtectionService"
 BASE_TERMINAL_URL = "https://postfmapi-{}.adyen.com/postfmapi/terminal"
 BASE_MANAGEMENT_URL = "https://management-{}.adyen.com"
 BASE_LEGAL_ENTITY_MANAGEMENT_URL = "https://kyc-{}.adyen.com/lem"
@@ -11,6 +12,7 @@ ENDPOINT_CHECKOUT_LIVE_SUFFIX = "https://{live_prefix}-checkout-live" \
 API_BIN_LOOKUP_VERSION = "v52"
 API_CHECKOUT_VERSION = "v69"
 API_CHECKOUT_UTILITY_VERSION = "v1"
+API_DATA_PROTECION_VERSION = "v1"
 API_MANAGEMENT_VERSION = "v1"
 API_RECURRING_VERSION = "v68"
 API_PAYMENT_VERSION = "v64"
