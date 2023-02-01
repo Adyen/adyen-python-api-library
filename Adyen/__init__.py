@@ -22,7 +22,8 @@ from .services import (
     AdyenManagementApi,
     AdyenCheckoutApi,
     AdyenTerminal,
-    AdyenLegalEntityManagementApi
+    AdyenLegalEntityManagementApi,
+    AdyenStoredValueApi
 )
 
 from .httpclient import HTTPClient
@@ -35,11 +36,11 @@ class Adyen(AdyenBase):
         self.binlookup = AdyenBinLookup(client=self.client)
         self.payout = AdyenPayoutsApi(client=self.client)
         self.recurring = AdyenRecurringApi(client=self.client)
-
         self.checkout = AdyenCheckoutApi(client=self.client)
         self.terminal = AdyenTerminal(client=self.client)
         self.management = AdyenManagementApi(client=self.client)
         self.legalEntityManagement = AdyenLegalEntityManagementApi(client=self.client)
+        self.storedValue = AdyenStoredValueApi(client=self.client)
 
 
 _base_adyen_obj = Adyen()
@@ -51,3 +52,4 @@ binlookup = _base_adyen_obj.binlookup
 terminal = _base_adyen_obj.terminal
 management = _base_adyen_obj.management
 legalEntityManagement = _base_adyen_obj.legalEntityManagement
+storedValue = _base_adyen_obj.storedValue
