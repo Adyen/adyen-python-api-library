@@ -15,7 +15,7 @@ from .exceptions import (
 from .client import AdyenClient
 from .services import (
     AdyenBase,
-    AdyenBinLookup,
+    AdyenBinlookupApi,
     AdyenRecurringApi,
     AdyenPayment,
     AdyenPayoutsApi,
@@ -32,7 +32,7 @@ class Adyen(AdyenBase):
     def __init__(self, **kwargs):
         self.client = AdyenClient(**kwargs)
         self.payment = AdyenPayment(client=self.client)
-        self.binlookup = AdyenBinLookup(client=self.client)
+        self.binlookup = AdyenBinlookupApi(client=self.client)
         self.payout = AdyenPayoutsApi(client=self.client)
         self.recurring = AdyenRecurringApi(client=self.client)
 

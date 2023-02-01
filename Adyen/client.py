@@ -143,7 +143,7 @@ class AdyenClient(object):
                     'test': settings.PAL_TEST_URL + '/Payout'
                 }
             },
-            'BinLookup': {
+            'binlookup': {
                 'version': self.api_bin_lookup_version,
                 'base_url': {
                     'live': live_pal_url + '/BinLookup',

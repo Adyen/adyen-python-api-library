@@ -1,5 +1,5 @@
 from .base import AdyenBase
-from .binLookup import AdyenBinLookup
+from .binLookup import AdyenBinlookupApi
 from .checkout import AdyenCheckoutApi
 from .payments import AdyenPayment
 from .payouts import AdyenPayoutsApi

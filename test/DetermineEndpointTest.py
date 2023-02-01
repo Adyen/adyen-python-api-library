@@ -91,7 +91,7 @@ class TestDetermineUrl(unittest.TestCase):
     def test_binlookup_url_no_live_endpoint_prefix_test_platform(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url(
-            "test", "BinLookup", "get3dsAvailability"
+            "test", "binlookup", "get3dsAvailability"
         )
         self.assertEqual(
             url,
