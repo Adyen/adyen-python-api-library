@@ -136,7 +136,7 @@ class AdyenClient(object):
                     'test': settings.PAL_TEST_URL + '/Recurring',
                 }
             },
-            'Payout': {
+            'payouts': {
                 'version': self.api_payout_version,
                 'base_url': {
                     'live': live_pal_url + '/Payout',

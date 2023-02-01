@@ -2,7 +2,7 @@ from .base import AdyenBase
 from .binLookup import AdyenBinLookup
 from .checkout import AdyenCheckoutApi
 from .payments import AdyenPayment
-from .payouts import AdyenThirdPartyPayout
+from .payouts import AdyenPayoutsApi
 from .recurring import AdyenRecurringApi
 from .terminal import AdyenTerminal
 from .management import AdyenManagementApi
