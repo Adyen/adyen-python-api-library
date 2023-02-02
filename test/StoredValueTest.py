@@ -17,7 +17,7 @@ class TestManagement(unittest.TestCase):
     client.platform = "test"
     stored_value_version = settings.API_STORED_VALUE_VERSION
 
-    def test_issuing_gift_card(self):
+    def issue(self):
         request = {
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "store": "YOUR_STORE_ID",
@@ -133,7 +133,7 @@ class TestManagement(unittest.TestCase):
             "reference": "YOUR_REFERENCE"
         }
         self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/storedValue/merge-balance.json")
-        result = self.adyen.storedValue.mergeBalance(request)
+        result = self.adyen.storedValue.merge_balance(request)
         self.assertEqual(result.message['pspReference'], "881564657480267D")
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
