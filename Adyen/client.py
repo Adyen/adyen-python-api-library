@@ -94,7 +94,8 @@ class AdyenClient(object):
             api_legal_entity_management_version=None,
             api_data_protection_version=None,
             api_transfers_version=None,
-            api_stored_value_version=None
+            api_stored_value_version=None,
+            api_configuration_version=None
     ):
         self.username = username
         self.password = password
@@ -126,6 +127,7 @@ class AdyenClient(object):
         self.api_data_protection_version = api_data_protection_version or settings.API_DATA_PROTECION_VERSION
         self.api_transfers_version = api_transfers_version or settings.API_TRANSFERS_VERSION
         self.api_stored_value_version = api_stored_value_version or settings.API_STORED_VALUE_VERSION
+        self.api_configuration_version = api_configuration_version or settings.API_CONFIGURATION_VERSION
 
     def _determine_base_url_and_version(self, platform, service):
 
@@ -191,6 +193,13 @@ class AdyenClient(object):
                 'base_url': {
                     'live': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform),
                     'test': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform)
+                },
+            },
+            'balancePlatform': {
+                'version': self.api_configuration_version,
+                'base_url': {
+                    'live': settings.BASE_CONFIGURATION_URL.format(platform),
+                    'test': settings.BASE_CONFIGURATION_URL.format(platform)
                 }
             },
             'dataProtection': {
@@ -215,6 +224,7 @@ class AdyenClient(object):
                 }
             }
         }
+
         version = versions_and_urls[service]['version']
         base_url = versions_and_urls[service]['base_url'][platform]
         # Match urls that require a live prefix and do not have one

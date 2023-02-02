@@ -10,3 +10,4 @@ from .legalEntityManagement import AdyenLegalEntityManagementApi
 from .dataProtection import AdyenDataProtectionApi
 from .transfers import AdyenTransfersApi
 from .storedValue import AdyenStoredValueApi
+from .balancePlatform import AdyenBalancePlatformApi
