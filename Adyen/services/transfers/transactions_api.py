@@ -12,7 +12,7 @@ class TransactionsApi(AdyenServiceBase):
         super(TransactionsApi, self).__init__(client=client)
         self.service = "transfers"
 
-    def get_all_transactions(self, createdSince, createdUntil, idempotency_key=None, **kwargs):
+    def get_all_transactions(self, idempotency_key=None, **kwargs):
         """
         Get all transactions
         """
