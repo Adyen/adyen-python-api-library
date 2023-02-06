@@ -90,6 +90,7 @@ class AdyenClient(object):
             api_recurring_version=None,
             api_terminal_version=None,
             api_legal_entity_management_version=None,
+            api_stored_value_version=None
     ):
         self.username = username
         self.password = password
@@ -118,6 +119,7 @@ class AdyenClient(object):
         self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
         self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
         self.api_legal_entity_management_version = api_legal_entity_management_version or settings.API_LEGAL_ENTITY_MANAGEMENT_VERSION
+        self.api_stored_value_version = api_stored_value_version or settings.API_STORED_VALUE_VERSION
 
     def _determine_base_url_and_version(self, platform, service):
 
@@ -136,14 +138,14 @@ class AdyenClient(object):
                     'test': settings.PAL_TEST_URL + '/Recurring',
                 }
             },
-            'Payout': {
+            'payouts': {
                 'version': self.api_payout_version,
                 'base_url': {
                     'live': live_pal_url + '/Payout',
                     'test': settings.PAL_TEST_URL + '/Payout'
                 }
             },
-            'BinLookup': {
+            'binlookup': {
                 'version': self.api_bin_lookup_version,
                 'base_url': {
                     'live': live_pal_url + '/BinLookup',
@@ -183,6 +185,13 @@ class AdyenClient(object):
                 'base_url': {
                     'live': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform),
                     'test': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform)
+                }
+            },
+            'storedValue': {
+                'version': self.api_stored_value_version,
+                'base_url': {
+                    'live': settings.BASE_STORED_VALUE_URL.format(platform),
+                    'test': settings.BASE_STORED_VALUE_URL.format(platform)
                 }
             }
         }
