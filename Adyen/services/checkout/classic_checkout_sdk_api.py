@@ -12,7 +12,7 @@ class ClassicCheckoutSDKApi(AdyenServiceBase):
         super(ClassicCheckoutSDKApi, self).__init__(client=client)
         self.service = "checkout"
 
-    def create_payment_session(self, request, idempotency_key=None, **kwargs):
+    def payment_session(self, request, idempotency_key=None, **kwargs):
         """
         Create a payment session
         """

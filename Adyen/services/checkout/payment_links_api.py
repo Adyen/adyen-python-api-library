@@ -21,7 +21,7 @@ class PaymentLinksApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def update_status_of_payment_link(self, request, linkId, idempotency_key=None, **kwargs):
+    def update_payment_link(self, request, linkId, idempotency_key=None, **kwargs):
         """
         Update the status of a payment link
         """

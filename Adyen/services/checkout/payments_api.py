@@ -21,7 +21,7 @@ class PaymentsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def start_transaction_for_donations(self, request, idempotency_key=None, **kwargs):
+    def donations(self, request, idempotency_key=None, **kwargs):
         """
         Start a transaction for donations
         """
@@ -30,7 +30,7 @@ class PaymentsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def list_available_payment_methods(self, request, idempotency_key=None, **kwargs):
+    def payment_methods(self, request, idempotency_key=None, **kwargs):
         """
         Get a list of available payment methods
         """
@@ -39,7 +39,7 @@ class PaymentsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def start_transaction(self, request, idempotency_key=None, **kwargs):
+    def payments(self, request, idempotency_key=None, **kwargs):
         """
         Start a transaction
         """
@@ -48,7 +48,7 @@ class PaymentsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def submit_details_for_payment(self, request, idempotency_key=None, **kwargs):
+    def payments_details(self, request, idempotency_key=None, **kwargs):
         """
         Submit details for a payment
         """
@@ -57,7 +57,7 @@ class PaymentsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def create_payment_session(self, request, idempotency_key=None, **kwargs):
+    def sessions(self, request, idempotency_key=None, **kwargs):
         """
         Create a payment session
         """

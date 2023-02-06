@@ -25,7 +25,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "paymentmethods"
                                                               "-success.json")
-        result = self.adyen.checkout.payments_api.list_available_payment_methods(request)
+        result = self.adyen.checkout.payments_api.payment_methods(request)
         self.assertEqual("AliPay", result.message['paymentMethods'][0]['name'])
         self.assertEqual("Credit Card",
                          result.message['paymentMethods'][2]['name'])
@@ -40,7 +40,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentmethods-"
                                                               "error-forbidden"
                                                               "-403.json")
-        result = self.adyen.checkout.payments_api.list_available_payment_methods(request)
+        result = self.adyen.checkout.payments_api.payment_methods(request)
         self.assertEqual(403, result.message['status'])
         self.assertEqual("901", result.message['errorCode'])
         self.assertEqual("Invalid Merchant Account", result.message['message'])
@@ -64,7 +64,7 @@ class TestCheckout(unittest.TestCase):
                                                               "payments"
                                                               "-success"
                                                               ".json")
-        result = self.adyen.checkout.payments_api.start_transaction(request)
+        result = self.adyen.checkout.payments_api.payments(request)
         self.assertEqual("8535296650153317", result.message['pspReference'])
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertEqual("8/2018",
@@ -91,7 +91,7 @@ class TestCheckout(unittest.TestCase):
                                                               "-invalid"
                                                               "-data-422"
                                                               ".json")
-        result = self.adyen.checkout.payments_api.start_transaction(request)
+        result = self.adyen.checkout.payments_api.payments(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -135,7 +135,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsdetails"
                                                               "-success.json")
 
-        result = self.adyen.checkout.payments_api.submit_details_for_payment(request)
+        result = self.adyen.checkout.payments_api.payments_details(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -165,7 +165,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsdetails"
                                                               "-error-invalid-"
                                                               "data-422.json")
-        result = self.adyen.checkout.payments_api.submit_details_for_payment(request)
+        result = self.adyen.checkout.payments_api.payments_details(request)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("101", result.message['errorCode'])
         self.assertEqual("Invalid card number", result.message['message'])
@@ -187,7 +187,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "paymentsession"
                                                               "-success.json")
-        result = self.adyen.checkout.classic_checkout_sdk_api.create_payment_session(request)
+        result = self.adyen.checkout.classic_checkout_sdk_api.payment_session(request)
         self.assertIsNotNone(result.message['paymentSession'])
 
     def test_payments_session_error_mocked(self):
@@ -207,7 +207,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsession"
                                                               "-error-invalid-"
                                                               "data-422.json")
-        result = self.adyen.checkout.classic_checkout_sdk_api.create_payment_session(request)
+        result = self.adyen.checkout.classic_checkout_sdk_api.payment_session(request)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_012", result.message['errorCode'])
         self.assertEqual("The provided SDK token could not be parsed.",
@@ -494,7 +494,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "sessions"
                                                               "-success.json")
-        result = self.adyen.checkout.payments_api.create_payment_session(request)
+        result = self.adyen.checkout.payments_api.sessions(request)
 
         self.assertEqual("session-test-id", result.message['id'])
         self.assertEqual("TestReference", result.message['reference'])
@@ -510,7 +510,7 @@ class TestCheckout(unittest.TestCase):
                                                               "-invalid"
                                                               "-data-422"
                                                               ".json")
-        result = self.adyen.checkout.payments_api.create_payment_session(request)
+        result = self.adyen.checkout.payments_api.sessions(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://checkout-test.adyen.com/{self.checkout_version}/sessions',
@@ -593,7 +593,7 @@ class TestCheckout(unittest.TestCase):
                                                               "test/mocks/checkout"
                                                               "/updatepaymentlinks"
                                                               "-success.json")
-        result = self.adyen.checkout.payment_links_api.update_status_of_payment_link(request, id)
+        result = self.adyen.checkout.payment_links_api.update_payment_link(request, id)
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
             f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks/{id}',
