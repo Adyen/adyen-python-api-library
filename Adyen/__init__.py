@@ -22,7 +22,7 @@ from .services import (
     AdyenManagementApi,
     AdyenCheckoutApi,
     AdyenTerminalManagementApi,
-    AdyenLegalEntityManagementApi
+    AdyenLegalEntityManagementApi,
     AdyenStoredValueApi
 )
 
