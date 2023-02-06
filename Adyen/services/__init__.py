@@ -8,3 +8,4 @@ from .terminal import AdyenTerminal
 from .management import AdyenManagementApi
 from .legalEntityManagement import AdyenLegalEntityManagementApi
 from .transfers import AdyenTransfersApi
+from .storedValue import AdyenStoredValueApi
