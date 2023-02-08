@@ -10,7 +10,7 @@ ENDPOINT_CHECKOUT_LIVE_SUFFIX = "https://{live_prefix}-checkout-live" \
                                 ".adyenpayments.com/checkout"
 BASE_STORED_VALUE_URL = "https://pal-{}.adyen.com/pal/servlet/StoredValue"
 API_BIN_LOOKUP_VERSION = "v52"
-API_CHECKOUT_VERSION = "v69"
+API_CHECKOUT_VERSION = "v70"
 API_CHECKOUT_UTILITY_VERSION = "v1"
 API_MANAGEMENT_VERSION = "v1"
 API_RECURRING_VERSION = "v68"
