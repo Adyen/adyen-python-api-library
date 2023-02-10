@@ -14,7 +14,7 @@ services:=balancePlatform checkout legalEntityManagement management payments pay
 smallServices:=balanceControlService binlookup dataProtection recurring storedValue
 
 binlookup: spec=BinLookupService-v52
-checkout: spec=CheckoutService-v69
+checkout: spec=CheckoutService-v70
 dataProtection: spec=DataProtectionService-v1
 storedValue: spec=StoredValueService-v46
 terminalManagement: spec=TfmAPIService-v1
