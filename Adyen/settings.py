@@ -1,5 +1,6 @@
 # Those constants are used from the library only
 BASE_TERMINAL_URL = "https://postfmapi-{}.adyen.com/postfmapi/terminal"
+BASE_TRANSFERS_URL = "https://balanceplatform-api-{}.adyen.com/btl"
 BASE_MANAGEMENT_URL = "https://management-{}.adyen.com"
 BASE_LEGAL_ENTITY_MANAGEMENT_URL = "https://kyc-{}.adyen.com/lem"
 PAL_LIVE_ENDPOINT_URL_TEMPLATE = "https://{live_prefix}-pal-live" \
@@ -17,6 +18,7 @@ API_RECURRING_VERSION = "v68"
 API_PAYMENT_VERSION = "v64"
 API_PAYOUT_VERSION = "v68"
 API_TERMINAL_VERSION = "v1"
+API_TRANSFERS_VERSION = "v3"
 API_LEGAL_ENTITY_MANAGEMENT_VERSION = "v2"
 API_STORED_VALUE_VERSION = "v46"
 LIB_VERSION = "7.1.1"
