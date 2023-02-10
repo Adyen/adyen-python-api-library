@@ -23,6 +23,7 @@ from .services import (
     AdyenCheckoutApi,
     AdyenTerminal,
     AdyenLegalEntityManagementApi,
+    AdyenDataProtectionApi,
     AdyenTransfersApi,
     AdyenStoredValueApi
 )
@@ -41,6 +42,7 @@ class Adyen(AdyenBase):
         self.terminal = AdyenTerminal(client=self.client)
         self.management = AdyenManagementApi(client=self.client)
         self.legalEntityManagement = AdyenLegalEntityManagementApi(client=self.client)
+        self.dataProtection = AdyenDataProtectionApi(client=self.client)
         self.transfers = AdyenTransfersApi(client=self.client)
         self.storedValue = AdyenStoredValueApi(client=self.client)
 
@@ -54,6 +56,7 @@ binlookup = _base_adyen_obj.binlookup
 terminal = _base_adyen_obj.terminal
 management = _base_adyen_obj.management
 legalEntityManagement = _base_adyen_obj.legalEntityManagement
+dataProtection = _base_adyen_obj.dataProtection
 transfers = _base_adyen_obj.transfers
 storedValue = _base_adyen_obj.storedValue
 

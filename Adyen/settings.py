@@ -1,4 +1,5 @@
 # Those constants are used from the library only
+BASE_DATA_PROTECION_URL = "https://ca-{}.adyen.com/ca/services/DataProtectionService"
 BASE_TERMINAL_URL = "https://postfmapi-{}.adyen.com/postfmapi/terminal"
 BASE_TRANSFERS_URL = "https://balanceplatform-api-{}.adyen.com/btl"
 BASE_MANAGEMENT_URL = "https://management-{}.adyen.com"
@@ -13,6 +14,7 @@ BASE_STORED_VALUE_URL = "https://pal-{}.adyen.com/pal/servlet/StoredValue"
 API_BIN_LOOKUP_VERSION = "v52"
 API_CHECKOUT_VERSION = "v70"
 API_CHECKOUT_UTILITY_VERSION = "v1"
+API_DATA_PROTECION_VERSION = "v1"
 API_MANAGEMENT_VERSION = "v1"
 API_RECURRING_VERSION = "v68"
 API_PAYMENT_VERSION = "v64"
