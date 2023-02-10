@@ -96,15 +96,9 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             'https://checkout-test.adyen.com/{}/payments'.format(self.checkout_version),
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json={
                 'returnUrl': 'https://your-company.com/...',
-                u'applicationInfo': {
-                    u'adyenLibrary': {
-                        u'version': f"{self.lib_version}",
-                        u'name': 'adyen-python-api-library'
-                    }
-                },
                 'reference': '54431',
                 'merchantAccount': 'YourMerchantAccount',
                 'amount': {'currency': 'EUR', 'value': '100000'},
@@ -140,7 +134,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             u'https://checkout-test.adyen.com/{}/payments/details'.format(self.checkout_version),
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json={
                 'paymentData': 'Hee57361f99....',
                 'details': {'MD': 'sdfsdfsdf...', 'PaRes': 'sdkfhskdjfsdf...'}
@@ -398,7 +392,7 @@ class TestCheckout(unittest.TestCase):
             f'https://checkout-test.adyen.com/{self.checkout_version}/payments/{psp_reference}/captures',
             json=request,
             xapikey='YourXapikey',
-            headers={}
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}}
         )
         self.assertEqual(psp_reference, result.message["paymentPspReference"])
         self.assertIsNotNone(result.message["pspReference"])
@@ -440,7 +434,7 @@ class TestCheckout(unittest.TestCase):
             f'https://checkout-test.adyen.com/{self.checkout_version}/orders',
             json=request,
             xapikey='YourXapikey',
-            headers={}
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}}
         )
         self.assertEqual("8515930288670953", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
@@ -461,7 +455,7 @@ class TestCheckout(unittest.TestCase):
             f'https://checkout-test.adyen.com/{self.checkout_version}/orders/cancel',
             json=request,
             xapikey='YourXapikey',
-            headers={}
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}}
         )
         self.assertEqual("8515931182066678", result.message['pspReference'])
         self.assertEqual("Received", result.message['resultCode'])
@@ -480,7 +474,7 @@ class TestCheckout(unittest.TestCase):
             f'https://checkout-test.adyen.com/{self.checkout_version}/paymentMethods/balance',
             json=request,
             xapikey='YourXapikey',
-            headers={}
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}}
         )
         self.assertEqual("851611111111713K", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
@@ -514,9 +508,9 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://checkout-test.adyen.com/{self.checkout_version}/sessions',
-            json={'merchantAccount': 'YourMerchantAccount', 'applicationInfo': {'adyenLibrary': {'name': 'adyen-python-api-library', 'version': '7.1.1'}}},
+            json={'merchantAccount': 'YourMerchantAccount'},
             xapikey='YourXapikey',
-            headers={}
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}}
         )
         self.assertEqual(422, result.message['status'])
         self.assertEqual("130", result.message['errorCode'])
@@ -561,7 +555,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             xapikey='YourXapikey',
             json=request
         )
@@ -578,7 +572,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks/{id}',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             xapikey="YourXapikey",
             json=None
         )
@@ -597,7 +591,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
             f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks/{id}',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             xapikey="YourXapikey",
             json=request
         )

@@ -32,7 +32,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/confirmThirdParty',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             username='YourWSUser',
             password='YourWSPassword',
@@ -66,7 +66,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/declineThirdParty',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             username='YourWSUser',
             password='YourWSPassword',
@@ -113,7 +113,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/storeDetail',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             username='YourWSUser',
             password='YourWSPassword'
@@ -143,7 +143,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/submitThirdParty',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             username='YourWSUser',
             password='YourWSPassword'
@@ -286,7 +286,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/storeDetailAndSubmitThirdParty',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             username='YourWSUser',
             password='YourWSPassword'
@@ -320,7 +320,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/storeDetailAndSubmitThirdParty',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             username='YourWSUser',
             password='YourWSPassword'

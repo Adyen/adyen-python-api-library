@@ -45,7 +45,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://kyc-test.adyen.com/lem/{self.lem_version}/legalEntities',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )
@@ -59,7 +59,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://kyc-test.adyen.com/lem/{self.lem_version}/transferInstruments/{instrumentId}',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=None,
             xapikey="YourXapikey"
         )
@@ -81,7 +81,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
             f'https://kyc-test.adyen.com/lem/{self.lem_version}/businessLines/{businessLineId}',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )
@@ -99,7 +99,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
             f'https://kyc-test.adyen.com/lem/{self.lem_version}/legalEntities/{legalEntityId}/termsOfService/{documentId}',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )

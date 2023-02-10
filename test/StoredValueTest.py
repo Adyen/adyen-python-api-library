@@ -35,7 +35,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/issue',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )
@@ -63,7 +63,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/changeStatus',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )
@@ -90,7 +90,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/load',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )
@@ -112,7 +112,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/checkBalance',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )
@@ -138,7 +138,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/mergeBalance',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )
@@ -155,7 +155,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/voidTransaction',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )

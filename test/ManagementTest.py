@@ -31,7 +31,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://management-test.adyen.com/{self.management_version}/companies/{id}',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=None,
             xapikey="YourXapikey"
         )
@@ -54,7 +54,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'DELETE',
             f'https://management-test.adyen.com/{self.management_version}/me/allowedOrigins/{originId}',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=None,
             xapikey="YourXapikey"
         )
@@ -81,7 +81,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
             f'https://management-test.adyen.com/{self.management_version}/merchants/{merchantId}/stores/{storeId}',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=request,
             xapikey="YourXapikey"
         )
@@ -117,7 +117,7 @@ class TestManagement(unittest.TestCase):
             'POST',
             f'https://management-test.adyen.com/{self.management_version}/companies/{companyId}/users',
             json=request,
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             xapikey="YourXapikey"
         )
 
@@ -150,7 +150,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://management-test.adyen.com/{self.management_version}/companies/{companyId}/merchants?pageNumber=1&pageSize=10',
-            headers={},
+            headers={'Application-Info': {'libName': 'adyen-python-api-library', 'version': settings.LIB_VERSION}},
             json=None,
             xapikey="YourXapikey"
         )
