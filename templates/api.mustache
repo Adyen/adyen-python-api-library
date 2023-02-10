@@ -14,7 +14,7 @@ class {{classname}}(AdyenServiceBase):
 
 {{#operations}}
 {{#operation}}
-    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}(self, {{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/requiredParams}}idempotency_key=None, **kwargs):
+    def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}(self, {{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{^isQueryParam}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/isQueryParam}}{{/requiredParams}}idempotency_key=None, **kwargs):
         """
         {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
         """

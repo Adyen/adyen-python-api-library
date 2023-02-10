@@ -6,5 +6,7 @@ from .terminalManagement import AdyenTerminalManagementApi
 from .payouts import AdyenPayoutsApi
 from .management import AdyenManagementApi
 from .legalEntityManagement import AdyenLegalEntityManagementApi
+from .dataProtection import AdyenDataProtectionApi
+from .transfers import AdyenTransfersApi
 from .storedValue import AdyenStoredValueApi
 from .recurring import AdyenRecurringApi
