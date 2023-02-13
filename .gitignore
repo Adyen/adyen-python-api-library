@@ -9,3 +9,5 @@ venv/
 .vagrant/
 .env
 test.py
+build/
+out/

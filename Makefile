@@ -39,14 +39,14 @@ $(services): build/spec
 		-g $(generator) \
 		-c ./templates/config.yaml \
 		-o build \
-		--global-property apis,apiTests=false,apiDocs=false,supportingFiles=api-single.py\
 		--additional-properties serviceName=$@\
 		--skip-validate-spec
 	mkdir -p Adyen/services
 	cp -r build/openapi_client/api Adyen/services/$@
 	rm -f Adyen/services/$@/*-small.py
 	cp build/api/api-single.py Adyen/services/$@/__init__.py
-	rm -rf build
+	cp build/docs/*Api.md Adyen/services/$@
+	cat build/docs/*ApiOverview.md >> Adyen/services/$@/README.md
 
 $(smallServices): build/spec
 	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
@@ -56,12 +56,11 @@ $(smallServices): build/spec
 		-g $(generator) \
 		-c ./templates/config.yaml \
 		-o build \
-		--global-property apis,apiTests=false,apiDocs=false\
 		--additional-properties serviceName=$@\
 		--skip-validate-spec
 	mkdir -p Adyen/services
 	cp build/openapi_client/api/general_api-small.py Adyen/services/$@.py
-	rm -rf build
+
 
 
 build/spec:

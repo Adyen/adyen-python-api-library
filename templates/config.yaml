@@ -7,3 +7,6 @@ files:
   api-small.mustache:
     destinationFilename: -small.py
     templateType: API
+  service_readme.mustache:
+    templateType: APIDocs
+    destinationFilename: Overview.md
