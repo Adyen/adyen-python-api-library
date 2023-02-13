@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 
-#transfer_funds
+# transfer_funds
 ### Example
 
 ```python

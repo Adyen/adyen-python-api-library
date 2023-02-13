@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 
-#get_all_transactions
+# get_all_transactions
 ### Example
 
 ```python
@@ -35,7 +35,7 @@ apiClient.transactions_api.get_all_transactions(request)
 
 
 
-#get_transaction
+# get_transaction
 ### Example
 
 ```python
