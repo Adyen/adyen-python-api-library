@@ -46,7 +46,8 @@ $(services): build/spec
 	rm -f Adyen/services/$@/*-small.py
 	cp build/api/api-single.py Adyen/services/$@/__init__.py
 	cp build/docs/*Api.md Adyen/services/$@
-	cat build/docs/*ApiOverview.md >> Adyen/services/$@/README.md
+	grep -zh -m 1 '## Documentation for API Endpoints\n\nAll URIs are relative to .*\n\nClass \| Method \| HTTP request \| Description\n' build/docs/*ApiOverview.md -m 1 | head -6  >> Adyen/services/$@/README.md
+	grep -h '\*.*Api\*.*' build/docs/*ApiOverview.md >> Adyen/services/$@/README.md
 
 $(smallServices): build/spec
 	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
