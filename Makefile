@@ -40,6 +40,7 @@ $(services): build/spec
 		-c ./templates/config.yaml \
 		-o build \
 		--additional-properties serviceName=$@\
+		--global-property apis,apiDocs,apiTests=false,supportingFiles=api-single.py\
 		--skip-validate-spec
 	mkdir -p Adyen/services
 	cp -r build/openapi_client/api Adyen/services/$@
