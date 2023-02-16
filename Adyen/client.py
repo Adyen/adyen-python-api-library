@@ -46,7 +46,8 @@ class AdyenResult(object):
 
 class AdyenClient(object):
     IDEMPOTENCY_HEADER_NAME = 'Idempotency-Key'
-    APPLICATION_INFO_HEADER_NAME = 'Application-Info'
+    APPLICATION_INFO_HEADER_NAME = 'adyen-library-name'
+    APPLICATION_VERSION_HEADER_NAME = 'adyen-library-version'
     """A requesting client that interacts with Adyen. This class holds the
     adyen logic of Adyen HTTP API communication. This is the object that can
     maintain its own username, password, merchant_account, hmac and skin_code.
@@ -377,12 +378,40 @@ class AdyenClient(object):
         platform = self._set_platform(**kwargs)
         message = request_data
 
+        with_app_info = [
+            "authorise",
+            "authorise3d",
+            "authorise3ds2",
+            "payments",
+            "paymentSession",
+            "paymentLinks",
+            "paymentMethods/balance",
+            "sessions"
+        ]
+
+        if endpoint in with_app_info and (method == 'POST' or method == 'PATCH'):
+            if 'applicationInfo' in request_data:
+                request_data['applicationInfo'].update({
+                    "adyenLibrary": {
+                        "name": settings.LIB_NAME,
+                        "version": settings.LIB_VERSION
+                    }
+                })
+            else:
+                request_data['applicationInfo'] = {
+                    "adyenLibrary": {
+                        "name": settings.LIB_NAME,
+                        "version": settings.LIB_VERSION
+                    }
+                }
+
+        headers = {
+            self.APPLICATION_INFO_HEADER_NAME: settings.LIB_NAME,
+            self.APPLICATION_VERSION_HEADER_NAME: settings.LIB_VERSION
+        }
+
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
-        headers = {self.APPLICATION_INFO_HEADER_NAME: {
-            "libName": settings.LIB_NAME,
-            "version": settings.LIB_VERSION
-        }}
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
 
