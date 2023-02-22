@@ -66,4 +66,4 @@ $(smallServices): build/spec
 
 build/spec:
 	git clone https://github.com/Adyen/adyen-openapi.git build/spec
-	sed -i 's/"openapi" : "3.[0-9].[0-9]"/"openapi" : "3.0.0"/' build/spec/json/*.json
+	perl -i -pe's/"openapi" : "3.[0-9].[0-9]"/"openapi" : "3.0.0"/' build/spec/json/*.json
