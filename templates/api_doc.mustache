@@ -19,16 +19,21 @@ Method | HTTP request | Description
 ```python
 from Adyen import {{serviceName}}
 
+
 apiClient = {{serviceName}}
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-{{#bodyParams}}
-{{#examples}}{{#example}}request = {{.}}{{/example}}{{/examples}}
-{{^examples}}request = {} #your request{{/examples}}
-{{/bodyParams}}
-apiClient.{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}.{{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}({{#bodyParams}}request{{/bodyParams}})
+request = {} #your request
+
+apiClient.{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}.{{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}(request)
 
 ```
+
+#for future work
+### required params
+### Request/Body Parameters
+### Query params
+### Path params
 
 
 {{/operation}}

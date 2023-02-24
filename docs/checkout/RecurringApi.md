@@ -16,12 +16,21 @@ Method | HTTP request | Description
 ```python
 from Adyen import checkout
 
+
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-apiClient.recurring_api.delete_token_for_stored_payment_details()
+request = {} #your request
+
+apiClient.recurring_api.delete_token_for_stored_payment_details(request)
 
 ```
+
+#for future work
+### required params
+### Request/Body Parameters
+### Query params
+### Path params
 
 
 
@@ -32,11 +41,20 @@ apiClient.recurring_api.delete_token_for_stored_payment_details()
 ```python
 from Adyen import checkout
 
+
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-apiClient.recurring_api.get_tokens_for_stored_payment_details()
+request = {} #your request
+
+apiClient.recurring_api.get_tokens_for_stored_payment_details(request)
 
 ```
+
+#for future work
+### required params
+### Request/Body Parameters
+### Query params
+### Path params
 
 

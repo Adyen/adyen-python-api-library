@@ -16,16 +16,21 @@ Method | HTTP request | Description
 ```python
 from Adyen import checkout
 
+
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {
-  &quot;data&quot; : &quot;data&quot;
-}
+request = {} #your request
 
 apiClient.utility_api.get_apple_pay_session(request)
 
 ```
+
+#for future work
+### required params
+### Request/Body Parameters
+### Query params
+### Path params
 
 
 
@@ -36,17 +41,20 @@ apiClient.utility_api.get_apple_pay_session(request)
 ```python
 from Adyen import checkout
 
+
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {
-  &quot;originKeys&quot; : {
-    &quot;key&quot; : &quot;originKeys&quot;
-  }
-}
+request = {} #your request
 
 apiClient.utility_api.create_originkey_values_for_domains(request)
 
 ```
+
+#for future work
+### required params
+### Request/Body Parameters
+### Query params
+### Path params
 
 
