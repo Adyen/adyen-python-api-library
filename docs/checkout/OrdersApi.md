@@ -17,21 +17,44 @@ Method | HTTP request | Description
 ```python
 from Adyen import checkout
 
-
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
+request = {
+  &quot;reference&quot; : &quot;reference&quot;,
+  &quot;remainingAmount&quot; : {
+    &quot;currency&quot; : &quot;currency&quot;,
+    &quot;value&quot; : 0
+  },
+  &quot;amount&quot; : {
+    &quot;currency&quot; : &quot;currency&quot;,
+    &quot;value&quot; : 0
+  },
+  &quot;resultCode&quot; : &quot;Success&quot;,
+  &quot;orderData&quot; : &quot;orderData&quot;,
+  &quot;refusalReason&quot; : &quot;refusalReason&quot;,
+  &quot;additionalData&quot; : {
+    &quot;key&quot; : &quot;additionalData&quot;
+  },
+  &quot;fraudResult&quot; : {
+    &quot;accountScore&quot; : 6,
+    &quot;results&quot; : [ {
+      &quot;accountScore&quot; : 1,
+      &quot;name&quot; : &quot;name&quot;,
+      &quot;checkId&quot; : 5
+    }, {
+      &quot;accountScore&quot; : 1,
+      &quot;name&quot; : &quot;name&quot;,
+      &quot;checkId&quot; : 5
+    } ]
+  },
+  &quot;pspReference&quot; : &quot;pspReference&quot;,
+  &quot;expiresAt&quot; : &quot;expiresAt&quot;
+}
 
 apiClient.orders_api.create_order(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
 
 
 
@@ -42,21 +65,17 @@ apiClient.orders_api.create_order(request)
 ```python
 from Adyen import checkout
 
-
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
+request = {
+  &quot;resultCode&quot; : &quot;Received&quot;,
+  &quot;pspReference&quot; : &quot;pspReference&quot;
+}
 
 apiClient.orders_api.cancel_order(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
 
 
 
@@ -67,20 +86,40 @@ apiClient.orders_api.cancel_order(request)
 ```python
 from Adyen import checkout
 
-
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
+request = {
+  &quot;balance&quot; : {
+    &quot;currency&quot; : &quot;currency&quot;,
+    &quot;value&quot; : 0
+  },
+  &quot;resultCode&quot; : &quot;Success&quot;,
+  &quot;refusalReason&quot; : &quot;refusalReason&quot;,
+  &quot;additionalData&quot; : {
+    &quot;key&quot; : &quot;additionalData&quot;
+  },
+  &quot;transactionLimit&quot; : {
+    &quot;currency&quot; : &quot;currency&quot;,
+    &quot;value&quot; : 0
+  },
+  &quot;fraudResult&quot; : {
+    &quot;accountScore&quot; : 6,
+    &quot;results&quot; : [ {
+      &quot;accountScore&quot; : 1,
+      &quot;name&quot; : &quot;name&quot;,
+      &quot;checkId&quot; : 5
+    }, {
+      &quot;accountScore&quot; : 1,
+      &quot;name&quot; : &quot;name&quot;,
+      &quot;checkId&quot; : 5
+    } ]
+  },
+  &quot;pspReference&quot; : &quot;pspReference&quot;
+}
 
 apiClient.orders_api.get_balance_of_gift_card(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
 
 

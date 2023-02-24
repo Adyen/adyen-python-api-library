@@ -20,21 +20,20 @@ Method | HTTP request | Description
 ```python
 from Adyen import checkout
 
-
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
+request = {
+  &quot;reference&quot; : &quot;reference&quot;,
+  &quot;merchantAccount&quot; : &quot;merchantAccount&quot;,
+  &quot;paymentReference&quot; : &quot;paymentReference&quot;,
+  &quot;pspReference&quot; : &quot;pspReference&quot;,
+  &quot;status&quot; : &quot;received&quot;
+}
 
 apiClient.modifications_api.cancel_authorised_payment(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
 
 
 
@@ -45,21 +44,44 @@ apiClient.modifications_api.cancel_authorised_payment(request)
 ```python
 from Adyen import checkout
 
-
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
+request = {
+  &quot;industryUsage&quot; : &quot;delayedCharge&quot;,
+  &quot;reference&quot; : &quot;reference&quot;,
+  &quot;amount&quot; : {
+    &quot;currency&quot; : &quot;currency&quot;,
+    &quot;value&quot; : 0
+  },
+  &quot;splits&quot; : [ {
+    &quot;reference&quot; : &quot;reference&quot;,
+    &quot;amount&quot; : {
+      &quot;currency&quot; : &quot;currency&quot;,
+      &quot;value&quot; : 5
+    },
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;type&quot; : &quot;BalanceAccount&quot;,
+    &quot;account&quot; : &quot;account&quot;
+  }, {
+    &quot;reference&quot; : &quot;reference&quot;,
+    &quot;amount&quot; : {
+      &quot;currency&quot; : &quot;currency&quot;,
+      &quot;value&quot; : 5
+    },
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;type&quot; : &quot;BalanceAccount&quot;,
+    &quot;account&quot; : &quot;account&quot;
+  } ],
+  &quot;merchantAccount&quot; : &quot;merchantAccount&quot;,
+  &quot;paymentPspReference&quot; : &quot;paymentPspReference&quot;,
+  &quot;pspReference&quot; : &quot;pspReference&quot;,
+  &quot;status&quot; : &quot;received&quot;
+}
 
 apiClient.modifications_api.update_authorised_amount(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
 
 
 
@@ -70,21 +92,20 @@ apiClient.modifications_api.update_authorised_amount(request)
 ```python
 from Adyen import checkout
 
-
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
+request = {
+  &quot;reference&quot; : &quot;reference&quot;,
+  &quot;merchantAccount&quot; : &quot;merchantAccount&quot;,
+  &quot;paymentPspReference&quot; : &quot;paymentPspReference&quot;,
+  &quot;pspReference&quot; : &quot;pspReference&quot;,
+  &quot;status&quot; : &quot;received&quot;
+}
 
 apiClient.modifications_api.cancel_authorised_payment_by_psp_reference(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
 
 
 
@@ -95,21 +116,80 @@ apiClient.modifications_api.cancel_authorised_payment_by_psp_reference(request)
 ```python
 from Adyen import checkout
 
-
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
+request = {
+  &quot;lineItems&quot; : [ {
+    &quot;quantity&quot; : 1,
+    &quot;color&quot; : &quot;color&quot;,
+    &quot;itemCategory&quot; : &quot;itemCategory&quot;,
+    &quot;amountExcludingTax&quot; : 1,
+    &quot;taxPercentage&quot; : 7,
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;upc&quot; : &quot;upc&quot;,
+    &quot;manufacturer&quot; : &quot;manufacturer&quot;,
+    &quot;size&quot; : &quot;size&quot;,
+    &quot;imageUrl&quot; : &quot;imageUrl&quot;,
+    &quot;id&quot; : &quot;id&quot;,
+    &quot;amountIncludingTax&quot; : 1,
+    &quot;productUrl&quot; : &quot;productUrl&quot;,
+    &quot;sku&quot; : &quot;sku&quot;,
+    &quot;taxAmount&quot; : 6,
+    &quot;brand&quot; : &quot;brand&quot;,
+    &quot;receiverEmail&quot; : &quot;receiverEmail&quot;
+  }, {
+    &quot;quantity&quot; : 1,
+    &quot;color&quot; : &quot;color&quot;,
+    &quot;itemCategory&quot; : &quot;itemCategory&quot;,
+    &quot;amountExcludingTax&quot; : 1,
+    &quot;taxPercentage&quot; : 7,
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;upc&quot; : &quot;upc&quot;,
+    &quot;manufacturer&quot; : &quot;manufacturer&quot;,
+    &quot;size&quot; : &quot;size&quot;,
+    &quot;imageUrl&quot; : &quot;imageUrl&quot;,
+    &quot;id&quot; : &quot;id&quot;,
+    &quot;amountIncludingTax&quot; : 1,
+    &quot;productUrl&quot; : &quot;productUrl&quot;,
+    &quot;sku&quot; : &quot;sku&quot;,
+    &quot;taxAmount&quot; : 6,
+    &quot;brand&quot; : &quot;brand&quot;,
+    &quot;receiverEmail&quot; : &quot;receiverEmail&quot;
+  } ],
+  &quot;reference&quot; : &quot;reference&quot;,
+  &quot;amount&quot; : {
+    &quot;currency&quot; : &quot;currency&quot;,
+    &quot;value&quot; : 0
+  },
+  &quot;splits&quot; : [ {
+    &quot;reference&quot; : &quot;reference&quot;,
+    &quot;amount&quot; : {
+      &quot;currency&quot; : &quot;currency&quot;,
+      &quot;value&quot; : 5
+    },
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;type&quot; : &quot;BalanceAccount&quot;,
+    &quot;account&quot; : &quot;account&quot;
+  }, {
+    &quot;reference&quot; : &quot;reference&quot;,
+    &quot;amount&quot; : {
+      &quot;currency&quot; : &quot;currency&quot;,
+      &quot;value&quot; : 5
+    },
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;type&quot; : &quot;BalanceAccount&quot;,
+    &quot;account&quot; : &quot;account&quot;
+  } ],
+  &quot;merchantAccount&quot; : &quot;merchantAccount&quot;,
+  &quot;paymentPspReference&quot; : &quot;paymentPspReference&quot;,
+  &quot;pspReference&quot; : &quot;pspReference&quot;,
+  &quot;status&quot; : &quot;received&quot;
+}
 
 apiClient.modifications_api.capture_authorised_payment(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
 
 
 
@@ -120,21 +200,81 @@ apiClient.modifications_api.capture_authorised_payment(request)
 ```python
 from Adyen import checkout
 
-
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
+request = {
+  &quot;lineItems&quot; : [ {
+    &quot;quantity&quot; : 1,
+    &quot;color&quot; : &quot;color&quot;,
+    &quot;itemCategory&quot; : &quot;itemCategory&quot;,
+    &quot;amountExcludingTax&quot; : 1,
+    &quot;taxPercentage&quot; : 7,
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;upc&quot; : &quot;upc&quot;,
+    &quot;manufacturer&quot; : &quot;manufacturer&quot;,
+    &quot;size&quot; : &quot;size&quot;,
+    &quot;imageUrl&quot; : &quot;imageUrl&quot;,
+    &quot;id&quot; : &quot;id&quot;,
+    &quot;amountIncludingTax&quot; : 1,
+    &quot;productUrl&quot; : &quot;productUrl&quot;,
+    &quot;sku&quot; : &quot;sku&quot;,
+    &quot;taxAmount&quot; : 6,
+    &quot;brand&quot; : &quot;brand&quot;,
+    &quot;receiverEmail&quot; : &quot;receiverEmail&quot;
+  }, {
+    &quot;quantity&quot; : 1,
+    &quot;color&quot; : &quot;color&quot;,
+    &quot;itemCategory&quot; : &quot;itemCategory&quot;,
+    &quot;amountExcludingTax&quot; : 1,
+    &quot;taxPercentage&quot; : 7,
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;upc&quot; : &quot;upc&quot;,
+    &quot;manufacturer&quot; : &quot;manufacturer&quot;,
+    &quot;size&quot; : &quot;size&quot;,
+    &quot;imageUrl&quot; : &quot;imageUrl&quot;,
+    &quot;id&quot; : &quot;id&quot;,
+    &quot;amountIncludingTax&quot; : 1,
+    &quot;productUrl&quot; : &quot;productUrl&quot;,
+    &quot;sku&quot; : &quot;sku&quot;,
+    &quot;taxAmount&quot; : 6,
+    &quot;brand&quot; : &quot;brand&quot;,
+    &quot;receiverEmail&quot; : &quot;receiverEmail&quot;
+  } ],
+  &quot;reference&quot; : &quot;reference&quot;,
+  &quot;amount&quot; : {
+    &quot;currency&quot; : &quot;currency&quot;,
+    &quot;value&quot; : 0
+  },
+  &quot;splits&quot; : [ {
+    &quot;reference&quot; : &quot;reference&quot;,
+    &quot;amount&quot; : {
+      &quot;currency&quot; : &quot;currency&quot;,
+      &quot;value&quot; : 5
+    },
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;type&quot; : &quot;BalanceAccount&quot;,
+    &quot;account&quot; : &quot;account&quot;
+  }, {
+    &quot;reference&quot; : &quot;reference&quot;,
+    &quot;amount&quot; : {
+      &quot;currency&quot; : &quot;currency&quot;,
+      &quot;value&quot; : 5
+    },
+    &quot;description&quot; : &quot;description&quot;,
+    &quot;type&quot; : &quot;BalanceAccount&quot;,
+    &quot;account&quot; : &quot;account&quot;
+  } ],
+  &quot;merchantAccount&quot; : &quot;merchantAccount&quot;,
+  &quot;paymentPspReference&quot; : &quot;paymentPspReference&quot;,
+  &quot;merchantRefundReason&quot; : &quot;FRAUD&quot;,
+  &quot;pspReference&quot; : &quot;pspReference&quot;,
+  &quot;status&quot; : &quot;received&quot;
+}
 
 apiClient.modifications_api.refund_captured_payment(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
 
 
 
@@ -145,20 +285,19 @@ apiClient.modifications_api.refund_captured_payment(request)
 ```python
 from Adyen import checkout
 
-
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
+request = {
+  &quot;reference&quot; : &quot;reference&quot;,
+  &quot;merchantAccount&quot; : &quot;merchantAccount&quot;,
+  &quot;paymentPspReference&quot; : &quot;paymentPspReference&quot;,
+  &quot;pspReference&quot; : &quot;pspReference&quot;,
+  &quot;status&quot; : &quot;received&quot;
+}
 
 apiClient.modifications_api.refund_or_cancel_payment(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
 
 
