@@ -26,14 +26,6 @@ apiClient.classic_checkout_sdk_api.payment_session(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # verify_payment_result
 ### Example
@@ -50,11 +42,3 @@ request = {} #your request
 apiClient.classic_checkout_sdk_api.verify_payment_result(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-

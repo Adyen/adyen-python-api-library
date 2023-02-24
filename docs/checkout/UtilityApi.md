@@ -26,14 +26,6 @@ apiClient.utility_api.get_apple_pay_session(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # create_originkey_values_for_domains
 ### Example
@@ -50,11 +42,3 @@ request = {} #your request
 apiClient.utility_api.create_originkey_values_for_domains(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-

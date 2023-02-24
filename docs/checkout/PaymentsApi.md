@@ -30,14 +30,6 @@ apiClient.payments_api.list_brands_on_card(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # donations
 ### Example
@@ -54,14 +46,6 @@ request = {} #your request
 apiClient.payments_api.donations(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
 
 
 # payment_methods
@@ -80,14 +64,6 @@ apiClient.payments_api.payment_methods(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # payments
 ### Example
@@ -104,14 +80,6 @@ request = {} #your request
 apiClient.payments_api.payments(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
 
 
 # payments_details
@@ -130,14 +98,6 @@ apiClient.payments_api.payments_details(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # sessions
 ### Example
@@ -154,11 +114,3 @@ request = {} #your request
 apiClient.payments_api.sessions(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-

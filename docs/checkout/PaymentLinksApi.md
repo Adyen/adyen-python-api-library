@@ -21,19 +21,10 @@ from Adyen import checkout
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-request = {} #your request
 
-apiClient.payment_links_api.get_payment_link(request)
+apiClient.payment_links_api.get_payment_link()
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
 
 
 # update_payment_link
@@ -52,14 +43,6 @@ apiClient.payment_links_api.update_payment_link(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # create_payment_link
 ### Example
@@ -76,11 +59,3 @@ request = {} #your request
 apiClient.payment_links_api.create_payment_link(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-

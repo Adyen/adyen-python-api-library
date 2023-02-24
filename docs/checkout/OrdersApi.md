@@ -27,14 +27,6 @@ apiClient.orders_api.create_order(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # cancel_order
 ### Example
@@ -52,14 +44,6 @@ apiClient.orders_api.cancel_order(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # get_balance_of_gift_card
 ### Example
@@ -76,11 +60,3 @@ request = {} #your request
 apiClient.orders_api.get_balance_of_gift_card(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-

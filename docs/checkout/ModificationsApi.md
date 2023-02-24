@@ -30,14 +30,6 @@ apiClient.modifications_api.cancel_authorised_payment(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # update_authorised_amount
 ### Example
@@ -54,14 +46,6 @@ request = {} #your request
 apiClient.modifications_api.update_authorised_amount(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
 
 
 # cancel_authorised_payment_by_psp_reference
@@ -80,14 +64,6 @@ apiClient.modifications_api.cancel_authorised_payment_by_psp_reference(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # capture_authorised_payment
 ### Example
@@ -104,14 +80,6 @@ request = {} #your request
 apiClient.modifications_api.capture_authorised_payment(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
 
 
 # refund_captured_payment
@@ -130,14 +98,6 @@ apiClient.modifications_api.refund_captured_payment(request)
 
 ```
 
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
-
 
 # refund_or_cancel_payment
 ### Example
@@ -154,11 +114,3 @@ request = {} #your request
 apiClient.modifications_api.refund_or_cancel_payment(request)
 
 ```
-
-#for future work
-### required params
-### Request/Body Parameters
-### Query params
-### Path params
-
-
