@@ -434,7 +434,7 @@ request = {
   &quot;paymentSession&quot; : &quot;paymentSession&quot;
 }
 
-response = apiClient.classic_checkout_sdk_api.payment_session(request)
+apiClient.classic_checkout_sdk_api.payment_session(request)
 
 ```
 
@@ -494,7 +494,7 @@ request = {
   }
 }
 
-response = apiClient.classic_checkout_sdk_api.verify_payment_result(request)
+apiClient.classic_checkout_sdk_api.verify_payment_result(request)
 
 ```
 

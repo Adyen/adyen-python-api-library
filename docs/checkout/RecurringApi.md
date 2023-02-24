@@ -19,7 +19,7 @@ from Adyen import checkout
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-response = apiClient.recurring_api.delete_token_for_stored_payment_details()
+apiClient.recurring_api.delete_token_for_stored_payment_details()
 
 ```
 
@@ -35,7 +35,7 @@ from Adyen import checkout
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-response = apiClient.recurring_api.get_tokens_for_stored_payment_details()
+apiClient.recurring_api.get_tokens_for_stored_payment_details()
 
 ```
 

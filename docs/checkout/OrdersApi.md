@@ -52,7 +52,7 @@ request = {
   &quot;expiresAt&quot; : &quot;expiresAt&quot;
 }
 
-response = apiClient.orders_api.create_order(request)
+apiClient.orders_api.create_order(request)
 
 ```
 
@@ -73,7 +73,7 @@ request = {
   &quot;pspReference&quot; : &quot;pspReference&quot;
 }
 
-response = apiClient.orders_api.cancel_order(request)
+apiClient.orders_api.cancel_order(request)
 
 ```
 
@@ -118,7 +118,7 @@ request = {
   &quot;pspReference&quot; : &quot;pspReference&quot;
 }
 
-response = apiClient.orders_api.get_balance_of_gift_card(request)
+apiClient.orders_api.get_balance_of_gift_card(request)
 
 ```
 
