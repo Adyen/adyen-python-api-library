@@ -33,7 +33,7 @@ request = {
   } ]
 }
 
-apiClient.payments_api.list_brands_on_card(request)
+response = apiClient.payments_api.list_brands_on_card(request)
 
 ```
 
@@ -144,7 +144,7 @@ request = {
   &quot;status&quot; : &quot;completed&quot;
 }
 
-apiClient.payments_api.donations(request)
+response = apiClient.payments_api.donations(request)
 
 ```
 
@@ -555,7 +555,7 @@ request = {
   } ]
 }
 
-apiClient.payments_api.payment_methods(request)
+response = apiClient.payments_api.payment_methods(request)
 
 ```
 
@@ -655,7 +655,7 @@ request = {
   }
 }
 
-apiClient.payments_api.payments(request)
+response = apiClient.payments_api.payments(request)
 
 ```
 
@@ -756,7 +756,7 @@ request = {
   }
 }
 
-apiClient.payments_api.payments_details(request)
+response = apiClient.payments_api.payments_details(request)
 
 ```
 
@@ -1072,7 +1072,7 @@ request = {
   }
 }
 
-apiClient.payments_api.sessions(request)
+response = apiClient.payments_api.sessions(request)
 
 ```
 

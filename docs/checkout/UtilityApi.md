@@ -23,7 +23,7 @@ request = {
   &quot;data&quot; : &quot;data&quot;
 }
 
-apiClient.utility_api.get_apple_pay_session(request)
+response = apiClient.utility_api.get_apple_pay_session(request)
 
 ```
 
@@ -45,7 +45,7 @@ request = {
   }
 }
 
-apiClient.utility_api.create_originkey_values_for_domains(request)
+response = apiClient.utility_api.create_originkey_values_for_domains(request)
 
 ```
 

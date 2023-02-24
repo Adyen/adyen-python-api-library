@@ -31,7 +31,7 @@ request = {
   &quot;status&quot; : &quot;received&quot;
 }
 
-apiClient.modifications_api.cancel_authorised_payment(request)
+response = apiClient.modifications_api.cancel_authorised_payment(request)
 
 ```
 
@@ -79,7 +79,7 @@ request = {
   &quot;status&quot; : &quot;received&quot;
 }
 
-apiClient.modifications_api.update_authorised_amount(request)
+response = apiClient.modifications_api.update_authorised_amount(request)
 
 ```
 
@@ -103,7 +103,7 @@ request = {
   &quot;status&quot; : &quot;received&quot;
 }
 
-apiClient.modifications_api.cancel_authorised_payment_by_psp_reference(request)
+response = apiClient.modifications_api.cancel_authorised_payment_by_psp_reference(request)
 
 ```
 
@@ -187,7 +187,7 @@ request = {
   &quot;status&quot; : &quot;received&quot;
 }
 
-apiClient.modifications_api.capture_authorised_payment(request)
+response = apiClient.modifications_api.capture_authorised_payment(request)
 
 ```
 
@@ -272,7 +272,7 @@ request = {
   &quot;status&quot; : &quot;received&quot;
 }
 
-apiClient.modifications_api.refund_captured_payment(request)
+response = apiClient.modifications_api.refund_captured_payment(request)
 
 ```
 
@@ -296,7 +296,7 @@ request = {
   &quot;status&quot; : &quot;received&quot;
 }
 
-apiClient.modifications_api.refund_or_cancel_payment(request)
+response = apiClient.modifications_api.refund_or_cancel_payment(request)
 
 ```
 

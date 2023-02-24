@@ -20,7 +20,7 @@ from Adyen import checkout
 apiClient = checkout
 apiClient.client.xapikey = "YourApiKey"
 apiClient.client.platform = "test"
-apiClient.payment_links_api.get_payment_link()
+response = apiClient.payment_links_api.get_payment_link()
 
 ```
 
@@ -170,7 +170,7 @@ request = {
   &quot;status&quot; : &quot;active&quot;
 }
 
-apiClient.payment_links_api.update_payment_link(request)
+response = apiClient.payment_links_api.update_payment_link(request)
 
 ```
 
@@ -320,7 +320,7 @@ request = {
   &quot;status&quot; : &quot;active&quot;
 }
 
-apiClient.payment_links_api.create_payment_link(request)
+response = apiClient.payment_links_api.create_payment_link(request)
 
 ```
 
