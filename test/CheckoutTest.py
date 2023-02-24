@@ -110,7 +110,7 @@ class TestCheckout(unittest.TestCase):
                     'type': 'scheme',
                     'cvc': '737'
                 },
-                'applicationInfo': {'adyenLibrary': {'name': 'adyen-python-api-library', 'version': '7.1.1'}}
+                'applicationInfo': {'adyenLibrary': {'name': 'adyen-python-api-library', 'version': settings.LIB_VERSION}}
             },
             xapikey='YourXapikey'
         )
