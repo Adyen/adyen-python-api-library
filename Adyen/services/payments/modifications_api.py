@@ -12,7 +12,7 @@ class ModificationsApi(AdyenServiceBase):
         super(ModificationsApi, self).__init__(client=client)
         self.service = "payments"
 
-    def change_the_authorised_amount(self, request, idempotency_key=None, **kwargs):
+    def adjust_authorisation(self, request, idempotency_key=None, **kwargs):
         """
         Change the authorised amount
         """
@@ -21,7 +21,7 @@ class ModificationsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def cancel_authorisation(self, request, idempotency_key=None, **kwargs):
+    def cancel(self, request, idempotency_key=None, **kwargs):
         """
         Cancel an authorisation
         """
@@ -30,7 +30,7 @@ class ModificationsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def cancel_or_refund_payment(self, request, idempotency_key=None, **kwargs):
+    def cancel_or_refund(self, request, idempotency_key=None, **kwargs):
         """
         Cancel or refund a payment
         """
@@ -39,7 +39,7 @@ class ModificationsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def capture_authorisation(self, request, idempotency_key=None, **kwargs):
+    def capture(self, request, idempotency_key=None, **kwargs):
         """
         Capture an authorisation
         """
@@ -48,7 +48,7 @@ class ModificationsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def create_donation(self, request, idempotency_key=None, **kwargs):
+    def donate(self, request, idempotency_key=None, **kwargs):
         """
         Create a donation
         """
@@ -57,7 +57,7 @@ class ModificationsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def refund_captured_payment(self, request, idempotency_key=None, **kwargs):
+    def refund(self, request, idempotency_key=None, **kwargs):
         """
         Refund a captured payment
         """
@@ -66,7 +66,7 @@ class ModificationsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def cancel_authorisation_using_your_reference(self, request, idempotency_key=None, **kwargs):
+    def technical_cancel(self, request, idempotency_key=None, **kwargs):
         """
         Cancel an authorisation using your reference
         """
@@ -75,7 +75,7 @@ class ModificationsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def cancel_inperson_refund(self, request, idempotency_key=None, **kwargs):
+    def void_pending_refund(self, request, idempotency_key=None, **kwargs):
         """
         Cancel an in-person refund
         """
