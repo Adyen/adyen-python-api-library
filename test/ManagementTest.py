@@ -26,7 +26,7 @@ class TestManagement(unittest.TestCase):
                                                               "get_company_account"
                                                               ".json")
 
-        result = self.adyen.management.account_company_level_api.get_companies_company_id(companyId=id)
+        result = self.adyen.management.account_company_level_api.get_company_account(companyId=id)
         self.assertEqual(id, result.message['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
@@ -43,14 +43,14 @@ class TestManagement(unittest.TestCase):
                                                               "management/"
                                                               "post_me_allowed"
                                                               "_origins.json")
-        result = self.adyen.management.my_api_credential_api.post_me_allowed_origins(request)
+        result = self.adyen.management.my_api_credential_api.add_allowed_origin(request)
         originId = result.message['id']
         self.assertEqual("YOUR_DOMAIN", result.message['domain'])
         self.adyen.client = self.test.create_client_from_file(204, {},
                                                               "test/mocks/"
                                                               "management/"
                                                               "no_content.json")
-        result = self.adyen.management.my_api_credential_api.delete_me_allowed_origins_origin_id(originId)
+        result = self.adyen.management.my_api_credential_api.remove_allowed_origin(originId)
         self.adyen.client.http_client.request.assert_called_once_with(
             'DELETE',
             f'https://management-test.adyen.com/{self.management_version}/me/allowedOrigins/{originId}',
@@ -75,9 +75,7 @@ class TestManagement(unittest.TestCase):
                                                               ".json")
         storeId = "YOUR_STORE_ID"
         merchantId = "YOUR_MERCHANT_ACCOUNT_ID"
-        result = self.adyen.management.account_store_level_api.patch_merchants_merchant_id_stores_store_id(request,
-                                                                                                           merchantId,
-                                                                                                           storeId)
+        result = self.adyen.management.account_store_level_api.update_store(request,merchantId,storeId)
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
             f'https://management-test.adyen.com/{self.management_version}/merchants/{merchantId}/stores/{storeId}',
@@ -111,7 +109,7 @@ class TestManagement(unittest.TestCase):
                                                               "create_a_user"
                                                               ".json")
         companyId = "YOUR_COMPANY_ACCOUNT"
-        result = self.adyen.management.users_company_level_api.post_companies_company_id_users(request,companyId)
+        result = self.adyen.management.users_company_level_api.create_new_user(request,companyId)
         self.assertEqual(request['name']['firstName'],result.message['name']['firstName'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -130,7 +128,7 @@ class TestManagement(unittest.TestCase):
                                                               "_android_apps"
                                                               ".json")
         companyId = "YOUR_COMPANY_ACCOUNT"
-        result = self.adyen.management.terminal_actions_company_level_api.get_companies_company_id_terminal_actions(companyId)
+        result = self.adyen.management.terminal_actions_company_level_api.list_android_apps(companyId)
         self.assertEqual("ANDA422LZ223223K5F694GCCF732K8",result.message['androidApps'][0]['id'])
 
     def test_query_paramaters(self):
@@ -146,7 +144,7 @@ class TestManagement(unittest.TestCase):
                                                               "management/"
                                                               "get_list_of_merchant_accounts.json")
         result = self.adyen.management.account_company_level_api.\
-            get_companies_company_id_merchants(companyId, query_parameters=query_parameters)
+            list_merchant_accounts(companyId, query_parameters=query_parameters)
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://management-test.adyen.com/{self.management_version}/companies/{companyId}/merchants?pageNumber=1&pageSize=10',
