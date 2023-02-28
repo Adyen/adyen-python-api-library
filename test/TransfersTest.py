@@ -58,7 +58,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://balanceplatform-api-test.adyen.com/btl/{self.transfers_version}/transfers',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -71,7 +71,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://balanceplatform-api-test.adyen.com/btl/{self.transfers_version}/transactions',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
         )
@@ -84,7 +84,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://balanceplatform-api-test.adyen.com/btl/{self.transfers_version}/transactions/{transacion_id}',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
         )

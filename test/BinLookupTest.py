@@ -55,7 +55,7 @@ class TestBinLookup(unittest.TestCase):
             'POST',
             'https://pal-test.adyen.com/pal/servlet/'
             f'BinLookup/{self.binLookup_version}/getCostEstimate',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 'merchantAccount': 'YourMerchantAccount',
                 'amount': '1000',
