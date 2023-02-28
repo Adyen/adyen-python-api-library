@@ -11,13 +11,18 @@ This is the officially supported Python library for using Adyen's APIs.
 | --- | ----------- | ------------ | ----------------- | 
 |[BIN lookup API](https://docs.adyen.com/api-explorer/#/BinLookup/v52/overview) | The BIN Lookup API provides endpoints for retrieving information based on a given BIN. | binLookup | **v52** |
 | [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v69/overview)| Our latest integration for accepting online payments. | checkout | **v70** |
+| [Data Protection API](https://docs.adyen.com/development-resources/data-protection-api) | Endpoint for requesting data erasure. | dataProtection | **v1** |
+| [Legal Entity Management API](https://docs.adyen.com/api-explorer/legalentity/latest/overview) | Endpoint to manage legal entities | legalEntityManagement | **v2** |
 | [Management API](https://docs.adyen.com/api-explorer/#/ManagementService/v1/overview)| Configure and manage your Adyen company and merchant accounts, stores, and payment terminals. | management | **v1** |
 | [Payments API](https://docs.adyen.com/api-explorer/#/Payment/v68/overview)| Our classic integration for online payments. | payments | **v68** |
 | [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v68/overview)| Endpoints for sending funds to your customers. | payouts | **v68** |
 | [POS Terminal Management API](https://docs.adyen.com/api-explorer/#/postfmapi/v1/overview)| Endpoints for managing your point-of-sale payment terminals. | terminal | **v1** |
 | [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v68/overview)| Endpoints for managing saved payment details. | recurring | **v68** |
-
+| [Stored Value API](https://docs.adyen.com/payment-methods/gift-cards/stored-value-api) | Endpoints for managing gift cards. | storedValue | **v46** |
+| [Transfers API](https://docs.adyen.com/api-explorer/transfers/3/overview) | Endpoints for managing transfers, getting information about transactions or moving fund | transfers | **v3** |
 For more information, refer to our [documentation](https://docs.adyen.com/) or the [API Explorer](https://docs.adyen.com/api-explorer/).
+
+
 
  
  
@@ -85,14 +90,13 @@ request = {
       "returnUrl": "https://your-company.com/...",
       "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
     }
-result = adyen.checkout.payments(request)
+result = adyen.checkout.payments_api.payments(request)
 ~~~~
 #### Using one of the services
 ~~~~python
-from Adyen import AdyenCheckoutApi
-adyen = AdyenCheckoutApi()
-adyen.client.xapikey = "YourXapikey"
-adyen.client.platform = "test"  # change to live for production
+from Adyen import checkout
+checkout.client.xapikey = "YourXapikey"
+checkout.client.platform = "test"  # change to live for production
 request = {
       "amount": {
         "currency": "USD",
@@ -110,7 +114,7 @@ request = {
       "returnUrl": "https://your-company.com/...",
       "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
     }
-result = adyen.payments(request)
+result = checkout.payments_api.payments(request)
 ~~~~
 #### Force HTTP library
 ~~~~python
