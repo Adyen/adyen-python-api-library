@@ -25,7 +25,7 @@ class TestModifications(unittest.TestCase):
                                                             'test/mocks/'
                                                             'capture-success'
                                                             '.json')
-        result = self.ady.payment.capture(request)
+        result = self.ady.payment.modifications_api.capture(request)
         self.assertEqual("[capture-received]", result.message['response'])
 
     def test_capture_error_167(self):
@@ -41,7 +41,7 @@ class TestModifications(unittest.TestCase):
         self.assertRaisesRegex(
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '167', 'message': 'Original pspReference required for this operation', 'errorType': 'validation'}",
-            self.ady.payment.capture,
+            self.ady.payment.modifications_api.capture,
             request
         )
 
@@ -54,7 +54,7 @@ class TestModifications(unittest.TestCase):
                                                             'test/mocks/'
                                                             'cancelOrRefund'
                                                             '-received.json')
-        result = self.ady.payment.cancel_or_refund(request)
+        result = self.ady.payment.modifications_api.cancel_or_refund(request)
         self.assertEqual("[cancelOrRefund-received]",
                          result.message['response'])
 
@@ -68,7 +68,7 @@ class TestModifications(unittest.TestCase):
                                                             'test/mocks/'
                                                             'refund-received'
                                                             '.json')
-        result = self.ady.payment.refund(request)
+        result = self.ady.payment.modifications_api.refund(request)
         self.assertEqual("[refund-received]", result.message['response'])
 
     def test_cancel_received(self):
@@ -80,7 +80,7 @@ class TestModifications(unittest.TestCase):
                                                             'test/mocks/'
                                                             'cancel-received'
                                                             '.json')
-        result = self.ady.payment.cancel(request)
+        result = self.ady.payment.modifications_api.cancel(request)
         self.assertEqual("[cancel-received]", result.message['response'])
 
     def test_adjust_authorisation_received(self):
@@ -94,7 +94,7 @@ class TestModifications(unittest.TestCase):
                                                             'adjust-'
                                                             'authorisation-'
                                                             'received.json')
-        result = self.ady.payment.adjustAuthorisation(request)
+        result = self.ady.payment.modifications_api.adjust_authorisation(request)
         self.assertEqual("[adjustAuthorisation-received]",
                          result.message['response'])
 

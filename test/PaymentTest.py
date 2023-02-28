@@ -34,7 +34,7 @@ class TestPayments(unittest.TestCase):
                                                               'authorise'
                                                               '-success'
                                                               '.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertEqual("8/2018",
                          result.message['additionalData']['expiryDate'])
@@ -75,7 +75,7 @@ class TestPayments(unittest.TestCase):
                                                               '-010'
                                                               '.json')
         self.assertRaises(Adyen.AdyenAPIInvalidPermission,
-                          self.adyen.payment.authorise, request)
+                          self.adyen.payment.general_api.authorise, request)
 
     def test_authorise_error_cvc_declined_mocked(self):
         request = {}
@@ -94,7 +94,7 @@ class TestPayments(unittest.TestCase):
                                                               '-error-'
                                                               'cvc-declined'
                                                               '.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("Refused", result.message['resultCode'])
 
     def test_authorise_success_3d_mocked(self):
@@ -118,7 +118,7 @@ class TestPayments(unittest.TestCase):
                                                               'authorise'
                                                               '-success'
                                                               '-3d.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("RedirectShopper", result.message['resultCode'])
         self.assertIsNotNone(result.message['md'])
         self.assertIsNotNone(result.message['issuerUrl'])
@@ -137,7 +137,7 @@ class TestPayments(unittest.TestCase):
                                                               'test/mocks/'
                                                               'authorise3d-'
                                                               'success.json')
-        result = self.adyen.payment.authorise3d(request)
+        result = self.adyen.payment.general_api.authorise3d(request)
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertIsNotNone(result.message['pspReference'])
 
@@ -154,7 +154,7 @@ class TestPayments(unittest.TestCase):
                                                               'authorise'
                                                               '-success'
                                                               '-cse.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("Authorised", result.message['resultCode'])
 
     def test_authorise_cse_error_expired_mocked(self):
@@ -171,7 +171,7 @@ class TestPayments(unittest.TestCase):
                                                               'authorise'
                                                               '-error-'
                                                               'expired.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("Refused", result.message['resultCode'])
         self.assertEqual("DECLINED Expiry Incorrect",
                          result.message['additionalData']['refusalReasonRaw'])
@@ -197,7 +197,7 @@ class TestPayments(unittest.TestCase):
                                 "AdyenAPIAuthenticationError:{'status': 403, 'errorCode': '010',"
                                 " 'message': 'Not allowed', 'errorType': 'security',"
                                 " 'pspReference': '8514836072314693'}",
-                                self.adyen.payment.authorise, request)
+                                self.adyen.payment.general_api.authorise, request)
 
 
 class TestPaymentsWithXapiKey(unittest.TestCase):
@@ -227,7 +227,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               'authorise'
                                                               '-success'
                                                               '.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertEqual("8/2018",
                          result.message['additionalData']['expiryDate'])
@@ -268,7 +268,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               '-010'
                                                               '.json')
         self.assertRaises(Adyen.AdyenAPIInvalidPermission,
-                          self.adyen.payment.authorise, request)
+                          self.adyen.payment.general_api.authorise, request)
 
     def test_authorise_error_cvc_declined_mocked(self):
         request = {}
@@ -287,7 +287,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               '-error-'
                                                               'cvc-declined'
                                                               '.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("Refused", result.message['resultCode'])
 
     def test_authorise_success_3d_mocked(self):
@@ -311,7 +311,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               'authorise'
                                                               '-success'
                                                               '-3d.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("RedirectShopper", result.message['resultCode'])
         self.assertIsNotNone(result.message['md'])
         self.assertIsNotNone(result.message['issuerUrl'])
@@ -330,7 +330,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               'test/mocks/'
                                                               'authorise3d-'
                                                               'success.json')
-        result = self.adyen.payment.authorise3d(request)
+        result = self.adyen.payment.general_api.authorise3d(request)
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertIsNotNone(result.message['pspReference'])
 
@@ -347,7 +347,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               'authorise'
                                                               '-success'
                                                               '-cse.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("Authorised", result.message['resultCode'])
 
     def test_authorise_cse_error_expired_mocked(self):
@@ -364,7 +364,7 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                                               'authorise'
                                                               '-error-'
                                                               'expired.json')
-        result = self.adyen.payment.authorise(request)
+        result = self.adyen.payment.general_api.authorise(request)
         self.assertEqual("Refused", result.message['resultCode'])
         self.assertEqual("DECLINED Expiry Incorrect",
                          result.message['additionalData']['refusalReasonRaw'])
@@ -390,4 +390,4 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
                                 "AdyenAPIAuthenticationError:{'status': 403, 'errorCode': '010',"
                                 " 'message': 'Not allowed', 'errorType': 'security',"
                                 " 'pspReference': '8514836072314693'}",
-                                self.adyen.payment.authorise, request)
+                                self.adyen.payment.general_api.authorise, request)
