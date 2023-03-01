@@ -21,7 +21,7 @@ from .services import (
     AdyenPayoutsApi,
     AdyenManagementApi,
     AdyenCheckoutApi,
-    AdyenTerminal,
+    AdyenTerminalApi,
     AdyenLegalEntityManagementApi,
     AdyenDataProtectionApi,
     AdyenTransfersApi,
@@ -39,7 +39,7 @@ class Adyen(AdyenBase):
         self.payout = AdyenPayoutsApi(client=self.client)
         self.recurring = AdyenRecurringApi(client=self.client)
         self.checkout = AdyenCheckoutApi(client=self.client)
-        self.terminal = AdyenTerminal(client=self.client)
+        self.terminal = AdyenTerminalApi(client=self.client)
         self.management = AdyenManagementApi(client=self.client)
         self.legalEntityManagement = AdyenLegalEntityManagementApi(client=self.client)
         self.dataProtection = AdyenDataProtectionApi(client=self.client)
