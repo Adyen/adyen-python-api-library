@@ -17,7 +17,6 @@ class ModificationsApi(AdyenServiceBase):
         Cancel an authorised payment
         """
         endpoint = f"/cancels"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class ModificationsApi(AdyenServiceBase):
         Update an authorised amount
         """
         endpoint = f"/payments/{paymentPspReference}/amountUpdates"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class ModificationsApi(AdyenServiceBase):
         Cancel an authorised payment
         """
         endpoint = f"/payments/{paymentPspReference}/cancels"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class ModificationsApi(AdyenServiceBase):
         Capture an authorised payment
         """
         endpoint = f"/payments/{paymentPspReference}/captures"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,7 +49,6 @@ class ModificationsApi(AdyenServiceBase):
         Refund a captured payment
         """
         endpoint = f"/payments/{paymentPspReference}/refunds"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -62,7 +57,6 @@ class ModificationsApi(AdyenServiceBase):
         Refund or cancel a payment
         """
         endpoint = f"/payments/{paymentPspReference}/reversals"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

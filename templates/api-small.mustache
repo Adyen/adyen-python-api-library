@@ -19,7 +19,6 @@ class Adyen{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}Api(AdyenSer
         {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
         """
         endpoint = f"{{{path}}}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "{{httpMethod}}"
     {{#bodyParams}}
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)

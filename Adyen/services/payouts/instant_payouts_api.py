@@ -17,7 +17,6 @@ class InstantPayoutsApi(AdyenServiceBase):
         Make an instant card payout
         """
         endpoint = f"/payout"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

@@ -17,7 +17,6 @@ class RecurringApi(AdyenServiceBase):
         Delete a token for stored payment details
         """
         endpoint = f"/storedPaymentMethods/{recurringId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class RecurringApi(AdyenServiceBase):
         Get tokens for stored payment details
         """
         endpoint = f"/storedPaymentMethods"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

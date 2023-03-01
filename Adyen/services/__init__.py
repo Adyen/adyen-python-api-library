@@ -4,7 +4,7 @@ from .checkout import AdyenCheckoutApi
 from .payments import AdyenPaymentsApi
 from .payouts import AdyenPayoutsApi
 from .recurring import AdyenRecurringApi
-from .terminal import AdyenTerminal
+from .terminal import AdyenTerminalApi
 from .management import AdyenManagementApi
 from .legalEntityManagement import AdyenLegalEntityManagementApi
 from .dataProtection import AdyenDataProtectionApi

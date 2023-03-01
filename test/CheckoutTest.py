@@ -429,7 +429,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "orders"
                                                               "-success.json")
-        result = self.adyen.checkout.orders_api.create_order(request)
+        result = self.adyen.checkout.orders_api.orders(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://checkout-test.adyen.com/{self.checkout_version}/orders',
@@ -554,7 +554,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentlinks"
                                                               "-success"
                                                               ".json")
-        result = self.adyen.checkout.payment_links_api.create_payment_link(request)
+        result = self.adyen.checkout.payment_links_api.payment_links(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks',
