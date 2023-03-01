@@ -31,7 +31,7 @@ class TestCheckoutUtility(unittest.TestCase):
                                                             "checkoututility/"
                                                             "originkeys"
                                                             "-success.json")
-        result = self.ady.checkout.utility_api.create_originkey_values_for_domains(request)
+        result = self.ady.checkout.utility_api.origin_keys(request)
 
         self.assertEqual("pub.v2.7814286629520534.aHR0cHM6Ly93d3cu"
                          "eW91ci1kb21haW4xLmNvbQ.UEwIBmW9-c_uXo5wS"
@@ -52,7 +52,7 @@ class TestCheckoutUtility(unittest.TestCase):
                          ['https://www.your-domain2.com'])
 
     def test_checkout_utility_api_url_custom(self):
-        url = self.ady.client._determine_api_url("test", "checkout", "originKeys")
+        url = self.ady.client._determine_api_url("test", "checkout", "/originKeys")
 
         self.assertEqual(url, "https://checkout-test.adyen.com/{}/originKeys".format(self.checkout_version))
 

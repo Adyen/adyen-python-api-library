@@ -17,7 +17,6 @@ class GeneralApi(AdyenServiceBase):
         Create an authorisation
         """
         endpoint = f"/authorise"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class GeneralApi(AdyenServiceBase):
         Complete a 3DS authorisation
         """
         endpoint = f"/authorise3d"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class GeneralApi(AdyenServiceBase):
         Complete a 3DS2 authorisation
         """
         endpoint = f"/authorise3ds2"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class GeneralApi(AdyenServiceBase):
         Get the 3DS authentication result
         """
         endpoint = f"/getAuthenticationResult"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,7 +49,6 @@ class GeneralApi(AdyenServiceBase):
         Get the 3DS2 authentication result
         """
         endpoint = f"/retrieve3ds2Result"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

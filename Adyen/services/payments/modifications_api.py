@@ -17,7 +17,6 @@ class ModificationsApi(AdyenServiceBase):
         Change the authorised amount
         """
         endpoint = f"/adjustAuthorisation"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class ModificationsApi(AdyenServiceBase):
         Cancel an authorisation
         """
         endpoint = f"/cancel"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class ModificationsApi(AdyenServiceBase):
         Cancel or refund a payment
         """
         endpoint = f"/cancelOrRefund"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class ModificationsApi(AdyenServiceBase):
         Capture an authorisation
         """
         endpoint = f"/capture"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,7 +49,6 @@ class ModificationsApi(AdyenServiceBase):
         Create a donation
         """
         endpoint = f"/donate"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -62,7 +57,6 @@ class ModificationsApi(AdyenServiceBase):
         Refund a captured payment
         """
         endpoint = f"/refund"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -71,7 +65,6 @@ class ModificationsApi(AdyenServiceBase):
         Cancel an authorisation using your reference
         """
         endpoint = f"/technicalCancel"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -80,7 +73,6 @@ class ModificationsApi(AdyenServiceBase):
         Cancel an in-person refund
         """
         endpoint = f"/voidPendingRefund"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

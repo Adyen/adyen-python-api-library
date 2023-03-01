@@ -17,7 +17,6 @@ class TransactionsApi(AdyenServiceBase):
         Get all transactions
         """
         endpoint = f"/transactions"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class TransactionsApi(AdyenServiceBase):
         Get a transaction
         """
         endpoint = f"/transactions/{id}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

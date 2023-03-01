@@ -228,7 +228,7 @@ class AdyenClient(object):
 
     def _determine_api_url(self, platform, service, endpoint):
         api_version, base_url = self._determine_base_url_and_version(platform, service)
-        return '/'.join([base_url, api_version, endpoint])
+        return base_url + '/' + api_version + endpoint
 
     def _review_payout_username(self, **kwargs):
         if 'username' in kwargs:
@@ -379,14 +379,14 @@ class AdyenClient(object):
         message = request_data
 
         with_app_info = [
-            "authorise",
-            "authorise3d",
-            "authorise3ds2",
-            "payments",
-            "paymentSession",
-            "paymentLinks",
-            "paymentMethods/balance",
-            "sessions"
+            "/authorise",
+            "/authorise3d",
+            "/authorise3ds2",
+            "/payments",
+            "/paymentSession",
+            "/paymentLinks",
+            "/paymentMethods/balance",
+            "/sessions"
         ]
 
         if endpoint in with_app_info and (method == 'POST' or method == 'PATCH'):

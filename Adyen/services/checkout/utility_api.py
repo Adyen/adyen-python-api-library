@@ -17,16 +17,14 @@ class UtilityApi(AdyenServiceBase):
         Get an Apple Pay session
         """
         endpoint = f"/applePay/sessions"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def create_originkey_values_for_domains(self, request, idempotency_key=None, **kwargs):
+    def origin_keys(self, request, idempotency_key=None, **kwargs):
         """
         Create originKey values for domains
         """
         endpoint = f"/originKeys"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

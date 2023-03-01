@@ -17,7 +17,6 @@ class ClassicCheckoutSDKApi(AdyenServiceBase):
         Create a payment session
         """
         endpoint = f"/paymentSession"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class ClassicCheckoutSDKApi(AdyenServiceBase):
         Verify a payment result
         """
         endpoint = f"/payments/result"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

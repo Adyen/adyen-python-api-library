@@ -17,7 +17,6 @@ class PaymentLinksApi(AdyenServiceBase):
         Get a payment link
         """
         endpoint = f"/paymentLinks/{linkId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,16 +25,14 @@ class PaymentLinksApi(AdyenServiceBase):
         Update the status of a payment link
         """
         endpoint = f"/paymentLinks/{linkId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def create_payment_link(self, request, idempotency_key=None, **kwargs):
+    def payment_links(self, request, idempotency_key=None, **kwargs):
         """
         Create a payment link
         """
         endpoint = f"/paymentLinks"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
