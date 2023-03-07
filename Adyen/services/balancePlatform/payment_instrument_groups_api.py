@@ -12,30 +12,27 @@ class PaymentInstrumentGroupsApi(AdyenServiceBase):
         super(PaymentInstrumentGroupsApi, self).__init__(client=client)
         self.service = "balancePlatform"
 
-    def get_payment_instrument_groups_id(self, id, idempotency_key=None, **kwargs):
+    def get_payment_instrument_group(self, id, idempotency_key=None, **kwargs):
         """
         Get a payment instrument group
         """
         endpoint = f"/paymentInstrumentGroups/{id}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_payment_instrument_groups_id_transaction_rules(self, id, idempotency_key=None, **kwargs):
+    def get_all_transaction_rules_for_payment_instrument_group(self, id, idempotency_key=None, **kwargs):
         """
         Get all transaction rules for a payment instrument group
         """
         endpoint = f"/paymentInstrumentGroups/{id}/transactionRules"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def post_payment_instrument_groups(self, request, idempotency_key=None, **kwargs):
+    def create_payment_instrument_group(self, request, idempotency_key=None, **kwargs):
         """
         Create a payment instrument group
         """
         endpoint = f"/paymentInstrumentGroups"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

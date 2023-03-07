@@ -12,39 +12,35 @@ class TransactionRulesApi(AdyenServiceBase):
         super(TransactionRulesApi, self).__init__(client=client)
         self.service = "balancePlatform"
 
-    def delete_transaction_rules_transaction_rule_id(self, transactionRuleId, idempotency_key=None, **kwargs):
+    def delete_transaction_rule(self, transactionRuleId, idempotency_key=None, **kwargs):
         """
         Delete a transaction rule
         """
         endpoint = f"/transactionRules/{transactionRuleId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_transaction_rules_transaction_rule_id(self, transactionRuleId, idempotency_key=None, **kwargs):
+    def get_transaction_rule(self, transactionRuleId, idempotency_key=None, **kwargs):
         """
         Get a transaction rule
         """
         endpoint = f"/transactionRules/{transactionRuleId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def patch_transaction_rules_transaction_rule_id(self, request, transactionRuleId, idempotency_key=None, **kwargs):
+    def update_transaction_rule(self, request, transactionRuleId, idempotency_key=None, **kwargs):
         """
         Update a transaction rule
         """
         endpoint = f"/transactionRules/{transactionRuleId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def post_transaction_rules(self, request, idempotency_key=None, **kwargs):
+    def create_transaction_rule(self, request, idempotency_key=None, **kwargs):
         """
         Create a transaction rule
         """
         endpoint = f"/transactionRules"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

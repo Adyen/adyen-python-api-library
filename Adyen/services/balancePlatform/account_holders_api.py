@@ -12,39 +12,35 @@ class AccountHoldersApi(AdyenServiceBase):
         super(AccountHoldersApi, self).__init__(client=client)
         self.service = "balancePlatform"
 
-    def get_account_holders_id(self, id, idempotency_key=None, **kwargs):
+    def get_account_holder(self, id, idempotency_key=None, **kwargs):
         """
         Get an account holder
         """
         endpoint = f"/accountHolders/{id}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_account_holders_id_balance_accounts(self, id, idempotency_key=None, **kwargs):
+    def get_all_balance_accounts_of_account_holder(self, id, idempotency_key=None, **kwargs):
         """
         Get all balance accounts of an account holder
         """
         endpoint = f"/accountHolders/{id}/balanceAccounts"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def patch_account_holders_id(self, request, id, idempotency_key=None, **kwargs):
+    def update_account_holder(self, request, id, idempotency_key=None, **kwargs):
         """
         Update an account holder
         """
         endpoint = f"/accountHolders/{id}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def post_account_holders(self, request, idempotency_key=None, **kwargs):
+    def create_account_holder(self, request, idempotency_key=None, **kwargs):
         """
         Create an account holder
         """
         endpoint = f"/accountHolders"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
