@@ -95,7 +95,7 @@ class AdyenClient(object):
             api_data_protection_version=None,
             api_transfers_version=None,
             api_stored_value_version=None,
-            api_configuration_version=None
+            api_balance_platform_version=None
     ):
         self.username = username
         self.password = password
@@ -127,7 +127,7 @@ class AdyenClient(object):
         self.api_data_protection_version = api_data_protection_version or settings.API_DATA_PROTECION_VERSION
         self.api_transfers_version = api_transfers_version or settings.API_TRANSFERS_VERSION
         self.api_stored_value_version = api_stored_value_version or settings.API_STORED_VALUE_VERSION
-        self.api_configuration_version = api_configuration_version or settings.API_CONFIGURATION_VERSION
+        self.api_balance_platform_version = api_balance_platform_version or settings.API_BALANCE_PLATFORM_VERSION
 
     def _determine_base_url_and_version(self, platform, service):
 
@@ -196,7 +196,7 @@ class AdyenClient(object):
                 },
             },
             'balancePlatform': {
-                'version': self.api_configuration_version,
+                'version': self.api_balance_platform_version,
                 'base_url': {
                     'live': settings.BASE_CONFIGURATION_URL.format(platform),
                     'test': settings.BASE_CONFIGURATION_URL.format(platform)

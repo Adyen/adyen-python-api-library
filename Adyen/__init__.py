@@ -61,4 +61,4 @@ legalEntityManagement = _base_adyen_obj.legalEntityManagement
 dataProtection = _base_adyen_obj.dataProtection
 transfers = _base_adyen_obj.transfers
 storedValue = _base_adyen_obj.storedValue
-configuration = _base_adyen_obj.configuration
+balancePlatform = _base_adyen_obj.balancePlatform
