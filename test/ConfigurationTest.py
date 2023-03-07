@@ -25,12 +25,12 @@ class TestManagement(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/configuration/"
                                                               "balance-account-created.json")
-        result = self.adyen.configuration.balance_accounts_api.post_balance_accounts(request)
+        result = self.adyen.configuration.balance_accounts_api.create_balance_account(request)
         self.assertEqual('AH32272223222B59K6ZKBBFNQ', result.message['accountHolderId'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://balanceplatform-api-test.adyen.com/bcl/{self.configuration_version}/balanceAccounts',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -43,12 +43,12 @@ class TestManagement(unittest.TestCase):
         }
         self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/configuration/"
                                                                             "account-holder-created.json")
-        result = self.adyen.configuration.account_holders_api.post_account_holders(request)
+        result = self.adyen.configuration.account_holders_api.create_account_holder(request)
         self.assertEqual("LE322JV223222D5GG42KN6869", result.message['legalEntityId'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://balanceplatform-api-test.adyen.com/bcl/{self.configuration_version}/accountHolders',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -57,12 +57,12 @@ class TestManagement(unittest.TestCase):
         platform_id = "YOUR_BALANCE_PLATFORM"
         self.adyen.client = self.test.create_client_from_file(200, None, "test/mocks/configuration/"
                                                                          "balance-platform-retrieved.json")
-        result = self.adyen.configuration.platform_api.get_balance_platforms_id(platform_id)
+        result = self.adyen.configuration.platform_api.get_balance_platform(platform_id)
         self.assertEqual(platform_id, result.message['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://balanceplatform-api-test.adyen.com/bcl/{self.configuration_version}/balancePlatforms/{platform_id}',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
         )
@@ -76,12 +76,12 @@ class TestManagement(unittest.TestCase):
         }
         self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/configuration/"
                                                                             "business-account-created.json")
-        result = self.adyen.configuration.payment_instruments_api.post_payment_instruments(request)
+        result = self.adyen.configuration.payment_instruments_api.create_payment_instrument(request)
         self.assertEqual("BA3227C223222B5CTBLR8BWJB", result.message["balanceAccountId"])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://balanceplatform-api-test.adyen.com/bcl/{self.configuration_version}/paymentInstruments',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -93,12 +93,12 @@ class TestManagement(unittest.TestCase):
         }
         self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/configuration/"
                                                                             "payment-instrument-group-created.json")
-        result = self.adyen.configuration.payment_instrument_groups_api.post_payment_instrument_groups(request)
+        result = self.adyen.configuration.payment_instrument_groups_api.create_payment_instrument_group(request)
         self.assertEqual("YOUR_BALANCE_PLATFORM", result.message['balancePlatform'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://balanceplatform-api-test.adyen.com/bcl/{self.configuration_version}/paymentInstrumentGroups',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -107,14 +107,13 @@ class TestManagement(unittest.TestCase):
         transactionRuleId = "TR32272223222B5CMD3V73HXG"
         self.adyen.client = self.test.create_client_from_file(200, {}, "test/mocks/configuration/"
                                                                        "transaction-rule-retrieved.json")
-        result = self.adyen.configuration.transaction_rules_api.\
-            get_transaction_rules_transaction_rule_id(transactionRuleId)
+        result = self.adyen.configuration.transaction_rules_api.get_transaction_rule(transactionRuleId)
         self.assertEqual(transactionRuleId, result.message['transactionRule']['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://balanceplatform-api-test.adyen.com/bcl/{self.configuration_version}/'
             f'transactionRules/{transactionRuleId}',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
         )
