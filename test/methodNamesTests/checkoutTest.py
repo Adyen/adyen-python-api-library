@@ -22,7 +22,7 @@ class TestModificationsApi(unittest.TestCase):
         self.assertIsNotNone(self.client.update_authorised_amount)
 
     def test_cancel_authorised_payment_by_psp_reference(self):
-        self.assertIsNotNone(self.client.cancel_authorised_payment_by_psp_reference)
+        self.assertIsNotNone(self.client.cancel_authorised_pament_by_psp_reference)
 
     def test_capture_authorised_payment(self):
         self.assertIsNotNone(self.client.capture_authorised_payment)
