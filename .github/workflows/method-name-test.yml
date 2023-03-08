@@ -23,4 +23,7 @@ jobs:
           sudo apt-get update
           sudo apt install libcurl4-openssl-dev
       - name: Test method names
-        run: python -m unittest test/methodNamesTests/checkoutTest.py
+        run: |
+          python .github/workflows/customRunner.py
+          exit_status=$?
+          echo $exit_status
