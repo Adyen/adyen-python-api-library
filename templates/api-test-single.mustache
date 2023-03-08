@@ -1,0 +1,12 @@
+import unittest
+from Adyen import {{serviceName}}
+
+
+{{#apiInfo}}
+    {{#apis}}
+class Test{{classname}}(unittest.TestCase):
+    client = {{serviceName}}.{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}
+{{> api-test }}
+
+{{/apis}}
+{{/apiInfo}}

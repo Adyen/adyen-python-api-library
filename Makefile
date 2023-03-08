@@ -48,6 +48,7 @@ $(services): build/spec
 	cp build/api/api-single.py Adyen/services/$@/__init__.py
 	rm -rf build
 
+
 $(smallServices): build/spec
 	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
 	rm -rf Adyen/services/$@
@@ -64,6 +65,21 @@ $(smallServices): build/spec
 	rm -rf build
 
 
+
 build/spec:
 	git clone https://github.com/Adyen/adyen-openapi.git build/spec
 	perl -i -pe's/"openapi" : "3.[0-9].[0-9]"/"openapi" : "3.0.0"/' build/spec/json/*.json
+
+
+generateCheckoutTest: build/spec
+	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
+	$(openapi-generator-cli) generate \
+		-i build/spec/json/CheckoutService-v70.json \
+		-g $(generator) \
+		-c ./templates/config.yaml \
+		-o build \
+		--global-property apis,apiTests=false,supportingFiles=api-test.py\
+		--additional-properties serviceName=checkout \
+		--skip-validate-spec
+	cp build/api/api-test.py test/methodNamesTests/checkoutTest.py
+	rm -rf build
