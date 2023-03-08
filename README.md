@@ -10,6 +10,7 @@ This is the officially supported Python library for using Adyen's APIs.
 | API | Description | Service Name | Supported version |
 | --- | ----------- | ------------ | ----------------- | 
 |[BIN lookup API](https://docs.adyen.com/api-explorer/#/BinLookup/v52/overview) | The BIN Lookup API provides endpoints for retrieving information based on a given BIN. | binLookup | **v52** |
+| [Balance Platform API](https://docs.adyen.com/api-explorer/balanceplatform/1/overview) | The Balance Platform API enables you to create a platform where you can onboard your users as account holders and create balance accounts, cards, and business accounts. | balancePlatform | **v1** |
 | [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v69/overview)| Our latest integration for accepting online payments. | checkout | **v70** |
 | [Data Protection API](https://docs.adyen.com/development-resources/data-protection-api) | Endpoint for requesting data erasure. | dataProtection | **v1** |
 | [Legal Entity Management API](https://docs.adyen.com/api-explorer/legalentity/latest/overview) | Endpoint to manage legal entities | legalEntityManagement | **v2** |
@@ -20,6 +21,7 @@ This is the officially supported Python library for using Adyen's APIs.
 | [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v68/overview)| Endpoints for managing saved payment details. | recurring | **v68** |
 | [Stored Value API](https://docs.adyen.com/payment-methods/gift-cards/stored-value-api) | Endpoints for managing gift cards. | storedValue | **v46** |
 | [Transfers API](https://docs.adyen.com/api-explorer/transfers/3/overview) | Endpoints for managing transfers, getting information about transactions or moving fund | transfers | **v3** |
+
 For more information, refer to our [documentation](https://docs.adyen.com/) or the [API Explorer](https://docs.adyen.com/api-explorer/).
 
 
