@@ -1,8 +1,8 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='Adyen',
-    packages=['Adyen'],
+    packages=find_packages(include="Adyen*"),
     version='7.1.1',
     maintainer='Adyen',
     maintainer_email='support@adyen.com',
