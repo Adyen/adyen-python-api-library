@@ -17,7 +17,6 @@ class ReviewingApi(AdyenServiceBase):
         Confirm a payout
         """
         endpoint = f"/confirmThirdParty"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class ReviewingApi(AdyenServiceBase):
         Cancel a payout
         """
         endpoint = f"/declineThirdParty"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

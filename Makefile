@@ -10,20 +10,20 @@ coverage:
 
 generator:=python
 openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
-services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration terminalManagement transfers
-smallServices:=balanceControlService binlookup dataProtection recurring storedValue
+services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
+smallServices:=balanceControlService binlookup dataProtection recurring storedValue terminal
 
 binlookup: spec=BinLookupService-v52
 checkout: spec=CheckoutService-v70
 dataProtection: spec=DataProtectionService-v1
 storedValue: spec=StoredValueService-v46
-terminalManagement: spec=TfmAPIService-v1
+terminal: spec=TfmAPIService-v1
 payments: spec=PaymentService-v68
 recurring: spec=RecurringService-v68
 payouts: spec=PayoutService-v68
 management: spec=ManagementService-v1
 legalEntityManagement: spec=LegalEntityService-v2
-balancePlatform: spec=BalancePlatformService-v2
+balancePlatform: spec=BalancePlatformService-v1
 platformsAccount: spec=AccountService-v6
 platformsFund: spec=FundService-v6
 platformsNotificationConfiguration: spec=NotificationConfigurationService-v6

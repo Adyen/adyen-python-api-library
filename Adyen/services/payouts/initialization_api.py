@@ -17,7 +17,6 @@ class InitializationApi(AdyenServiceBase):
         Store payout details
         """
         endpoint = f"/storeDetail"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class InitializationApi(AdyenServiceBase):
         Store details and submit a payout
         """
         endpoint = f"/storeDetailAndSubmitThirdParty"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class InitializationApi(AdyenServiceBase):
         Submit a payout
         """
         endpoint = f"/submitThirdParty"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

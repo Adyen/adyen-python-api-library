@@ -31,7 +31,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://management-test.adyen.com/{self.management_version}/companies/{id}',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
         )
@@ -54,7 +54,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'DELETE',
             f'https://management-test.adyen.com/{self.management_version}/me/allowedOrigins/{originId}',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
         )
@@ -75,11 +75,11 @@ class TestManagement(unittest.TestCase):
                                                               ".json")
         storeId = "YOUR_STORE_ID"
         merchantId = "YOUR_MERCHANT_ACCOUNT_ID"
-        result = self.adyen.management.account_store_level_api.update_store(request,merchantId,storeId)
+        result = self.adyen.management.account_store_level_api.update_store(request, merchantId, storeId)
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
             f'https://management-test.adyen.com/{self.management_version}/merchants/{merchantId}/stores/{storeId}',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -109,19 +109,19 @@ class TestManagement(unittest.TestCase):
                                                               "create_a_user"
                                                               ".json")
         companyId = "YOUR_COMPANY_ACCOUNT"
-        result = self.adyen.management.users_company_level_api.create_new_user(request,companyId)
-        self.assertEqual(request['name']['firstName'],result.message['name']['firstName'])
+        result = self.adyen.management.users_company_level_api.create_new_user(request, companyId)
+        self.assertEqual(request['name']['firstName'], result.message['name']['firstName'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://management-test.adyen.com/{self.management_version}/companies/{companyId}/users',
             json=request,
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             xapikey="YourXapikey"
         )
 
     def test_get_list_of_android_apps(self):
         request = {}
-        self.adyen.client = self.test.create_client_from_file(200,request,
+        self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/"
                                                               "management/"
                                                               "get_list_of"
@@ -129,27 +129,26 @@ class TestManagement(unittest.TestCase):
                                                               ".json")
         companyId = "YOUR_COMPANY_ACCOUNT"
         result = self.adyen.management.terminal_actions_company_level_api.list_android_apps(companyId)
-        self.assertEqual("ANDA422LZ223223K5F694GCCF732K8",result.message['androidApps'][0]['id'])
+        self.assertEqual("ANDA422LZ223223K5F694GCCF732K8", result.message['androidApps'][0]['id'])
 
     def test_query_paramaters(self):
         request = {}
         companyId = "YOUR_COMPANY_ACCOUNT"
         query_parameters = {
             'pageNumber': 1,
-            'pageSize':10
+            'pageSize': 10
 
         }
-        self.adyen.client = self.test.create_client_from_file(200,request,
+        self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/"
                                                               "management/"
                                                               "get_list_of_merchant_accounts.json")
-        result = self.adyen.management.account_company_level_api.\
+        result = self.adyen.management.account_company_level_api. \
             list_merchant_accounts(companyId, query_parameters=query_parameters)
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'https://management-test.adyen.com/{self.management_version}/companies/{companyId}/merchants?pageNumber=1&pageSize=10',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
         )
-

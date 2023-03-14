@@ -10,4 +10,4 @@ venv/
 .env
 test.py
 build/
-out/
+

@@ -26,12 +26,12 @@ class TestCheckout(unittest.TestCase):
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/dataProtection/erasure-response.json")
-        result = self.adyen.dataProtection.submit_subject_erasure_request(request)
+        result = self.adyen.dataProtection.request_subject_erasure(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://ca-test.adyen.com/ca/services/DataProtectionService/{self.data_protection_version}'
             '/requestSubjectErasure',
-            headers={},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             xapikey="YourXapikey",
             json=request
         )

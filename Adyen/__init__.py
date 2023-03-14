@@ -15,17 +15,18 @@ from .exceptions import (
 from .client import AdyenClient
 from .services import (
     AdyenBase,
+    AdyenPaymentsApi,
     AdyenBinlookupApi,
     AdyenRecurringApi,
-    AdyenPayment,
     AdyenPayoutsApi,
     AdyenManagementApi,
     AdyenCheckoutApi,
-    AdyenTerminal,
+    AdyenTerminalApi,
     AdyenLegalEntityManagementApi,
     AdyenDataProtectionApi,
     AdyenTransfersApi,
-    AdyenStoredValueApi
+    AdyenStoredValueApi,
+    AdyenBalancePlatformApi
 )
 
 from .httpclient import HTTPClient
@@ -34,17 +35,18 @@ from .httpclient import HTTPClient
 class Adyen(AdyenBase):
     def __init__(self, **kwargs):
         self.client = AdyenClient(**kwargs)
-        self.payment = AdyenPayment(client=self.client)
+        self.payment = AdyenPaymentsApi(client=self.client)
         self.binlookup = AdyenBinlookupApi(client=self.client)
         self.payout = AdyenPayoutsApi(client=self.client)
         self.recurring = AdyenRecurringApi(client=self.client)
         self.checkout = AdyenCheckoutApi(client=self.client)
-        self.terminal = AdyenTerminal(client=self.client)
+        self.terminal = AdyenTerminalApi(client=self.client)
         self.management = AdyenManagementApi(client=self.client)
         self.legalEntityManagement = AdyenLegalEntityManagementApi(client=self.client)
         self.dataProtection = AdyenDataProtectionApi(client=self.client)
         self.transfers = AdyenTransfersApi(client=self.client)
         self.storedValue = AdyenStoredValueApi(client=self.client)
+        self.balancePlatform = AdyenBalancePlatformApi(client=self.client)
 
 
 _base_adyen_obj = Adyen()
@@ -59,4 +61,4 @@ legalEntityManagement = _base_adyen_obj.legalEntityManagement
 dataProtection = _base_adyen_obj.dataProtection
 transfers = _base_adyen_obj.transfers
 storedValue = _base_adyen_obj.storedValue
-
+balancePlatform = _base_adyen_obj.balancePlatform

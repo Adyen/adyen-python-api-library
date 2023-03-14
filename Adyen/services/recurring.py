@@ -12,57 +12,51 @@ class AdyenRecurringApi(AdyenServiceBase):
         super(AdyenRecurringApi, self).__init__(client=client)
         self.service = "recurring"
 
-    def create_new_permits_linked_to_recurring_contract(self, request, idempotency_key=None, **kwargs):
+    def create_permit(self, request, idempotency_key=None, **kwargs):
         """
         Create new permits linked to a recurring contract.
         """
         endpoint = f"/createPermit"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def disable_stored_payment_details(self, request, idempotency_key=None, **kwargs):
+    def disable(self, request, idempotency_key=None, **kwargs):
         """
         Disable stored payment details
         """
         endpoint = f"/disable"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def disable_existing_permit(self, request, idempotency_key=None, **kwargs):
+    def disable_permit(self, request, idempotency_key=None, **kwargs):
         """
         Disable an existing permit.
         """
         endpoint = f"/disablePermit"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_stored_payment_details(self, request, idempotency_key=None, **kwargs):
+    def list_recurring_details(self, request, idempotency_key=None, **kwargs):
         """
         Get stored payment details
         """
         endpoint = f"/listRecurringDetails"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def ask_issuer_to_notify_shopper(self, request, idempotency_key=None, **kwargs):
+    def notify_shopper(self, request, idempotency_key=None, **kwargs):
         """
         Ask issuer to notify the shopper
         """
         endpoint = f"/notifyShopper"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def schedule_running_account_updater(self, request, idempotency_key=None, **kwargs):
+    def schedule_account_updater(self, request, idempotency_key=None, **kwargs):
         """
         Schedule running the Account Updater
         """
         endpoint = f"/scheduleAccountUpdater"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

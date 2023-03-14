@@ -46,6 +46,8 @@ class AdyenResult(object):
 
 class AdyenClient(object):
     IDEMPOTENCY_HEADER_NAME = 'Idempotency-Key'
+    APPLICATION_INFO_HEADER_NAME = 'adyen-library-name'
+    APPLICATION_VERSION_HEADER_NAME = 'adyen-library-version'
     """A requesting client that interacts with Adyen. This class holds the
     adyen logic of Adyen HTTP API communication. This is the object that can
     maintain its own username, password, merchant_account, hmac and skin_code.
@@ -92,7 +94,8 @@ class AdyenClient(object):
             api_legal_entity_management_version=None,
             api_data_protection_version=None,
             api_transfers_version=None,
-            api_stored_value_version=None
+            api_stored_value_version=None,
+            api_balance_platform_version=None
     ):
         self.username = username
         self.password = password
@@ -124,6 +127,7 @@ class AdyenClient(object):
         self.api_data_protection_version = api_data_protection_version or settings.API_DATA_PROTECION_VERSION
         self.api_transfers_version = api_transfers_version or settings.API_TRANSFERS_VERSION
         self.api_stored_value_version = api_stored_value_version or settings.API_STORED_VALUE_VERSION
+        self.api_balance_platform_version = api_balance_platform_version or settings.API_BALANCE_PLATFORM_VERSION
 
     def _determine_base_url_and_version(self, platform, service):
 
@@ -163,7 +167,7 @@ class AdyenClient(object):
                     'test': settings.BASE_TERMINAL_URL.format(platform)
                 }
             },
-            'Payment': {
+            'payments': {
                 'version': self.api_payment_version,
                 'base_url': {
                     'live': live_pal_url + '/Payment',
@@ -189,6 +193,13 @@ class AdyenClient(object):
                 'base_url': {
                     'live': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform),
                     'test': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform)
+                },
+            },
+            'balancePlatform': {
+                'version': self.api_balance_platform_version,
+                'base_url': {
+                    'live': settings.BASE_CONFIGURATION_URL.format(platform),
+                    'test': settings.BASE_CONFIGURATION_URL.format(platform)
                 }
             },
             'dataProtection': {
@@ -213,6 +224,7 @@ class AdyenClient(object):
                 }
             }
         }
+
         version = versions_and_urls[service]['version']
         base_url = versions_and_urls[service]['base_url'][platform]
         # Match urls that require a live prefix and do not have one
@@ -226,7 +238,7 @@ class AdyenClient(object):
 
     def _determine_api_url(self, platform, service, endpoint):
         api_version, base_url = self._determine_base_url_and_version(platform, service)
-        return '/'.join([base_url, api_version, endpoint])
+        return base_url + '/' + api_version + endpoint
 
     def _review_payout_username(self, **kwargs):
         if 'username' in kwargs:
@@ -377,14 +389,14 @@ class AdyenClient(object):
         message = request_data
 
         with_app_info = [
-            "authorise",
-            "authorise3d",
-            "authorise3ds2",
-            "payments",
-            "paymentSession",
-            "paymentLinks",
-            "paymentMethods/balance",
-            "sessions"
+            "/authorise",
+            "/authorise3d",
+            "/authorise3ds2",
+            "/payments",
+            "/paymentSession",
+            "/paymentLinks",
+            "/paymentMethods/balance",
+            "/sessions"
         ]
 
         if endpoint in with_app_info and (method == 'POST' or method == 'PATCH'):
@@ -402,9 +414,14 @@ class AdyenClient(object):
                         "version": settings.LIB_VERSION
                     }
                 }
+
+        headers = {
+            self.APPLICATION_INFO_HEADER_NAME: settings.LIB_NAME,
+            self.APPLICATION_VERSION_HEADER_NAME: settings.LIB_VERSION
+        }
+
         # Adyen requires this header to be set and uses the combination of
         # merchant account and merchant reference to determine uniqueness.
-        headers = {}
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
 

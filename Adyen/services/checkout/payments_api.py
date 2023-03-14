@@ -12,12 +12,11 @@ class PaymentsApi(AdyenServiceBase):
         super(PaymentsApi, self).__init__(client=client)
         self.service = "checkout"
 
-    def list_brands_on_card(self, request, idempotency_key=None, **kwargs):
+    def card_details(self, request, idempotency_key=None, **kwargs):
         """
         Get the list of brands on the card
         """
         endpoint = f"/cardDetails"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class PaymentsApi(AdyenServiceBase):
         Start a transaction for donations
         """
         endpoint = f"/donations"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class PaymentsApi(AdyenServiceBase):
         Get a list of available payment methods
         """
         endpoint = f"/paymentMethods"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class PaymentsApi(AdyenServiceBase):
         Start a transaction
         """
         endpoint = f"/payments"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,7 +49,6 @@ class PaymentsApi(AdyenServiceBase):
         Submit details for a payment
         """
         endpoint = f"/payments/details"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -62,7 +57,6 @@ class PaymentsApi(AdyenServiceBase):
         Create a payment session
         """
         endpoint = f"/sessions"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

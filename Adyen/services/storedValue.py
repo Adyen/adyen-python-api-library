@@ -17,7 +17,6 @@ class AdyenStoredValueApi(AdyenServiceBase):
         Changes the status of the payment method.
         """
         endpoint = f"/changeStatus"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class AdyenStoredValueApi(AdyenServiceBase):
         Checks the balance.
         """
         endpoint = f"/checkBalance"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class AdyenStoredValueApi(AdyenServiceBase):
         Issues a new card.
         """
         endpoint = f"/issue"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class AdyenStoredValueApi(AdyenServiceBase):
         Loads the payment method.
         """
         endpoint = f"/load"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,7 +49,6 @@ class AdyenStoredValueApi(AdyenServiceBase):
         Merge the balance of two cards.
         """
         endpoint = f"/mergeBalance"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -62,7 +57,6 @@ class AdyenStoredValueApi(AdyenServiceBase):
         Voids a transaction.
         """
         endpoint = f"/voidTransaction"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
