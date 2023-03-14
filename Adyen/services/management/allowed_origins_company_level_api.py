@@ -17,7 +17,6 @@ class AllowedOriginsCompanyLevelApi(AdyenServiceBase):
         Delete an allowed origin
         """
         endpoint = f"/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class AllowedOriginsCompanyLevelApi(AdyenServiceBase):
         Get a list of allowed origins
         """
         endpoint = f"/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class AllowedOriginsCompanyLevelApi(AdyenServiceBase):
         Get an allowed origin
         """
         endpoint = f"/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class AllowedOriginsCompanyLevelApi(AdyenServiceBase):
         Create an allowed origin
         """
         endpoint = f"/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

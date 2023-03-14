@@ -17,7 +17,6 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         Get a list of users
         """
         endpoint = f"/companies/{companyId}/users"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         Get user details
         """
         endpoint = f"/companies/{companyId}/users/{userId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         Update user details
         """
         endpoint = f"/companies/{companyId}/users/{userId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         Create a new user
         """
         endpoint = f"/companies/{companyId}/users"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

@@ -17,7 +17,6 @@ class AccountStoreLevelApi(AdyenServiceBase):
         Get a list of stores
         """
         endpoint = f"/merchants/{merchantId}/stores"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class AccountStoreLevelApi(AdyenServiceBase):
         Get a store
         """
         endpoint = f"/merchants/{merchantId}/stores/{storeId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class AccountStoreLevelApi(AdyenServiceBase):
         Get a list of stores
         """
         endpoint = f"/stores"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class AccountStoreLevelApi(AdyenServiceBase):
         Get a store
         """
         endpoint = f"/stores/{storeId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,7 +49,6 @@ class AccountStoreLevelApi(AdyenServiceBase):
         Update a store
         """
         endpoint = f"/merchants/{merchantId}/stores/{storeId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -62,7 +57,6 @@ class AccountStoreLevelApi(AdyenServiceBase):
         Update a store
         """
         endpoint = f"/stores/{storeId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -71,7 +65,6 @@ class AccountStoreLevelApi(AdyenServiceBase):
         Create a store
         """
         endpoint = f"/merchants/{merchantId}/stores"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -80,7 +73,6 @@ class AccountStoreLevelApi(AdyenServiceBase):
         Create a store
         """
         endpoint = f"/stores"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

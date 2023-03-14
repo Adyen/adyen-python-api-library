@@ -17,7 +17,6 @@ class AccountCompanyLevelApi(AdyenServiceBase):
         Get a list of company accounts
         """
         endpoint = f"/companies"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class AccountCompanyLevelApi(AdyenServiceBase):
         Get a company account
         """
         endpoint = f"/companies/{companyId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class AccountCompanyLevelApi(AdyenServiceBase):
         Get a list of merchant accounts
         """
         endpoint = f"/companies/{companyId}/merchants"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

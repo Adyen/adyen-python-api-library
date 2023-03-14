@@ -17,7 +17,6 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         Delete a payout setting
         """
         endpoint = f"/merchants/{merchantId}/payoutSettings/{payoutSettingsId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         Get a list of payout settings
         """
         endpoint = f"/merchants/{merchantId}/payoutSettings"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         Get a payout setting
         """
         endpoint = f"/merchants/{merchantId}/payoutSettings/{payoutSettingsId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         Update a payout setting
         """
         endpoint = f"/merchants/{merchantId}/payoutSettings/{payoutSettingsId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,7 +49,6 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         Add a payout setting
         """
         endpoint = f"/merchants/{merchantId}/payoutSettings"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

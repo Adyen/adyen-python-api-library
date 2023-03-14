@@ -17,7 +17,6 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         Get a list of Android apps
         """
         endpoint = f"/companies/{companyId}/androidApps"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         Get a list of Android certificates
         """
         endpoint = f"/companies/{companyId}/androidCertificates"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         Get a list of terminal actions
         """
         endpoint = f"/companies/{companyId}/terminalActions"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         Get terminal action
         """
         endpoint = f"/companies/{companyId}/terminalActions/{actionId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

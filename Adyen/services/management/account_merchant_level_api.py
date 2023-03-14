@@ -17,7 +17,6 @@ class AccountMerchantLevelApi(AdyenServiceBase):
         Get a list of merchant accounts
         """
         endpoint = f"/merchants"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class AccountMerchantLevelApi(AdyenServiceBase):
         Get a merchant account
         """
         endpoint = f"/merchants/{merchantId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class AccountMerchantLevelApi(AdyenServiceBase):
         Create a merchant account
         """
         endpoint = f"/merchants"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class AccountMerchantLevelApi(AdyenServiceBase):
         Request to activate a merchant account
         """
         endpoint = f"/merchants/{merchantId}/activate"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

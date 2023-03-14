@@ -17,7 +17,6 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         Get all payment methods
         """
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         Get payment method details
         """
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         Get Apple Pay domains
         """
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         Update a payment method
         """
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,7 +49,6 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         Request a payment method
         """
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -62,7 +57,6 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         Add an Apple Pay domain
         """
         endpoint = f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

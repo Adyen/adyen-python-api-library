@@ -17,7 +17,6 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         Get a list of API credentials
         """
         endpoint = f"/companies/{companyId}/apiCredentials"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         Get an API credential
         """
         endpoint = f"/companies/{companyId}/apiCredentials/{apiCredentialId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         Update an API credential.
         """
         endpoint = f"/companies/{companyId}/apiCredentials/{apiCredentialId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         Create an API credential.
         """
         endpoint = f"/companies/{companyId}/apiCredentials"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

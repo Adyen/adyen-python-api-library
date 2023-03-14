@@ -17,7 +17,6 @@ class TerminalSettingsMerchantLevelApi(AdyenServiceBase):
         Get the terminal logo
         """
         endpoint = f"/merchants/{merchantId}/terminalLogos"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class TerminalSettingsMerchantLevelApi(AdyenServiceBase):
         Get terminal settings
         """
         endpoint = f"/merchants/{merchantId}/terminalSettings"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class TerminalSettingsMerchantLevelApi(AdyenServiceBase):
         Update the terminal logo
         """
         endpoint = f"/merchants/{merchantId}/terminalLogos"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class TerminalSettingsMerchantLevelApi(AdyenServiceBase):
         Update terminal settings
         """
         endpoint = f"/merchants/{merchantId}/terminalSettings"
-        endpoint = endpoint.replace('/', '', 1)
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

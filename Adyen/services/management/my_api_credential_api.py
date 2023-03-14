@@ -17,7 +17,6 @@ class MyAPICredentialApi(AdyenServiceBase):
         Remove allowed origin
         """
         endpoint = f"/me/allowedOrigins/{originId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -26,7 +25,6 @@ class MyAPICredentialApi(AdyenServiceBase):
         Get API credential details
         """
         endpoint = f"/me"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -35,7 +33,6 @@ class MyAPICredentialApi(AdyenServiceBase):
         Get allowed origins
         """
         endpoint = f"/me/allowedOrigins"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -44,7 +41,6 @@ class MyAPICredentialApi(AdyenServiceBase):
         Get allowed origin details
         """
         endpoint = f"/me/allowedOrigins/{originId}"
-        endpoint = endpoint.replace('/', '', 1)
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,7 +49,6 @@ class MyAPICredentialApi(AdyenServiceBase):
         Add allowed origin
         """
         endpoint = f"/me/allowedOrigins"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

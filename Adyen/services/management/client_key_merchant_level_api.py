@@ -17,7 +17,6 @@ class ClientKeyMerchantLevelApi(AdyenServiceBase):
         Generate new client key
         """
         endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateClientKey"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

@@ -17,7 +17,6 @@ class APIKeyMerchantLevelApi(AdyenServiceBase):
         Generate new API key
         """
         endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateApiKey"
-        endpoint = endpoint.replace('/', '', 1)
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
