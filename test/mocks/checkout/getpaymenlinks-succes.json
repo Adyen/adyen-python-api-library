@@ -1,0 +1,14 @@
+{
+  "amount": {
+    "currency": "EUR",
+    "value": 8700
+  },
+  "countryCode": "NL",
+  "expiresAt": "2021-04-08T14:06:39Z",
+  "merchantAccount": "TestMerchantCheckout",
+  "reference": "shopper-reference-ekvL83",
+  "shopperLocale": "hu-HU",
+  "shopperReference": "shopper-reference-LZfdWZ",
+  "status": "active",
+  "url": "https://test.adyen.link/PL61C53A8B97E6915A"
+}

@@ -1,0 +1,32 @@
+{
+  "amount": {
+    "currency": "BRL",
+    "value": 1250
+  },
+  "billingAddress": {
+    "city": "So Paulo",
+    "country": "BR",
+    "houseNumberOrName": "999",
+    "postalCode": "59000060",
+    "stateOrProvince": "SP",
+    "street": "Roque Petroni Jr"
+  },
+  "deliveryAddress": {
+    "city": "So Paulo",
+    "country": "BR",
+    "houseNumberOrName": "999",
+    "postalCode": "59000060",
+    "stateOrProvince": "SP",
+    "street": "Roque Petroni Jr"
+  },
+  "expiresAt": "2022-12-06T13:15:42Z",
+  "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+  "reference": "YOUR_ORDER_NUMBER",
+  "reusable": false,
+  "shopperEmail": "test@email.com",
+  "shopperLocale": "pt-BR",
+  "shopperReference": "YOUR_UNIQUE_SHOPPER_ID",
+  "id": "PL022C12D3DD92F6AE",
+  "status": "active",
+  "url": "https://test.adyen.link/PL022C12D3DD92F6AE"
+}

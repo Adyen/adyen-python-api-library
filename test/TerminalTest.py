@@ -1,6 +1,6 @@
 import unittest
-
 import Adyen
+from Adyen import settings
 
 try:
     from BaseTest import BaseTest
@@ -15,6 +15,7 @@ class TestTerminal(unittest.TestCase):
                         xapikey="YourXapikey")
     test = BaseTest(adyen)
     client = adyen.client
+    terminal_version = settings.API_TERMINAL_VERSION
 
     def test_assign_terminals(self):
         request = {
@@ -32,21 +33,16 @@ class TestTerminal(unittest.TestCase):
         self.assertIn("P400Plus-275479597", result.message["results"])
 
         self.client.http_client.request.assert_called_once_with(
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/assignTerminals",
-            headers={},
+            "POST",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/assignTerminals",
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                 "store": "YOUR_STORE",
                 "terminals": [
                     "P400Plus-275479597"
-                ],
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": '7.1.2',
-                        "name": "adyen-python-api-library"
-                    }
-                },
+                ]
             },
             xapikey="YourXapikey"
         )
@@ -81,17 +77,12 @@ class TestTerminal(unittest.TestCase):
         self.assertIn("P400Plus-275479597", result.message["terminal"])
 
         self.client.http_client.request.assert_called_once_with(
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/findTerminal",
-            headers={},
+            "POST",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/findTerminal",
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "terminal": "P400Plus-275479597",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": '7.1.2',
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )
@@ -134,17 +125,12 @@ class TestTerminal(unittest.TestCase):
         ])
 
         self.client.http_client.request.assert_called_once_with(
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getStoresUnderAccount",
-            headers={},
+            "POST",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getStoresUnderAccount",
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": '7.1.2',
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )
@@ -164,17 +150,12 @@ class TestTerminal(unittest.TestCase):
         self.assertEqual(result.message["terminal"], "P400Plus-275479597")
 
         self.client.http_client.request.assert_called_once_with(
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getTerminalDetails",
-            headers={},
+            "POST",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getTerminalDetails",
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "terminal": "P400Plus-275479597",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": '7.1.2',
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )
@@ -221,17 +202,12 @@ class TestTerminal(unittest.TestCase):
         ])
 
         self.client.http_client.request.assert_called_once_with(
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getTerminalsUnderAccount",
-            headers={},
+            "POST",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getTerminalsUnderAccount",
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": '7.1.2',
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )
@@ -263,18 +239,13 @@ class TestTerminal(unittest.TestCase):
         ])
 
         self.client.http_client.request.assert_called_once_with(
-            "https://postfmapi-test.adyen.com/postfmapi/terminal/v1/getTerminalsUnderAccount",
-            headers={},
+            "POST",
+            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getTerminalsUnderAccount",
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                 "store": "YOUR_STORE",
-                "applicationInfo": {
-                    "adyenLibrary": {
-                        "version": '7.1.2',
-                        "name": "adyen-python-api-library"
-                    }
-                },
             },
             xapikey="YourXapikey"
         )

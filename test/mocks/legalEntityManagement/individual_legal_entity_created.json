@@ -1,0 +1,20 @@
+{
+  "individual": {
+    "email": "s.eller@example.com",
+    "birthData": {
+      "dateOfBirth": "1990-06-21"
+    },
+    "name": {
+      "firstName": "Shelly",
+      "lastName": "Eller"
+    },
+    "residentialAddress": {
+      "city": "Amsterdam",
+      "country": "NL",
+      "postalCode": "1011DJ",
+      "street": "Simon Carmiggeltstraat 6 - 50"
+    }
+  },
+  "type": "individual",
+  "id": "LE322JV223222D5GG42KN6869"
+}

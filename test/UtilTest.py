@@ -1,43 +1,16 @@
 import unittest
-
+from json import load
 import Adyen
 from Adyen.util import (
-    generate_hpp_sig,
-    is_valid_hmac,
     generate_notification_sig,
     is_valid_hmac_notification,
+    get_query
 )
 
 
 class UtilTest(unittest.TestCase):
     ady = Adyen.Adyen()
     client = ady.client
-
-    def test_hpp_request_item_hmac(self):
-        request = {
-            "pspReference": "pspReference",
-            "originalReference": "originalReference",
-            "merchantAccount": "merchantAccount",
-            "amount": {
-                "currency": "EUR",
-                "value": 100000
-            },
-            "eventCode": "EVENT",
-            "Success": "true"
-        }
-        key = "DFB1EB5485895CFA84146406857104AB" \
-              "B4CBCABDC8AAF103A624C8F6A3EAAB00"
-        hmac_calculation = generate_hpp_sig(request, key)
-        hmac_calculation_str = hmac_calculation.decode("utf-8")
-        expected_hmac = "+xK25vgc9XcZFwu7WNLIwqVewyumVsgp+X+C0a2e+DE="
-        self.assertTrue(hmac_calculation_str != "")
-        self.assertEqual(hmac_calculation_str, expected_hmac)
-        request['additionalData'] = {'hmacSignature': hmac_calculation_str}
-        hmac_validate = is_valid_hmac(request, key)
-        self.assertIn('additionalData', request)
-        self.assertDictEqual(request['additionalData'],
-                             {'hmacSignature': hmac_calculation_str})
-        self.assertTrue(hmac_validate)
 
     def test_notification_request_item_hmac(self):
         request = {
@@ -71,3 +44,27 @@ class UtilTest(unittest.TestCase):
         self.assertDictEqual(request['additionalData'],
                              {'hmacSignature': hmac_calculation_str})
         self.assertTrue(hmac_validate)
+
+    def test_notifications_with_slashes(self):
+        hmac_key = "74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174"
+        with open('test/mocks/util/backslash_notification.json') as file:
+            backslash_notification = load(file)
+            self.assertTrue(is_valid_hmac_notification(backslash_notification, hmac_key))
+        with open('test/mocks/util/colon_notification.json') as file:
+            colon_notification = load(file)
+            self.assertTrue(is_valid_hmac_notification(colon_notification, hmac_key))
+        with open('test/mocks/util/forwardslash_notification.json') as file:
+            forwardslash_notification = load(file)
+            self.assertTrue(is_valid_hmac_notification(forwardslash_notification, hmac_key))
+        with open('test/mocks/util/mixed_notification.json') as file:
+            mixed_notification = load(file)
+            self.assertTrue(is_valid_hmac_notification(mixed_notification, hmac_key))
+
+
+    def test_query_string_creation(self):
+        query_parameters = {
+            "pageSize":7,
+            "pageNumber":3
+        }
+        query_string = get_query(query_parameters)
+        self.assertEqual(query_string,'?pageSize=7&pageNumber=3')
