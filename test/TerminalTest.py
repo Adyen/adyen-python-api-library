@@ -1,4 +1,3 @@
-import pkg_resources
 import unittest
 
 import Adyen
@@ -7,8 +6,6 @@ try:
     from BaseTest import BaseTest
 except ImportError:
     from .BaseTest import BaseTest
-
-VERSION = pkg_resources.get_distribution("Adyen").version
 
 
 class TestTerminal(unittest.TestCase):
@@ -46,7 +43,7 @@ class TestTerminal(unittest.TestCase):
                 ],
                 "applicationInfo": {
                     "adyenLibrary": {
-                        "version": VERSION,
+                        "version": '7.1.2',
                         "name": "adyen-python-api-library"
                     }
                 },
@@ -91,7 +88,7 @@ class TestTerminal(unittest.TestCase):
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                 "applicationInfo": {
                     "adyenLibrary": {
-                        "version": VERSION,
+                        "version": '7.1.2',
                         "name": "adyen-python-api-library"
                     }
                 },
@@ -144,7 +141,7 @@ class TestTerminal(unittest.TestCase):
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                 "applicationInfo": {
                     "adyenLibrary": {
-                        "version": VERSION,
+                        "version": '7.1.2',
                         "name": "adyen-python-api-library"
                     }
                 },
@@ -174,7 +171,7 @@ class TestTerminal(unittest.TestCase):
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                 "applicationInfo": {
                     "adyenLibrary": {
-                        "version": VERSION,
+                        "version": '7.1.2',
                         "name": "adyen-python-api-library"
                     }
                 },
@@ -231,7 +228,7 @@ class TestTerminal(unittest.TestCase):
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                 "applicationInfo": {
                     "adyenLibrary": {
-                        "version": VERSION,
+                        "version": '7.1.2',
                         "name": "adyen-python-api-library"
                     }
                 },
@@ -274,7 +271,7 @@ class TestTerminal(unittest.TestCase):
                 "store": "YOUR_STORE",
                 "applicationInfo": {
                     "adyenLibrary": {
-                        "version": VERSION,
+                        "version": '7.1.2',
                         "name": "adyen-python-api-library"
                     }
                 },
