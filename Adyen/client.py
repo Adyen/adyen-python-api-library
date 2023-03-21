@@ -190,11 +190,11 @@ class AdyenClient(object):
         if action == "paymentsResult":
             action = "payments/result"
         if action == "cancels":
-            action = "/cancels"
+            action = "cancels"
         if action == "paymentsCancelsWithReference":
             action = f"payments/{path_param}/cancels"
         if action == "paymentsCapture":
-            action = f"/payments/{path_param}/captures"
+            action = f"payments/{path_param}/captures"
         if action == "paymentsReversals":
             action = f"payments/{path_param}/reversals"
         if action == "paymentsRefunds":
