@@ -109,8 +109,7 @@ class TestCheckout(unittest.TestCase):
                     'expiryMonth': '08',
                     'type': 'scheme',
                     'cvc': '737'
-                },
-                'applicationInfo': {'adyenLibrary': {'name': 'adyen-python-api-library', 'version': settings.LIB_VERSION}}
+                }
             },
             xapikey='YourXapikey'
         )
@@ -510,8 +509,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://checkout-test.adyen.com/{self.checkout_version}/sessions',
-            json={'merchantAccount': 'YourMerchantAccount',
-                  'applicationInfo': {'adyenLibrary': {'name': 'adyen-python-api-library', 'version': settings.LIB_VERSION}}},
+            json={'merchantAccount': 'YourMerchantAccount'},
             xapikey='YourXapikey',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
         )
