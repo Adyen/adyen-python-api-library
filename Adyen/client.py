@@ -388,33 +388,6 @@ class AdyenClient(object):
         platform = self._set_platform(**kwargs)
         message = request_data
 
-        with_app_info = [
-            "/authorise",
-            "/authorise3d",
-            "/authorise3ds2",
-            "/payments",
-            "/paymentSession",
-            "/paymentLinks",
-            "/paymentMethods/balance",
-            "/sessions"
-        ]
-
-        if endpoint in with_app_info and (method == 'POST' or method == 'PATCH'):
-            if 'applicationInfo' in request_data:
-                request_data['applicationInfo'].update({
-                    "adyenLibrary": {
-                        "name": settings.LIB_NAME,
-                        "version": settings.LIB_VERSION
-                    }
-                })
-            else:
-                request_data['applicationInfo'] = {
-                    "adyenLibrary": {
-                        "name": settings.LIB_NAME,
-                        "version": settings.LIB_VERSION
-                    }
-                }
-
         headers = {
             self.APPLICATION_INFO_HEADER_NAME: settings.LIB_NAME,
             self.APPLICATION_VERSION_HEADER_NAME: settings.LIB_VERSION
