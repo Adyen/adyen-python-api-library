@@ -1,0 +1,9 @@
+templateDir: ./templates
+files:
+  api-single.mustache:
+    folder: api
+    destinationFilename: api-single.py
+    templateType: SupportingFiles
+  api-small.mustache:
+    destinationFilename: -small.py
+    templateType: API

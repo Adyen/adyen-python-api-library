@@ -21,13 +21,13 @@ class AdyenError(Exception):
         self.error_code = error_code
 
     def __str__(self):
-        return repr("{}:{}".format(self.__class__.__name__, self.message))
+        return "{}:{}".format(self.__class__.__name__, self.message)
 
     def debug(self):
-        return ("class: {}\nmessage: {}\nHTTP status_code:{}\nurl: {}"
+        return ("class: {}\nmessage: {}\nHTTP status_code:{}\nerror_code:{}\nurl: {}\n"
                 "request: {}\nresponse: {}\nheaders: {}"
                 .format(self.__class__.__name__, self.message,
-                        self.status_code, self.url, self.raw_request,
+                        self.status_code, self.error_code, self.url, self.raw_request,
                         self.raw_response, self.headers))
 
 
@@ -59,7 +59,7 @@ class AdyenAPIValidationError(AdyenAPIResponseError):
     pass
 
 
-class AdyenAPIInvalidAmount(AdyenAPIResponseError):
+class AdyenAPIUnprocessableEntity(AdyenAPIResponseError):
     pass
 
 

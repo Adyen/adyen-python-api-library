@@ -1,0 +1,24 @@
+{
+  "id": "S2-5C334C6770",
+  "name": {
+    "firstName": "John",
+    "gender": "UNKNOWN",
+    "lastName": "Smith"
+  },
+  "email": "john.smith@example.com",
+  "timeZoneCode": "Europe/Amsterdam",
+  "username": "johnsmith",
+  "roles": [
+    "Merchant standard role",
+    "Merchant admin"
+  ],
+  "active": "true",
+  "_links": {
+    "self": {
+      "href": "https://management-test.adyen.com/v1/companies/YOUR_COMPANY_ACCOUNT/users/S2-5C334C6770"
+    }
+  },
+  "associatedMerchantAccounts": [
+    "YOUR_MERCHANT_ACCOUNT"
+  ]
+}

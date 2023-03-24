@@ -7,3 +7,6 @@ venv/
 .idea/
 .coverage
 .vagrant/
+.env
+test.py
+build/

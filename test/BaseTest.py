@@ -18,7 +18,7 @@ class BaseTest():
                 st = open(filename)
                 strjson = st.read()
         else:
-            data = ""
+            data = {}
             st = ""
             strjson = ""
 

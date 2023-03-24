@@ -1,7 +1,7 @@
 import unittest
 
 import Adyen
-
+from Adyen import settings
 try:
     from BaseTest import BaseTest
 except ImportError:
@@ -15,6 +15,7 @@ class TestCheckoutUtility(unittest.TestCase):
     test = BaseTest(ady)
     client.xapikey = "YourXapikey"
     client.platform = "test"
+    checkout_version = settings.API_CHECKOUT_VERSION
 
     def test_origin_keys_success_mocked(self):
         request = {
@@ -30,7 +31,7 @@ class TestCheckoutUtility(unittest.TestCase):
                                                             "checkoututility/"
                                                             "originkeys"
                                                             "-success.json")
-        result = self.ady.checkout.origin_keys(request)
+        result = self.ady.checkout.utility_api.origin_keys(request)
 
         self.assertEqual("pub.v2.7814286629520534.aHR0cHM6Ly93d3cu"
                          "eW91ci1kb21haW4xLmNvbQ.UEwIBmW9-c_uXo5wS"
@@ -51,6 +52,19 @@ class TestCheckoutUtility(unittest.TestCase):
                          ['https://www.your-domain2.com'])
 
     def test_checkout_utility_api_url_custom(self):
-        url = self.ady.client._determine_checkout_url("test", "originKeys")
+        url = self.ady.client._determine_api_url("test", "checkout", "/originKeys")
 
-        self.assertEqual(url, "https://checkout-test.adyen.com/v1/originKeys")
+        self.assertEqual(url, "https://checkout-test.adyen.com/{}/originKeys".format(self.checkout_version))
+
+    def test_applePay_session(self):
+        request = {
+          "displayName": "YOUR_MERCHANT_NAME",
+          "domainName": "YOUR_DOMAIN_NAME",
+          "merchantIdentifier": "YOUR_MERCHANT_ID"
+        }
+        self.ady.client = self.test.create_client_from_file(200, request, "test/mocks/"
+                                                                            "checkoututility/"
+                                                                            "applepay-sessions"
+                                                                            "-success.json")
+        result = self.ady.checkout.utility_api.get_apple_pay_session(request)
+        self.assertEqual("BASE_64_ENCODED_DATA", result.message['data'])

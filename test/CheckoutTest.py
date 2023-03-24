@@ -1,5 +1,6 @@
 import Adyen
 import unittest
+from Adyen import settings
 
 try:
     from BaseTest import BaseTest
@@ -14,6 +15,8 @@ class TestCheckout(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
+    checkout_version = settings.API_CHECKOUT_VERSION
+    lib_version = settings.LIB_VERSION
 
     def test_payment_methods_success_mocked(self):
         request = {'merchantAccount': "YourMerchantAccount"}
@@ -22,7 +25,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "paymentmethods"
                                                               "-success.json")
-        result = self.adyen.checkout.payment_methods(request)
+        result = self.adyen.checkout.payments_api.payment_methods(request)
         self.assertEqual("AliPay", result.message['paymentMethods'][0]['name'])
         self.assertEqual("Credit Card",
                          result.message['paymentMethods'][2]['name'])
@@ -37,7 +40,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentmethods-"
                                                               "error-forbidden"
                                                               "-403.json")
-        result = self.adyen.checkout.payment_methods(request)
+        result = self.adyen.checkout.payments_api.payment_methods(request)
         self.assertEqual(403, result.message['status'])
         self.assertEqual("901", result.message['errorCode'])
         self.assertEqual("Invalid Merchant Account", result.message['message'])
@@ -61,7 +64,7 @@ class TestCheckout(unittest.TestCase):
                                                               "payments"
                                                               "-success"
                                                               ".json")
-        result = self.adyen.checkout.payments(request)
+        result = self.adyen.checkout.payments_api.payments(request)
         self.assertEqual("8535296650153317", result.message['pspReference'])
         self.assertEqual("Authorised", result.message['resultCode'])
         self.assertEqual("8/2018",
@@ -88,19 +91,14 @@ class TestCheckout(unittest.TestCase):
                                                               "-invalid"
                                                               "-data-422"
                                                               ".json")
-        result = self.adyen.checkout.payments(request)
+        result = self.adyen.checkout.payments_api.payments(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
-            'https://checkout-test.adyen.com/v69/payments',
-            headers={},
+            'POST',
+            'https://checkout-test.adyen.com/{}/payments'.format(self.checkout_version),
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 'returnUrl': 'https://your-company.com/...',
-                u'applicationInfo': {
-                    u'adyenLibrary': {
-                        u'version': '7.1.2',
-                        u'name': 'adyen-python-api-library'
-                    }
-                },
                 'reference': '54431',
                 'merchantAccount': 'YourMerchantAccount',
                 'amount': {'currency': 'EUR', 'value': '100000'},
@@ -131,14 +129,14 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsdetails"
                                                               "-success.json")
 
-        result = self.adyen.checkout.payments_details(request)
+        result = self.adyen.checkout.payments_api.payments_details(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
-            u'https://checkout-test.adyen.com/v69/payments/details',
-            headers={},
+            'POST',
+            u'https://checkout-test.adyen.com/{}/payments/details'.format(self.checkout_version),
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 'paymentData': 'Hee57361f99....',
-                u'merchantAccount': None,
                 'details': {'MD': 'sdfsdfsdf...', 'PaRes': 'sdkfhskdjfsdf...'}
             },
             xapikey='YourXapikey'
@@ -161,7 +159,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsdetails"
                                                               "-error-invalid-"
                                                               "data-422.json")
-        result = self.adyen.checkout.payments_details(request)
+        result = self.adyen.checkout.payments_api.payments_details(request)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("101", result.message['errorCode'])
         self.assertEqual("Invalid card number", result.message['message'])
@@ -183,7 +181,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "paymentsession"
                                                               "-success.json")
-        result = self.adyen.checkout.payment_session(request)
+        result = self.adyen.checkout.classic_checkout_sdk_api.payment_session(request)
         self.assertIsNotNone(result.message['paymentSession'])
 
     def test_payments_session_error_mocked(self):
@@ -203,7 +201,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsession"
                                                               "-error-invalid-"
                                                               "data-422.json")
-        result = self.adyen.checkout.payment_session(request)
+        result = self.adyen.checkout.classic_checkout_sdk_api.payment_session(request)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_012", result.message['errorCode'])
         self.assertEqual("The provided SDK token could not be parsed.",
@@ -217,7 +215,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "paymentsresult"
                                                               "-success.json")
-        result = self.adyen.checkout.payment_result(request)
+        result = self.adyen.checkout.classic_checkout_sdk_api.verify_payment_result(request)
         self.assertEqual("8535253563623704", result.message['pspReference'])
         self.assertEqual("Authorised", result.message['resultCode'])
 
@@ -230,7 +228,7 @@ class TestCheckout(unittest.TestCase):
                                                               "-error-invalid-"
                                                               "data-payload-"
                                                               "422.json")
-        result = self.adyen.checkout.payment_result(request)
+        result = self.adyen.checkout.classic_checkout_sdk_api.verify_payment_result(request)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
@@ -247,7 +245,7 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "paymentscancel-"
                                                               "withoutreference-succes.json")
-        results = self.adyen.checkout.payments_cancels_without_reference(request=requests)
+        results = self.adyen.checkout.modifications_api.cancel_authorised_payment(requests)
         self.assertIsNotNone(results.message['paymentReference'])
         self.assertEqual("8412534564722331", results.message['pspReference'])
         self.assertEqual("received", results.message['status'])
@@ -266,7 +264,7 @@ class TestCheckout(unittest.TestCase):
                                                               "data-payload-"
                                                               "422.json")
 
-        result = self.adyen.checkout.payments_cancels_without_reference(requests)
+        result = self.adyen.checkout.modifications_api.cancel_authorised_payment(requests)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
@@ -281,19 +279,19 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "paymentscancels"
                                                               "-success.json")
-        result = self.adyen.checkout.payments_cancels_with_reference(request=requests, path_param=reference_id)
+        result = self.adyen.checkout.modifications_api.refund_or_cancel_payment(requests, reference_id)
         self.assertEqual(reference_id, result.message["paymentPspReference"])
         self.assertEqual("received", result.message['status'])
 
     def test_payments_cancels_error_mocked(self):
-        requests = {"reference": "Your wro order number"}
+        request = {"reference": "Your wro order number"}
         psp_reference = "8836183819713023"
-        self.adyen.client = self.test.create_client_from_file(200, requests,
+        self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/"
                                                               "checkout/"
                                                               "paymentsresult-error-invalid-"
                                                               "data-payload-422.json")
-        result = self.adyen.checkout.payments_cancels_with_reference(request=requests, path_param=psp_reference)
+        result = self.adyen.checkout.modifications_api.refund_or_cancel_payment(request, psp_reference)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
@@ -312,7 +310,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentscancel-"
                                                               "withoutreference-succes.json")
 
-        result = self.adyen.checkout.payments_refunds(request=requests, path_param=psp_reference)
+        result = self.adyen.checkout.modifications_api.refund_captured_payment(requests,psp_reference)
         self.assertEqual(psp_reference, result.message["paymentReference"])
         self.assertIsNotNone(result.message["pspReference"])
         self.assertEqual("received", result.message['status'])
@@ -330,28 +328,11 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsresult-error-invalid-"
                                                               "data-payload-422.json")
 
-        result = self.adyen.checkout.payments_refunds(request=requests, path_param=reference_id)
+        result = self.adyen.checkout.modifications_api.refund_captured_payment(requests, reference_id)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
         self.assertEqual("validation", result.message['errorType'])
-
-    def test_payments_refunds_raises_value_error(self):
-        requests = {
-            "paymentReference": "Payment123",
-            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-            "reference": "YourCancelReference",
-        }
-        self.adyen.client = self.test.create_client_from_file(200, requests,
-                                                              "test/mocks/"
-                                                              "checkout/"
-                                                              "paymentscancel-"
-                                                              "withoutreference-succes.json")
-        with self.assertRaises(ValueError) as exc:
-            self.adyen.checkout.payments_refunds(request=requests, path_param="")
-        self.assertEqual(exc.exception.__class__, ValueError)
-        self.assertEqual(exc.exception.__str__(), 'must contain a pspReference in the path_param, path_param cannot '
-                                                  'be empty')
 
     def test_reversals_success_mocked(self):
         requests = {
@@ -365,7 +346,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsreversals-"
                                                               "success.json")
 
-        result = self.adyen.checkout.payments_reversals(request=requests, path_param=psp_reference)
+        result = self.adyen.checkout.modifications_api.refund_or_cancel_payment(requests, psp_reference)
         self.assertEqual(psp_reference, result.message["paymentPspReference"])
         self.assertIsNotNone(result.message["pspReference"])
         self.assertEqual("received", result.message['status'])
@@ -383,7 +364,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsresult-error-invalid-"
                                                               "data-payload-422.json")
 
-        result = self.adyen.checkout.payments_reversals(request=requests, path_param=psp_reference)
+        result = self.adyen.checkout.modifications_api.refund_or_cancel_payment(requests,psp_reference)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
@@ -391,12 +372,12 @@ class TestCheckout(unittest.TestCase):
 
     def test_payments_capture_success_mocked(self):
         request = {
-          "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-          "amount": {
-            "value": 2500,
-            "currency": "EUR"
-          },
-          "reference": "YOUR_UNIQUE_REFERENCE"
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "amount": {
+                "value": 2500,
+                "currency": "EUR"
+            },
+            "reference": "YOUR_UNIQUE_REFERENCE"
         }
         psp_reference = "8536214160615591"
         self.adyen.client = self.test.create_client_from_file(200, request,
@@ -405,7 +386,14 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentcapture-"
                                                               "success.json")
 
-        result = self.adyen.checkout.payments_captures(request=request, path_param=psp_reference)
+        result = self.adyen.checkout.modifications_api.capture_authorised_payment(request, psp_reference)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/payments/{psp_reference}/captures',
+            json=request,
+            xapikey='YourXapikey',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+        )
         self.assertEqual(psp_reference, result.message["paymentPspReference"])
         self.assertIsNotNone(result.message["pspReference"])
         self.assertEqual("received", result.message['status'])
@@ -427,7 +415,7 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentsresult-error-invalid-"
                                                               "data-payload-422.json")
 
-        result = self.adyen.checkout.payments_captures(request=request, path_param=psp_reference)
+        result = self.adyen.checkout.modifications_api.capture_authorised_payment(request, psp_reference)
         self.assertEqual(422, result.message['status'])
         self.assertEqual("14_018", result.message['errorCode'])
         self.assertEqual("Invalid payload provided", result.message['message'])
@@ -440,7 +428,15 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "orders"
                                                               "-success.json")
-        result = self.adyen.checkout.orders(request)
+        result = self.adyen.checkout.orders_api.orders(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/orders',
+            json=request,
+            xapikey='YourXapikey',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+
+        )
         self.assertEqual("8515930288670953", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
         self.assertEqual("order reference", result.message['reference'])
@@ -454,7 +450,14 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "orders-cancel"
                                                               "-success.json")
-        result = self.adyen.checkout.orders_cancel(request)
+        result = self.adyen.checkout.orders_api.cancel_order(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/orders/cancel',
+            json=request,
+            xapikey='YourXapikey',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+        )
         self.assertEqual("8515931182066678", result.message['pspReference'])
         self.assertEqual("Received", result.message['resultCode'])
 
@@ -466,7 +469,14 @@ class TestCheckout(unittest.TestCase):
                                                               "paymentmethods"
                                                               "-balance"
                                                               "-success.json")
-        result = self.adyen.checkout.payment_methods_balance(request)
+        result = self.adyen.checkout.orders_api.get_balance_of_gift_card(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/paymentMethods/balance',
+            json=request,
+            xapikey='YourXapikey',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+        )
         self.assertEqual("851611111111713K", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
         self.assertEqual(100, result.message['balance']['value'])
@@ -479,7 +489,8 @@ class TestCheckout(unittest.TestCase):
                                                               "checkout/"
                                                               "sessions"
                                                               "-success.json")
-        result = self.adyen.checkout.sessions(request)
+        result = self.adyen.checkout.payments_api.sessions(request)
+
         self.assertEqual("session-test-id", result.message['id'])
         self.assertEqual("TestReference", result.message['reference'])
         self.assertEqual("http://test-url.com", result.message['returnUrl'])
@@ -494,7 +505,95 @@ class TestCheckout(unittest.TestCase):
                                                               "-invalid"
                                                               "-data-422"
                                                               ".json")
-        result = self.adyen.checkout.sessions(request)
+        result = self.adyen.checkout.payments_api.sessions(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/sessions',
+            json={'merchantAccount': 'YourMerchantAccount'},
+            xapikey='YourXapikey',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+        )
         self.assertEqual(422, result.message['status'])
         self.assertEqual("130", result.message['errorCode'])
         self.assertEqual("validation", result.message['errorType'])
+
+    def test_payment_link(self):
+        request = {
+            "reference": "YOUR_ORDER_NUMBER",
+            "amount": {
+                "value": 1250,
+                "currency": "BRL"
+            },
+            "countryCode": "BR",
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+            "shopperReference": "YOUR_UNIQUE_SHOPPER_ID",
+            "shopperEmail": "test@email.com",
+            "shopperLocale": "pt-BR",
+            "billingAddress": {
+                "street": "Roque Petroni Jr",
+                "postalCode": "59000060",
+                "city": "São Paulo",
+                "houseNumberOrName": "999",
+                "country": "BR",
+                "stateOrProvince": "SP"
+            },
+            "deliveryAddress": {
+                "street": "Roque Petroni Jr",
+                "postalCode": "59000060",
+                "city": "São Paulo",
+                "houseNumberOrName": "999",
+                "country": "BR",
+                "stateOrProvince": "SP"
+            }
+        }
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentlinks"
+                                                              "-success"
+                                                              ".json")
+        result = self.adyen.checkout.payment_links_api.payment_links(request)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            xapikey='YourXapikey',
+            json=request
+        )
+        self.assertEqual("YOUR_ORDER_NUMBER", result.message["reference"])
+
+    def test_get_payment_link(self):
+        id = "PL61C53A8B97E6915A"
+        self.adyen.client = self.test.create_client_from_file(200, None,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "getpaymenlinks"
+                                                              "-succes.json")
+        result = self.adyen.checkout.payment_links_api.get_payment_link(id)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'GET',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks/{id}',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            xapikey="YourXapikey",
+            json=None
+        )
+        self.assertEqual("TestMerchantCheckout", result.message["merchantAccount"])
+
+    def test_update_payment_link(self):
+        id = "PL61C53A8B97E6915A"
+        request = {
+            "status": "expired"
+        }
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/checkout"
+                                                              "/updatepaymentlinks"
+                                                              "-success.json")
+        result = self.adyen.checkout.payment_links_api.update_payment_link(request, id)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'PATCH',
+            f'https://checkout-test.adyen.com/{self.checkout_version}/paymentLinks/{id}',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            xapikey="YourXapikey",
+            json=request
+        )
+        self.assertEqual("expired",result.message["status"])

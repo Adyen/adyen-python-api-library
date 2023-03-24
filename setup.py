@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='Adyen',
-    packages=['Adyen'],
-    version='7.1.2',
+    packages=find_packages(include="Adyen*"),
+    version='8.0.0',
     maintainer='Adyen',
     maintainer_email='support@adyen.com',
     description='Adyen Python Api',
