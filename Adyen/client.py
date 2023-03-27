@@ -240,9 +240,9 @@ class AdyenClient(object):
         api_version, base_url = self._determine_base_url_and_version(platform, service)
         return base_url + '/' + api_version + endpoint
 
-    def _review_payout_username(self, **kwargs):
-        if 'username' in kwargs:
-            return kwargs['username']
+    def _review_payout_username(self, params):
+        if 'username' in params:
+            return params['username']
         elif self.review_payout_username:
             return self.review_payout_username
         errorstring = "Please set your review payout " \
@@ -250,9 +250,9 @@ class AdyenClient(object):
                       "Adyen.review_payout_username = 'Your payout username'"
         raise AdyenInvalidRequestError(errorstring)
 
-    def _review_payout_pass(self, **kwargs):
-        if 'password' in kwargs:
-            return kwargs["password"]
+    def _review_payout_pass(self, params):
+        if 'password' in params:
+            return params["password"]
         elif self.review_payout_password:
             return self.review_payout_password
         errorstring = "Please set your review payout " \
@@ -260,9 +260,9 @@ class AdyenClient(object):
                       "Adyen.review_payout_password = 'Your payout password"
         raise AdyenInvalidRequestError(errorstring)
 
-    def _store_payout_username(self, **kwargs):
-        if 'username' in kwargs:
-            return kwargs['username']
+    def _store_payout_username(self, params):
+        if 'username' in params:
+            return params['username']
         elif self.store_payout_username:
             return self.store_payout_username
         errorstring = "Please set your review payout " \
@@ -270,9 +270,9 @@ class AdyenClient(object):
                       "Adyen.review_payout_username = 'Your payout username'"
         raise AdyenInvalidRequestError(errorstring)
 
-    def _store_payout_pass(self, **kwargs):
-        if 'password' in kwargs:
-            return kwargs["password"]
+    def _store_payout_pass(self, params):
+        if 'password' in params:
+            return params["password"]
         elif self.store_payout_password:
             return self.store_payout_password
         errorstring = "Please set your review payout " \
@@ -280,7 +280,7 @@ class AdyenClient(object):
                       "Adyen.review_payout_password = 'Your payout password"
         raise AdyenInvalidRequestError(errorstring)
 
-    def _set_credentials(self, service, endpoint, **kwargs):
+    def _set_credentials(self, service, endpoint, params):
         xapikey = None
         username = None
         password = None
@@ -290,19 +290,19 @@ class AdyenClient(object):
 
         if self.xapikey:
             xapikey = self.xapikey
-        elif 'xapikey' in kwargs:
-            xapikey = kwargs.pop("xapikey")
+        elif 'xapikey' in params:
+            xapikey = params.pop("xapikey")
 
         if self.username:
             username = self.username
-        elif 'username' in kwargs:
-            username = kwargs.pop("username")
+        elif 'username' in params:
+            username = params.pop("username")
         if service == "Payout":
             if any(substring in endpoint for substring in
                    ["store", "submit"]):
-                username = self._store_payout_username(**kwargs)
+                username = self._store_payout_username(params)
             else:
-                username = self._review_payout_username(**kwargs)
+                username = self._review_payout_username(params)
 
         if not username and not xapikey:
             errorstring = "Please set your webservice username.You can do this by running " \
@@ -314,14 +314,14 @@ class AdyenClient(object):
 
         if self.password and not xapikey:
             password = self.password
-        elif 'password' in kwargs:
-            password = kwargs.pop("password")
+        elif 'password' in params:
+            password = params.pop("password")
         if service == "Payout":
             if any(substring in endpoint for substring in
                    ["store", "submit"]):
-                password = self._store_payout_pass(**kwargs)
+                password = self._store_payout_pass(params)
             else:
-                password = self._review_payout_pass(**kwargs)
+                password = self._review_payout_pass(params)
 
         if not password and not xapikey:
             errorstring = "Please set your webservice password.You can do this by running " \
@@ -333,14 +333,14 @@ class AdyenClient(object):
 
         return xapikey, username, password
 
-    def _set_platform(self, **kwargs):
+    def _set_platform(self, params):
         # platform at self object has highest priority. fallback to root module
         # and ensure that it is set to either 'live' or 'test'.
         platform = None
         if self.platform:
             platform = self.platform
-        elif 'platform' in kwargs:
-            platform = kwargs.pop('platform')
+        elif 'platform' in params:
+            platform = params.pop('platform')
 
         if not isinstance(platform, str):
             errorstring = "'platform' value must be type of string"
@@ -383,9 +383,9 @@ class AdyenClient(object):
             self._init_http_client()
 
         # Set credentials
-        xapikey, username, password = self._set_credentials(service, endpoint, **kwargs)
+        xapikey, username, password = self._set_credentials(service, endpoint, kwargs)
         # Set platform
-        platform = self._set_platform(**kwargs)
+        platform = self._set_platform(kwargs)
         message = request_data
 
         headers = {
