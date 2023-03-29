@@ -597,3 +597,4 @@ class TestCheckout(unittest.TestCase):
             json=request
         )
         self.assertEqual("expired",result.message["status"])
+
