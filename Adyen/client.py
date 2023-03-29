@@ -331,7 +331,7 @@ class AdyenClient(object):
             # fallback to root module
             # and ensure that it is set.
 
-        return xapikey, username, password
+        return xapikey, username, password, kwargs
 
     def _set_platform(self, **kwargs):
         # platform at self object has highest priority. fallback to root module
@@ -383,7 +383,7 @@ class AdyenClient(object):
             self._init_http_client()
 
         # Set credentials
-        xapikey, username, password = self._set_credentials(service, endpoint, **kwargs)
+        xapikey, username, password, kwargs= self._set_credentials(service, endpoint, **kwargs)
         # Set platform
         platform = self._set_platform(**kwargs)
         message = request_data

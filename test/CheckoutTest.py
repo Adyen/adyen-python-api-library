@@ -597,3 +597,18 @@ class TestCheckout(unittest.TestCase):
             json=request
         )
         self.assertEqual("expired",result.message["status"])
+
+    def test_passing_xapikey_in_method(self):
+        request = {'merchantAccount': "YourMerchantAccount"}
+        self.adyen.client.xapikey = None
+        self.adyen.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentmethods"
+                                                              "-success.json")
+        result = self.adyen.checkout.payments_api.payment_methods(request, xapikey="YourXapikey")
+        self.assertEqual("AliPay", result.message['paymentMethods'][0]['name'])
+        self.assertEqual("Credit Card",
+                         result.message['paymentMethods'][2]['name'])
+        self.assertEqual("Credit Card via AsiaPay",
+                         result.message['paymentMethods'][3]['name'])
