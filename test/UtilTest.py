@@ -6,6 +6,10 @@ from Adyen.util import (
     is_valid_hmac_notification,
     get_query
 )
+try:
+    from BaseTest import BaseTest
+except ImportError:
+    from .BaseTest import BaseTest
 
 
 class UtilTest(unittest.TestCase):
@@ -68,3 +72,19 @@ class UtilTest(unittest.TestCase):
         }
         query_string = get_query(query_parameters)
         self.assertEqual(query_string,'?pageSize=7&pageNumber=3')
+
+    def test_passing_xapikey_in_method(self):
+        request = {'merchantAccount': "YourMerchantAccount"}
+        self.test = BaseTest(self.ady)
+        self.client.platform = "test"
+        self.ady.client = self.test.create_client_from_file(200, request,
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentmethods"
+                                                              "-success.json")
+        result = self.ady.checkout.payments_api.payment_methods(request, xapikey="YourXapikey")
+        self.assertEqual("AliPay", result.message['paymentMethods'][0]['name'])
+        self.assertEqual("Credit Card",
+                         result.message['paymentMethods'][2]['name'])
+        self.assertEqual("Credit Card via AsiaPay",
+                         result.message['paymentMethods'][3]['name'])
