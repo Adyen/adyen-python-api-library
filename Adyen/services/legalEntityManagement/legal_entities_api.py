@@ -44,3 +44,11 @@ class LegalEntitiesApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def check_legal_entitys_verification_errors(self, id, idempotency_key=None, **kwargs):
+        """
+        Check a legal entity's verification errors
+        """
+        endpoint = f"/legalEntities/{id}/checkVerificationErrors"
+        method = "POST"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
