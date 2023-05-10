@@ -28,8 +28,8 @@ jobs:
             const release = require('./.github/scripts/release.js')
             const options = { github, context, core, getCurrentVersion: release.packageVersion };
             await release.bump(options);
-      - name: Bump package.json
-        run: npm --no-git-tag-version version ${{steps.release.outputs.nextVersion}}
+#       - name: Bump package.json (should bump version in the setup.py file and also in the settings
+#         run: npm --no-git-tag-version version ${{steps.release.outputs.nextVersion}}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@284f54f989303d2699d373481a0cfa13ad5a6666 # v5.0.1
