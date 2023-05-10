@@ -33,7 +33,7 @@ jobs:
         with:
           script: |
             const release = require('./.github/scripts/release.js')
-            await release.udpateVersion(${{steps.release.outputs.nextVersion}});
+            await release.udpateVersion("${{steps.release.outputs.nextVersion}}");
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@284f54f989303d2699d373481a0cfa13ad5a6666 # v5.0.1
