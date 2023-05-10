@@ -7,6 +7,13 @@ exports.packageVersion = () => {
   return version;
 };
 
+exports.updateVersion = (version) => {
+  const fs = require('fs');
+  data = fs.readFileSync('setup.py', 'utf-8');
+  newVersion = data.replace(/\d\.\d\.\d/, version);
+  fs.writeFileSync('setup.py', newVersion, 'utf-8');
+}
+
 // List of merged pull requests in Markdown
 exports.changelog = (changeset) => {
   let entries = [];
