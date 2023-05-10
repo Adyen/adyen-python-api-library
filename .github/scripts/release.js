@@ -6,7 +6,6 @@ exports.packageVersion = () => {
   version = data.match(re)[1];
   return version;
 };
-};
 
 // List of merged pull requests in Markdown
 exports.changelog = (changeset) => {
