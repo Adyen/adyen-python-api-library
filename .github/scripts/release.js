@@ -7,7 +7,7 @@ exports.packageVersion = () => {
   return version;
 };
 
-exports.updateVersion = (version) => {
+exports.updateVersion = async (version) => {
   const fs = require('fs');
   data = fs.readFileSync('setup.py', 'utf-8');
   newVersion = data.replace(/\d\.\d\.\d/, version);
