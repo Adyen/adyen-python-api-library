@@ -1,7 +1,18 @@
 // Get the current version of a Node.js package
 exports.packageVersion = () => {
-  return require('../../package.json').version;
+  const fs = require('fs');
+  const re = /version='(\d.\d.\d)\'/;
+  data = fs.readFileSync("setup.py", 'utf-8');
+  version = data.match(re)[1];
+  return version;
 };
+
+exports.updateVersion = async (version) => {
+  const fs = require('fs');
+  data = fs.readFileSync('setup.py', 'utf-8');
+  newVersion = data.replace(/\d\.\d\.\d/, version);
+  fs.writeFileSync('setup.py', newVersion, 'utf-8');
+}
 
 // List of merged pull requests in Markdown
 exports.changelog = (changeset) => {
