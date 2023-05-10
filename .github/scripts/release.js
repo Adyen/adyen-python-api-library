@@ -2,7 +2,7 @@
 exports.packageVersion = () => {
   const fs = require('fs');
   const re = /version='(\d.\d.\d)\'/;
-  data = fs.readFileSync('../../../setup.py', 'utf-8');
+  data = fs.readFileSync('setup.py', 'utf-8');
   version = data.match(re)[1];
   return version;
 };
