@@ -65,7 +65,6 @@ adyen = Adyen.Adyen()
 adyen.payment.client.xapikey = "YourXapikey"
 adyen.payment.client.hmac = "YourHMACkey"
 adyen.payment.client.platform = "test" # Environment to use the library in.
-adyen.payment.client.merchant_account = "merchant account name from CA"
 ~~~~
 ### Consuming Services
 Every API the library supports is represented by a service object. The name of the service matching the corresponding API is listed in the [Integrations](#supported-api-versions) section of this document.
