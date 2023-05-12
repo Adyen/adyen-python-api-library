@@ -26,14 +26,14 @@ jobs:
         with:
           script: |
             const release = require('./.github/scripts/release.js')
-            const options = { github, context, core, getCurrentVersion: release.packageVersion };
+            const options = { github, context, core, getCurrentVersion: release.setupPythonVersion };
             await release.bump(options);
       - name: Bump version 
         uses: actions/github-script@v6
         with:
           script: |
             const release = require('./.github/scripts/release.js')
-            await release.updateVersion("${{steps.release.outputs.nextVersion}}");
+            await release.updatePythonVersion("${{steps.release.outputs.nextVersion}}");
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@284f54f989303d2699d373481a0cfa13ad5a6666 # v5.0.1
