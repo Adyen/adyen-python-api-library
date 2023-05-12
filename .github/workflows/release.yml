@@ -37,6 +37,9 @@ jobs:
           script: |
             const release = require('./.github/scripts/release.js')
             await release.updatePythonVersion("${{steps.release.outputs.nextVersion}}");
+      - name: Delete the release script 
+        run: |
+          rm -f ./.github/scripts/release.js
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@284f54f989303d2699d373481a0cfa13ad5a6666 # v5.0.1
@@ -58,6 +61,4 @@ jobs:
           token: ${{ secrets.ADYEN_AUTOMATION_BOT_ACCESS_TOKEN }}
           pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
           merge-method: merge
-      - name: Delete the release script 
-        run: |
-          rm -f ./.github/scripts/release.js
+    
