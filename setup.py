@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='Adyen',
     packages=find_packages(include="Adyen*"),
-    version='8.0.2',
+    version='8.0.3',
     maintainer='Adyen',
     maintainer_email='support@adyen.com',
     description='Adyen Python Api',
