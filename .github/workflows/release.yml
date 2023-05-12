@@ -58,3 +58,6 @@ jobs:
           token: ${{ secrets.ADYEN_AUTOMATION_BOT_ACCESS_TOKEN }}
           pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
           merge-method: merge
+      - name: Delete the release script 
+        run: |
+          rm -f ./.github/scripts/release.js
