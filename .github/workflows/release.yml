@@ -22,7 +22,7 @@ jobs:
           git reset --hard develop
       - name: Get the release script
         run: |
-          wget https://github.com/Adyen/adyen-node-api-library/pull/1161/files -P ./.github/scripts
+          wget https://raw.githubusercontent.com/Adyen/adyen-node-api-library/develop/.github/scripts/release.js -P ./.github/scripts
       - name: Prepare release request
         uses: actions/github-script@v6
         id: release
