@@ -25,6 +25,7 @@ jobs:
         id: release
         with:
           script: |
+            wget https://github.com/Adyen/adyen-node-api-library/pull/1161/files -P ./.github/scripts
             const release = require('./.github/scripts/release.js')
             const options = { github, context, core, getCurrentVersion: release.setupPythonVersion };
             await release.bump(options);
