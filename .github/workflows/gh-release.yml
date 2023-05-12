@@ -12,6 +12,9 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+      - name: Get the release script
+        run: |
+          wget https://github.com/Adyen/adyen-node-api-library/pull/1161/files -P ./.github/scripts
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -30,6 +33,9 @@ jobs:
           gh release create v${{steps.release.outputs.version}} \
             --title 'Adyen Python API Library v${{steps.release.outputs.version}}' \
             --generate-notes --target main
+      - name: Delete the release script 
+        run: |
+          rm -f ./.github/scripts/release.js
       - name: Update develop branch
         run: |
           git checkout develop
