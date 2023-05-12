@@ -1,5 +1,5 @@
 // Get the current version of a Node.js package
-exports.packageVersion = () => {
+exports.setupPythonVersion = () => {
   const fs = require('fs');
   const re = /version='(\d.\d.\d)\'/;
   data = fs.readFileSync("setup.py", 'utf-8');
@@ -7,7 +7,7 @@ exports.packageVersion = () => {
   return version;
 };
 
-exports.updateVersion = async (version) => {
+exports.updatePythonVersion = async (version) => {
   const fs = require('fs');
   data = fs.readFileSync('Adyen/settings.py', 'utf-8');
   newVersion = data.replace(/\d{1,2}\.\d\.\d/, version);
