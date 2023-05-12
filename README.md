@@ -6,7 +6,6 @@
 
 This is the officially supported Python library for using Adyen's APIs.
 
-
 ## Supported API versions
 | API | Description | Service Name | Supported version |
 | --- | ----------- | ------------ | ----------------- | 
