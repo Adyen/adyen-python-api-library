@@ -33,8 +33,7 @@ platformsHostedOnboardingPage: spec=HopService-v6
 transfers: spec=TransferService-v3
 balanceControlService: spec=BalanceControlService-v1
 
-$(services): build/spec
-	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
+$(services): build/spec $(openapi-generator-jar)
 	rm -rf Adyen/services/$@
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
@@ -50,8 +49,7 @@ $(services): build/spec
 	cp build/api/api-single.py Adyen/services/$@/__init__.py
 
 
-$(smallServices): build/spec
-	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
+$(smallServices): build/spec $(openapi-generator-jar)
 	rm -rf Adyen/services/$@
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
@@ -70,9 +68,12 @@ build/spec:
 	git clone https://github.com/Adyen/adyen-openapi.git build/spec
 	perl -i -pe's/"openapi" : "3.[0-9].[0-9]"/"openapi" : "3.0.0"/' build/spec/json/*.json
 
+# Download the generator
+$(openapi-generator-jar):
+	wget --quiet -o /dev/null $(openapi-generator-url) -O $(openapi-generator-jar)
 
-generateCheckoutTest: build/spec
-	wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O build/openapi-generator-cli.jar
+
+generateCheckoutTest: build/spec $(openapi-generator-jar)
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/CheckoutService-v70.json \
 		-g $(generator) \
