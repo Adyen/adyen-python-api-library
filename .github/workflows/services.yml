@@ -25,5 +25,4 @@ jobs:
           branch: automation/services
           title: ${{ steps.vars.outputs.pr_title }}
           body: ${{ steps.vars.outputs.pr_body }}
-          add-paths: |
-            src/Adyen/services
+          add-paths: Adyen/services
