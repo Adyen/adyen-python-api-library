@@ -20,9 +20,9 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_reveal_information_of_payment_instrument(self, id, idempotency_key=None, **kwargs):
+    def get_pan_of_payment_instrument(self, id, idempotency_key=None, **kwargs):
         """
-        Get the reveal information of a payment instrument
+        Get the PAN of a payment instrument
         """
         endpoint = f"/paymentInstruments/{id}/reveal"
         method = "GET"
