@@ -48,7 +48,6 @@ $(services): build/spec
 	cp -r build/openapi_client/api Adyen/services/$@
 	rm -f Adyen/services/$@/*-small.py
 	cp build/api/api-single.py Adyen/services/$@/__init__.py
-	rm -rf build
 
 
 $(smallServices): build/spec
@@ -64,7 +63,6 @@ $(smallServices): build/spec
 		--skip-validate-spec
 	mkdir -p Adyen/services
 	cp build/openapi_client/api/general_api-small.py Adyen/services/$@.py
-	rm -rf build
 
 
 
