@@ -13,6 +13,8 @@ openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
 services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
 smallServices:=balanceControlService binlookup dataProtection recurring storedValue terminal
 
+all: $(Services) $(smallServices)
+
 binlookup: spec=BinLookupService-v52
 checkout: spec=CheckoutService-v70
 dataProtection: spec=DataProtectionService-v1
