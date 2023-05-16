@@ -9,7 +9,10 @@ coverage:
 
 
 generator:=python
-openapi-generator-cli:=java -jar build/openapi-generator-cli.jar
+openapi-generator-version:=6.0.1
+openapi-generator-url:=https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/$(openapi-generator-version)/openapi-generator-cli-$(openapi-generator-version).jar
+openapi-generator-jar:=build/openapi-generator-cli.jar
+openapi-generator-cli:=java -jar $(openapi-generator-jar)
 services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
 smallServices:=balanceControlService binlookup dataProtection recurring storedValue terminal
 
