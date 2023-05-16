@@ -13,6 +13,7 @@ openapi-generator-version:=6.0.1
 openapi-generator-url:=https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/$(openapi-generator-version)/openapi-generator-cli-$(openapi-generator-version).jar
 openapi-generator-jar:=build/openapi-generator-cli.jar
 openapi-generator-cli:=java -jar $(openapi-generator-jar)
+output:=build/out
 services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
 smallServices:=balanceControlService binlookup dataProtection recurring storedValue terminal
 
@@ -37,33 +38,33 @@ transfers: spec=TransferService-v3
 balanceControlService: spec=BalanceControlService-v1
 
 $(services): build/spec $(openapi-generator-jar)
-	rm -rf Adyen/services/$@
+	rm -rf Adyen/services/$@ $(output)
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
 		-g $(generator) \
 		-c ./templates/config.yaml \
-		-o build \
+		-o $(output) \
 		--global-property apis,apiTests=false,apiDocs=false,supportingFiles=api-single.py\
 		--additional-properties serviceName=$@\
 		--skip-validate-spec
 	mkdir -p Adyen/services
-	cp -r build/openapi_client/api Adyen/services/$@
+	cp -r $(output)/openapi_client/api Adyen/services/$@
 	rm -f Adyen/services/$@/*-small.py
-	cp build/api/api-single.py Adyen/services/$@/__init__.py
+	cp $(output)/api/api-single.py Adyen/services/$@/__init__.py
 
 
 $(smallServices): build/spec $(openapi-generator-jar)
-	rm -rf Adyen/services/$@
+	rm -rf Adyen/services/$@ $(output)
 	$(openapi-generator-cli) generate \
 		-i build/spec/json/$(spec).json \
 		-g $(generator) \
 		-c ./templates/config.yaml \
-		-o build \
+		-o $(output) \
 		--global-property apis,apiTests=false,apiDocs=false\
 		--additional-properties serviceName=$@\
 		--skip-validate-spec
 	mkdir -p Adyen/services
-	cp build/openapi_client/api/general_api-small.py Adyen/services/$@.py
+	cp $(output)/openapi_client/api/general_api-small.py Adyen/services/$@.py
 
 
 
@@ -81,9 +82,9 @@ generateCheckoutTest: build/spec $(openapi-generator-jar)
 		-i build/spec/json/CheckoutService-v70.json \
 		-g $(generator) \
 		-c ./templates/config.yaml \
-		-o build \
+		-o $(output) \
 		--global-property apis,apiTests=false,supportingFiles=api-test.py\
 		--additional-properties serviceName=checkout \
 		--skip-validate-spec
-	cp build/api/api-test.py test/methodNamesTests/checkoutTest.py
+	cp $(output)/api/api-test.py test/methodNamesTests/checkoutTest.py
 	rm -rf build
