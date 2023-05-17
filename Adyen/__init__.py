@@ -26,7 +26,8 @@ from .services import (
     AdyenDataProtectionApi,
     AdyenTransfersApi,
     AdyenStoredValueApi,
-    AdyenBalancePlatformApi
+    AdyenBalancePlatformApi,
+    AdyenCapitalApi
 )
 
 from .httpclient import HTTPClient
@@ -47,6 +48,7 @@ class Adyen(AdyenBase):
         self.transfers = AdyenTransfersApi(client=self.client)
         self.storedValue = AdyenStoredValueApi(client=self.client)
         self.balancePlatform = AdyenBalancePlatformApi(client=self.client)
+        self.capital = AdyenCapitalApi(client=self.client)
 
 
 _base_adyen_obj = Adyen()
@@ -62,3 +64,4 @@ dataProtection = _base_adyen_obj.dataProtection
 transfers = _base_adyen_obj.transfers
 storedValue = _base_adyen_obj.storedValue
 balancePlatform = _base_adyen_obj.balancePlatform
+capital = _base_adyen_obj.capital
