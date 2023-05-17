@@ -95,7 +95,8 @@ class AdyenClient(object):
             api_data_protection_version=None,
             api_transfers_version=None,
             api_stored_value_version=None,
-            api_balance_platform_version=None
+            api_balance_platform_version=None,
+            api_capital_version=None
     ):
         self.username = username
         self.password = password
@@ -128,6 +129,7 @@ class AdyenClient(object):
         self.api_transfers_version = api_transfers_version or settings.API_TRANSFERS_VERSION
         self.api_stored_value_version = api_stored_value_version or settings.API_STORED_VALUE_VERSION
         self.api_balance_platform_version = api_balance_platform_version or settings.API_BALANCE_PLATFORM_VERSION
+        self.api_capital_version = api_capital_version or settings.API_CAPITAL_VERSION
 
     def _determine_base_url_and_version(self, platform, service):
 
@@ -212,8 +214,8 @@ class AdyenClient(object):
             'transfers': {
                 'version': self.api_transfers_version,
                 'base_url': {
-                    'live': settings.BASE_TRANSFERS_URL.format(platform),
-                    'test': settings.BASE_TRANSFERS_URL.format(platform)
+                    'live': settings.BASE_BTL_URL.format(platform),
+                    'test': settings.BASE_BTL_URL.format(platform)
                 }
             },
             'storedValue': {
@@ -221,6 +223,13 @@ class AdyenClient(object):
                 'base_url': {
                     'live': settings.BASE_STORED_VALUE_URL.format(platform),
                     'test': settings.BASE_STORED_VALUE_URL.format(platform)
+                }
+            },
+            'capital': {
+                'version': self.api_capital_version,
+                'base_url': {
+                    'live': settings.BASE_BTL_URL.format(platform),
+                    'test': settings.BASE_BTL_URL.format(platform)
                 }
             }
         }

@@ -11,3 +11,4 @@ from .dataProtection import AdyenDataProtectionApi
 from .transfers import AdyenTransfersApi
 from .storedValue import AdyenStoredValueApi
 from .balancePlatform import AdyenBalancePlatformApi
+from .capital import AdyenCapitalApi
