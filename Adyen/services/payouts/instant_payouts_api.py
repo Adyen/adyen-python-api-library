@@ -12,7 +12,7 @@ class InstantPayoutsApi(AdyenServiceBase):
         super(InstantPayoutsApi, self).__init__(client=client)
         self.service = "payouts"
 
-    def make_instant_card_payout(self, request, idempotency_key=None, **kwargs):
+    def payout(self, request, idempotency_key=None, **kwargs):
         """
         Make an instant card payout
         """

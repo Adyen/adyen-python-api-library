@@ -1,5 +1,5 @@
 from .base import AdyenBase
-from .binLookup import AdyenBinlookupApi
+from .binlookup import AdyenBinlookupApi
 from .checkout import AdyenCheckoutApi
 from .payments import AdyenPaymentsApi
 from .payouts import AdyenPayoutsApi
@@ -11,4 +11,3 @@ from .dataProtection import AdyenDataProtectionApi
 from .transfers import AdyenTransfersApi
 from .storedValue import AdyenStoredValueApi
 from .balancePlatform import AdyenBalancePlatformApi
-from .capital import AdyenCapitalApi
