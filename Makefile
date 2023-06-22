@@ -14,8 +14,8 @@ openapi-generator-url:=https://repo1.maven.org/maven2/org/openapitools/openapi-g
 openapi-generator-jar:=build/openapi-generator-cli.jar
 openapi-generator-cli:=java -jar $(openapi-generator-jar)
 output:=build/out
-services:=balancePlatform checkout legalEntityManagement management payments payouts platformsAccount platformsFund platformsHostedOnboardingPage platformsNotificationConfiguration transfers
-smallServices:=balanceControlService binlookup dataProtection recurring storedValue terminal capital
+services:=balancePlatform checkout legalEntityManagement management payments payouts transfers
+smallServices:=binlookup dataProtection recurring storedValue terminal
 
 all: $(services) $(smallServices)
 
@@ -36,7 +36,6 @@ platformsNotificationConfiguration: spec=NotificationConfigurationService-v6
 platformsHostedOnboardingPage: spec=HopService-v6
 transfers: spec=TransferService-v3
 balanceControlService: spec=BalanceControlService-v1
-capital: spec=GrantService-v3
 
 $(services): build/spec $(openapi-generator-jar)
 	rm -rf Adyen/services/$@ $(output)
