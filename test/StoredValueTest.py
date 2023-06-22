@@ -15,7 +15,7 @@ class TestManagement(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    stored_value_vesion = settings.API_STORED_VALUE_VERSION
+    stored_value_version = settings.API_STORED_VALUE_VERSION
 
     def issue(self):
         request = {
