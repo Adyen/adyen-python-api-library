@@ -20,7 +20,7 @@ class TestClient(unittest.TestCase):
     def test_url_creation_for_capitalAPI(self):
         self.adyen.client = self.test.create_client_from_file(200, {}, "test/mocks/"
                                                               "generic_response.json")
-        self.adyen.capital.get_capital_account()
+        self.adyen.transfers.capital_api.get_capital_account()
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             'https://balanceplatform-api-test.adyen.com/btl/{}/grants'.format(settings.API_CAPITAL_VERSION),
