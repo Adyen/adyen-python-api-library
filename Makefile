@@ -15,7 +15,7 @@ openapi-generator-jar:=build/openapi-generator-cli.jar
 openapi-generator-cli:=java -jar $(openapi-generator-jar)
 output:=build/out
 services:=balancePlatform checkout legalEntityManagement management payments payouts transfers
-smallServices:=balanceControlService binlookup dataProtection recurring storedValue terminal
+smallServices:=binlookup dataProtection recurring storedValue terminal
 
 all: $(services) $(smallServices)
 
