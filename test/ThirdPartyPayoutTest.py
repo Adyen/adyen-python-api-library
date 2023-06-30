@@ -28,7 +28,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/confirm-success.json'
         self.adyen.client = self.test.create_client_from_file(200, request, resp)
-        result = self.adyen.payout.reviewing_api.confirm_payout(request)
+        result = self.adyen.payout.reviewing_api.confirm_third_party(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/confirmThirdParty',
@@ -51,7 +51,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.assertRaisesRegex(
             Adyen.AdyenAPICommunicationError,
             "AdyenAPICommunicationError:{'status': 500, 'errorCode': '702', 'message': \"Required field 'merchantAccount' is null\", 'errorType': 'validation'}",
-            self.adyen.payout.reviewing_api.confirm_payout,
+            self.adyen.payout.reviewing_api.confirm_third_party,
             request
         )
 
@@ -62,7 +62,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/decline-success.json'
         self.adyen.client = self.test.create_client_from_file(200, request, resp)
-        result = self.adyen.payout.reviewing_api.cancel_payout(request)
+        result = self.adyen.payout.reviewing_api.decline_third_party(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/declineThirdParty',
@@ -85,7 +85,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         self.assertRaisesRegex(
             Adyen.AdyenAPICommunicationError,
             "AdyenAPICommunicationError:{'status': 500, 'errorCode': '702', 'message': \"Required field 'merchantAccount' is null\", 'errorType': 'validation'}",
-            self.adyen.payout.reviewing_api.confirm_payout,
+            self.adyen.payout.reviewing_api.confirm_third_party,
             request
         )
 
@@ -109,7 +109,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetail-success.json'
         self.adyen.client = self.test.create_client_from_file(200, request, resp)
-        result = self.adyen.payout.initialization_api.store_payout_details(request)
+        result = self.adyen.payout.initialization_api.store_detail(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/storeDetail',
@@ -139,7 +139,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/submit-success.json'
         self.adyen.client = self.test.create_client_from_file(200, request, resp)
-        result = self.adyen.payout.initialization_api.submit_payout(request)
+        result = self.adyen.payout.initialization_api.submit_third_party(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/submitThirdParty',
@@ -172,7 +172,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '800',"
             " 'message': 'Contract not found', 'errorType': 'validation'}",
-            self.adyen.payout.initialization_api.submit_payout,
+            self.adyen.payout.initialization_api.submit_third_party,
             request
         )
 
@@ -202,7 +202,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'message': 'Contract not found',"
             " 'errorCode': '800', 'errorType': 'validation'}",
-            self.adyen.payout.initialization_api.store_details_and_submit_payout,
+            self.adyen.payout.initialization_api.store_detail_and_submit_third_party,
             request
         )
 
@@ -226,7 +226,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '000',"
             " 'message': 'Please supply paymentDetails', 'errorType': 'validation'}",
-            self.adyen.payout.initialization_api.store_details_and_submit_payout,
+            self.adyen.payout.initialization_api.store_detail_and_submit_third_party,
             request
         )
 
@@ -255,7 +255,7 @@ class TestThirdPartyPayout(unittest.TestCase):
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '161',"
             " 'message': 'Invalid iban', 'errorType': 'validation'}",
-            self.adyen.payout.initialization_api.store_details_and_submit_payout,
+            self.adyen.payout.initialization_api.store_detail_and_submit_third_party,
             request
         )
 
@@ -282,7 +282,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-card-success.json'
         self.adyen.client = self.test.create_client_from_file(200, request, resp)
-        result = self.adyen.payout.initialization_api.store_details_and_submit_payout(request)
+        result = self.adyen.payout.initialization_api.store_detail_and_submit_third_party(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/storeDetailAndSubmitThirdParty',
@@ -316,7 +316,7 @@ class TestThirdPartyPayout(unittest.TestCase):
         }
         resp = 'test/mocks/payout/storeDetailAndSubmit-bank-success.json'
         self.adyen.client = self.test.create_client_from_file(200, request, resp)
-        result = self.adyen.payout.initialization_api.store_details_and_submit_payout(request)
+        result = self.adyen.payout.initialization_api.store_detail_and_submit_third_party(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://pal-test.adyen.com/pal/servlet/Payout/{self.payout_version}/storeDetailAndSubmitThirdParty',

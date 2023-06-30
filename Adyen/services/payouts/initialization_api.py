@@ -12,7 +12,7 @@ class InitializationApi(AdyenServiceBase):
         super(InitializationApi, self).__init__(client=client)
         self.service = "payouts"
 
-    def store_payout_details(self, request, idempotency_key=None, **kwargs):
+    def store_detail(self, request, idempotency_key=None, **kwargs):
         """
         Store payout details
         """
@@ -20,7 +20,7 @@ class InitializationApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def store_details_and_submit_payout(self, request, idempotency_key=None, **kwargs):
+    def store_detail_and_submit_third_party(self, request, idempotency_key=None, **kwargs):
         """
         Store details and submit a payout
         """
@@ -28,7 +28,7 @@ class InitializationApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def submit_payout(self, request, idempotency_key=None, **kwargs):
+    def submit_third_party(self, request, idempotency_key=None, **kwargs):
         """
         Submit a payout
         """

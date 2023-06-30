@@ -50,7 +50,7 @@ class AdyenClient(object):
     APPLICATION_VERSION_HEADER_NAME = 'adyen-library-version'
     """A requesting client that interacts with Adyen. This class holds the
     adyen logic of Adyen HTTP API communication. This is the object that can
-    maintain its own username, password, merchant_account, hmac and skin_code.
+    maintain its own username, password and hmac.
     When these values aren't within this object, the root adyen module
     variables will be used.
 
@@ -95,7 +95,7 @@ class AdyenClient(object):
             api_data_protection_version=None,
             api_transfers_version=None,
             api_stored_value_version=None,
-            api_balance_platform_version=None
+            api_balance_platform_version=None,
     ):
         self.username = username
         self.password = password
@@ -212,8 +212,8 @@ class AdyenClient(object):
             'transfers': {
                 'version': self.api_transfers_version,
                 'base_url': {
-                    'live': settings.BASE_TRANSFERS_URL.format(platform),
-                    'test': settings.BASE_TRANSFERS_URL.format(platform)
+                    'live': settings.BASE_BTL_URL.format(platform),
+                    'test': settings.BASE_BTL_URL.format(platform)
                 }
             },
             'storedValue': {
@@ -222,7 +222,7 @@ class AdyenClient(object):
                     'live': settings.BASE_STORED_VALUE_URL.format(platform),
                     'test': settings.BASE_STORED_VALUE_URL.format(platform)
                 }
-            }
+            },
         }
 
         version = versions_and_urls[service]['version']
@@ -360,7 +360,7 @@ class AdyenClient(object):
             idempotency_key=None,
             **kwargs
     ):
-        """This will call the adyen api. username, password, merchant_account,
+        """This will call the adyen api. username, password,
         and platform are pulled from root module level and or self object.
         AdyenResult will be returned on 200 response. Otherwise, an exception
         is raised.

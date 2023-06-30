@@ -26,7 +26,7 @@ from .services import (
     AdyenDataProtectionApi,
     AdyenTransfersApi,
     AdyenStoredValueApi,
-    AdyenBalancePlatformApi
+    AdyenBalancePlatformApi,
 )
 
 from .httpclient import HTTPClient

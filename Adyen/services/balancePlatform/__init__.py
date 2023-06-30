@@ -2,6 +2,8 @@ from ..base import AdyenServiceBase
 from .account_holders_api import AccountHoldersApi
 from .balance_accounts_api import BalanceAccountsApi
 from .bank_account_validation_api import BankAccountValidationApi
+from .grant_accounts_api import GrantAccountsApi
+from .grant_offers_api import GrantOffersApi
 from .payment_instrument_groups_api import PaymentInstrumentGroupsApi
 from .payment_instruments_api import PaymentInstrumentsApi
 from .platform_api import PlatformApi
@@ -20,6 +22,8 @@ class AdyenBalancePlatformApi(AdyenServiceBase):
         self.account_holders_api = AccountHoldersApi(client=client)
         self.balance_accounts_api = BalanceAccountsApi(client=client)
         self.bank_account_validation_api = BankAccountValidationApi(client=client)
+        self.grant_accounts_api = GrantAccountsApi(client=client)
+        self.grant_offers_api = GrantOffersApi(client=client)
         self.payment_instrument_groups_api = PaymentInstrumentGroupsApi(client=client)
         self.payment_instruments_api = PaymentInstrumentsApi(client=client)
         self.platform_api = PlatformApi(client=client)

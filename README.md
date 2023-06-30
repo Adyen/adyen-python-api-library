@@ -2,23 +2,23 @@
 
 # Adyen APIs Library for Python
 
-[![version](https://img.shields.io/badge/version-8.0.1-blue.svg)](https://docs.adyen.com/development-resources/libraries)
+[![version](https://img.shields.io/pypi/v/Adyen.svg)](https://docs.adyen.com/development-resources/libraries)
 
 This is the officially supported Python library for using Adyen's APIs.
 
 ## Supported API versions
 | API | Description | Service Name | Supported version |
 | --- | ----------- | ------------ | ----------------- | 
-|[BIN lookup API](https://docs.adyen.com/api-explorer/#/BinLookup/v52/overview) | The BIN Lookup API provides endpoints for retrieving information based on a given BIN. | binLookup | **v52** |
-| [Balance Platform API](https://docs.adyen.com/api-explorer/balanceplatform/1/overview) | The Balance Platform API enables you to create a platform where you can onboard your users as account holders and create balance accounts, cards, and business accounts. | balancePlatform | **v2** |
-| [Checkout API](https://docs.adyen.com/api-explorer/#/CheckoutService/v69/overview)| Our latest integration for accepting online payments. | checkout | **v70** |
+|[BIN lookup API](https://docs.adyen.com/api-explorer/BinLookup/52/overview) | The BIN Lookup API provides endpoints for retrieving information based on a given BIN. | binLookup | **v52** |
+| [Balance Platform API](https://docs.adyen.com/api-explorer/balanceplatform/2/overview) | The Balance Platform API enables you to create a platform where you can onboard your users as account holders and create balance accounts, cards, and business accounts. | balancePlatform | **v2** |
+| [Checkout API](https://docs.adyen.com/api-explorer/Checkout/70/overview)| Our latest integration for accepting online payments. | checkout | **v70** |
 | [Data Protection API](https://docs.adyen.com/development-resources/data-protection-api) | Endpoint for requesting data erasure. | dataProtection | **v1** |
-| [Legal Entity Management API](https://docs.adyen.com/api-explorer/legalentity/latest/overview) | Endpoint to manage legal entities | legalEntityManagement | **v2** |
-| [Management API](https://docs.adyen.com/api-explorer/#/ManagementService/v1/overview)| Configure and manage your Adyen company and merchant accounts, stores, and payment terminals. | management | **v1** |
-| [Payments API](https://docs.adyen.com/api-explorer/#/Payment/v68/overview)| Our classic integration for online payments. | payments | **v68** |
-| [Payouts API](https://docs.adyen.com/api-explorer/#/Payout/v68/overview)| Endpoints for sending funds to your customers. | payouts | **v68** |
-| [POS Terminal Management API](https://docs.adyen.com/api-explorer/#/postfmapi/v1/overview)| Endpoints for managing your point-of-sale payment terminals. | terminal | **v1** |
-| [Recurring API](https://docs.adyen.com/api-explorer/#/Recurring/v68/overview)| Endpoints for managing saved payment details. | recurring | **v68** |
+| [Legal Entity Management API](https://docs.adyen.com/api-explorer/legalentity/3/overview) | Endpoint to manage legal entities | legalEntityManagement | **v3** |
+| [Management API](https://docs.adyen.com/api-explorer/Management/1/overview)| Configure and manage your Adyen company and merchant accounts, stores, and payment terminals. | management | **v1** |
+| [Payments API](https://docs.adyen.com/api-explorer/Payment/68/overview)| Our classic integration for online payments. | payments | **v68** |
+| [Payouts API](https://docs.adyen.com/api-explorer/Payout/68/overview)| Endpoints for sending funds to your customers. | payouts | **v68** |
+| [POS Terminal Management API](https://docs.adyen.com/api-explorer/postfmapi/1/overview)| Endpoints for managing your point-of-sale payment terminals. | terminal | **v1** |
+| [Recurring API](https://docs.adyen.com/api-explorer/Recurring/68/overview)| Endpoints for managing saved payment details. | recurring | **v68** |
 | [Stored Value API](https://docs.adyen.com/payment-methods/gift-cards/stored-value-api) | Endpoints for managing gift cards. | storedValue | **v46** |
 | [Transfers API](https://docs.adyen.com/api-explorer/transfers/3/overview) | Endpoints for managing transfers, getting information about transactions or moving fund | transfers | **v3** |
 
@@ -32,7 +32,7 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
  
 -   [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
 -   [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
-- Python 3.6
+- Python 3.6 or higher
 - Packages (optional): requests or pycurl  
  
 
@@ -65,7 +65,6 @@ adyen = Adyen.Adyen()
 adyen.payment.client.xapikey = "YourXapikey"
 adyen.payment.client.hmac = "YourHMACkey"
 adyen.payment.client.platform = "test" # Environment to use the library in.
-adyen.payment.client.merchant_account = "merchant account name from CA"
 ~~~~
 ### Consuming Services
 Every API the library supports is represented by a service object. The name of the service matching the corresponding API is listed in the [Integrations](#supported-api-versions) section of this document.
@@ -161,6 +160,8 @@ except Adyen.exceptions.AdyenErorr as error:
  
 For a closer look at how our Python library works, clone our [example integration](https://github.com/adyen-examples/adyen-python-online-payments). This includes commented code, highlighting key features and concepts, and examples of API calls that can be made using the library.
 
+## Feedback
+We value your input! Help us enhance our API Libraries and improve the integration experience by providing your feedback. Please take a moment to fill out [our feedback form](https://forms.gle/A4EERrR6CWgKWe5r9) to share your thoughts, suggestions or ideas.
 
 ## Contributing
  

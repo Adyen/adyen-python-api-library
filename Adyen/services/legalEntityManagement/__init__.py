@@ -3,6 +3,7 @@ from .business_lines_api import BusinessLinesApi
 from .documents_api import DocumentsApi
 from .hosted_onboarding_api import HostedOnboardingApi
 from .legal_entities_api import LegalEntitiesApi
+from .pci_questionnaires_api import PCIQuestionnairesApi
 from .terms_of_service_api import TermsOfServiceApi
 from .transfer_instruments_api import TransferInstrumentsApi
 
@@ -20,5 +21,6 @@ class AdyenLegalEntityManagementApi(AdyenServiceBase):
         self.documents_api = DocumentsApi(client=client)
         self.hosted_onboarding_api = HostedOnboardingApi(client=client)
         self.legal_entities_api = LegalEntitiesApi(client=client)
+        self.pci_questionnaires_api = PCIQuestionnairesApi(client=client)
         self.terms_of_service_api = TermsOfServiceApi(client=client)
         self.transfer_instruments_api = TransferInstrumentsApi(client=client)
