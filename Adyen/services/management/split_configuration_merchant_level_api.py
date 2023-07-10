@@ -20,11 +20,11 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def delete_split_configuration_rule(self, merchantId, splitConfigurationId, splitConfigurationRuleId, idempotency_key=None, **kwargs):
+    def delete_split_configuration_rule(self, merchantId, splitConfigurationId, ruleId, idempotency_key=None, **kwargs):
         """
         Delete a split configuration rule
         """
-        endpoint = f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{splitConfigurationRuleId}"
+        endpoint = f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
