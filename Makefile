@@ -88,3 +88,14 @@ generateCheckoutTest: build/spec $(openapi-generator-jar)
 		--skip-validate-spec
 	cp $(output)/api/api-test.py test/methodNamesTests/checkoutTest.py
 	rm -rf build
+
+## Releases
+
+version:
+	perl -lne 'print "currentVersion=$$1" if /version=''(.+)'',/' < setup.py >> "$$GITHUB_OUTPUT"
+
+bump:
+	perl -i -pe 's/$$ENV{"CURRENT_VERSION"}/$$ENV{"NEXT_VERSION"}/' setup.py Adyen/settings.py
+
+
+.PHONY: $(services) version bump
