@@ -92,7 +92,7 @@ generateCheckoutTest: build/spec $(openapi-generator-jar)
 ## Releases
 
 version:
-	perl -lne 'print "currentVersion=$$1" if /version=''(.+)'',/' < setup.py >> "$$GITHUB_OUTPUT"
+	grep version= setup.py | tr -d \', | awk -F '=' '{ printf "currentVersion=%s\n", $$2 }' >> "$$GITHUB_OUTPUT"
 
 bump:
 	perl -i -pe 's/$$ENV{"CURRENT_VERSION"}/$$ENV{"NEXT_VERSION"}/' setup.py Adyen/settings.py
