@@ -29,7 +29,6 @@ def generate_notification_sig(dict_object, hmac_key):
     ]
 
     signing_string = ':'.join(map(str, (request_dict.get(element, '') for element in element_orders)))
-    print(signing_string)
 
     hm = hmac.new(hmac_key, signing_string.encode('utf-8'), hashlib.sha256)
     return base64.b64encode(hm.digest())
