@@ -29,6 +29,7 @@ def generate_notification_sig(dict_object, hmac_key):
     ]
 
     signing_string = ':'.join(map(str, (request_dict.get(element, '') for element in element_orders)))
+    print(signing_string)
 
     hm = hmac.new(hmac_key, signing_string.encode('utf-8'), hashlib.sha256)
     return base64.b64encode(hm.digest())
@@ -36,6 +37,9 @@ def generate_notification_sig(dict_object, hmac_key):
 
 def is_valid_hmac_notification(dict_object, hmac_key):
     dict_object = dict_object.copy()
+
+    if 'notificationItems' in dict_object:
+        dict_object = dict_object['notificationItems'][0]['NotificationRequestItem']
 
     if 'additionalData' in dict_object:
         if dict_object['additionalData']['hmacSignature'] == "":
