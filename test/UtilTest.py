@@ -49,7 +49,7 @@ class UtilTest(unittest.TestCase):
                              {'hmacSignature': hmac_calculation_str})
         self.assertTrue(hmac_validate)
 
-    def test_notifications_with_slashes(self):
+    def test_webhooks_with_slashes(self):
         hmac_key = "74F490DD33F7327BAECC88B2947C011FC02D014A473AAA33A8EC93E4DC069174"
         with open('test/mocks/util/backslash_notification.json') as file:
             backslash_notification = load(file)
