@@ -14,7 +14,7 @@ class TestRecurring(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    recurring_version = settings.API_RECURRING_VERSION
+    baseUrl = adyen.recurring.baseUrl
 
     def test_list_recurring_details(self):
         request = {}
@@ -33,7 +33,7 @@ class TestRecurring(unittest.TestCase):
         result = self.adyen.recurring.list_recurring_details(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://pal-test.adyen.com/pal/servlet/Recurring/{self.recurring_version}/listRecurringDetails',
+            f'{self.baseUrl}/listRecurringDetails',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             username='YourWSUser',
@@ -60,7 +60,7 @@ class TestRecurring(unittest.TestCase):
         result = self.adyen.recurring.disable(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://pal-test.adyen.com/pal/servlet/Recurring/{self.recurring_version}/disable',
+            f'{self.baseUrl}/disable',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             username='YourWSUser',

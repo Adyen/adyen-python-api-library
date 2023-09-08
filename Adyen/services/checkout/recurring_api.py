@@ -11,12 +11,13 @@ class RecurringApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(RecurringApi, self).__init__(client=client)
         self.service = "checkout"
+        self.baseUrl = "https://checkout-test.adyen.com/v70"
 
     def delete_token_for_stored_payment_details(self, recurringId, idempotency_key=None, **kwargs):
         """
         Delete a token for stored payment details
         """
-        endpoint = f"/storedPaymentMethods/{recurringId}"
+        endpoint = self.baseUrl + f"/storedPaymentMethods/{recurringId}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class RecurringApi(AdyenServiceBase):
         """
         Get tokens for stored payment details
         """
-        endpoint = f"/storedPaymentMethods"
+        endpoint = self.baseUrl + f"/storedPaymentMethods"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

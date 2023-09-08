@@ -11,12 +11,13 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(WebhooksCompanyLevelApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def remove_webhook(self, companyId, webhookId, idempotency_key=None, **kwargs):
         """
         Remove a webhook
         """
-        endpoint = f"/companies/{companyId}/webhooks/{webhookId}"
+        endpoint = self.baseUrl + f"/companies/{companyId}/webhooks/{webhookId}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         """
         List all webhooks
         """
-        endpoint = f"/companies/{companyId}/webhooks"
+        endpoint = self.baseUrl + f"/companies/{companyId}/webhooks"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         """
         Get a webhook
         """
-        endpoint = f"/companies/{companyId}/webhooks/{webhookId}"
+        endpoint = self.baseUrl + f"/companies/{companyId}/webhooks/{webhookId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         """
         Update a webhook
         """
-        endpoint = f"/companies/{companyId}/webhooks/{webhookId}"
+        endpoint = self.baseUrl + f"/companies/{companyId}/webhooks/{webhookId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         """
         Set up a webhook
         """
-        endpoint = f"/companies/{companyId}/webhooks"
+        endpoint = self.baseUrl + f"/companies/{companyId}/webhooks"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -56,7 +57,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         """
         Generate an HMAC key
         """
-        endpoint = f"/companies/{companyId}/webhooks/{webhookId}/generateHmac"
+        endpoint = self.baseUrl + f"/companies/{companyId}/webhooks/{webhookId}/generateHmac"
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -64,7 +65,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
         """
         Test a webhook
         """
-        endpoint = f"/companies/{companyId}/webhooks/{webhookId}/test"
+        endpoint = self.baseUrl + f"/companies/{companyId}/webhooks/{webhookId}/test"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

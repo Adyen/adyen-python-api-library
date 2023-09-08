@@ -15,7 +15,7 @@ class TestTerminal(unittest.TestCase):
                         xapikey="YourXapikey")
     test = BaseTest(adyen)
     client = adyen.client
-    terminal_version = settings.API_TERMINAL_VERSION
+    terminal_version = adyen.terminal.baseUrl.split('/')[-1]
 
     def test_assign_terminals(self):
         request = {

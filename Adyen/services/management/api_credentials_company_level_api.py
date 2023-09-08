@@ -11,12 +11,13 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(APICredentialsCompanyLevelApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def list_api_credentials(self, companyId, idempotency_key=None, **kwargs):
         """
         Get a list of API credentials
         """
-        endpoint = f"/companies/{companyId}/apiCredentials"
+        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         """
         Get an API credential
         """
-        endpoint = f"/companies/{companyId}/apiCredentials/{apiCredentialId}"
+        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials/{apiCredentialId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         """
         Update an API credential.
         """
-        endpoint = f"/companies/{companyId}/apiCredentials/{apiCredentialId}"
+        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials/{apiCredentialId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         """
         Create an API credential.
         """
-        endpoint = f"/companies/{companyId}/apiCredentials"
+        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

@@ -16,7 +16,6 @@ from .exceptions import (
     AdyenAPIUnprocessableEntity,
     AdyenEndpointInvalidFormat)
 from . import settings
-from re import match
 
 
 class AdyenResult(object):
@@ -83,19 +82,7 @@ class AdyenClient(object):
             http_force=None,
             live_endpoint_prefix=None,
             http_timeout=30,
-            api_bin_lookup_version=None,
-            api_checkout_utility_version=None,
-            api_checkout_version=None,
-            api_management_version=None,
-            api_payment_version=None,
-            api_payout_version=None,
-            api_recurring_version=None,
-            api_terminal_version=None,
-            api_legal_entity_management_version=None,
-            api_data_protection_version=None,
-            api_transfers_version=None,
-            api_stored_value_version=None,
-            api_balance_platform_version=None,
+
     ):
         self.username = username
         self.password = password
@@ -115,130 +102,29 @@ class AdyenClient(object):
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
         self.http_timeout = http_timeout
-        self.api_bin_lookup_version = api_bin_lookup_version or settings.API_BIN_LOOKUP_VERSION
-        self.api_checkout_utility_version = api_checkout_utility_version or settings.API_CHECKOUT_UTILITY_VERSION
-        self.api_checkout_version = api_checkout_version or settings.API_CHECKOUT_VERSION
-        self.api_management_version = api_management_version or settings.API_MANAGEMENT_VERSION
-        self.api_payment_version = api_payment_version or settings.API_PAYMENT_VERSION
-        self.api_payout_version = api_payout_version or settings.API_PAYOUT_VERSION
-        self.api_recurring_version = api_recurring_version or settings.API_RECURRING_VERSION
-        self.api_terminal_version = api_terminal_version or settings.API_TERMINAL_VERSION
-        self.api_legal_entity_management_version = api_legal_entity_management_version or settings.API_LEGAL_ENTITY_MANAGEMENT_VERSION
-        self.api_data_protection_version = api_data_protection_version or settings.API_DATA_PROTECION_VERSION
-        self.api_transfers_version = api_transfers_version or settings.API_TRANSFERS_VERSION
-        self.api_stored_value_version = api_stored_value_version or settings.API_STORED_VALUE_VERSION
-        self.api_balance_platform_version = api_balance_platform_version or settings.API_BALANCE_PLATFORM_VERSION
 
-    def _determine_base_url_and_version(self, platform, service):
+    def _determine_api_url(self, platform, endpoint):
+        if platform == "test":
+            return endpoint
 
-        live_pal_url = settings.PAL_LIVE_ENDPOINT_URL_TEMPLATE
-        live_checkout_url = settings.ENDPOINT_CHECKOUT_LIVE_SUFFIX
+        if "pal-" in endpoint:
+            if self.live_endpoint_prefix is None:
+                error_string = "Please set your live suffix. You can set it by running " \
+                              "adyen.client.live_endpoint_prefix = 'Your live suffix'"
+                raise AdyenEndpointInvalidFormat(error_string)
+            endpoint = endpoint.replace("https://pal-test.adyen.com/pal/servlet/",
+                             "https://" + self.live_endpoint_prefix + "-pal-live.adyenpayments.com/pal/servlet/")
+        elif "checkout-" in endpoint:
+            if self.live_endpoint_prefix is None:
+                error_string = "Please set your live suffix. You can set it by running " \
+                              "adyen.client.live_endpoint_prefix = 'Your live suffix'"
+                raise AdyenEndpointInvalidFormat(error_string)
+            endpoint = endpoint.replace("https://checkout-test.adyen.com/",
+                             "https://" + self.live_endpoint_prefix + "-checkout-live.adyenpayments.com/checkout/")
 
-        if platform == 'live' and self.live_endpoint_prefix:
-            live_pal_url = live_pal_url.format(live_prefix=self.live_endpoint_prefix)
-            live_checkout_url = live_checkout_url.format(live_prefix=self.live_endpoint_prefix)
+        endpoint = endpoint.replace("-test", "-live")
 
-        versions_and_urls = {
-            'recurring': {
-                'version': self.api_recurring_version,
-                'base_url': {
-                    'live': live_pal_url + '/Recurring',
-                    'test': settings.PAL_TEST_URL + '/Recurring',
-                }
-            },
-            'payouts': {
-                'version': self.api_payout_version,
-                'base_url': {
-                    'live': live_pal_url + '/Payout',
-                    'test': settings.PAL_TEST_URL + '/Payout'
-                }
-            },
-            'binlookup': {
-                'version': self.api_bin_lookup_version,
-                'base_url': {
-                    'live': live_pal_url + '/BinLookup',
-                    'test': settings.PAL_TEST_URL + '/BinLookup'
-                }
-            },
-            'terminal': {
-                'version': self.api_terminal_version,
-                'base_url': {
-                    'live': settings.BASE_TERMINAL_URL.format(platform),
-                    'test': settings.BASE_TERMINAL_URL.format(platform)
-                }
-            },
-            'payments': {
-                'version': self.api_payment_version,
-                'base_url': {
-                    'live': live_pal_url + '/Payment',
-                    'test': settings.PAL_TEST_URL + '/Payment'
-                }
-            },
-            'checkout': {
-                'version': self.api_checkout_version,
-                'base_url': {
-                    'live': live_checkout_url,
-                    'test': settings.ENDPOINT_CHECKOUT_TEST
-                }
-            },
-            'management': {
-                'version': self.api_management_version,
-                'base_url': {
-                    'live': settings.BASE_MANAGEMENT_URL.format(platform),
-                    'test': settings.BASE_MANAGEMENT_URL.format(platform)
-                }
-            },
-            'legalEntityManagement': {
-                'version': self.api_legal_entity_management_version,
-                'base_url': {
-                    'live': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform),
-                    'test': settings.BASE_LEGAL_ENTITY_MANAGEMENT_URL.format(platform)
-                },
-            },
-            'balancePlatform': {
-                'version': self.api_balance_platform_version,
-                'base_url': {
-                    'live': settings.BASE_CONFIGURATION_URL.format(platform),
-                    'test': settings.BASE_CONFIGURATION_URL.format(platform)
-                }
-            },
-            'dataProtection': {
-                'version': self.api_data_protection_version,
-                'base_url': {
-                    'live': settings.BASE_DATA_PROTECION_URL.format(platform),
-                    'test': settings.BASE_DATA_PROTECION_URL.format(platform)
-                }
-            },
-            'transfers': {
-                'version': self.api_transfers_version,
-                'base_url': {
-                    'live': settings.BASE_BTL_URL.format(platform),
-                    'test': settings.BASE_BTL_URL.format(platform)
-                }
-            },
-            'storedValue': {
-                'version': self.api_stored_value_version,
-                'base_url': {
-                    'live': settings.BASE_STORED_VALUE_URL.format(platform),
-                    'test': settings.BASE_STORED_VALUE_URL.format(platform)
-                }
-            },
-        }
-
-        version = versions_and_urls[service]['version']
-        base_url = versions_and_urls[service]['base_url'][platform]
-        # Match urls that require a live prefix and do not have one
-
-        if platform == 'live' and '{live_prefix}' in base_url:
-            errorstring = "Please set your live suffix. You can set it by running " \
-                          "adyen.client.live_endpoint_prefix = 'Your live suffix'"
-            raise AdyenEndpointInvalidFormat(errorstring)
-
-        return version, base_url
-
-    def _determine_api_url(self, platform, service, endpoint):
-        api_version, base_url = self._determine_base_url_and_version(platform, service)
-        return base_url + '/' + api_version + endpoint
+        return endpoint
 
     def _review_payout_username(self, **kwargs):
         if 'username' in kwargs:
@@ -398,7 +284,7 @@ class AdyenClient(object):
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
 
-        url = self._determine_api_url(platform, service, endpoint)
+        url = self._determine_api_url(platform, endpoint)
 
         if 'query_parameters' in kwargs:
             url = url + util.get_query(kwargs['query_parameters'])

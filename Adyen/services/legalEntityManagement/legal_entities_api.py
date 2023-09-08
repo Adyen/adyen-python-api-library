@@ -11,12 +11,13 @@ class LegalEntitiesApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(LegalEntitiesApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
     def get_legal_entity(self, id, idempotency_key=None, **kwargs):
         """
         Get a legal entity
         """
-        endpoint = f"/legalEntities/{id}"
+        endpoint = self.baseUrl + f"/legalEntities/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Get all business lines under a legal entity
         """
-        endpoint = f"/legalEntities/{id}/businessLines"
+        endpoint = self.baseUrl + f"/legalEntities/{id}/businessLines"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Update a legal entity
         """
-        endpoint = f"/legalEntities/{id}"
+        endpoint = self.baseUrl + f"/legalEntities/{id}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Create a legal entity
         """
-        endpoint = f"/legalEntities"
+        endpoint = self.baseUrl + f"/legalEntities"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Check a legal entity's verification errors
         """
-        endpoint = f"/legalEntities/{id}/checkVerificationErrors"
+        endpoint = self.baseUrl + f"/legalEntities/{id}/checkVerificationErrors"
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

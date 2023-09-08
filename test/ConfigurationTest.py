@@ -15,7 +15,7 @@ class TestManagement(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    balance_platform_version = settings.API_BALANCE_PLATFORM_VERSION
+    balance_platform_url = adyen.balancePlatform.platform_api.baseUrl
 
     def test_creating_balance_account(self):
         request = {
@@ -29,7 +29,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual('AH32272223222B59K6ZKBBFNQ', result.message['accountHolderId'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://balanceplatform-api-test.adyen.com/bcl/{self.balance_platform_version}/balanceAccounts',
+            f'{self.balance_platform_url}/balanceAccounts',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -47,7 +47,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual("LE322JV223222D5GG42KN6869", result.message['legalEntityId'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://balanceplatform-api-test.adyen.com/bcl/{self.balance_platform_version}/accountHolders',
+            f'{self.balance_platform_url}/accountHolders',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -61,7 +61,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(platform_id, result.message['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
-            f'https://balanceplatform-api-test.adyen.com/bcl/{self.balance_platform_version}/balancePlatforms/{platform_id}',
+            f'{self.balance_platform_url}/balancePlatforms/{platform_id}',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
@@ -80,7 +80,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual("BA3227C223222B5CTBLR8BWJB", result.message["balanceAccountId"])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://balanceplatform-api-test.adyen.com/bcl/{self.balance_platform_version}/paymentInstruments',
+            f'{self.balance_platform_url}/paymentInstruments',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -97,7 +97,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual("YOUR_BALANCE_PLATFORM", result.message['balancePlatform'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://balanceplatform-api-test.adyen.com/bcl/{self.balance_platform_version}/paymentInstrumentGroups',
+            f'{self.balance_platform_url}/paymentInstrumentGroups',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -111,7 +111,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(transactionRuleId, result.message['transactionRule']['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
-            f'https://balanceplatform-api-test.adyen.com/bcl/{self.balance_platform_version}/'
+            f'{self.balance_platform_url}/'
             f'transactionRules/{transactionRuleId}',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,

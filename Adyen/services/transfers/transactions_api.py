@@ -11,12 +11,13 @@ class TransactionsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TransactionsApi, self).__init__(client=client)
         self.service = "transfers"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/btl/v3"
 
     def get_all_transactions(self, idempotency_key=None, **kwargs):
         """
         Get all transactions
         """
-        endpoint = f"/transactions"
+        endpoint = self.baseUrl + f"/transactions"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class TransactionsApi(AdyenServiceBase):
         """
         Get a transaction
         """
-        endpoint = f"/transactions/{id}"
+        endpoint = self.baseUrl + f"/transactions/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

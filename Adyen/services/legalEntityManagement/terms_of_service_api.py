@@ -11,20 +11,13 @@ class TermsOfServiceApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TermsOfServiceApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
     def get_terms_of_service_information_for_legal_entity(self, id, idempotency_key=None, **kwargs):
         """
         Get Terms of Service information for a legal entity
         """
-        endpoint = f"/legalEntities/{id}/termsOfServiceAcceptanceInfos"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def get_terms_of_service_status(self, id, idempotency_key=None, **kwargs):
-        """
-        Get Terms of Service status
-        """
-        endpoint = f"/legalEntities/{id}/termsOfServiceStatus"
+        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceAcceptanceInfos"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +25,7 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         Accept Terms of Service
         """
-        endpoint = f"/legalEntities/{id}/termsOfService/{termsofservicedocumentid}"
+        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfService/{termsofservicedocumentid}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +33,7 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         Get Terms of Service document
         """
-        endpoint = f"/legalEntities/{id}/termsOfService"
+        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfService"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

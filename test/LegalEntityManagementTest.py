@@ -15,7 +15,7 @@ class TestManagement(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    lem_version = settings.API_LEGAL_ENTITY_MANAGEMENT_VERSION
+    lem_version = adyen.legalEntityManagement.legal_entities_api.baseUrl.split('/')[-1]
 
     def test_creating_legal_entity(self):
         request = {

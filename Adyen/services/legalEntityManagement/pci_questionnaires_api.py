@@ -11,12 +11,13 @@ class PCIQuestionnairesApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(PCIQuestionnairesApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
     def get_pci_questionnaire_details(self, id, idempotency_key=None, **kwargs):
         """
         Get PCI questionnaire details
         """
-        endpoint = f"/legalEntities/{id}/pciQuestionnaires"
+        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         Get PCI questionnaire
         """
-        endpoint = f"/legalEntities/{id}/pciQuestionnaires/{pciid}"
+        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/{pciid}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         Generate PCI questionnaire
         """
-        endpoint = f"/legalEntities/{id}/pciQuestionnaires/generatePciTemplates"
+        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/generatePciTemplates"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         Sign PCI questionnaire
         """
-        endpoint = f"/legalEntities/{id}/pciQuestionnaires/signPciTemplates"
+        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/signPciTemplates"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

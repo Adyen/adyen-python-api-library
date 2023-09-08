@@ -15,7 +15,7 @@ class TestManagement(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    transfers_version = settings.API_TRANSFERS_VERSION
+    transfers_version = adyen.transfers.transfers_api.baseUrl.split('/')[-1]
 
     def test_transfer_fund(self):
         request = {

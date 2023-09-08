@@ -11,12 +11,13 @@ class BusinessLinesApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(BusinessLinesApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
     def delete_business_line(self, id, idempotency_key=None, **kwargs):
         """
         Delete a business line
         """
-        endpoint = f"/businessLines/{id}"
+        endpoint = self.baseUrl + f"/businessLines/{id}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         Get a business line
         """
-        endpoint = f"/businessLines/{id}"
+        endpoint = self.baseUrl + f"/businessLines/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         Update a business line
         """
-        endpoint = f"/businessLines/{id}"
+        endpoint = self.baseUrl + f"/businessLines/{id}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         Create a business line
         """
-        endpoint = f"/businessLines"
+        endpoint = self.baseUrl + f"/businessLines"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

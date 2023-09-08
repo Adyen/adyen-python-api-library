@@ -11,12 +11,13 @@ class DocumentsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(DocumentsApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
     def delete_document(self, id, idempotency_key=None, **kwargs):
         """
         Delete a document
         """
-        endpoint = f"/documents/{id}"
+        endpoint = self.baseUrl + f"/documents/{id}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class DocumentsApi(AdyenServiceBase):
         """
         Get a document
         """
-        endpoint = f"/documents/{id}"
+        endpoint = self.baseUrl + f"/documents/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class DocumentsApi(AdyenServiceBase):
         """
         Update a document
         """
-        endpoint = f"/documents/{id}"
+        endpoint = self.baseUrl + f"/documents/{id}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class DocumentsApi(AdyenServiceBase):
         """
         Upload a document for verification checks
         """
-        endpoint = f"/documents"
+        endpoint = self.baseUrl + f"/documents"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

@@ -15,7 +15,7 @@ class TestCheckoutUtility(unittest.TestCase):
     test = BaseTest(ady)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    checkout_version = settings.API_CHECKOUT_VERSION
+    checkout_url = ady.checkout.classic_checkout_sdk_api.baseUrl
 
     def test_origin_keys_success_mocked(self):
         request = {
@@ -52,9 +52,9 @@ class TestCheckoutUtility(unittest.TestCase):
                          ['https://www.your-domain2.com'])
 
     def test_checkout_utility_api_url_custom(self):
-        url = self.ady.client._determine_api_url("test", "checkout", "/originKeys")
+        url = self.ady.client._determine_api_url("test", self.checkout_url + "/originKeys")
 
-        self.assertEqual(url, "https://checkout-test.adyen.com/{}/originKeys".format(self.checkout_version))
+        self.assertEqual(url, f"{self.checkout_url}/originKeys")
 
     def test_applePay_session(self):
         request = {
