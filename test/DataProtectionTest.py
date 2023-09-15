@@ -19,7 +19,7 @@ class TestCheckout(unittest.TestCase):
     lib_version = settings.LIB_VERSION
 
     def test_data_erasure(self):
-        request = { 
+        request = {
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "pspReference": "9915520502347613",
             "forceErasure": True
