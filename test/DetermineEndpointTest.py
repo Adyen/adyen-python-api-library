@@ -21,9 +21,7 @@ class TestDetermineUrl(unittest.TestCase):
     payment_url = adyen.payment.general_api.baseUrl
     payment_version = payment_url.split('/')[-1]
     binlookup_url = adyen.binlookup.baseUrl
-    binLookup_version = binlookup_url.split('/')[-1]
     management_url = adyen.management.account_merchant_level_api.baseUrl
-    management_version = management_url.split('/')[-1]
 
     def test_checkout_api_url_custom(self):
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
@@ -34,8 +32,7 @@ class TestDetermineUrl(unittest.TestCase):
     def test_checkout_api_url(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url("test", self.checkout_url + "/payments/details")
-        self.assertEqual(url, "https://checkout-test.adyen.com"
-                              f"/{self.checkout_version}/payments/details")
+        self.assertEqual(url, f"{self.checkout_url}/payments/details")
 
     def test_payments_invalid_platform(self):
 
@@ -80,7 +77,7 @@ class TestDetermineUrl(unittest.TestCase):
         )
         self.assertEqual(
             url,
-            f"https://pal-test.adyen.com/pal/servlet/Payment/{self.payment_version}/payments")
+            f"{self.payment_url}/payments")
 
     def test_pal_url_no_live_endpoint_prefix_test_platform(self):
         self.client.live_endpoint_prefix = None
@@ -89,7 +86,7 @@ class TestDetermineUrl(unittest.TestCase):
         )
         self.assertEqual(
             url,
-            f"https://pal-test.adyen.com/pal/servlet/Payment/{self.payment_version}/payments")
+            f"{self.payment_url}/payments")
 
     def test_binlookup_url_no_live_endpoint_prefix_test_platform(self):
         self.client.live_endpoint_prefix = None
@@ -98,37 +95,31 @@ class TestDetermineUrl(unittest.TestCase):
         )
         self.assertEqual(
             url,
-            ("https://pal-test.adyen.com/pal/servlet/"
-             f"BinLookup/{self.binLookup_version}/get3dsAvailability")
+            f"{self.binlookup_url}/get3dsAvailability"
         )
 
     def test_checkout_api_url_orders(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url("test", self.checkout_url +
                                                    "/orders")
-        self.assertEqual(url, "https://checkout-test.adyen.com"
-                              f"/{self.checkout_version}/orders")
+        self.assertEqual(url, f"{self.checkout_url}/orders")
 
     def test_checkout_api_url_order_cancel(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url("test", self.checkout_url + "/orders/cancel")
-        self.assertEqual(url, "https://checkout-test.adyen.com"
-                              f"/{self.checkout_version}/orders/cancel")
+        self.assertEqual(url, f"{self.checkout_url}/orders/cancel")
 
     def test_checkout_api_url_order_payment_methods_balance(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url("test", self.checkout_url + "/paymentMethods/balance")
-        self.assertEqual(url, f"https://checkout-test.adyen.com/{self.checkout_version}/"
-                              "paymentMethods/balance")
+        self.assertEqual(url, f"{self.checkout_url}/paymentMethods/balance")
 
     def test_checkout_api_url_sessions(self):
         self.client.live_endpoint_prefix = None
         url = self.adyen.client._determine_api_url("test", self.checkout_url + "/sessions")
-        self.assertEqual(url, f"https://checkout-test.adyen.com/{self.checkout_version}/"
-                              "sessions")
+        self.assertEqual(url, f"{self.checkout_url}/sessions")
 
     def test_management_api_url_companies(self):
         companyId = "YOUR_COMPANY_ID"
         url = self.adyen.client._determine_api_url("test", self.management_url + f'/companies/{companyId}/users')
-        self.assertEqual(url, f"https://management-test.adyen.com/{self.management_version}/"
-                              "companies/YOUR_COMPANY_ID/users")
+        self.assertEqual(url, f"{self.management_url}/companies/{companyId}/users")
