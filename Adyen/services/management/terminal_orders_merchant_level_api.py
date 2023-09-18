@@ -11,12 +11,13 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TerminalOrdersMerchantLevelApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def list_billing_entities(self, merchantId, idempotency_key=None, **kwargs):
         """
         Get a list of billing entities
         """
-        endpoint = f"/merchants/{merchantId}/billingEntities"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/billingEntities"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         """
         Get a list of shipping locations
         """
-        endpoint = f"/merchants/{merchantId}/shippingLocations"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/shippingLocations"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         """
         Get a list of terminal models
         """
-        endpoint = f"/merchants/{merchantId}/terminalModels"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalModels"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         """
         Get a list of orders
         """
-        endpoint = f"/merchants/{merchantId}/terminalOrders"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         """
         Get an order
         """
-        endpoint = f"/merchants/{merchantId}/terminalOrders/{orderId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders/{orderId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -56,7 +57,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         """
         Get a list of terminal products
         """
-        endpoint = f"/merchants/{merchantId}/terminalProducts"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalProducts"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -64,7 +65,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         """
         Update an order
         """
-        endpoint = f"/merchants/{merchantId}/terminalOrders/{orderId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders/{orderId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -72,7 +73,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         """
         Create a shipping location
         """
-        endpoint = f"/merchants/{merchantId}/shippingLocations"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/shippingLocations"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -80,7 +81,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         """
         Create an order
         """
-        endpoint = f"/merchants/{merchantId}/terminalOrders"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -88,7 +89,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         """
         Cancel an order
         """
-        endpoint = f"/merchants/{merchantId}/terminalOrders/{orderId}/cancel"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders/{orderId}/cancel"
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

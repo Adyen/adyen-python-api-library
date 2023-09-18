@@ -11,12 +11,13 @@ class AdyenRecurringApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AdyenRecurringApi, self).__init__(client=client)
         self.service = "recurring"
+        self.baseUrl = "https://pal-test.adyen.com/pal/servlet/Recurring/v68"
 
     def create_permit(self, request, idempotency_key=None, **kwargs):
         """
         Create new permits linked to a recurring contract.
         """
-        endpoint = f"/createPermit"
+        endpoint = self.baseUrl + f"/createPermit"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class AdyenRecurringApi(AdyenServiceBase):
         """
         Disable stored payment details
         """
-        endpoint = f"/disable"
+        endpoint = self.baseUrl + f"/disable"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class AdyenRecurringApi(AdyenServiceBase):
         """
         Disable an existing permit.
         """
-        endpoint = f"/disablePermit"
+        endpoint = self.baseUrl + f"/disablePermit"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class AdyenRecurringApi(AdyenServiceBase):
         """
         Get stored payment details
         """
-        endpoint = f"/listRecurringDetails"
+        endpoint = self.baseUrl + f"/listRecurringDetails"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class AdyenRecurringApi(AdyenServiceBase):
         """
         Ask issuer to notify the shopper
         """
-        endpoint = f"/notifyShopper"
+        endpoint = self.baseUrl + f"/notifyShopper"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -56,7 +57,7 @@ class AdyenRecurringApi(AdyenServiceBase):
         """
         Schedule running the Account Updater
         """
-        endpoint = f"/scheduleAccountUpdater"
+        endpoint = self.baseUrl + f"/scheduleAccountUpdater"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

@@ -11,12 +11,13 @@ class WebhooksMerchantLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(WebhooksMerchantLevelApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def remove_webhook(self, merchantId, webhookId, idempotency_key=None, **kwargs):
         """
         Remove a webhook
         """
-        endpoint = f"/merchants/{merchantId}/webhooks/{webhookId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/webhooks/{webhookId}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class WebhooksMerchantLevelApi(AdyenServiceBase):
         """
         List all webhooks
         """
-        endpoint = f"/merchants/{merchantId}/webhooks"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/webhooks"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class WebhooksMerchantLevelApi(AdyenServiceBase):
         """
         Get a webhook
         """
-        endpoint = f"/merchants/{merchantId}/webhooks/{webhookId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/webhooks/{webhookId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class WebhooksMerchantLevelApi(AdyenServiceBase):
         """
         Update a webhook
         """
-        endpoint = f"/merchants/{merchantId}/webhooks/{webhookId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/webhooks/{webhookId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class WebhooksMerchantLevelApi(AdyenServiceBase):
         """
         Set up a webhook
         """
-        endpoint = f"/merchants/{merchantId}/webhooks"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/webhooks"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -56,7 +57,7 @@ class WebhooksMerchantLevelApi(AdyenServiceBase):
         """
         Generate an HMAC key
         """
-        endpoint = f"/merchants/{merchantId}/webhooks/{webhookId}/generateHmac"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/webhooks/{webhookId}/generateHmac"
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -64,7 +65,7 @@ class WebhooksMerchantLevelApi(AdyenServiceBase):
         """
         Test a webhook
         """
-        endpoint = f"/merchants/{merchantId}/webhooks/{webhookId}/test"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/webhooks/{webhookId}/test"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

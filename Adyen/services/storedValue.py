@@ -11,12 +11,13 @@ class AdyenStoredValueApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AdyenStoredValueApi, self).__init__(client=client)
         self.service = "storedValue"
+        self.baseUrl = "https://pal-test.adyen.com/pal/servlet/StoredValue/v46"
 
     def change_status(self, request, idempotency_key=None, **kwargs):
         """
         Changes the status of the payment method.
         """
-        endpoint = f"/changeStatus"
+        endpoint = self.baseUrl + f"/changeStatus"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class AdyenStoredValueApi(AdyenServiceBase):
         """
         Checks the balance.
         """
-        endpoint = f"/checkBalance"
+        endpoint = self.baseUrl + f"/checkBalance"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class AdyenStoredValueApi(AdyenServiceBase):
         """
         Issues a new card.
         """
-        endpoint = f"/issue"
+        endpoint = self.baseUrl + f"/issue"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class AdyenStoredValueApi(AdyenServiceBase):
         """
         Loads the payment method.
         """
-        endpoint = f"/load"
+        endpoint = self.baseUrl + f"/load"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class AdyenStoredValueApi(AdyenServiceBase):
         """
         Merge the balance of two cards.
         """
-        endpoint = f"/mergeBalance"
+        endpoint = self.baseUrl + f"/mergeBalance"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -56,7 +57,7 @@ class AdyenStoredValueApi(AdyenServiceBase):
         """
         Voids a transaction.
         """
-        endpoint = f"/voidTransaction"
+        endpoint = self.baseUrl + f"/voidTransaction"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

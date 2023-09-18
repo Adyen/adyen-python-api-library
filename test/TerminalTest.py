@@ -15,7 +15,7 @@ class TestTerminal(unittest.TestCase):
                         xapikey="YourXapikey")
     test = BaseTest(adyen)
     client = adyen.client
-    terminal_version = settings.API_TERMINAL_VERSION
+    terminal_url = adyen.terminal.baseUrl
 
     def test_assign_terminals(self):
         request = {
@@ -34,7 +34,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/assignTerminals",
+            f"{self.terminal_url}/assignTerminals",
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
@@ -78,7 +78,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/findTerminal",
+            f"{self.terminal_url}/findTerminal",
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "terminal": "P400Plus-275479597",
@@ -126,7 +126,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getStoresUnderAccount",
+            f"{self.terminal_url}/getStoresUnderAccount",
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                "companyAccount": "YOUR_COMPANY_ACCOUNT",
@@ -151,7 +151,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getTerminalDetails",
+            f"{self.terminal_url}/getTerminalDetails",
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "terminal": "P400Plus-275479597",
@@ -203,7 +203,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getTerminalsUnderAccount",
+            f"{self.terminal_url}/getTerminalsUnderAccount",
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
@@ -240,7 +240,7 @@ class TestTerminal(unittest.TestCase):
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
-            f"https://postfmapi-test.adyen.com/postfmapi/terminal/{self.terminal_version}/getTerminalsUnderAccount",
+            f"{self.terminal_url}/getTerminalsUnderAccount",
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",

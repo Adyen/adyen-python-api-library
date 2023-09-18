@@ -11,12 +11,13 @@ class ReviewingApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(ReviewingApi, self).__init__(client=client)
         self.service = "payouts"
+        self.baseUrl = "https://pal-test.adyen.com/pal/servlet/Payout/v68"
 
     def confirm_third_party(self, request, idempotency_key=None, **kwargs):
         """
         Confirm a payout
         """
-        endpoint = f"/confirmThirdParty"
+        endpoint = self.baseUrl + f"/confirmThirdParty"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class ReviewingApi(AdyenServiceBase):
         """
         Cancel a payout
         """
-        endpoint = f"/declineThirdParty"
+        endpoint = self.baseUrl + f"/declineThirdParty"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

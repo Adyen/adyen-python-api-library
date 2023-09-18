@@ -11,12 +11,13 @@ class UsersCompanyLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(UsersCompanyLevelApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def list_users(self, companyId, idempotency_key=None, **kwargs):
         """
         Get a list of users
         """
-        endpoint = f"/companies/{companyId}/users"
+        endpoint = self.baseUrl + f"/companies/{companyId}/users"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         """
         Get user details
         """
-        endpoint = f"/companies/{companyId}/users/{userId}"
+        endpoint = self.baseUrl + f"/companies/{companyId}/users/{userId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         """
         Update user details
         """
-        endpoint = f"/companies/{companyId}/users/{userId}"
+        endpoint = self.baseUrl + f"/companies/{companyId}/users/{userId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         """
         Create a new user
         """
-        endpoint = f"/companies/{companyId}/users"
+        endpoint = self.baseUrl + f"/companies/{companyId}/users"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

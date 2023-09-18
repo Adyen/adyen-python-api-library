@@ -11,12 +11,13 @@ class AdyenDataProtectionApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AdyenDataProtectionApi, self).__init__(client=client)
         self.service = "dataProtection"
+        self.baseUrl = "https://ca-test.adyen.com/ca/services/DataProtectionService/v1"
 
     def request_subject_erasure(self, request, idempotency_key=None, **kwargs):
         """
         Submit a Subject Erasure Request.
         """
-        endpoint = f"/requestSubjectErasure"
+        endpoint = self.baseUrl + f"/requestSubjectErasure"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

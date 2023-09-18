@@ -13,7 +13,6 @@ from .client_key_merchant_level_api import ClientKeyMerchantLevelApi
 from .my_api_credential_api import MyAPICredentialApi
 from .payment_methods_merchant_level_api import PaymentMethodsMerchantLevelApi
 from .payout_settings_merchant_level_api import PayoutSettingsMerchantLevelApi
-from .split_configuration_merchant_level_api import SplitConfigurationMerchantLevelApi
 from .terminal_actions_company_level_api import TerminalActionsCompanyLevelApi
 from .terminal_actions_terminal_level_api import TerminalActionsTerminalLevelApi
 from .terminal_orders_company_level_api import TerminalOrdersCompanyLevelApi
@@ -52,7 +51,6 @@ class AdyenManagementApi(AdyenServiceBase):
         self.my_api_credential_api = MyAPICredentialApi(client=client)
         self.payment_methods_merchant_level_api = PaymentMethodsMerchantLevelApi(client=client)
         self.payout_settings_merchant_level_api = PayoutSettingsMerchantLevelApi(client=client)
-        self.split_configuration_merchant_level_api = SplitConfigurationMerchantLevelApi(client=client)
         self.terminal_actions_company_level_api = TerminalActionsCompanyLevelApi(client=client)
         self.terminal_actions_terminal_level_api = TerminalActionsTerminalLevelApi(client=client)
         self.terminal_orders_company_level_api = TerminalOrdersCompanyLevelApi(client=client)

@@ -11,12 +11,13 @@ class AccountHoldersApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AccountHoldersApi, self).__init__(client=client)
         self.service = "balancePlatform"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
     def get_account_holder(self, id, idempotency_key=None, **kwargs):
         """
         Get an account holder
         """
-        endpoint = f"/accountHolders/{id}"
+        endpoint = self.baseUrl + f"/accountHolders/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Get all balance accounts of an account holder
         """
-        endpoint = f"/accountHolders/{id}/balanceAccounts"
+        endpoint = self.baseUrl + f"/accountHolders/{id}/balanceAccounts"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Update an account holder
         """
-        endpoint = f"/accountHolders/{id}"
+        endpoint = self.baseUrl + f"/accountHolders/{id}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Create an account holder
         """
-        endpoint = f"/accountHolders"
+        endpoint = self.baseUrl + f"/accountHolders"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

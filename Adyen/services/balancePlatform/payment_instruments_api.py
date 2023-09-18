@@ -11,12 +11,13 @@ class PaymentInstrumentsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(PaymentInstrumentsApi, self).__init__(client=client)
         self.service = "balancePlatform"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
     def get_payment_instrument(self, id, idempotency_key=None, **kwargs):
         """
         Get a payment instrument
         """
-        endpoint = f"/paymentInstruments/{id}"
+        endpoint = self.baseUrl + f"/paymentInstruments/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Get the PAN of a payment instrument
         """
-        endpoint = f"/paymentInstruments/{id}/reveal"
+        endpoint = self.baseUrl + f"/paymentInstruments/{id}/reveal"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Get all transaction rules for a payment instrument
         """
-        endpoint = f"/paymentInstruments/{id}/transactionRules"
+        endpoint = self.baseUrl + f"/paymentInstruments/{id}/transactionRules"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Update a payment instrument
         """
-        endpoint = f"/paymentInstruments/{id}"
+        endpoint = self.baseUrl + f"/paymentInstruments/{id}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Create a payment instrument
         """
-        endpoint = f"/paymentInstruments"
+        endpoint = self.baseUrl + f"/paymentInstruments"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

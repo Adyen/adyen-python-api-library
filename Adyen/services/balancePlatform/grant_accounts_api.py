@@ -11,12 +11,13 @@ class GrantAccountsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(GrantAccountsApi, self).__init__(client=client)
         self.service = "balancePlatform"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
     def get_grant_account(self, id, idempotency_key=None, **kwargs):
         """
         Get a grant account
         """
-        endpoint = f"/grantAccounts/{id}"
+        endpoint = self.baseUrl + f"/grantAccounts/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

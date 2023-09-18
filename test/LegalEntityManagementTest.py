@@ -15,7 +15,7 @@ class TestManagement(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    lem_version = settings.API_LEGAL_ENTITY_MANAGEMENT_VERSION
+    lem_url = adyen.legalEntityManagement.legal_entities_api.baseUrl
 
     def test_creating_legal_entity(self):
         request = {
@@ -44,7 +44,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual('Shelly', result.message['individual']['name']['firstName'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://kyc-test.adyen.com/lem/{self.lem_version}/legalEntities',
+            f'{self.lem_url}/legalEntities',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -58,7 +58,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(instrumentId, result.message['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
-            f'https://kyc-test.adyen.com/lem/{self.lem_version}/transferInstruments/{instrumentId}',
+            f'{self.lem_url}/transferInstruments/{instrumentId}',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
@@ -80,7 +80,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(businessLineId, result.message['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
-            f'https://kyc-test.adyen.com/lem/{self.lem_version}/businessLines/{businessLineId}',
+            f'{self.lem_url}/businessLines/{businessLineId}',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -98,7 +98,7 @@ class TestManagement(unittest.TestCase):
                                                                                       documentId)
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
-            f'https://kyc-test.adyen.com/lem/{self.lem_version}/legalEntities/{legalEntityId}/termsOfService/{documentId}',
+            f'{self.lem_url}/legalEntities/{legalEntityId}/termsOfService/{documentId}',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"

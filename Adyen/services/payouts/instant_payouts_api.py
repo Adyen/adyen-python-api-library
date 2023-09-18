@@ -11,12 +11,13 @@ class InstantPayoutsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(InstantPayoutsApi, self).__init__(client=client)
         self.service = "payouts"
+        self.baseUrl = "https://pal-test.adyen.com/pal/servlet/Payout/v68"
 
     def payout(self, request, idempotency_key=None, **kwargs):
         """
         Make an instant card payout
         """
-        endpoint = f"/payout"
+        endpoint = self.baseUrl + f"/payout"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

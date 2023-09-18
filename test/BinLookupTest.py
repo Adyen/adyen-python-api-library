@@ -21,7 +21,7 @@ class TestBinLookup(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    binLookup_version = settings.API_BIN_LOOKUP_VERSION
+    binLookup_version = ady.binlookup.baseUrl.split('/')[-1]
 
     def test_get_cost_estimate_success(self):
         self.ady.client.http_client.request.reset_mock()
