@@ -11,12 +11,13 @@ class AccountCompanyLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AccountCompanyLevelApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def list_company_accounts(self, idempotency_key=None, **kwargs):
         """
         Get a list of company accounts
         """
-        endpoint = f"/companies"
+        endpoint = self.baseUrl + f"/companies"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class AccountCompanyLevelApi(AdyenServiceBase):
         """
         Get a company account
         """
-        endpoint = f"/companies/{companyId}"
+        endpoint = self.baseUrl + f"/companies/{companyId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class AccountCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of merchant accounts
         """
-        endpoint = f"/companies/{companyId}/merchants"
+        endpoint = self.baseUrl + f"/companies/{companyId}/merchants"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

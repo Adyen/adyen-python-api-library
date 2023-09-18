@@ -11,12 +11,13 @@ class GeneralApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(GeneralApi, self).__init__(client=client)
         self.service = "payments"
+        self.baseUrl = "https://pal-test.adyen.com/pal/servlet/Payment/v68"
 
     def authorise(self, request, idempotency_key=None, **kwargs):
         """
         Create an authorisation
         """
-        endpoint = f"/authorise"
+        endpoint = self.baseUrl + f"/authorise"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class GeneralApi(AdyenServiceBase):
         """
         Complete a 3DS authorisation
         """
-        endpoint = f"/authorise3d"
+        endpoint = self.baseUrl + f"/authorise3d"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class GeneralApi(AdyenServiceBase):
         """
         Complete a 3DS2 authorisation
         """
-        endpoint = f"/authorise3ds2"
+        endpoint = self.baseUrl + f"/authorise3ds2"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class GeneralApi(AdyenServiceBase):
         """
         Get the 3DS authentication result
         """
-        endpoint = f"/getAuthenticationResult"
+        endpoint = self.baseUrl + f"/getAuthenticationResult"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class GeneralApi(AdyenServiceBase):
         """
         Get the 3DS2 authentication result
         """
-        endpoint = f"/retrieve3ds2Result"
+        endpoint = self.baseUrl + f"/retrieve3ds2Result"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

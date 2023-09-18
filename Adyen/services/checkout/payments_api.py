@@ -11,20 +11,13 @@ class PaymentsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(PaymentsApi, self).__init__(client=client)
         self.service = "checkout"
-
-    def get_synchronous_result_of_payment_session(self, sessionId, idempotency_key=None, **kwargs):
-        """
-        Get a synchronous result of a payment session
-        """
-        endpoint = f"/sessions/{sessionId}"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        self.baseUrl = "https://checkout-test.adyen.com/v70"
 
     def card_details(self, request, idempotency_key=None, **kwargs):
         """
         Get the list of brands on the card
         """
-        endpoint = f"/cardDetails"
+        endpoint = self.baseUrl + f"/cardDetails"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +25,7 @@ class PaymentsApi(AdyenServiceBase):
         """
         Start a transaction for donations
         """
-        endpoint = f"/donations"
+        endpoint = self.baseUrl + f"/donations"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +33,7 @@ class PaymentsApi(AdyenServiceBase):
         """
         Get a list of available payment methods
         """
-        endpoint = f"/paymentMethods"
+        endpoint = self.baseUrl + f"/paymentMethods"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +41,7 @@ class PaymentsApi(AdyenServiceBase):
         """
         Start a transaction
         """
-        endpoint = f"/payments"
+        endpoint = self.baseUrl + f"/payments"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -56,7 +49,7 @@ class PaymentsApi(AdyenServiceBase):
         """
         Submit details for a payment
         """
-        endpoint = f"/payments/details"
+        endpoint = self.baseUrl + f"/payments/details"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -64,7 +57,7 @@ class PaymentsApi(AdyenServiceBase):
         """
         Create a payment session
         """
-        endpoint = f"/sessions"
+        endpoint = self.baseUrl + f"/sessions"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

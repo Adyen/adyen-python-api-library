@@ -11,12 +11,13 @@ class BalanceAccountsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(BalanceAccountsApi, self).__init__(client=client)
         self.service = "balancePlatform"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
     def delete_sweep(self, balanceAccountId, sweepId, idempotency_key=None, **kwargs):
         """
         Delete a sweep
         """
-        endpoint = f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}"
+        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Get all sweeps for a balance account
         """
-        endpoint = f"/balanceAccounts/{balanceAccountId}/sweeps"
+        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Get a sweep
         """
-        endpoint = f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}"
+        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Get a balance account
         """
-        endpoint = f"/balanceAccounts/{id}"
+        endpoint = self.baseUrl + f"/balanceAccounts/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Get all payment instruments for a balance account
         """
-        endpoint = f"/balanceAccounts/{id}/paymentInstruments"
+        endpoint = self.baseUrl + f"/balanceAccounts/{id}/paymentInstruments"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -56,7 +57,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Update a sweep
         """
-        endpoint = f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}"
+        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -64,7 +65,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Update a balance account
         """
-        endpoint = f"/balanceAccounts/{id}"
+        endpoint = self.baseUrl + f"/balanceAccounts/{id}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -72,7 +73,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Create a balance account
         """
-        endpoint = f"/balanceAccounts"
+        endpoint = self.baseUrl + f"/balanceAccounts"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -80,7 +81,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Create a sweep
         """
-        endpoint = f"/balanceAccounts/{balanceAccountId}/sweeps"
+        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

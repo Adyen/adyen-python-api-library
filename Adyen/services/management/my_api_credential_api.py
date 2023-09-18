@@ -11,12 +11,13 @@ class MyAPICredentialApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(MyAPICredentialApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def remove_allowed_origin(self, originId, idempotency_key=None, **kwargs):
         """
         Remove allowed origin
         """
-        endpoint = f"/me/allowedOrigins/{originId}"
+        endpoint = self.baseUrl + f"/me/allowedOrigins/{originId}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class MyAPICredentialApi(AdyenServiceBase):
         """
         Get API credential details
         """
-        endpoint = f"/me"
+        endpoint = self.baseUrl + f"/me"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class MyAPICredentialApi(AdyenServiceBase):
         """
         Get allowed origins
         """
-        endpoint = f"/me/allowedOrigins"
+        endpoint = self.baseUrl + f"/me/allowedOrigins"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class MyAPICredentialApi(AdyenServiceBase):
         """
         Get allowed origin details
         """
-        endpoint = f"/me/allowedOrigins/{originId}"
+        endpoint = self.baseUrl + f"/me/allowedOrigins/{originId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class MyAPICredentialApi(AdyenServiceBase):
         """
         Add allowed origin
         """
-        endpoint = f"/me/allowedOrigins"
+        endpoint = self.baseUrl + f"/me/allowedOrigins"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

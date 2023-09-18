@@ -11,12 +11,13 @@ class InitializationApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(InitializationApi, self).__init__(client=client)
         self.service = "payouts"
+        self.baseUrl = "https://pal-test.adyen.com/pal/servlet/Payout/v68"
 
     def store_detail(self, request, idempotency_key=None, **kwargs):
         """
         Store payout details
         """
-        endpoint = f"/storeDetail"
+        endpoint = self.baseUrl + f"/storeDetail"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class InitializationApi(AdyenServiceBase):
         """
         Store details and submit a payout
         """
-        endpoint = f"/storeDetailAndSubmitThirdParty"
+        endpoint = self.baseUrl + f"/storeDetailAndSubmitThirdParty"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class InitializationApi(AdyenServiceBase):
         """
         Submit a payout
         """
-        endpoint = f"/submitThirdParty"
+        endpoint = self.baseUrl + f"/submitThirdParty"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

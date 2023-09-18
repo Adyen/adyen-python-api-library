@@ -11,12 +11,13 @@ class BankAccountValidationApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(BankAccountValidationApi, self).__init__(client=client)
         self.service = "balancePlatform"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
     def validate_bank_account_identification(self, request, idempotency_key=None, **kwargs):
         """
         Validate a bank account
         """
-        endpoint = f"/validateBankAccountIdentification"
+        endpoint = self.baseUrl + f"/validateBankAccountIdentification"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

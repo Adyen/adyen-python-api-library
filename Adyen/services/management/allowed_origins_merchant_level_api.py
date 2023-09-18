@@ -11,12 +11,13 @@ class AllowedOriginsMerchantLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AllowedOriginsMerchantLevelApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def delete_allowed_origin(self, merchantId, apiCredentialId, originId, idempotency_key=None, **kwargs):
         """
         Delete an allowed origin
         """
-        endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class AllowedOriginsMerchantLevelApi(AdyenServiceBase):
         """
         Get a list of allowed origins
         """
-        endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class AllowedOriginsMerchantLevelApi(AdyenServiceBase):
         """
         Get an allowed origin
         """
-        endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class AllowedOriginsMerchantLevelApi(AdyenServiceBase):
         """
         Create an allowed origin
         """
-        endpoint = f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

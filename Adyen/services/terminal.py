@@ -11,12 +11,13 @@ class AdyenTerminalApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AdyenTerminalApi, self).__init__(client=client)
         self.service = "terminal"
+        self.baseUrl = "https://postfmapi-test.adyen.com/postfmapi/terminal/v1"
 
     def assign_terminals(self, request, idempotency_key=None, **kwargs):
         """
         Assign terminals
         """
-        endpoint = f"/assignTerminals"
+        endpoint = self.baseUrl + f"/assignTerminals"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class AdyenTerminalApi(AdyenServiceBase):
         """
         Get the account or store of a terminal
         """
-        endpoint = f"/findTerminal"
+        endpoint = self.baseUrl + f"/findTerminal"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class AdyenTerminalApi(AdyenServiceBase):
         """
         Get the stores of an account
         """
-        endpoint = f"/getStoresUnderAccount"
+        endpoint = self.baseUrl + f"/getStoresUnderAccount"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class AdyenTerminalApi(AdyenServiceBase):
         """
         Get the details of a terminal
         """
-        endpoint = f"/getTerminalDetails"
+        endpoint = self.baseUrl + f"/getTerminalDetails"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class AdyenTerminalApi(AdyenServiceBase):
         """
         Get the list of terminals
         """
-        endpoint = f"/getTerminalsUnderAccount"
+        endpoint = self.baseUrl + f"/getTerminalsUnderAccount"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
