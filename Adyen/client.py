@@ -16,6 +16,7 @@ from .exceptions import (
     AdyenAPIUnprocessableEntity,
     AdyenEndpointInvalidFormat)
 from . import settings
+import re
 
 
 class AdyenResult(object):
@@ -82,6 +83,18 @@ class AdyenClient(object):
             http_force=None,
             live_endpoint_prefix=None,
             http_timeout=30,
+            api_bin_lookup_version=None,
+            api_checkout_version=None,
+            api_management_version=None,
+            api_payment_version=None,
+            api_payout_version=None,
+            api_recurring_version=None,
+            api_terminal_version=None,
+            api_legal_entity_management_version=None,
+            api_data_protection_version=None,
+            api_transfers_version=None,
+            api_stored_value_version=None,
+            api_balance_platform_version=None,
 
     ):
         self.username = username
@@ -102,6 +115,18 @@ class AdyenClient(object):
         self.http_force = http_force
         self.live_endpoint_prefix = live_endpoint_prefix
         self.http_timeout = http_timeout
+        self.api_bin_lookup_version = api_bin_lookup_version
+        self.api_checkout_version = api_checkout_version
+        self.api_management_version = api_management_version
+        self.api_payment_version = api_payment_version
+        self.api_payout_version = api_payout_version
+        self.api_recurring_version = api_recurring_version
+        self.api_terminal_version = api_terminal_version
+        self.api_legal_entity_management_version = api_legal_entity_management_version
+        self.api_data_protection_version = api_data_protection_version
+        self.api_transfers_version = api_transfers_version
+        self.api_stored_value_version = api_stored_value_version
+        self.api_balance_platform_version = api_balance_platform_version
 
     def _determine_api_url(self, platform, endpoint):
         if platform == "test":
@@ -110,17 +135,17 @@ class AdyenClient(object):
         if "pal-" in endpoint:
             if self.live_endpoint_prefix is None:
                 error_string = "Please set your live suffix. You can set it by running " \
-                              "adyen.client.live_endpoint_prefix = 'Your live suffix'"
+                               "adyen.client.live_endpoint_prefix = 'Your live suffix'"
                 raise AdyenEndpointInvalidFormat(error_string)
             endpoint = endpoint.replace("https://pal-test.adyen.com/pal/servlet/",
-                             "https://" + self.live_endpoint_prefix + "-pal-live.adyenpayments.com/pal/servlet/")
+                                        "https://" + self.live_endpoint_prefix + "-pal-live.adyenpayments.com/pal/servlet/")
         elif "checkout-" in endpoint:
             if self.live_endpoint_prefix is None:
                 error_string = "Please set your live suffix. You can set it by running " \
-                              "adyen.client.live_endpoint_prefix = 'Your live suffix'"
+                               "adyen.client.live_endpoint_prefix = 'Your live suffix'"
                 raise AdyenEndpointInvalidFormat(error_string)
             endpoint = endpoint.replace("https://checkout-test.adyen.com/",
-                             "https://" + self.live_endpoint_prefix + "-checkout-live.adyenpayments.com/checkout/")
+                                        "https://" + self.live_endpoint_prefix + "-checkout-live.adyenpayments.com/checkout/")
 
         endpoint = endpoint.replace("-test", "-live")
 
@@ -237,6 +262,24 @@ class AdyenClient(object):
 
         return platform
 
+    def _set_url_version(self, service, endpoint):
+        version_lookup = {"binlookup": self.api_bin_lookup_version,
+                   "checkout": self.api_checkout_version,
+                   "management": self.api_management_version,
+                   "payments": self.api_payment_version,
+                   "payouts": self.api_payout_version,
+                   "recurring": self.api_recurring_version,
+                   "terminal": self.api_terminal_version,
+                   "legalEntityManagement": self.api_legal_entity_management_version,
+                   "dataProtection": self.api_data_protection_version,
+                   "transfers": self.api_transfers_version,
+                   "storedValue": self.api_stored_value_version,
+                   "balancePlatform": self.api_balance_platform_version}
+
+        new_version = f"v{version_lookup[service]}"
+        endpoint = re.sub(r'\.com/v\d{1,2}', f".com/{new_version}", endpoint)
+        return endpoint
+
     def call_adyen_api(
             self,
             request_data,
@@ -269,10 +312,25 @@ class AdyenClient(object):
             self._init_http_client()
 
         # Set credentials
-        xapikey, username, password, kwargs= self._set_credentials(service, endpoint, **kwargs)
+        xapikey, username, password, kwargs = self._set_credentials(service, endpoint, **kwargs)
         # Set platform
         platform = self._set_platform(**kwargs)
         message = request_data
+        # Set version (if not default one)
+        versions = [self.api_bin_lookup_version,
+                    self.api_checkout_version,
+                    self.api_management_version,
+                    self.api_payment_version,
+                    self.api_payout_version,
+                    self.api_recurring_version,
+                    self.api_terminal_version,
+                    self.api_legal_entity_management_version,
+                    self.api_data_protection_version,
+                    self.api_transfers_version,
+                    self.api_stored_value_version,
+                    self.api_balance_platform_version]
+        if any(versions):
+            endpoint = self._set_url_version(service, endpoint)
 
         headers = {
             self.APPLICATION_INFO_HEADER_NAME: settings.LIB_NAME,
