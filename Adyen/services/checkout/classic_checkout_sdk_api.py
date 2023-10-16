@@ -11,12 +11,13 @@ class ClassicCheckoutSDKApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(ClassicCheckoutSDKApi, self).__init__(client=client)
         self.service = "checkout"
+        self.baseUrl = "https://checkout-test.adyen.com/v70"
 
     def payment_session(self, request, idempotency_key=None, **kwargs):
         """
         Create a payment session
         """
-        endpoint = f"/paymentSession"
+        endpoint = self.baseUrl + f"/paymentSession"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class ClassicCheckoutSDKApi(AdyenServiceBase):
         """
         Verify a payment result
         """
-        endpoint = f"/payments/result"
+        endpoint = self.baseUrl + f"/payments/result"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

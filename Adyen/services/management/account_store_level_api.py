@@ -11,12 +11,13 @@ class AccountStoreLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AccountStoreLevelApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def list_stores_by_merchant_id(self, merchantId, idempotency_key=None, **kwargs):
         """
         Get a list of stores
         """
-        endpoint = f"/merchants/{merchantId}/stores"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Get a store
         """
-        endpoint = f"/merchants/{merchantId}/stores/{storeId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Get a list of stores
         """
-        endpoint = f"/stores"
+        endpoint = self.baseUrl + f"/stores"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Get a store
         """
-        endpoint = f"/stores/{storeId}"
+        endpoint = self.baseUrl + f"/stores/{storeId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -48,7 +49,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Update a store
         """
-        endpoint = f"/merchants/{merchantId}/stores/{storeId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -56,7 +57,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Update a store
         """
-        endpoint = f"/stores/{storeId}"
+        endpoint = self.baseUrl + f"/stores/{storeId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -64,7 +65,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Create a store
         """
-        endpoint = f"/merchants/{merchantId}/stores"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -72,7 +73,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Create a store
         """
-        endpoint = f"/stores"
+        endpoint = self.baseUrl + f"/stores"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

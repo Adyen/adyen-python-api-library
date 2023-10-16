@@ -11,12 +11,13 @@ class TransferInstrumentsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TransferInstrumentsApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
     def delete_transfer_instrument(self, id, idempotency_key=None, **kwargs):
         """
         Delete a transfer instrument
         """
-        endpoint = f"/transferInstruments/{id}"
+        endpoint = self.baseUrl + f"/transferInstruments/{id}"
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class TransferInstrumentsApi(AdyenServiceBase):
         """
         Get a transfer instrument
         """
-        endpoint = f"/transferInstruments/{id}"
+        endpoint = self.baseUrl + f"/transferInstruments/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class TransferInstrumentsApi(AdyenServiceBase):
         """
         Update a transfer instrument
         """
-        endpoint = f"/transferInstruments/{id}"
+        endpoint = self.baseUrl + f"/transferInstruments/{id}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class TransferInstrumentsApi(AdyenServiceBase):
         """
         Create a transfer instrument
         """
-        endpoint = f"/transferInstruments"
+        endpoint = self.baseUrl + f"/transferInstruments"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

@@ -11,12 +11,13 @@ class GrantOffersApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(GrantOffersApi, self).__init__(client=client)
         self.service = "balancePlatform"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
     def get_all_available_grant_offers(self, idempotency_key=None, **kwargs):
         """
         Get all available grant offers
         """
-        endpoint = f"/grantOffers"
+        endpoint = self.baseUrl + f"/grantOffers"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class GrantOffersApi(AdyenServiceBase):
         """
         Get a grant offer
         """
-        endpoint = f"/grantOffers/{grantOfferId}"
+        endpoint = self.baseUrl + f"/grantOffers/{grantOfferId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

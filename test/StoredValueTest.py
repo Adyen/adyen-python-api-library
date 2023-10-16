@@ -15,7 +15,7 @@ class TestManagement(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    stored_value_version = settings.API_STORED_VALUE_VERSION
+    stored_value_url = adyen.storedValue.baseUrl
 
     def issue(self):
         request = {
@@ -34,7 +34,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(result.message['paymentMethod']['type'], 'givex')
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/issue',
+            f'{self.stored_value_url}/issue',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -62,7 +62,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(result.message['currentBalance']['value'], 1000)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/changeStatus',
+            f'{self.stored_value_url}/changeStatus',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -89,7 +89,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(result.message['resultCode'], 'Success')
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/load',
+            f'{self.stored_value_url}/load',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -111,7 +111,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(result.message['currentBalance']['value'], 5600)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/checkBalance',
+            f'{self.stored_value_url}/checkBalance',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -137,7 +137,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(result.message['pspReference'], "881564657480267D")
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/mergeBalance',
+            f'{self.stored_value_url}/mergeBalance',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -154,7 +154,7 @@ class TestManagement(unittest.TestCase):
         result = self.adyen.storedValue.void_transaction(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://pal-test.adyen.com/pal/servlet/StoredValue/{self.stored_value_version}/voidTransaction',
+            f'{self.stored_value_url}/voidTransaction',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"

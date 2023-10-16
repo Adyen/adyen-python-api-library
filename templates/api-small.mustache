@@ -11,6 +11,7 @@ class Adyen{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}Api(AdyenSer
     def __init__(self, client=None):
         super(Adyen{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}Api, self).__init__(client=client)
         self.service = "{{serviceName}}"
+        self.baseUrl = "{{basePath}}"
 
 {{#operations}}
 {{#operation}}
@@ -18,7 +19,7 @@ class Adyen{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}Api(AdyenSer
         """
         {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
         """
-        endpoint = f"{{{path}}}"
+        endpoint = self.baseUrl + f"{{{path}}}"
         method = "{{httpMethod}}"
     {{#bodyParams}}
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)

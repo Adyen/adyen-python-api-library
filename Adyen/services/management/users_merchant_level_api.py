@@ -11,12 +11,13 @@ class UsersMerchantLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(UsersMerchantLevelApi, self).__init__(client=client)
         self.service = "management"
+        self.baseUrl = "https://management-test.adyen.com/v1"
 
     def list_users(self, merchantId, idempotency_key=None, **kwargs):
         """
         Get a list of users
         """
-        endpoint = f"/merchants/{merchantId}/users"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/users"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class UsersMerchantLevelApi(AdyenServiceBase):
         """
         Get user details
         """
-        endpoint = f"/merchants/{merchantId}/users/{userId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/users/{userId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class UsersMerchantLevelApi(AdyenServiceBase):
         """
         Update a user
         """
-        endpoint = f"/merchants/{merchantId}/users/{userId}"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/users/{userId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -40,7 +41,7 @@ class UsersMerchantLevelApi(AdyenServiceBase):
         """
         Create a new user
         """
-        endpoint = f"/merchants/{merchantId}/users"
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/users"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

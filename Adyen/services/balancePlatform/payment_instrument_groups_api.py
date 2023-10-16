@@ -11,12 +11,13 @@ class PaymentInstrumentGroupsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(PaymentInstrumentGroupsApi, self).__init__(client=client)
         self.service = "balancePlatform"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
     def get_payment_instrument_group(self, id, idempotency_key=None, **kwargs):
         """
         Get a payment instrument group
         """
-        endpoint = f"/paymentInstrumentGroups/{id}"
+        endpoint = self.baseUrl + f"/paymentInstrumentGroups/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class PaymentInstrumentGroupsApi(AdyenServiceBase):
         """
         Get all transaction rules for a payment instrument group
         """
-        endpoint = f"/paymentInstrumentGroups/{id}/transactionRules"
+        endpoint = self.baseUrl + f"/paymentInstrumentGroups/{id}/transactionRules"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -32,7 +33,7 @@ class PaymentInstrumentGroupsApi(AdyenServiceBase):
         """
         Create a payment instrument group
         """
-        endpoint = f"/paymentInstrumentGroups"
+        endpoint = self.baseUrl + f"/paymentInstrumentGroups"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

@@ -15,7 +15,7 @@ class TestManagement(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    management_version = settings.API_MANAGEMENT_VERSION
+    management_url = adyen.management.my_api_credential_api.baseUrl
 
     def test_get_company_account(self):
         request = None
@@ -30,7 +30,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(id, result.message['id'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
-            f'https://management-test.adyen.com/{self.management_version}/companies/{id}',
+            f'{self.management_url}/companies/{id}',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
@@ -53,7 +53,7 @@ class TestManagement(unittest.TestCase):
         result = self.adyen.management.my_api_credential_api.remove_allowed_origin(originId)
         self.adyen.client.http_client.request.assert_called_once_with(
             'DELETE',
-            f'https://management-test.adyen.com/{self.management_version}/me/allowedOrigins/{originId}',
+            f'{self.management_url}/me/allowedOrigins/{originId}',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
@@ -78,7 +78,7 @@ class TestManagement(unittest.TestCase):
         result = self.adyen.management.account_store_level_api.update_store(request, merchantId, storeId)
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
-            f'https://management-test.adyen.com/{self.management_version}/merchants/{merchantId}/stores/{storeId}',
+            f'{self.management_url}/merchants/{merchantId}/stores/{storeId}',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
@@ -113,7 +113,7 @@ class TestManagement(unittest.TestCase):
         self.assertEqual(request['name']['firstName'], result.message['name']['firstName'])
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
-            f'https://management-test.adyen.com/{self.management_version}/companies/{companyId}/users',
+            f'{self.management_url}/companies/{companyId}/users',
             json=request,
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             xapikey="YourXapikey"
@@ -147,7 +147,7 @@ class TestManagement(unittest.TestCase):
             list_merchant_accounts(companyId, query_parameters=query_parameters)
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
-            f'https://management-test.adyen.com/{self.management_version}/companies/{companyId}/merchants?pageNumber=1&pageSize=10',
+            f'{self.management_url}/companies/{companyId}/merchants?pageNumber=1&pageSize=10',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"

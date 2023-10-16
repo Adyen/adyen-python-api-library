@@ -11,12 +11,13 @@ class PlatformApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(PlatformApi, self).__init__(client=client)
         self.service = "balancePlatform"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
     def get_balance_platform(self, id, idempotency_key=None, **kwargs):
         """
         Get a balance platform
         """
-        endpoint = f"/balancePlatforms/{id}"
+        endpoint = self.baseUrl + f"/balancePlatforms/{id}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -24,7 +25,7 @@ class PlatformApi(AdyenServiceBase):
         """
         Get all account holders under a balance platform
         """
-        endpoint = f"/balancePlatforms/{id}/accountHolders"
+        endpoint = self.baseUrl + f"/balancePlatforms/{id}/accountHolders"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
