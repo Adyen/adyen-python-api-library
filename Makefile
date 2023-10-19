@@ -15,7 +15,7 @@ openapi-generator-jar:=build/openapi-generator-cli.jar
 openapi-generator-cli:=java -jar $(openapi-generator-jar)
 output:=build/out
 services:=balancePlatform checkout legalEntityManagement management payments payouts transfers
-smallServices:=binlookup dataProtection recurring storedValue terminal
+smallServices:=binlookup dataProtection recurring storedValue terminal disputes
 
 all: $(services) $(smallServices)
 
@@ -36,6 +36,7 @@ platformsNotificationConfiguration: spec=NotificationConfigurationService-v6
 platformsHostedOnboardingPage: spec=HopService-v6
 transfers: spec=TransferService-v3
 balanceControlService: spec=BalanceControlService-v1
+disputes: spec=DisputeService-v30
 
 $(services): build/spec $(openapi-generator-jar)
 	rm -rf Adyen/services/$@ $(output)
