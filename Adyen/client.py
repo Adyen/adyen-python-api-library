@@ -95,6 +95,7 @@ class AdyenClient(object):
             api_transfers_version=None,
             api_stored_value_version=None,
             api_balance_platform_version=None,
+            api_disputes_version=None,
 
     ):
         self.username = username
@@ -127,6 +128,7 @@ class AdyenClient(object):
         self.api_transfers_version = api_transfers_version
         self.api_stored_value_version = api_stored_value_version
         self.api_balance_platform_version = api_balance_platform_version
+        self.api_disputes_version = api_disputes_version
 
     def _determine_api_url(self, platform, endpoint):
         if platform == "test":
@@ -274,7 +276,9 @@ class AdyenClient(object):
                    "dataProtection": self.api_data_protection_version,
                    "transfers": self.api_transfers_version,
                    "storedValue": self.api_stored_value_version,
-                   "balancePlatform": self.api_balance_platform_version}
+                   "balancePlatform": self.api_balance_platform_version,
+                   "disputes": self.api_disputes_version
+                          }
 
         new_version = f"v{version_lookup[service]}"
         endpoint = re.sub(r'\.com/v\d{1,2}', f".com/{new_version}", endpoint)
@@ -328,7 +332,8 @@ class AdyenClient(object):
                     self.api_data_protection_version,
                     self.api_transfers_version,
                     self.api_stored_value_version,
-                    self.api_balance_platform_version]
+                    self.api_balance_platform_version,
+                    self.api_disputes_version]
         if any(versions):
             endpoint = self._set_url_version(service, endpoint)
 
