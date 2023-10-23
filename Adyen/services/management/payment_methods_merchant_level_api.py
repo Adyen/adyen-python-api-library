@@ -11,7 +11,7 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(PaymentMethodsMerchantLevelApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def get_all_payment_methods(self, merchantId, idempotency_key=None, **kwargs):
         """

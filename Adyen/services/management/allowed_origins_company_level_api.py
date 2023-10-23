@@ -11,7 +11,7 @@ class AllowedOriginsCompanyLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AllowedOriginsCompanyLevelApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def delete_allowed_origin(self, companyId, apiCredentialId, originId, idempotency_key=None, **kwargs):
         """

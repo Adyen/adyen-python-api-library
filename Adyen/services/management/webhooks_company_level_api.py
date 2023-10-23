@@ -11,7 +11,7 @@ class WebhooksCompanyLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(WebhooksCompanyLevelApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def remove_webhook(self, companyId, webhookId, idempotency_key=None, **kwargs):
         """

@@ -11,7 +11,7 @@ class UsersMerchantLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(UsersMerchantLevelApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def list_users(self, merchantId, idempotency_key=None, **kwargs):
         """

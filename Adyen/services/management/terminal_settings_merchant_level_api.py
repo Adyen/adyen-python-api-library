@@ -11,7 +11,7 @@ class TerminalSettingsMerchantLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TerminalSettingsMerchantLevelApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def get_terminal_logo(self, merchantId, idempotency_key=None, **kwargs):
         """

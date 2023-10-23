@@ -11,7 +11,7 @@ class TerminalActionsTerminalLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TerminalActionsTerminalLevelApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def create_terminal_action(self, request, idempotency_key=None, **kwargs):
         """

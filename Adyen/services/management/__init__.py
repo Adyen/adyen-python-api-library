@@ -8,11 +8,13 @@ from .account_merchant_level_api import AccountMerchantLevelApi
 from .account_store_level_api import AccountStoreLevelApi
 from .allowed_origins_company_level_api import AllowedOriginsCompanyLevelApi
 from .allowed_origins_merchant_level_api import AllowedOriginsMerchantLevelApi
+from .android_files_company_level_api import AndroidFilesCompanyLevelApi
 from .client_key_company_level_api import ClientKeyCompanyLevelApi
 from .client_key_merchant_level_api import ClientKeyMerchantLevelApi
 from .my_api_credential_api import MyAPICredentialApi
 from .payment_methods_merchant_level_api import PaymentMethodsMerchantLevelApi
 from .payout_settings_merchant_level_api import PayoutSettingsMerchantLevelApi
+from .split_configuration_merchant_level_api import SplitConfigurationMerchantLevelApi
 from .terminal_actions_company_level_api import TerminalActionsCompanyLevelApi
 from .terminal_actions_terminal_level_api import TerminalActionsTerminalLevelApi
 from .terminal_orders_company_level_api import TerminalOrdersCompanyLevelApi
@@ -46,11 +48,13 @@ class AdyenManagementApi(AdyenServiceBase):
         self.account_store_level_api = AccountStoreLevelApi(client=client)
         self.allowed_origins_company_level_api = AllowedOriginsCompanyLevelApi(client=client)
         self.allowed_origins_merchant_level_api = AllowedOriginsMerchantLevelApi(client=client)
+        self.android_files_company_level_api = AndroidFilesCompanyLevelApi(client=client)
         self.client_key_company_level_api = ClientKeyCompanyLevelApi(client=client)
         self.client_key_merchant_level_api = ClientKeyMerchantLevelApi(client=client)
         self.my_api_credential_api = MyAPICredentialApi(client=client)
         self.payment_methods_merchant_level_api = PaymentMethodsMerchantLevelApi(client=client)
         self.payout_settings_merchant_level_api = PayoutSettingsMerchantLevelApi(client=client)
+        self.split_configuration_merchant_level_api = SplitConfigurationMerchantLevelApi(client=client)
         self.terminal_actions_company_level_api = TerminalActionsCompanyLevelApi(client=client)
         self.terminal_actions_terminal_level_api = TerminalActionsTerminalLevelApi(client=client)
         self.terminal_orders_company_level_api = TerminalOrdersCompanyLevelApi(client=client)

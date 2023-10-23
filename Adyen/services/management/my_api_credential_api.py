@@ -11,7 +11,7 @@ class MyAPICredentialApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(MyAPICredentialApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def remove_allowed_origin(self, originId, idempotency_key=None, **kwargs):
         """
@@ -52,4 +52,12 @@ class MyAPICredentialApi(AdyenServiceBase):
         endpoint = self.baseUrl + f"/me/allowedOrigins"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def generate_new_client_key_for_self(self, idempotency_key=None, **kwargs):
+        """
+        Generate new client key for self
+        """
+        endpoint = self.baseUrl + f"/me/generateClientKey"
+        method = "POST"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

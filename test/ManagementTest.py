@@ -128,7 +128,7 @@ class TestManagement(unittest.TestCase):
                                                               "_android_apps"
                                                               ".json")
         companyId = "YOUR_COMPANY_ACCOUNT"
-        result = self.adyen.management.terminal_actions_company_level_api.list_android_apps(companyId)
+        result = self.adyen.management.android_files_company_level_api.list_android_apps(companyId)
         self.assertEqual("ANDA422LZ223223K5F694GCCF732K8", result.message['androidApps'][0]['id'])
 
     def test_query_paramaters(self):
