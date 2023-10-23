@@ -11,7 +11,7 @@ class TransactionsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TransactionsApi, self).__init__(client=client)
         self.service = "transfers"
-        self.baseUrl = "https://balanceplatform-api-test.adyen.com/btl/v3"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/btl/v4"
 
     def get_all_transactions(self, idempotency_key=None, **kwargs):
         """
