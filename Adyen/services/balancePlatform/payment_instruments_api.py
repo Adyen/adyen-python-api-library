@@ -21,6 +21,14 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def list_network_tokens(self, id, idempotency_key=None, **kwargs):
+        """
+        List network tokens
+        """
+        endpoint = self.baseUrl + f"/paymentInstruments/{id}/networkTokens"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def get_pan_of_payment_instrument(self, id, idempotency_key=None, **kwargs):
         """
         Get the PAN of a payment instrument

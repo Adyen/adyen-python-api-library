@@ -4,10 +4,12 @@ from .balance_accounts_api import BalanceAccountsApi
 from .bank_account_validation_api import BankAccountValidationApi
 from .grant_accounts_api import GrantAccountsApi
 from .grant_offers_api import GrantOffersApi
+from .network_tokens_api import NetworkTokensApi
 from .payment_instrument_groups_api import PaymentInstrumentGroupsApi
 from .payment_instruments_api import PaymentInstrumentsApi
 from .platform_api import PlatformApi
 from .transaction_rules_api import TransactionRulesApi
+from .transfer_routes_api import TransferRoutesApi
 
 
 class AdyenBalancePlatformApi(AdyenServiceBase):
@@ -24,7 +26,9 @@ class AdyenBalancePlatformApi(AdyenServiceBase):
         self.bank_account_validation_api = BankAccountValidationApi(client=client)
         self.grant_accounts_api = GrantAccountsApi(client=client)
         self.grant_offers_api = GrantOffersApi(client=client)
+        self.network_tokens_api = NetworkTokensApi(client=client)
         self.payment_instrument_groups_api = PaymentInstrumentGroupsApi(client=client)
         self.payment_instruments_api = PaymentInstrumentsApi(client=client)
         self.platform_api = PlatformApi(client=client)
         self.transaction_rules_api = TransactionRulesApi(client=client)
+        self.transfer_routes_api = TransferRoutesApi(client=client)
