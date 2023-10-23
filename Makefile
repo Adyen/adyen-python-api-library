@@ -27,14 +27,14 @@ terminal: spec=TfmAPIService-v1
 payments: spec=PaymentService-v68
 recurring: spec=RecurringService-v68
 payouts: spec=PayoutService-v68
-management: spec=ManagementService-v1
+management: spec=ManagementService-v3
 legalEntityManagement: spec=LegalEntityService-v3
 balancePlatform: spec=BalancePlatformService-v2
 platformsAccount: spec=AccountService-v6
 platformsFund: spec=FundService-v6
 platformsNotificationConfiguration: spec=NotificationConfigurationService-v6
 platformsHostedOnboardingPage: spec=HopService-v6
-transfers: spec=TransferService-v3
+transfers: spec=TransferService-v4
 balanceControlService: spec=BalanceControlService-v1
 disputes: spec=DisputeService-v30
 

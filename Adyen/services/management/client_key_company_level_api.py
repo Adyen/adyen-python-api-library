@@ -11,7 +11,7 @@ class ClientKeyCompanyLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(ClientKeyCompanyLevelApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def generate_new_client_key(self, companyId, apiCredentialId, idempotency_key=None, **kwargs):
         """

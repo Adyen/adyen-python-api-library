@@ -11,7 +11,7 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TerminalOrdersMerchantLevelApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def list_billing_entities(self, merchantId, idempotency_key=None, **kwargs):
         """

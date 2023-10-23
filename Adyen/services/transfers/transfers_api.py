@@ -11,13 +11,21 @@ class TransfersApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TransfersApi, self).__init__(client=client)
         self.service = "transfers"
-        self.baseUrl = "https://balanceplatform-api-test.adyen.com/btl/v3"
+        self.baseUrl = "https://balanceplatform-api-test.adyen.com/btl/v4"
 
     def transfer_funds(self, request, idempotency_key=None, **kwargs):
         """
         Transfer funds
         """
         endpoint = self.baseUrl + f"/transfers"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def return_transfer(self, request, id, idempotency_key=None, **kwargs):
+        """
+        Return a transfer
+        """
+        endpoint = self.baseUrl + f"/transfers/{id}/returns"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

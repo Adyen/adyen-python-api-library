@@ -11,7 +11,7 @@ class AccountCompanyLevelApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AccountCompanyLevelApi, self).__init__(client=client)
         self.service = "management"
-        self.baseUrl = "https://management-test.adyen.com/v1"
+        self.baseUrl = "https://management-test.adyen.com/v3"
 
     def list_company_accounts(self, idempotency_key=None, **kwargs):
         """

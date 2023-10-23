@@ -1,6 +1,6 @@
 from ..base import AdyenServiceBase
-from .general_api import GeneralApi
 from .modifications_api import ModificationsApi
+from .payments_api import PaymentsApi
 
 
 class AdyenPaymentsApi(AdyenServiceBase):
@@ -12,5 +12,5 @@ class AdyenPaymentsApi(AdyenServiceBase):
 
     def __init__(self, client=None):
         super(AdyenPaymentsApi, self).__init__(client=client)
-        self.general_api = GeneralApi(client=client)
         self.modifications_api = ModificationsApi(client=client)
+        self.payments_api = PaymentsApi(client=client)
