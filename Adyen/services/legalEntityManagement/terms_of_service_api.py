@@ -21,6 +21,14 @@ class TermsOfServiceApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def get_terms_of_service_status(self, id, idempotency_key=None, **kwargs):
+        """
+        Get Terms of Service status
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceStatus"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def accept_terms_of_service(self, request, id, termsofservicedocumentid, idempotency_key=None, **kwargs):
         """
         Accept Terms of Service

@@ -13,6 +13,14 @@ class PaymentsApi(AdyenServiceBase):
         self.service = "checkout"
         self.baseUrl = "https://checkout-test.adyen.com/v70"
 
+    def get_result_of_payment_session(self, sessionId, idempotency_key=None, **kwargs):
+        """
+        Get the result of a payment session
+        """
+        endpoint = self.baseUrl + f"/sessions/{sessionId}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def card_details(self, request, idempotency_key=None, **kwargs):
         """
         Get the list of brands on the card
