@@ -20,7 +20,7 @@ smallServices:=binlookup dataProtection recurring storedValue terminal disputes
 all: $(services) $(smallServices)
 
 binlookup: spec=BinLookupService-v52
-checkout: spec=CheckoutService-v70
+checkout: spec=CheckoutService-v71
 dataProtection: spec=DataProtectionService-v1
 storedValue: spec=StoredValueService-v46
 terminal: spec=TfmAPIService-v1

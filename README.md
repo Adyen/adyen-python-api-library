@@ -11,7 +11,7 @@ This is the officially supported Python library for using Adyen's APIs.
 |-------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|-------------------| 
 | [BIN lookup API](https://docs.adyen.com/api-explorer/BinLookup/52/overview)               | The BIN Lookup API provides endpoints for retrieving information based on a given BIN.                                                                                                                                                                                                                                                  | binLookup             | **v52**           |
 | [Balance Platform API](https://docs.adyen.com/api-explorer/balanceplatform/2/overview)    | The Balance Platform API enables you to create a platform where you can onboard your users as account holders and create balance accounts, cards, and business accounts.                                                                                                                                                                | balancePlatform       | **v2**            |
-| [Checkout API](https://docs.adyen.com/api-explorer/Checkout/70/overview)                  | Our latest integration for accepting online payments.                                                                                                                                                                                                                                                                                   | checkout              | **v70**           |
+| [Checkout API](https://docs.adyen.com/api-explorer/Checkout/71/overview)                  | Our latest integration for accepting online payments.                                                                                                                                                                                                                                                                                   | checkout              | **v71**           |
 | [Data Protection API](https://docs.adyen.com/development-resources/data-protection-api)   | Endpoint for requesting data erasure.                                                                                                                                                                                                                                                                                                   | dataProtection        | **v1**            |
 | [Legal Entity Management API](https://docs.adyen.com/api-explorer/legalentity/3/overview) | Endpoint to manage legal entities                                                                                                                                                                                                                                                                                                       | legalEntityManagement | **v3**            |
 | [Management API](https://docs.adyen.com/api-explorer/Management/3/overview)               | Configure and manage your Adyen company and merchant accounts, stores, and payment terminals.                                                                                                                                                                                                                                           | management            | **v3**            |
@@ -25,19 +25,14 @@ This is the officially supported Python library for using Adyen's APIs.
 
 For more information, refer to our [documentation](https://docs.adyen.com/) or the [API Explorer](https://docs.adyen.com/api-explorer/).
 
-
-
- 
- 
 ## Prerequisites
  
 -   [Adyen test account](https://docs.adyen.com/get-started-with-adyen)
 -   [API key](https://docs.adyen.com/development-resources/api-credentials#generate-api-key). For testing, your API credential needs to have the [API PCI Payments role](https://docs.adyen.com/development-resources/api-credentials#roles).
 - Python 3.6 or higher
 - Packages (optional): requests or pycurl  
- 
 
- ## Installation
+## Installation
 
 ### For development purposes
 
