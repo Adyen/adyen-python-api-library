@@ -53,9 +53,9 @@ class MyAPICredentialApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def generate_new_client_key_for_self(self, idempotency_key=None, **kwargs):
+    def generate_client_key(self, idempotency_key=None, **kwargs):
         """
-        Generate new client key for self
+        Generate a client key
         """
         endpoint = self.baseUrl + f"/me/generateClientKey"
         method = "POST"
