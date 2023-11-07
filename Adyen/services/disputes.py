@@ -37,14 +37,6 @@ class AdyenDisputesApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def download_dispute_defense_document(self, request, idempotency_key=None, **kwargs):
-        """
-        Download a defense document
-        """
-        endpoint = self.baseUrl + f"/downloadDisputeDefenseDocument"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def retrieve_applicable_defense_reasons(self, request, idempotency_key=None, **kwargs):
         """
         Get applicable defense reasons

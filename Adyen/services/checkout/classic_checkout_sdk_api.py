@@ -11,7 +11,7 @@ class ClassicCheckoutSDKApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(ClassicCheckoutSDKApi, self).__init__(client=client)
         self.service = "checkout"
-        self.baseUrl = "https://checkout-test.adyen.com/v70"
+        self.baseUrl = "https://checkout-test.adyen.com/v71"
 
     def payment_session(self, request, idempotency_key=None, **kwargs):
         """
