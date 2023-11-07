@@ -11,7 +11,7 @@ class PaymentsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(PaymentsApi, self).__init__(client=client)
         self.service = "checkout"
-        self.baseUrl = "https://checkout-test.adyen.com/v70"
+        self.baseUrl = "https://checkout-test.adyen.com/v71"
 
     def get_result_of_payment_session(self, sessionId, idempotency_key=None, **kwargs):
         """
