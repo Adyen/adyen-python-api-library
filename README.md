@@ -186,7 +186,7 @@ We value your input! Help us enhance our API Libraries and improve the integrati
  
 We encourage you to contribute to this repository, so everyone can benefit from new features, bug fixes, and any other improvements.
  
-Have a look at our [contributing guidelines](https://github.com/Adyen/adyen-python-api-library/blob/develop/CONTRIBUTING.md) to find out how to raise a pull request.
+Have a look at our [contributing guidelines](CONTRIBUTING.md) to find out how to raise a pull request.
  
 ## Support
 
@@ -196,7 +196,7 @@ For other questions, [contact our Support Team](https://www.adyen.help/hc/en-us/
  
 ## Licence
 
-This repository is available under the [MIT license](https://github.com/Adyen/adyen-python-api-library/blob/main/LICENSE.md).
+This repository is available under the [MIT license](LICENSE.md).
  
 ## See also
 
