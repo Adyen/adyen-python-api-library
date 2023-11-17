@@ -1,5 +1,3 @@
-#!/bin/python
-
 from __future__ import absolute_import, division, unicode_literals
 
 try:
@@ -48,7 +46,6 @@ class HTTPClient(object):
                 self.request = self._urllib_request
 
         self.timeout = timeout
-
 
     def _pycurl_request(
             self,

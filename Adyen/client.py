@@ -1,5 +1,3 @@
-#!/bin/python
-
 from __future__ import absolute_import, division, unicode_literals
 
 import json as json_lib
@@ -266,18 +264,18 @@ class AdyenClient(object):
 
     def _set_url_version(self, service, endpoint):
         version_lookup = {"binlookup": self.api_bin_lookup_version,
-                   "checkout": self.api_checkout_version,
-                   "management": self.api_management_version,
-                   "payments": self.api_payment_version,
-                   "payouts": self.api_payout_version,
-                   "recurring": self.api_recurring_version,
-                   "terminal": self.api_terminal_version,
-                   "legalEntityManagement": self.api_legal_entity_management_version,
-                   "dataProtection": self.api_data_protection_version,
-                   "transfers": self.api_transfers_version,
-                   "storedValue": self.api_stored_value_version,
-                   "balancePlatform": self.api_balance_platform_version,
-                   "disputes": self.api_disputes_version
+                          "checkout": self.api_checkout_version,
+                          "management": self.api_management_version,
+                          "payments": self.api_payment_version,
+                          "payouts": self.api_payout_version,
+                          "recurring": self.api_recurring_version,
+                          "terminal": self.api_terminal_version,
+                          "legalEntityManagement": self.api_legal_entity_management_version,
+                          "dataProtection": self.api_data_protection_version,
+                          "transfers": self.api_transfers_version,
+                          "storedValue": self.api_stored_value_version,
+                          "balancePlatform": self.api_balance_platform_version,
+                          "disputes": self.api_disputes_version
                           }
 
         new_version = f"v{version_lookup[service]}"
@@ -383,7 +381,7 @@ class AdyenClient(object):
     def _handle_response(self, url, raw_response, raw_request,
                          status_code, headers):
         """This parses the content from raw communication, raising an error if
-        anything other than 200 was returned.
+        anything other than 2xx was returned.
 
         Args:
             url (str): URL where request was made
@@ -391,58 +389,31 @@ class AdyenClient(object):
             raw_request (str): The raw response returned by Adyen
             status_code (int): The HTTP status code
             headers (dict): Key/Value of the headers.
-            request_dict (dict): The original request dictionary that was given
-                to the HTTPClient.
 
         Returns:
             AdyenResult: Result object if successful.
         """
 
-        if status_code not in [200, 201, 204]:
+        try:
+            response = json_lib.loads(raw_response)
+        except json_lib.JSONDecodeError:
             response = {}
-            # If the result can't be parsed into json, most likely is raw html.
-            # Some response are neither json or raw html, handle them here:
-            if raw_response:
-                response = json_lib.loads(raw_response)
-            # Pass raised error to error handler.
-            self._handle_http_error(url, response, status_code,
-                                    headers.get('pspReference'),
-                                    raw_request, raw_response,
-                                    headers)
 
-            try:
-                if response['errorCode']:
-                    raise AdyenAPICommunicationError(
-                        "Unexpected error while communicating with Adyen."
-                        " Received the response data:'{}', HTTP Code:'{}'. "
-                        "Please reach out to support@adyen.com if the "
-                        "problem persists with the psp:{}".format(
-                            raw_response,
-                            status_code,
-                            headers.get('pspReference')),
-                        status_code=status_code,
-                        raw_request=raw_request,
-                        raw_response=raw_response,
-                        url=url,
-                        psp=headers.get('pspReference'),
-                        headers=headers,
-                        error_code=response['errorCode'])
-            except KeyError:
-                erstr = 'KeyError: errorCode'
-                raise AdyenAPICommunicationError(erstr)
+        if status_code not in [200, 201, 204]:
+            self._raise_http_error(url, response, status_code,
+                                   headers.get('pspReference'),
+                                   raw_request, raw_response,
+                                   headers)
         else:
-            if status_code != 204:
-                response = json_lib.loads(raw_response)
-            else:
-                response = {}
             psp = self._get_psp(response, headers)
             return AdyenResult(message=response, status_code=status_code,
                                psp=psp, raw_request=raw_request,
                                raw_response=raw_response)
 
-    def _handle_http_error(self, url, response_obj, status_code, psp_ref,
-                           raw_request, raw_response, headers):
-        """This function handles the non 200 responses from Adyen, raising an
+    @staticmethod
+    def _raise_http_error(url, response_obj, status_code, psp_ref,
+                          raw_request, raw_response, headers):
+        """This function handles the non 2xx responses from Adyen, raising an
         error that should provide more information.
 
         Args:
@@ -456,7 +427,7 @@ class AdyenClient(object):
             headers(dict): headers of the response
 
         Returns:
-            None
+            None: It never returns
         """
 
         if response_obj == {}:
@@ -484,9 +455,9 @@ class AdyenClient(object):
         elif status_code == 500:
             raise AdyenAPICommunicationError(message, raw_request, raw_response, url, psp_ref, headers, status_code,
                                              error_code)
-        else:
-            raise AdyenAPIResponseError(message, raw_request, raw_response, url, psp_ref, headers, status_code,
-                                        error_code)
+
+        raise AdyenAPIResponseError(message, raw_request, raw_response, url, psp_ref, headers, status_code,
+                                    error_code)
 
     @staticmethod
     def _get_psp(response, headers):
