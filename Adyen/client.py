@@ -399,7 +399,7 @@ class AdyenClient(object):
         except json_lib.JSONDecodeError:
             response = {}
 
-        if status_code not in [200, 201, 204]:
+        if status_code not in [200, 201, 202, 204]:
             self._raise_http_error(url, response, status_code,
                                    headers.get('pspReference'),
                                    raw_request, raw_response,
