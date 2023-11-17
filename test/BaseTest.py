@@ -7,7 +7,7 @@ import json
 from Adyen import httpclient
 
 
-class BaseTest():
+class BaseTest:
     def __init__(self, adyen):
         self.ady = adyen
 

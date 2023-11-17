@@ -1,5 +1,6 @@
-import Adyen
 import unittest
+
+import Adyen
 from Adyen import settings
 
 try:
@@ -8,7 +9,7 @@ except ImportError:
     from .BaseTest import BaseTest
 
 
-class TestManagement(unittest.TestCase):
+class TestBalancePlatform(unittest.TestCase):
     adyen = Adyen.Adyen()
 
     client = adyen.client
@@ -115,5 +116,24 @@ class TestManagement(unittest.TestCase):
             f'transactionRules/{transactionRuleId}',
             headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
             json=None,
+            xapikey="YourXapikey"
+        )
+
+    def test_update_network_token(self):
+        request = {
+            "status": "closed"
+        }
+        self.adyen.client = self.test.create_client_from_file(202, request)
+
+        result = self.adyen.balancePlatform.network_tokens_api.update_network_token(request, 'TK123ABC')
+
+        self.assertEqual(202, result.status_code)
+        self.assertEqual({}, result.message)
+        self.assertEqual("", result.raw_response)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'PATCH',
+            f'{self.balance_platform_url}/networkTokens/TK123ABC',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            json=request,
             xapikey="YourXapikey"
         )
