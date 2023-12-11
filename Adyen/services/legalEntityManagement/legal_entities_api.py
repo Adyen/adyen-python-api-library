@@ -53,3 +53,11 @@ class LegalEntitiesApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def confirm_data_review(self, id, idempotency_key=None, **kwargs):
+        """
+        Confirm data review
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}/confirmDataReview"
+        method = "POST"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
