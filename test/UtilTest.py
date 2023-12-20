@@ -108,3 +108,28 @@ class UtilTest(unittest.TestCase):
             json=request,
             xapikey="YourXapikey"
         )
+
+    def test_is_valid_hmac_notification_removes_additional_data(self):
+        notification = {
+                            "live":"false",
+                            "notificationItems":[
+                                {
+                                    "NotificationRequestItem":{
+                                        "additionalData":{
+                                        "hmacSignature":"11aa",
+                                        "fraudResultType":"GREEN",
+                                        "fraudManualReview": "false",
+                                        "totalFraudScore":"75"
+                                        },
+                                        "amount":{
+                                        "currency":"USD",
+                                        "value":10000
+                                        },
+                                        "success":"true"
+                                        
+                                    }
+                                }
+                            ]}
+        is_valid_hmac_notification(notification, "11aa")
+        self.assertIsNotNone(notification['notificationItems'][0]['NotificationRequestItem']['additionalData'])
+    

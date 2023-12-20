@@ -4,6 +4,8 @@ import base64
 import hmac
 import hashlib
 import binascii
+import copy
+
 
 
 def generate_notification_sig(dict_object, hmac_key):
@@ -35,7 +37,7 @@ def generate_notification_sig(dict_object, hmac_key):
 
 
 def is_valid_hmac_notification(dict_object, hmac_key):
-    dict_object = dict_object.copy()
+    dict_object = copy.deepcopy(dict_object) 
 
     if 'notificationItems' in dict_object:
         dict_object = dict_object['notificationItems'][0]['NotificationRequestItem']
@@ -45,7 +47,8 @@ def is_valid_hmac_notification(dict_object, hmac_key):
             raise ValueError("Must Provide hmacSignature in additionalData")
         else:
             expected_sign = dict_object['additionalData']['hmacSignature']
-            del dict_object['additionalData']
+            if 'additionalData' in dict_object:
+                del dict_object['additionalData']
             merchant_sign = generate_notification_sig(dict_object, hmac_key)
             merchant_sign_str = merchant_sign.decode("utf-8")
             return hmac.compare_digest(merchant_sign_str, expected_sign)
