@@ -4,6 +4,8 @@ import base64
 import hmac
 import hashlib
 import binascii
+import copy
+
 
 
 def generate_notification_sig(dict_object, hmac_key):
@@ -35,7 +37,7 @@ def generate_notification_sig(dict_object, hmac_key):
 
 
 def is_valid_hmac_notification(dict_object, hmac_key):
-    dict_object = dict_object.copy()
+    dict_object = copy.deepcopy(dict_object) 
 
     if 'notificationItems' in dict_object:
         dict_object = dict_object['notificationItems'][0]['NotificationRequestItem']
