@@ -13,13 +13,13 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         self.service = "legalEntityManagement"
         self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
-    def get_pci_questionnaire_details(self, id, idempotency_key=None, **kwargs):
+    def generate_pci_questionnaire(self, request, id, idempotency_key=None, **kwargs):
         """
-        Get PCI questionnaire details
+        Generate PCI questionnaire
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/generatePciTemplates"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_pci_questionnaire(self, id, pciid, idempotency_key=None, **kwargs):
         """
@@ -29,13 +29,13 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def generate_pci_questionnaire(self, request, id, idempotency_key=None, **kwargs):
+    def get_pci_questionnaire_details(self, id, idempotency_key=None, **kwargs):
         """
-        Generate PCI questionnaire
+        Get PCI questionnaire details
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/generatePciTemplates"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def sign_pci_questionnaire(self, request, id, idempotency_key=None, **kwargs):
         """

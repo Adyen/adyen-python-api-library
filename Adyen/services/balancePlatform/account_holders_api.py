@@ -13,6 +13,14 @@ class AccountHoldersApi(AdyenServiceBase):
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
+    def create_account_holder(self, request, idempotency_key=None, **kwargs):
+        """
+        Create an account holder
+        """
+        endpoint = self.baseUrl + f"/accountHolders"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def get_account_holder(self, id, idempotency_key=None, **kwargs):
         """
         Get an account holder
@@ -43,13 +51,5 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/accountHolders/{id}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def create_account_holder(self, request, idempotency_key=None, **kwargs):
-        """
-        Create an account holder
-        """
-        endpoint = self.baseUrl + f"/accountHolders"
-        method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

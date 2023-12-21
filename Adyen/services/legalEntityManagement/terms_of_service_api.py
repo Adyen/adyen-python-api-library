@@ -13,22 +13,6 @@ class TermsOfServiceApi(AdyenServiceBase):
         self.service = "legalEntityManagement"
         self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
-    def get_terms_of_service_information_for_legal_entity(self, id, idempotency_key=None, **kwargs):
-        """
-        Get Terms of Service information for a legal entity
-        """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceAcceptanceInfos"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def get_terms_of_service_status(self, id, idempotency_key=None, **kwargs):
-        """
-        Get Terms of Service status
-        """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceStatus"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def accept_terms_of_service(self, request, id, termsofservicedocumentid, idempotency_key=None, **kwargs):
         """
         Accept Terms of Service
@@ -44,4 +28,20 @@ class TermsOfServiceApi(AdyenServiceBase):
         endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfService"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def get_terms_of_service_information_for_legal_entity(self, id, idempotency_key=None, **kwargs):
+        """
+        Get Terms of Service information for a legal entity
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceAcceptanceInfos"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def get_terms_of_service_status(self, id, idempotency_key=None, **kwargs):
+        """
+        Get Terms of Service status
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceStatus"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

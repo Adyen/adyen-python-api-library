@@ -13,11 +13,51 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
+    def cancel_order(self, merchantId, orderId, idempotency_key=None, **kwargs):
+        """
+        Cancel an order
+        """
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders/{orderId}/cancel"
+        method = "POST"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def create_order(self, request, merchantId, idempotency_key=None, **kwargs):
+        """
+        Create an order
+        """
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def create_shipping_location(self, request, merchantId, idempotency_key=None, **kwargs):
+        """
+        Create a shipping location
+        """
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/shippingLocations"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def get_order(self, merchantId, orderId, idempotency_key=None, **kwargs):
+        """
+        Get an order
+        """
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders/{orderId}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def list_billing_entities(self, merchantId, idempotency_key=None, **kwargs):
         """
         Get a list of billing entities
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/billingEntities"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def list_orders(self, merchantId, idempotency_key=None, **kwargs):
+        """
+        Get a list of orders
+        """
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -37,22 +77,6 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def list_orders(self, merchantId, idempotency_key=None, **kwargs):
-        """
-        Get a list of orders
-        """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def get_order(self, merchantId, orderId, idempotency_key=None, **kwargs):
-        """
-        Get an order
-        """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders/{orderId}"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def list_terminal_products(self, merchantId, idempotency_key=None, **kwargs):
         """
         Get a list of terminal products
@@ -68,28 +92,4 @@ class TerminalOrdersMerchantLevelApi(AdyenServiceBase):
         endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders/{orderId}"
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def create_shipping_location(self, request, merchantId, idempotency_key=None, **kwargs):
-        """
-        Create a shipping location
-        """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/shippingLocations"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def create_order(self, request, merchantId, idempotency_key=None, **kwargs):
-        """
-        Create an order
-        """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def cancel_order(self, merchantId, orderId, idempotency_key=None, **kwargs):
-        """
-        Cancel an order
-        """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalOrders/{orderId}/cancel"
-        method = "POST"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
