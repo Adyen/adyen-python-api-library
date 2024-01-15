@@ -13,19 +13,19 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
-    def list_android_apps(self, companyId, idempotency_key=None, **kwargs):
-        """
-        Get a list of Android apps
-        """
-        endpoint = self.baseUrl + f"/companies/{companyId}/androidApps"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def get_android_app(self, companyId, id, idempotency_key=None, **kwargs):
         """
         Get Android app
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/androidApps/{id}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def list_android_apps(self, companyId, idempotency_key=None, **kwargs):
+        """
+        Get a list of Android apps
+        """
+        endpoint = self.baseUrl + f"/companies/{companyId}/androidApps"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 

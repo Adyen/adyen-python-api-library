@@ -13,13 +13,13 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
-    def list_users(self, companyId, idempotency_key=None, **kwargs):
+    def create_new_user(self, request, companyId, idempotency_key=None, **kwargs):
         """
-        Get a list of users
+        Create a new user
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/users"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_user_details(self, companyId, userId, idempotency_key=None, **kwargs):
         """
@@ -29,19 +29,19 @@ class UsersCompanyLevelApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def list_users(self, companyId, idempotency_key=None, **kwargs):
+        """
+        Get a list of users
+        """
+        endpoint = self.baseUrl + f"/companies/{companyId}/users"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def update_user_details(self, request, companyId, userId, idempotency_key=None, **kwargs):
         """
         Update user details
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/users/{userId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def create_new_user(self, request, companyId, idempotency_key=None, **kwargs):
-        """
-        Create a new user
-        """
-        endpoint = self.baseUrl + f"/companies/{companyId}/users"
-        method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

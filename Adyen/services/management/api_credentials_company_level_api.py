@@ -13,13 +13,13 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
-    def list_api_credentials(self, companyId, idempotency_key=None, **kwargs):
+    def create_api_credential(self, request, companyId, idempotency_key=None, **kwargs):
         """
-        Get a list of API credentials
+        Create an API credential.
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_api_credential(self, companyId, apiCredentialId, idempotency_key=None, **kwargs):
         """
@@ -29,19 +29,19 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def list_api_credentials(self, companyId, idempotency_key=None, **kwargs):
+        """
+        Get a list of API credentials
+        """
+        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def update_api_credential(self, request, companyId, apiCredentialId, idempotency_key=None, **kwargs):
         """
         Update an API credential.
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials/{apiCredentialId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def create_api_credential(self, request, companyId, idempotency_key=None, **kwargs):
-        """
-        Create an API credential.
-        """
-        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials"
-        method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

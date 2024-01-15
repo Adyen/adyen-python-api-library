@@ -13,6 +13,30 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
+    def create_payment_instrument(self, request, idempotency_key=None, **kwargs):
+        """
+        Create a payment instrument
+        """
+        endpoint = self.baseUrl + f"/paymentInstruments"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def get_all_transaction_rules_for_payment_instrument(self, id, idempotency_key=None, **kwargs):
+        """
+        Get all transaction rules for a payment instrument
+        """
+        endpoint = self.baseUrl + f"/paymentInstruments/{id}/transactionRules"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def get_pan_of_payment_instrument(self, id, idempotency_key=None, **kwargs):
+        """
+        Get the PAN of a payment instrument
+        """
+        endpoint = self.baseUrl + f"/paymentInstruments/{id}/reveal"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def get_payment_instrument(self, id, idempotency_key=None, **kwargs):
         """
         Get a payment instrument
@@ -29,35 +53,11 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_pan_of_payment_instrument(self, id, idempotency_key=None, **kwargs):
-        """
-        Get the PAN of a payment instrument
-        """
-        endpoint = self.baseUrl + f"/paymentInstruments/{id}/reveal"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def get_all_transaction_rules_for_payment_instrument(self, id, idempotency_key=None, **kwargs):
-        """
-        Get all transaction rules for a payment instrument
-        """
-        endpoint = self.baseUrl + f"/paymentInstruments/{id}/transactionRules"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def update_payment_instrument(self, request, id, idempotency_key=None, **kwargs):
         """
         Update a payment instrument
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{id}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def create_payment_instrument(self, request, idempotency_key=None, **kwargs):
-        """
-        Create a payment instrument
-        """
-        endpoint = self.baseUrl + f"/paymentInstruments"
-        method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

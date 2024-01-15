@@ -13,19 +13,19 @@ class AccountCompanyLevelApi(AdyenServiceBase):
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
-    def list_company_accounts(self, idempotency_key=None, **kwargs):
-        """
-        Get a list of company accounts
-        """
-        endpoint = self.baseUrl + f"/companies"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def get_company_account(self, companyId, idempotency_key=None, **kwargs):
         """
         Get a company account
         """
         endpoint = self.baseUrl + f"/companies/{companyId}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def list_company_accounts(self, idempotency_key=None, **kwargs):
+        """
+        Get a list of company accounts
+        """
+        endpoint = self.baseUrl + f"/companies"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
