@@ -13,35 +13,19 @@ class AccountStoreLevelApi(AdyenServiceBase):
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
-    def create_store(self, request, idempotency_key=None, **kwargs):
+    def list_stores_by_merchant_id(self, merchantId, idempotency_key=None, **kwargs):
         """
-        Create a store
-        """
-        endpoint = self.baseUrl + f"/stores"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def create_store_by_merchant_id(self, request, merchantId, idempotency_key=None, **kwargs):
-        """
-        Create a store
+        Get a list of stores
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/stores"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_store(self, merchantId, storeId, idempotency_key=None, **kwargs):
         """
         Get a store
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def get_store_by_id(self, storeId, idempotency_key=None, **kwargs):
-        """
-        Get a store
-        """
-        endpoint = self.baseUrl + f"/stores/{storeId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -53,11 +37,11 @@ class AccountStoreLevelApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def list_stores_by_merchant_id(self, merchantId, idempotency_key=None, **kwargs):
+    def get_store_by_id(self, storeId, idempotency_key=None, **kwargs):
         """
-        Get a list of stores
+        Get a store
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores"
+        endpoint = self.baseUrl + f"/stores/{storeId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
@@ -75,5 +59,21 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/stores/{storeId}"
         method = "PATCH"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def create_store_by_merchant_id(self, request, merchantId, idempotency_key=None, **kwargs):
+        """
+        Create a store
+        """
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def create_store(self, request, idempotency_key=None, **kwargs):
+        """
+        Create a store
+        """
+        endpoint = self.baseUrl + f"/stores"
+        method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

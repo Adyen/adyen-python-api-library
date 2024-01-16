@@ -13,14 +13,6 @@ class TransactionRulesApi(AdyenServiceBase):
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
-    def create_transaction_rule(self, request, idempotency_key=None, **kwargs):
-        """
-        Create a transaction rule
-        """
-        endpoint = self.baseUrl + f"/transactionRules"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def delete_transaction_rule(self, transactionRuleId, idempotency_key=None, **kwargs):
         """
         Delete a transaction rule
@@ -43,5 +35,13 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
         method = "PATCH"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def create_transaction_rule(self, request, idempotency_key=None, **kwargs):
+        """
+        Create a transaction rule
+        """
+        endpoint = self.baseUrl + f"/transactionRules"
+        method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

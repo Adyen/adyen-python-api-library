@@ -13,13 +13,13 @@ class PaymentInstrumentGroupsApi(AdyenServiceBase):
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
-    def create_payment_instrument_group(self, request, idempotency_key=None, **kwargs):
+    def get_payment_instrument_group(self, id, idempotency_key=None, **kwargs):
         """
-        Create a payment instrument group
+        Get a payment instrument group
         """
-        endpoint = self.baseUrl + f"/paymentInstrumentGroups"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        endpoint = self.baseUrl + f"/paymentInstrumentGroups/{id}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_all_transaction_rules_for_payment_instrument_group(self, id, idempotency_key=None, **kwargs):
         """
@@ -29,11 +29,11 @@ class PaymentInstrumentGroupsApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_payment_instrument_group(self, id, idempotency_key=None, **kwargs):
+    def create_payment_instrument_group(self, request, idempotency_key=None, **kwargs):
         """
-        Get a payment instrument group
+        Create a payment instrument group
         """
-        endpoint = self.baseUrl + f"/paymentInstrumentGroups/{id}"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        endpoint = self.baseUrl + f"/paymentInstrumentGroups"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

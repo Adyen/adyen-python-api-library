@@ -11,7 +11,7 @@ class AdyenBinlookupApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(AdyenBinlookupApi, self).__init__(client=client)
         self.service = "binlookup"
-        self.baseUrl = "https://pal-test.adyen.com/pal/servlet/BinLookup/v54"
+        self.baseUrl = "https://pal-test.adyen.com/pal/servlet/BinLookup/v52"
 
     def get3ds_availability(self, request, idempotency_key=None, **kwargs):
         """

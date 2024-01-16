@@ -13,14 +13,6 @@ class BusinessLinesApi(AdyenServiceBase):
         self.service = "legalEntityManagement"
         self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
-    def create_business_line(self, request, idempotency_key=None, **kwargs):
-        """
-        Create a business line
-        """
-        endpoint = self.baseUrl + f"/businessLines"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def delete_business_line(self, id, idempotency_key=None, **kwargs):
         """
         Delete a business line
@@ -43,5 +35,13 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/businessLines/{id}"
         method = "PATCH"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def create_business_line(self, request, idempotency_key=None, **kwargs):
+        """
+        Create a business line
+        """
+        endpoint = self.baseUrl + f"/businessLines"
+        method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

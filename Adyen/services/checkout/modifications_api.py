@@ -21,6 +21,14 @@ class ModificationsApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def update_authorised_amount(self, request, paymentPspReference, idempotency_key=None, **kwargs):
+        """
+        Update an authorised amount
+        """
+        endpoint = self.baseUrl + f"/payments/{paymentPspReference}/amountUpdates"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def cancel_authorised_payment_by_psp_reference(self, request, paymentPspReference, idempotency_key=None, **kwargs):
         """
         Cancel an authorised payment
@@ -50,14 +58,6 @@ class ModificationsApi(AdyenServiceBase):
         Refund or cancel a payment
         """
         endpoint = self.baseUrl + f"/payments/{paymentPspReference}/reversals"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def update_authorised_amount(self, request, paymentPspReference, idempotency_key=None, **kwargs):
-        """
-        Update an authorised amount
-        """
-        endpoint = self.baseUrl + f"/payments/{paymentPspReference}/amountUpdates"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

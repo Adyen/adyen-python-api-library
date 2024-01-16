@@ -13,6 +13,38 @@ class LegalEntitiesApi(AdyenServiceBase):
         self.service = "legalEntityManagement"
         self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
+    def get_legal_entity(self, id, idempotency_key=None, **kwargs):
+        """
+        Get a legal entity
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def get_all_business_lines_under_legal_entity(self, id, idempotency_key=None, **kwargs):
+        """
+        Get all business lines under a legal entity
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}/businessLines"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def update_legal_entity(self, request, id, idempotency_key=None, **kwargs):
+        """
+        Update a legal entity
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}"
+        method = "PATCH"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def create_legal_entity(self, request, idempotency_key=None, **kwargs):
+        """
+        Create a legal entity
+        """
+        endpoint = self.baseUrl + f"/legalEntities"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def check_legal_entitys_verification_errors(self, id, idempotency_key=None, **kwargs):
         """
         Check a legal entity's verification errors
@@ -28,36 +60,4 @@ class LegalEntitiesApi(AdyenServiceBase):
         endpoint = self.baseUrl + f"/legalEntities/{id}/confirmDataReview"
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def create_legal_entity(self, request, idempotency_key=None, **kwargs):
-        """
-        Create a legal entity
-        """
-        endpoint = self.baseUrl + f"/legalEntities"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def get_all_business_lines_under_legal_entity(self, id, idempotency_key=None, **kwargs):
-        """
-        Get all business lines under a legal entity
-        """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/businessLines"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def get_legal_entity(self, id, idempotency_key=None, **kwargs):
-        """
-        Get a legal entity
-        """
-        endpoint = self.baseUrl + f"/legalEntities/{id}"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def update_legal_entity(self, request, id, idempotency_key=None, **kwargs):
-        """
-        Update a legal entity
-        """
-        endpoint = self.baseUrl + f"/legalEntities/{id}"
-        method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 

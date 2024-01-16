@@ -13,13 +13,13 @@ class AccountMerchantLevelApi(AdyenServiceBase):
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
-    def create_merchant_account(self, request, idempotency_key=None, **kwargs):
+    def list_merchant_accounts(self, idempotency_key=None, **kwargs):
         """
-        Create a merchant account
+        Get a list of merchant accounts
         """
         endpoint = self.baseUrl + f"/merchants"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_merchant_account(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -29,13 +29,13 @@ class AccountMerchantLevelApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def list_merchant_accounts(self, idempotency_key=None, **kwargs):
+    def create_merchant_account(self, request, idempotency_key=None, **kwargs):
         """
-        Get a list of merchant accounts
+        Create a merchant account
         """
         endpoint = self.baseUrl + f"/merchants"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def request_to_activate_merchant_account(self, merchantId, idempotency_key=None, **kwargs):
         """

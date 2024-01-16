@@ -13,14 +13,6 @@ class PaymentsApi(AdyenServiceBase):
         self.service = "checkout"
         self.baseUrl = "https://checkout-test.adyen.com/v71"
 
-    def card_details(self, request, idempotency_key=None, **kwargs):
-        """
-        Get the list of brands on the card
-        """
-        endpoint = self.baseUrl + f"/cardDetails"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def get_result_of_payment_session(self, sessionId, idempotency_key=None, **kwargs):
         """
         Get the result of a payment session
@@ -28,6 +20,14 @@ class PaymentsApi(AdyenServiceBase):
         endpoint = self.baseUrl + f"/sessions/{sessionId}"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def card_details(self, request, idempotency_key=None, **kwargs):
+        """
+        Get the list of brands on the card
+        """
+        endpoint = self.baseUrl + f"/cardDetails"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def payment_methods(self, request, idempotency_key=None, **kwargs):
         """

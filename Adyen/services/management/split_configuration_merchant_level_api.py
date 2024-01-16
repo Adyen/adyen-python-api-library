@@ -13,22 +13,6 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
-    def create_rule(self, request, merchantId, splitConfigurationId, idempotency_key=None, **kwargs):
-        """
-        Create a rule
-        """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def create_split_configuration(self, request, merchantId, idempotency_key=None, **kwargs):
-        """
-        Create a split configuration
-        """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations"
-        method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def delete_split_configuration(self, merchantId, splitConfigurationId, idempotency_key=None, **kwargs):
         """
         Delete a split configuration
@@ -45,14 +29,6 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_split_configuration(self, merchantId, splitConfigurationId, idempotency_key=None, **kwargs):
-        """
-        Get a split configuration
-        """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def list_split_configurations(self, merchantId, idempotency_key=None, **kwargs):
         """
         Get a list of split configurations
@@ -61,13 +37,13 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def update_split_conditions(self, request, merchantId, splitConfigurationId, ruleId, idempotency_key=None, **kwargs):
+    def get_split_configuration(self, merchantId, splitConfigurationId, idempotency_key=None, **kwargs):
         """
-        Update split conditions
+        Get a split configuration
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}"
-        method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def update_split_configuration_description(self, request, merchantId, splitConfigurationId, idempotency_key=None, **kwargs):
         """
@@ -77,11 +53,35 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def update_split_conditions(self, request, merchantId, splitConfigurationId, ruleId, idempotency_key=None, **kwargs):
+        """
+        Update split conditions
+        """
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}"
+        method = "PATCH"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def update_split_logic(self, request, merchantId, splitConfigurationId, ruleId, splitLogicId, idempotency_key=None, **kwargs):
         """
         Update the split logic
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}/splitLogic/{splitLogicId}"
         method = "PATCH"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def create_split_configuration(self, request, merchantId, idempotency_key=None, **kwargs):
+        """
+        Create a split configuration
+        """
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def create_rule(self, request, merchantId, splitConfigurationId, idempotency_key=None, **kwargs):
+        """
+        Create a rule
+        """
+        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
+        method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
