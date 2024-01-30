@@ -37,14 +37,6 @@ class BalanceAccountsApi(AdyenServiceBase):
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def get_all_payment_instruments_for_balance_account(self, id, idempotency_key=None, **kwargs):
-        """
-        Get all payment instruments for a balance account
-        """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}/paymentInstruments"
-        method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
     def get_all_sweeps_for_balance_account(self, balanceAccountId, idempotency_key=None, **kwargs):
         """
         Get all sweeps for a balance account
@@ -58,6 +50,14 @@ class BalanceAccountsApi(AdyenServiceBase):
         Get a balance account
         """
         endpoint = self.baseUrl + f"/balanceAccounts/{id}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def get_payment_instruments_linked_to_balance_account(self, id, idempotency_key=None, **kwargs):
+        """
+        Get payment instruments linked to a balance account
+        """
+        endpoint = self.baseUrl + f"/balanceAccounts/{id}/paymentInstruments"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
