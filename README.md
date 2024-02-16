@@ -154,7 +154,7 @@ adyen.management.account_company_level_api.get_companies(query_parameters=query_
 
 Define a dictionary named containing the headers you want to include in your request.
 
-~~~~ pyhton    
+~~~~ python    
     header_parameters = {
         "Var1": "Var2",
         "Var2": "Var1"
@@ -163,7 +163,7 @@ Define a dictionary named containing the headers you want to include in your req
 
 Pass the dictionary as an additional argument to the method where you make the API call.
 
-~~~~ pyhton  
+~~~~ python  
     adyen.checkout.payments_api.payments(header_parameters=headers)
 ~~~~
 
