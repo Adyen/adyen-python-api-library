@@ -150,6 +150,23 @@ pass the dictionary to the method as an additional argument.
 adyen.management.account_company_level_api.get_companies(query_parameters=query_parameters)
 ~~~~
 
+### Using Header Parameters
+
+Define a dictionary named containing the headers you want to include in your request.
+
+~~~~ pyhton    
+    header_parameters = {
+        "Var1": "Var2",
+        "Var2": "Var1"
+    }
+~~~~
+
+Pass the dictionary as an additional argument to the method where you make the API call.
+
+~~~~ pyhton  
+    adyen.checkout.payments_api.payments(header_parameters=headers)
+~~~~
+
 ### Handling exceptions
 
 Adyen service exceptions extend the AdyenError class. After you catch this exception, you can access the 

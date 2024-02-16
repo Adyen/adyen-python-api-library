@@ -345,6 +345,12 @@ class AdyenClient(object):
         if idempotency_key:
             headers[self.IDEMPOTENCY_HEADER_NAME] = idempotency_key
 
+        # Additional headers provided via the `header_parameters` keyword argument
+        # Pass as a keyword argument in the method call.
+        if 'header_parameters' in kwargs:
+            headers.update(kwargs['header_parameters'])
+            kwargs.pop('header_parameters')
+
         url = self._determine_api_url(platform, endpoint)
 
         if 'query_parameters' in kwargs:

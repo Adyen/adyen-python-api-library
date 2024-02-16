@@ -7,6 +7,7 @@ from Adyen.util import (
     is_valid_hmac_notification,
     get_query
 )
+
 try:
     from BaseTest import BaseTest
 except ImportError:
@@ -65,14 +66,13 @@ class UtilTest(unittest.TestCase):
             mixed_notification = load(file)
             self.assertTrue(is_valid_hmac_notification(mixed_notification, hmac_key))
 
-
     def test_query_string_creation(self):
         query_parameters = {
-            "pageSize":7,
-            "pageNumber":3
+            "pageSize": 7,
+            "pageNumber": 3
         }
         query_string = get_query(query_parameters)
-        self.assertEqual(query_string,'?pageSize=7&pageNumber=3')
+        self.assertEqual(query_string, '?pageSize=7&pageNumber=3')
 
     def test_passing_xapikey_in_method(self):
         request = {'merchantAccount': "YourMerchantAccount"}
@@ -96,10 +96,10 @@ class UtilTest(unittest.TestCase):
         self.test = BaseTest(self.adyen)
         self.client.platform = "test"
         self.adyen.client = self.test.create_client_from_file(200, request,
-                                                            "test/mocks/"
-                                                            "checkout/"
-                                                            "paymentmethods"
-                                                            "-success.json")
+                                                              "test/mocks/"
+                                                              "checkout/"
+                                                              "paymentmethods"
+                                                              "-success.json")
         result = self.adyen.checkout.payments_api.payment_methods(request, xapikey="YourXapikey")
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -111,25 +111,24 @@ class UtilTest(unittest.TestCase):
 
     def test_is_valid_hmac_notification_removes_additional_data(self):
         notification = {
-                            "live":"false",
-                            "notificationItems":[
-                                {
-                                    "NotificationRequestItem":{
-                                        "additionalData":{
-                                        "hmacSignature":"11aa",
-                                        "fraudResultType":"GREEN",
-                                        "fraudManualReview": "false",
-                                        "totalFraudScore":"75"
-                                        },
-                                        "amount":{
-                                        "currency":"USD",
-                                        "value":10000
-                                        },
-                                        "success":"true"
-                                        
-                                    }
-                                }
-                            ]}
+            "live": "false",
+            "notificationItems": [
+                {
+                    "NotificationRequestItem": {
+                        "additionalData": {
+                            "hmacSignature": "11aa",
+                            "fraudResultType": "GREEN",
+                            "fraudManualReview": "false",
+                            "totalFraudScore": "75"
+                        },
+                        "amount": {
+                            "currency": "USD",
+                            "value": 10000
+                        },
+                        "success": "true"
+
+                    }
+                }
+            ]}
         is_valid_hmac_notification(notification, "11aa")
         self.assertIsNotNone(notification['notificationItems'][0]['NotificationRequestItem']['additionalData'])
-    

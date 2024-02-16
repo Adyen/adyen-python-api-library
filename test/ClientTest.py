@@ -13,6 +13,6 @@ class TestClient(unittest.TestCase):
 
     client = adyen.client
     test = BaseTest(adyen)
-    client.xapikey = "YourXapikey"
+    client.xapikey = "YOUR_API_KEY"
     client.platform = "test"
     lib_version = settings.LIB_VERSION
