@@ -152,7 +152,7 @@ adyen.management.account_company_level_api.get_companies(query_parameters=query_
 
 ### Using Header Parameters
 
-Define a dictionary named containing the headers you want to include in your request.
+Define a dictionary containing the headers you want to include in your request.
 
 ~~~~ python    
     header_parameters = {
