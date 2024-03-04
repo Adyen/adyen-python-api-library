@@ -13,6 +13,22 @@ class TransfersApi(AdyenServiceBase):
         self.service = "transfers"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/btl/v4"
 
+    def get_all_transfers(self, idempotency_key=None, **kwargs):
+        """
+        Get all transfers
+        """
+        endpoint = self.baseUrl + f"/transfers"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def get_transfer(self, id, idempotency_key=None, **kwargs):
+        """
+        Get a transfer
+        """
+        endpoint = self.baseUrl + f"/transfers/{id}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def return_transfer(self, request, transferId, idempotency_key=None, **kwargs):
         """
         Return a transfer
