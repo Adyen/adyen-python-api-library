@@ -53,6 +53,14 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def reveal_data_of_payment_instrument(self, request, idempotency_key=None, **kwargs):
+        """
+        Reveal the data of a payment instrument
+        """
+        endpoint = self.baseUrl + f"/paymentInstruments/reveal"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def update_payment_instrument(self, request, id, idempotency_key=None, **kwargs):
         """
         Update a payment instrument
