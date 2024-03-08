@@ -169,23 +169,17 @@ Pass the dictionary as an additional argument to the method where you make the A
 
 ### Customizing Base URL
 
-Customize base URL for testing purposes by defining the base URL
-
-~~~~ python
-baseUrl = "https://checkout-test.adyen.com/v71"
-~~~~
-
 Instantiate the service and replace the baseUrl with your own URL
 
 ~~~~ python
-service = adyen.checkout.payments_api
-service.baseUrl = "localhost:8080"
+    service = adyen.checkout.payments_api
+    service.baseUrl = "localhost:8080"
 ~~~~
 
 Assert if the URL has been replaced correctly
 
 ~~~~ python
-self.assertEqual("localhost:8080", service.baseUrl)
+    self.assertEqual("localhost:8080", service.baseUrl)
 ~~~~
 
 ### Handling exceptions
