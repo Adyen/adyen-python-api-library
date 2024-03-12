@@ -176,12 +176,6 @@ Instantiate the service and replace the baseUrl with your own URL
     service.baseUrl = "localhost:8080"
 ~~~~
 
-Assert if the URL has been replaced correctly
-
-~~~~ python
-    self.assertEqual("localhost:8080", service.baseUrl)
-~~~~
-
 ### Handling exceptions
 
 Adyen service exceptions extend the AdyenError class. After you catch this exception, you can access the 
