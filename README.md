@@ -167,6 +167,15 @@ Pass the dictionary as an additional argument to the method where you make the A
     adyen.checkout.payments_api.payments(header_parameters=headers)
 ~~~~
 
+### Customizing Base URL
+
+Instantiate the service and replace the baseUrl with your own URL
+
+~~~~ python
+    service = adyen.checkout.payments_api
+    service.baseUrl = "localhost:8080"
+~~~~
+
 ### Handling exceptions
 
 Adyen service exceptions extend the AdyenError class. After you catch this exception, you can access the 
