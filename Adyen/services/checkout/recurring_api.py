@@ -29,3 +29,11 @@ class RecurringApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def stored_payment_methods(self, request, idempotency_key=None, **kwargs):
+        """
+        Create a token to store payment details
+        """
+        endpoint = self.baseUrl + f"/storedPaymentMethods"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
