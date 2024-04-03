@@ -45,3 +45,11 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def upload_android_certificate(self, companyId, idempotency_key=None, **kwargs):
+        """
+        Upload Android Certificate
+        """
+        endpoint = self.baseUrl + f"/companies/{companyId}/androidCertificates"
+        method = "POST"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
