@@ -4,6 +4,7 @@ import Adyen
 from Adyen import settings
 from Adyen.util import (
     generate_notification_sig,
+    is_valid_hmac_payload,
     is_valid_hmac_notification,
     get_query
 )
@@ -132,3 +133,53 @@ class UtilTest(unittest.TestCase):
             ]}
         is_valid_hmac_notification(notification, "11aa")
         self.assertIsNotNone(notification['notificationItems'][0]['NotificationRequestItem']['additionalData'])
+
+    def test_is_valid_hmac_payload(self):
+
+        payload = '''
+        {
+            "type": "merchant.created",
+            "environment": "test",
+            "createdAt": "01-01-2024",
+            "data": {
+                "capabilities": {
+                    "sendToTransferInstrument": {
+                        "requested": true,
+                        "requestedLevel": "notApplicable"
+                    }
+                },
+                "companyId": "YOUR_COMPANY_ID",
+                "merchantId": "YOUR_MERCHANT_ACCOUNT",
+                "status": "PreActive"
+            }
+        }
+        '''
+        hmac_key = "44782DEF547AAA06C910C43932B1EB0C71FC68D9D0C057550C48EC2ACF6BA056"
+        expected_hmac = "fX74xUdztFmaXAn3IusMFFUBUSkLmDQUK0tm8xL6ZTU="
+
+        self.assertTrue(is_valid_hmac_payload(expected_hmac, hmac_key, payload.encode("utf-8")))
+
+    def test_is_invalid_hmac_payload(self):
+        payload = '''
+        {
+            "type": "merchant.created",
+            "environment": "test",
+            "createdAt": "01-01-2024",
+            "data": {
+                "capabilities": {
+                    "sendToTransferInstrument": {
+                        "requested": true,
+                        "requestedLevel": "notApplicable"
+                    }
+                },
+                "companyId": "YOUR_COMPANY_ID",
+                "merchantId": "YOUR_MERCHANT_ACCOUNT",
+                "status": "PreActive"
+            }
+        }
+        '''
+
+        hmac_key = "44782DEF547AAA06C910C43932B1EB0C71FC68D9D0C057550C48EC2ACF6BA056"
+        expected_hmac = "MismatchingHmacKey="
+
+        self.assertFalse(is_valid_hmac_payload(expected_hmac, hmac_key, payload.encode("utf-8")))
