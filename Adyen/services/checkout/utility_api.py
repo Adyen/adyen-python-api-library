@@ -29,3 +29,11 @@ class UtilityApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def updates_order_for_paypal_express_checkout(self, request, idempotency_key=None, **kwargs):
+        """
+        Updates the order for PayPal Express Checkout
+        """
+        endpoint = self.baseUrl + f"/paypal/updateOrder"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
