@@ -1,10 +1,10 @@
 from __future__ import absolute_import, division, unicode_literals
 
 import base64
-import hmac
-import hashlib
 import binascii
 import copy
+import hashlib
+import hmac
 
 
 # generates HMAC signature for the NotificationRequest object
@@ -60,20 +60,32 @@ def is_valid_hmac_notification(dict_object, hmac_key):
         boolean: true when HMAC signature is valid
     """
 
-    dict_object = copy.deepcopy(dict_object) 
+    dict_object = copy.deepcopy(dict_object)
 
-    if 'notificationItems' in dict_object:
-        dict_object = dict_object['notificationItems'][0]['NotificationRequestItem']
+    notification_items = dict_object.get("notificationItems")
+    if notification_items is None:
+        raise ValueError("Must provide notificationItems in the dictionary object")
 
-    if 'additionalData' in dict_object:
-        if dict_object['additionalData']['hmacSignature'] == "":
-            raise ValueError("Must Provide hmacSignature in additionalData")
-        else:
-            expected_sign = dict_object['additionalData']['hmacSignature']
-            del dict_object['additionalData']
-            merchant_sign = generate_notification_sig(dict_object, hmac_key)
-            merchant_sign_str = merchant_sign.decode("utf-8")
-            return hmac.compare_digest(merchant_sign_str, expected_sign)
+    for notification_item in notification_items:
+        notification_request_item = notification_item.get("NotificationRequestItem")
+        if notification_request_item is None:
+            raise ValueError("Must provide NotificationRequestItem in the NotificationRequestItems")
+
+        additionalData = notification_request_item.get("additionalData")
+        if additionalData is None:
+            raise ValueError("Must provide additionalData in the NotificationRequestItem")
+
+        hmac_signature = additionalData.get("hmacSignature")
+        if not hmac_signature:
+            raise ValueError("Must provide hmacSignature in additionalData")
+
+        del notification_request_item["additionalData"]
+        merchant_sign = generate_notification_sig(notification_request_item, hmac_key)
+        merchant_sign_str = merchant_sign.decode("utf-8")
+        if not hmac.compare_digest(merchant_sign_str, hmac_signature):
+            return False
+
+    return True
 
 
 def is_valid_hmac_payload(hmac_signature, hmac_key, payload):
