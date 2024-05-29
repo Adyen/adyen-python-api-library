@@ -37,6 +37,14 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def reprocess_android_app(self, companyId, id, idempotency_key=None, **kwargs):
+        """
+        Reprocess Android App
+        """
+        endpoint = self.baseUrl + f"/companies/{companyId}/androidApps/{id}"
+        method = "PATCH"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def upload_android_app(self, companyId, idempotency_key=None, **kwargs):
         """
         Upload Android App
