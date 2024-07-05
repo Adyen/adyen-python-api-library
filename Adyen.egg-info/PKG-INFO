@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: Adyen
+Version: 12.5.1
+Summary: Adyen Python Api
+Home-page: https://github.com/Adyen/adyen-python-api-library
+Author: Adyen
+Author-email: support@adyen.com
+Maintainer: Adyen
+Maintainer-email: support@adyen.com
+Keywords: payments,adyen,fintech
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.6
+License-File: LICENSE.md
+
+A Python client library for accessing Adyen APIs
