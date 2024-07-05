@@ -13,6 +13,6 @@ jobs:
           stale-issue-message: 'This issue has been automatically marked as stale due to inactivity and will be closed in 7 days if no further activity occurs.'
           close-issue-message: 'This issue was closed due to inactivity. Please reopen if you still encounter this problem or have more information to add.'
           days-before-stale: 0
-          days-before-close: 0
+          days-before-close: 2
           stale-issue-label: 'stale'
           exempt-issue-labels: 'do not stale, needs response'
