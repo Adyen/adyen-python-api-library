@@ -13,6 +13,14 @@ class DonationsApi(AdyenServiceBase):
         self.service = "checkout"
         self.baseUrl = "https://checkout-test.adyen.com/v71"
 
+    def donation_campaigns(self, request, idempotency_key=None, **kwargs):
+        """
+        Get a list of donation campaigns.
+        """
+        endpoint = self.baseUrl + f"/donationCampaigns"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def donations(self, request, idempotency_key=None, **kwargs):
         """
         Start a transaction for donations
