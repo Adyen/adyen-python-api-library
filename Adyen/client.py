@@ -130,7 +130,8 @@ class AdyenClient(object):
 
     def _determine_api_url(self, platform, endpoint):
         if platform == "test":
-            return endpoint
+            # Replace live with test in base url is configured with live url by default
+            return endpoint.replace("-live", "-test")
 
         if "pal-" in endpoint:
             if self.live_endpoint_prefix is None:
