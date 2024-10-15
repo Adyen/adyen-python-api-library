@@ -18,6 +18,11 @@ class Adyen{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}Api(AdyenSer
     def {{#lambda.snakecase}}{{#vendorExtensions.x-methodName}}{{.}}{{/vendorExtensions.x-methodName}}{{^vendorExtensions.x-methodName}}{{nickname}}{{/vendorExtensions.x-methodName}}{{/lambda.snakecase}}(self, {{#bodyParams}}request, {{/bodyParams}}{{#requiredParams}}{{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}, {{/requiredParams}}idempotency_key=None, **kwargs):
         """
         {{{summary}}}{{^summary}}{{operationId}}{{/summary}}
+        {{#isDeprecated}}
+
+        Deprecated {{#vendorExtensions.x-deprecatedInVersion}}since {{#appName}}{{{.}}}{{/appName}} v{{.}}{{/vendorExtensions.x-deprecatedInVersion}}{{#vendorExtensions.x-deprecatedMessage}}
+        {{{.}}}{{/vendorExtensions.x-deprecatedMessage}}
+        {{/isDeprecated}}
         """
         endpoint = self.baseUrl + f"{{{path}}}"
         method = "{{httpMethod}}"
