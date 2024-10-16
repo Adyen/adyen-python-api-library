@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='Adyen',
-    packages=find_packages(include="Adyen*"),
+    packages=find_packages(include="Adyen*", exclude=["tests", "tests.*"]),
     version='12.7.1',
     maintainer='Adyen',
     maintainer_email='support@adyen.com',
