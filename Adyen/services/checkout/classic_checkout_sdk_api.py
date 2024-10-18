@@ -16,6 +16,8 @@ class ClassicCheckoutSDKApi(AdyenServiceBase):
     def payment_session(self, request, idempotency_key=None, **kwargs):
         """
         Create a payment session
+
+        Deprecated since Adyen Checkout API v37
         """
         endpoint = self.baseUrl + f"/paymentSession"
         method = "POST"
@@ -24,6 +26,8 @@ class ClassicCheckoutSDKApi(AdyenServiceBase):
     def verify_payment_result(self, request, idempotency_key=None, **kwargs):
         """
         Verify a payment result
+
+        Deprecated since Adyen Checkout API v37
         """
         endpoint = self.baseUrl + f"/payments/result"
         method = "POST"
