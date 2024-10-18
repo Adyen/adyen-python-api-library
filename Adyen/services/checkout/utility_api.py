@@ -24,6 +24,8 @@ class UtilityApi(AdyenServiceBase):
     def origin_keys(self, request, idempotency_key=None, **kwargs):
         """
         Create originKey values for domains
+
+        Deprecated since Adyen Checkout API v67
         """
         endpoint = self.baseUrl + f"/originKeys"
         method = "POST"
