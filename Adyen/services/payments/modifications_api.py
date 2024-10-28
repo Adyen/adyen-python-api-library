@@ -48,6 +48,8 @@ class ModificationsApi(AdyenServiceBase):
     def donate(self, request, idempotency_key=None, **kwargs):
         """
         Create a donation
+
+        Deprecated 
         """
         endpoint = self.baseUrl + f"/donate"
         method = "POST"
