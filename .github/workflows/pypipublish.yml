@@ -1,8 +1,13 @@
 name: Publish Python
 
+# on:
+#   release:
+#     types: [published]
+
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'  # Only triggers on tags starting with 'v', like 'v1.0.0'
 
 jobs:
   tests:
@@ -34,11 +39,11 @@ jobs:
           --wheel
           --outdir dist/
           .
-      - name: Publish distribution 📦 to Test PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_TEST_KEY }}
-          repository-url: https://test.pypi.org/legacy/
+      # - name: Publish distribution 📦 to Test PyPI
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     password: ${{ secrets.PYPI_TEST_KEY }}
+      #     repository-url: https://test.pypi.org/legacy/
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
