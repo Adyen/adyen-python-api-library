@@ -16,7 +16,7 @@ class TestDetermineUrl(unittest.TestCase):
     client = adyen.client
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
-    checkout_url = adyen.checkout.classic_checkout_sdk_api.baseUrl
+    checkout_url = adyen.checkout.payments_api.baseUrl
     checkout_version = checkout_url.split('/')[-1]
     payment_url = adyen.payment.payments_api.baseUrl
     payment_version = payment_url.split('/')[-1]

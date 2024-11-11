@@ -15,7 +15,7 @@ class TestCheckoutUtility(unittest.TestCase):
     test = BaseTest(ady)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    checkout_url = ady.checkout.classic_checkout_sdk_api.baseUrl
+    checkout_url = ady.checkout.utility_api.baseUrl
 
     def test_origin_keys_success_mocked(self):
         request = {

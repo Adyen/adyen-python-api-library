@@ -1,5 +1,4 @@
 from ..base import AdyenServiceBase
-from .classic_checkout_sdk_api import ClassicCheckoutSDKApi
 from .donations_api import DonationsApi
 from .modifications_api import ModificationsApi
 from .orders_api import OrdersApi
@@ -18,7 +17,6 @@ class AdyenCheckoutApi(AdyenServiceBase):
 
     def __init__(self, client=None):
         super(AdyenCheckoutApi, self).__init__(client=client)
-        self.classic_checkout_sdk_api = ClassicCheckoutSDKApi(client=client)
         self.donations_api = DonationsApi(client=client)
         self.modifications_api = ModificationsApi(client=client)
         self.orders_api = OrdersApi(client=client)

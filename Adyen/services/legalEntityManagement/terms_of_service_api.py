@@ -21,6 +21,14 @@ class TermsOfServiceApi(AdyenServiceBase):
         method = "PATCH"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def get_accepted_terms_of_service_document(self, id, termsofserviceacceptancereference, idempotency_key=None, **kwargs):
+        """
+        Get accepted Terms of Service document
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}/acceptedTermsOfServiceDocument/{termsofserviceacceptancereference}"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def get_terms_of_service_document(self, request, id, idempotency_key=None, **kwargs):
         """
         Get Terms of Service document
