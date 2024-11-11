@@ -15,7 +15,7 @@ class TestCheckout(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    baseUrl = adyen.checkout.classic_checkout_sdk_api.baseUrl
+    baseUrl = adyen.checkout.payments_api.baseUrl
     lib_version = settings.LIB_VERSION
 
     def test_payment_methods_success_mocked(self):
@@ -163,75 +163,6 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual(422, result.message['status'])
         self.assertEqual("101", result.message['errorCode'])
         self.assertEqual("Invalid card number", result.message['message'])
-        self.assertEqual("validation", result.message['errorType'])
-
-    def test_payments_session_success_mocked(self):
-        request = {"reference": "Your order number",
-                   "shopperReference": "yourShopperId_IOfW3k9G2PvXFu2j",
-                   "channel": "iOS",
-                   "token": "TOKEN_YOU_GET_FROM_CHECKOUT_SDK",
-                   "returnUrl": "app://", "countryCode": "NL",
-                   "shopperLocale": "nl_NL",
-                   "sessionValidity": "2017-04-06T13:09:13Z",
-                   "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                   'amount': {"value": "17408", "currency": "EUR"}}
-
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
-                                                              "checkout/"
-                                                              "paymentsession"
-                                                              "-success.json")
-        result = self.adyen.checkout.classic_checkout_sdk_api.payment_session(request)
-        self.assertIsNotNone(result.message['paymentSession'])
-
-    def test_payments_session_error_mocked(self):
-        request = {"reference": "Your wro order number",
-                   "shopperReference": "yourShopperId_IOfW3k9G2PvXFu2j",
-                   "channel": "iOS",
-                   "token": "WRONG_TOKEN",
-                   "returnUrl": "app://", "countryCode": "NL",
-                   "shopperLocale": "nl_NL",
-                   "sessionValidity": "2017-04-06T13:09:13Z",
-                   "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                   'amount': {"value": "17408", "currency": "EUR"}}
-
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
-                                                              "checkout/"
-                                                              "paymentsession"
-                                                              "-error-invalid-"
-                                                              "data-422.json")
-        result = self.adyen.checkout.classic_checkout_sdk_api.payment_session(request)
-        self.assertEqual(422, result.message['status'])
-        self.assertEqual("14_012", result.message['errorCode'])
-        self.assertEqual("The provided SDK token could not be parsed.",
-                         result.message['message'])
-        self.assertEqual("validation", result.message['errorType'])
-
-    def test_payments_result_success_mocked(self):
-        request = {"payload": "VALUE_YOU_GET_FROM_CHECKOUT_SDK"}
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
-                                                              "checkout/"
-                                                              "paymentsresult"
-                                                              "-success.json")
-        result = self.adyen.checkout.classic_checkout_sdk_api.verify_payment_result(request)
-        self.assertEqual("8535253563623704", result.message['pspReference'])
-        self.assertEqual("Authorised", result.message['resultCode'])
-
-    def test_payments_result_error_mocked(self):
-        request = {"payload": "VALUE_YOU_GET_FROM_CHECKOUT_SDK"}
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/"
-                                                              "checkout/"
-                                                              "paymentsresult"
-                                                              "-error-invalid-"
-                                                              "data-payload-"
-                                                              "422.json")
-        result = self.adyen.checkout.classic_checkout_sdk_api.verify_payment_result(request)
-        self.assertEqual(422, result.message['status'])
-        self.assertEqual("14_018", result.message['errorCode'])
-        self.assertEqual("Invalid payload provided", result.message['message'])
         self.assertEqual("validation", result.message['errorType'])
 
     def test_payments_cancels_without_reference(self):
