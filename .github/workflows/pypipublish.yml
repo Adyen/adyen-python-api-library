@@ -1,14 +1,8 @@
 name: Publish Python
 
-# on:
-#   release:
-#     types: [published]
-
-
 on:
-  push:
-    tags:
-      - 'v*'  # Only triggers on tags starting with 'v', like 'v1.0.0'
+  release:
+    types: [published]
 
 jobs:
   tests:
