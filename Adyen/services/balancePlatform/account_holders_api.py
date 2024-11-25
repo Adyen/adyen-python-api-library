@@ -37,6 +37,14 @@ class AccountHoldersApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def get_all_transaction_rules_for_account_holder(self, id, idempotency_key=None, **kwargs):
+        """
+        Get all transaction rules for an account holder
+        """
+        endpoint = self.baseUrl + f"/accountHolders/{id}/transactionRules"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def get_tax_form(self, id, idempotency_key=None, **kwargs):
         """
         Get a tax form

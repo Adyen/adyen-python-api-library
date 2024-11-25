@@ -45,6 +45,14 @@ class BalanceAccountsApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def get_all_transaction_rules_for_balance_account(self, id, idempotency_key=None, **kwargs):
+        """
+        Get all transaction rules for a balance account
+        """
+        endpoint = self.baseUrl + f"/balanceAccounts/{id}/transactionRules"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def get_balance_account(self, id, idempotency_key=None, **kwargs):
         """
         Get a balance account

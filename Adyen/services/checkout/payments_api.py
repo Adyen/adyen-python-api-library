@@ -15,7 +15,7 @@ class PaymentsApi(AdyenServiceBase):
 
     def card_details(self, request, idempotency_key=None, **kwargs):
         """
-        Get the list of brands on the card
+        Get the brands and other details of a card
         """
         endpoint = self.baseUrl + f"/cardDetails"
         method = "POST"

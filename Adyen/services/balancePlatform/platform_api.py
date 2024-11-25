@@ -21,6 +21,14 @@ class PlatformApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def get_all_transaction_rules_for_balance_platform(self, id, idempotency_key=None, **kwargs):
+        """
+        Get all transaction rules for a balance platform
+        """
+        endpoint = self.baseUrl + f"/balancePlatforms/{id}/transactionRules"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def get_balance_platform(self, id, idempotency_key=None, **kwargs):
         """
         Get a balance platform
