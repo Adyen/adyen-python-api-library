@@ -13,6 +13,14 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         self.service = "legalEntityManagement"
         self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
 
+    def calculate_pci_status_of_legal_entity(self, request, id, idempotency_key=None, **kwargs):
+        """
+        Calculate PCI status of a legal entity
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/signingRequired"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def generate_pci_questionnaire(self, request, id, idempotency_key=None, **kwargs):
         """
         Generate PCI questionnaire
