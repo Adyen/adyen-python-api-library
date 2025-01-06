@@ -16,6 +16,9 @@ class AdyenTerminalApi(AdyenServiceBase):
     def assign_terminals(self, request, idempotency_key=None, **kwargs):
         """
         Assign terminals
+
+        Deprecated since POS Terminal Management API v1
+        Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
         endpoint = self.baseUrl + f"/assignTerminals"
         method = "POST"
@@ -24,6 +27,9 @@ class AdyenTerminalApi(AdyenServiceBase):
     def find_terminal(self, request, idempotency_key=None, **kwargs):
         """
         Get the account or store of a terminal
+
+        Deprecated since POS Terminal Management API v1
+        Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
         endpoint = self.baseUrl + f"/findTerminal"
         method = "POST"
@@ -32,6 +38,9 @@ class AdyenTerminalApi(AdyenServiceBase):
     def get_stores_under_account(self, request, idempotency_key=None, **kwargs):
         """
         Get the stores of an account
+
+        Deprecated since POS Terminal Management API v1
+        Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
         endpoint = self.baseUrl + f"/getStoresUnderAccount"
         method = "POST"
@@ -40,6 +49,9 @@ class AdyenTerminalApi(AdyenServiceBase):
     def get_terminal_details(self, request, idempotency_key=None, **kwargs):
         """
         Get the details of a terminal
+
+        Deprecated since POS Terminal Management API v1
+        Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
         endpoint = self.baseUrl + f"/getTerminalDetails"
         method = "POST"
@@ -48,6 +60,9 @@ class AdyenTerminalApi(AdyenServiceBase):
     def get_terminals_under_account(self, request, idempotency_key=None, **kwargs):
         """
         Get the list of terminals
+
+        Deprecated since POS Terminal Management API v1
+        Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
         endpoint = self.baseUrl + f"/getTerminalsUnderAccount"
         method = "POST"
