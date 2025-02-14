@@ -16,6 +16,9 @@ class CapitalApi(AdyenServiceBase):
     def get_capital_account(self, idempotency_key=None, **kwargs):
         """
         Get a capital account
+
+        Deprecated since Transfers API v4
+        Use the `/grants` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grants) instead.
         """
         endpoint = self.baseUrl + f"/grants"
         method = "GET"
@@ -24,6 +27,9 @@ class CapitalApi(AdyenServiceBase):
     def get_grant_reference_details(self, id, idempotency_key=None, **kwargs):
         """
         Get grant reference details
+
+        Deprecated since Transfers API v4
+        Use the `/grants/{grantId}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grants/(grantId)) instead.
         """
         endpoint = self.baseUrl + f"/grants/{id}"
         method = "GET"
@@ -32,6 +38,9 @@ class CapitalApi(AdyenServiceBase):
     def request_grant_payout(self, request, idempotency_key=None, **kwargs):
         """
         Request a grant payout
+
+        Deprecated since Transfers API v4
+        Use the `/grants` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/post/grants) instead.
         """
         endpoint = self.baseUrl + f"/grants"
         method = "POST"
