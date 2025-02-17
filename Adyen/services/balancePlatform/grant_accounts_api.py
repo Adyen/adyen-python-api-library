@@ -16,6 +16,9 @@ class GrantAccountsApi(AdyenServiceBase):
     def get_grant_account(self, id, idempotency_key=None, **kwargs):
         """
         Get a grant account
+
+        Deprecated since Configuration API v2
+        Use the `/grantAccounts/{id}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantAccounts/(id)) instead.
         """
         endpoint = self.baseUrl + f"/grantAccounts/{id}"
         method = "GET"

@@ -16,6 +16,9 @@ class GrantOffersApi(AdyenServiceBase):
     def get_all_available_grant_offers(self, idempotency_key=None, **kwargs):
         """
         Get all available grant offers
+
+        Deprecated since Configuration API v2
+        Use the `/grantOffers` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers) instead.
         """
         endpoint = self.baseUrl + f"/grantOffers"
         method = "GET"
@@ -24,6 +27,9 @@ class GrantOffersApi(AdyenServiceBase):
     def get_grant_offer(self, grantOfferId, idempotency_key=None, **kwargs):
         """
         Get a grant offer
+
+        Deprecated since Configuration API v2
+        Use the `/grantOffers/{id}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers/(id)) instead.
         """
         endpoint = self.baseUrl + f"/grantOffers/{grantOfferId}"
         method = "GET"
