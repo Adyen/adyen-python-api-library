@@ -1,2 +1,2 @@
 LIB_NAME = "adyen-python-api-library"
-LIB_VERSION = "13.3.0"
+LIB_VERSION = "13.4.0"
