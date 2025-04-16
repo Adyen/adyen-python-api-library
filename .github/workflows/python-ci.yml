@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python-version: ['3.6.15', '3.7', '3.8']
+        python-version: ['3.7', '3.8']
 
     steps:
       - name: Checkout
