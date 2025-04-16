@@ -1,6 +1,7 @@
 from ..base import AdyenServiceBase
 from .account_holders_api import AccountHoldersApi
 from .balance_accounts_api import BalanceAccountsApi
+from .balances_api import BalancesApi
 from .bank_account_validation_api import BankAccountValidationApi
 from .card_orders_api import CardOrdersApi
 from .grant_accounts_api import GrantAccountsApi
@@ -26,6 +27,7 @@ class AdyenBalancePlatformApi(AdyenServiceBase):
         super(AdyenBalancePlatformApi, self).__init__(client=client)
         self.account_holders_api = AccountHoldersApi(client=client)
         self.balance_accounts_api = BalanceAccountsApi(client=client)
+        self.balances_api = BalancesApi(client=client)
         self.bank_account_validation_api = BankAccountValidationApi(client=client)
         self.card_orders_api = CardOrdersApi(client=client)
         self.grant_accounts_api = GrantAccountsApi(client=client)
