@@ -16,6 +16,8 @@ class AdyenRecurringApi(AdyenServiceBase):
     def create_permit(self, request, idempotency_key=None, **kwargs):
         """
         Create new permits linked to a recurring contract.
+
+        Deprecated since Adyen Recurring API v68
         """
         endpoint = self.baseUrl + f"/createPermit"
         method = "POST"
@@ -24,6 +26,8 @@ class AdyenRecurringApi(AdyenServiceBase):
     def disable(self, request, idempotency_key=None, **kwargs):
         """
         Disable stored payment details
+
+        Deprecated since Adyen Recurring API v68
         """
         endpoint = self.baseUrl + f"/disable"
         method = "POST"
@@ -32,6 +36,8 @@ class AdyenRecurringApi(AdyenServiceBase):
     def disable_permit(self, request, idempotency_key=None, **kwargs):
         """
         Disable an existing permit.
+
+        Deprecated since Adyen Recurring API v68
         """
         endpoint = self.baseUrl + f"/disablePermit"
         method = "POST"
@@ -40,6 +46,8 @@ class AdyenRecurringApi(AdyenServiceBase):
     def list_recurring_details(self, request, idempotency_key=None, **kwargs):
         """
         Get stored payment details
+
+        Deprecated since Adyen Recurring API v68
         """
         endpoint = self.baseUrl + f"/listRecurringDetails"
         method = "POST"
@@ -48,6 +56,8 @@ class AdyenRecurringApi(AdyenServiceBase):
     def notify_shopper(self, request, idempotency_key=None, **kwargs):
         """
         Ask issuer to notify the shopper
+
+        Deprecated since Adyen Recurring API v68
         """
         endpoint = self.baseUrl + f"/notifyShopper"
         method = "POST"
@@ -56,6 +66,8 @@ class AdyenRecurringApi(AdyenServiceBase):
     def schedule_account_updater(self, request, idempotency_key=None, **kwargs):
         """
         Schedule running the Account Updater
+
+        Deprecated since Adyen Recurring API v68
         """
         endpoint = self.baseUrl + f"/scheduleAccountUpdater"
         method = "POST"
