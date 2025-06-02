@@ -16,6 +16,8 @@ class AdyenBalanceControlApi(AdyenServiceBase):
     def balance_transfer(self, request, idempotency_key=None, **kwargs):
         """
         Start a balance transfer
+
+        Deprecated since Adyen Balance Control API v1
         """
         endpoint = self.baseUrl + f"/balanceTransfer"
         method = "POST"
