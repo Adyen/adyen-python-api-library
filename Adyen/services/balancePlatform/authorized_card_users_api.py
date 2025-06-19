@@ -13,7 +13,15 @@ class AuthorizedCardUsersApi(AdyenServiceBase):
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
-    def payment_instruments_payment_instrument_id_authorised_card_users_delete(self, paymentInstrumentId, idempotency_key=None, **kwargs):
+    def create_authorised_card_users(self, request, paymentInstrumentId, authorisedCardUsers, idempotency_key=None, **kwargs):
+        """
+        Create authorized users for a card.
+        """
+        endpoint = self.baseUrl + f"/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def delete_authorised_card_users(self, paymentInstrumentId, idempotency_key=None, **kwargs):
         """
         Delete the authorized users for a card.
         """
@@ -21,7 +29,7 @@ class AuthorizedCardUsersApi(AdyenServiceBase):
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def payment_instruments_payment_instrument_id_authorised_card_users_get(self, paymentInstrumentId, idempotency_key=None, **kwargs):
+    def get_all_authorised_card_users(self, paymentInstrumentId, idempotency_key=None, **kwargs):
         """
         Get authorized users for a card.
         """
@@ -29,19 +37,11 @@ class AuthorizedCardUsersApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def payment_instruments_payment_instrument_id_authorised_card_users_patch(self, request, paymentInstrumentId, authorisedCardUsers, idempotency_key=None, **kwargs):
+    def update_authorised_card_users(self, request, paymentInstrumentId, authorisedCardUsers, idempotency_key=None, **kwargs):
         """
         Update the authorized users for a card.
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
-    def payment_instruments_payment_instrument_id_authorised_card_users_post(self, request, paymentInstrumentId, authorisedCardUsers, idempotency_key=None, **kwargs):
-        """
-        Create authorized users for a card.
-        """
-        endpoint = self.baseUrl + f"/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers"
-        method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
