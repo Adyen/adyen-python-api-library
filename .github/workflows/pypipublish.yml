@@ -7,7 +7,7 @@ on:
 jobs:
   tests:
     name: run tests
-    uses: ./.github/workflows/unittest.yml
+    uses: ./.github/workflows/python-ci.yml
   build-n-publish:
     name: Build and publish Python 🐍 distributions 📦 to TestPyPI
     needs: [tests]
