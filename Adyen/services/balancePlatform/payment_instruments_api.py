@@ -13,6 +13,14 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
+    def create_network_token_provisioning_data(self, request, id, idempotency_key=None, **kwargs):
+        """
+        Create network token provisioning data
+        """
+        endpoint = self.baseUrl + f"/paymentInstruments/{id}/networkTokenActivationData"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def create_payment_instrument(self, request, idempotency_key=None, **kwargs):
         """
         Create a payment instrument
@@ -26,6 +34,14 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         Get all transaction rules for a payment instrument
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{id}/transactionRules"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
+    def get_network_token_activation_data(self, id, idempotency_key=None, **kwargs):
+        """
+        Get network token activation data
+        """
+        endpoint = self.baseUrl + f"/paymentInstruments/{id}/networkTokenActivationData"
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
