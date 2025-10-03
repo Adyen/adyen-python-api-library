@@ -1,6 +1,7 @@
 import Adyen
 from Adyen import settings
 import unittest
+from Adyen.services.posMobile import AdyenPosMobileApi
 
 try:
     from BaseTest import BaseTest
@@ -28,6 +29,15 @@ class TestDetermineUrl(unittest.TestCase):
         url = self.adyen.client._determine_api_url("live", self.checkout_url + "/payments")
         self.assertEqual("https://1797a841fbb37ca7-AdyenDemo-checkout-"
                          f"live.adyenpayments.com/checkout/{self.checkout_version}/payments", url)
+    
+    def test_pos_mobile_api_url_live(self):
+        self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        pos_mobile_api = AdyenPosMobileApi(self.client)
+        pos_mobile_url = pos_mobile_api.baseUrl
+        pos_mobile_version = pos_mobile_url.split('/')[-1]
+        url = self.adyen.client._determine_api_url("live", pos_mobile_url + "/sessions")
+        self.assertEqual("https://1797a841fbb37ca7-AdyenDemo-checkout-"
+                        f"live.adyenpayments.com/checkout/possdk/{pos_mobile_version}/sessions", url)
 
     def test_checkout_api_url(self):
         self.client.live_endpoint_prefix = None

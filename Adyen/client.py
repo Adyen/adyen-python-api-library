@@ -145,8 +145,13 @@ class AdyenClient(object):
                 error_string = "Please set your live suffix. You can set it by running " \
                                "adyen.client.live_endpoint_prefix = 'Your live suffix'"
                 raise AdyenEndpointInvalidFormat(error_string)
-            endpoint = endpoint.replace("https://checkout-test.adyen.com/",
-                                        "https://" + self.live_endpoint_prefix + "-checkout-live.adyenpayments.com/checkout/")
+            
+            if "possdk" in endpoint:
+                endpoint = endpoint.replace("https://checkout-test.adyen.com/",
+                                            "https://" + self.live_endpoint_prefix + "-checkout-live.adyenpayments.com/")
+            else:
+                endpoint = endpoint.replace("https://checkout-test.adyen.com/",
+                                            "https://" + self.live_endpoint_prefix + "-checkout-live.adyenpayments.com/checkout/")
 
         endpoint = endpoint.replace("-test", "-live")
 
