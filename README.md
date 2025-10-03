@@ -54,32 +54,28 @@ pip install Adyen
 ~~~~
 
 ## Using the library
- 
-### General use with API key
- 
-~~~~ python
-import Adyen
-
-adyen = Adyen.Adyen()
-
-adyen.payment.client.xapikey = "YourXapikey"
-adyen.payment.client.hmac = "YourHMACkey"
-adyen.payment.client.platform = "test" # Environment to use the library in.
-~~~~
-
-### Consuming Services
 
 Every API the library supports is represented by a service object. The name of the service matching the corresponding API is listed in the [Integrations](#supported-api-versions) section of this document.
 
+This library offers two ways to initialize and use the Adyen API services.
+
 #### Using all services
+
+For simple scripts or applications that only use a single set of API credentials, you can use the main `Adyen` object. This creates a convenient "facade" that loads and provides easy access to all available APIs.
 
 ~~~~python
 import Adyen
 
+# Create the all-in-one client
 adyen = Adyen.Adyen()
-adyen.payment.client.xapikey = "YourXapikey"
-adyen.payment.client.platform = "test"  # change to live for production
+
+# Configure the client
+adyen.client.xapikey = "YourXapikey"
+adyen.client.platform = "test"  # change to "live" for production
+
+# Prepare the request
 request = {
+    "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
     "amount": {
         "currency": "USD",
         "value": 1000  # value in minor units
@@ -92,38 +88,34 @@ request = {
         "encryptedExpiryYear": "test_2030",
         "encryptedSecurityCode": "test_737"
     },
-    "shopperReference": "YOUR_UNIQUE_SHOPPER_ID_IOfW3k9G2PvXFu2j",
-    "returnUrl": "https://your-company.com/...",
-    "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+    "returnUrl": "https://your-company.com/..."
 }
+
+# Make the API call through the long-form path
 result = adyen.checkout.payments_api.payments(request)
 ~~~~
 
-#### Using one of the services
+#### Using Individual Service Clients
+
+For some web applications (e.g., using Flask or Django), multi-threaded environments, or any use case where you might need to manage multiple API credentials (for different merchant accounts, ECOM vs. POS, etc.), it is recommended to instantiate API clients directly.
 
 ~~~~python
-from Adyen import checkout
+# Import the core client and the service-level API class
+from Adyen.client import AdyenClient
+from Adyen.services import AdyenCheckoutApi
 
-checkout.client.xapikey = "YourXapikey"
-checkout.client.platform = "test"  # change to live for production
-request = {
-    "amount": {
-        "currency": "USD",
-        "value": 1000  # value in minor units
-    },
-    "reference": "Your order number",
-    "paymentMethod": {
-        "type": "visa",
-        "encryptedCardNumber": "test_4111111111111111",
-        "encryptedExpiryMonth": "test_03",
-        "encryptedExpiryYear": "test_2030",
-        "encryptedSecurityCode": "test_737"
-    },
-    "shopperReference": "YOUR_UNIQUE_SHOPPER_ID_IOfW3k9G2PvXFu2j",
-    "returnUrl": "https://your-company.com/...",
-    "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
-}
-result = checkout.payments_api.payments(request)
+# Create and configure the core AdyenClient
+adyen_client = AdyenClient()
+adyen_client.xapikey = "YourXapikey"
+adyen_client.platform = "test"
+
+# Instantiate the AdyenCheckoutApi service
+checkout_service = AdyenCheckoutApi(client=adyen_client)
+
+# Make API calls using the sub-clients within the service
+request = {"merchantAccount": "YOUR_MERCHANT_ACCOUNT", ...}
+payment_result = checkout_service.payments_api.payments(request)
+order_result = checkout_service.orders_api.orders(request)
 ~~~~
 
 #### Force HTTP library
