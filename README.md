@@ -61,7 +61,7 @@ This library offers two ways to initialize and use the Adyen API services.
 
 #### Using all services
 
-For simple scripts or applications that only use a single set of API credentials, you can use the main `Adyen` object. This creates a convenient "facade" that loads and provides easy access to all available APIs.
+For simple scripts or applications that only use a single set of API credentials, you can use the main `Adyen` object. This creates a convenient "facade" that loads and provides easy access to all available APIs. Keep in mind that different API keys will have different scopes so you may still need need more than one instance.
 
 ~~~~python
 import Adyen
@@ -116,6 +116,14 @@ checkout_service = AdyenCheckoutApi(client=adyen_client)
 request = {"merchantAccount": "YOUR_MERCHANT_ACCOUNT", ...}
 payment_result = checkout_service.payments_api.payments(request)
 order_result = checkout_service.orders_api.orders(request)
+~~~~
+
+Similarly you can instantiate a separate client for services that required different API keys
+
+~~~~python
+adyen_lem_client = AdyenClient()
+adyen_lem_client.xapikey = "YourLEMXapikey"
+adyen_lem_client.platform = "test"
 ~~~~
 
 #### Force HTTP library
