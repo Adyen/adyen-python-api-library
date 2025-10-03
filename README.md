@@ -61,7 +61,7 @@ This library offers two ways to initialize and use the Adyen API services.
 
 #### Using all services
 
-For simple scripts or applications that only use a single set of API credentials, you can use the main `Adyen` object. This creates a convenient "facade" that loads and provides easy access to all available APIs. Keep in mind that different API keys will have different scopes so you may still need need more than one instance.
+For simple scripts or applications that only use a single set of API credentials, you can use the main `Adyen` object. This creates a convenient "facade" that loads and provides easy access to all available APIs. Keep in mind that different API keys will have different scopes so you may still need more than one instance.
 
 ~~~~python
 import Adyen
