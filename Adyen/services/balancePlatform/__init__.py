@@ -14,6 +14,8 @@ from .payment_instrument_groups_api import PaymentInstrumentGroupsApi
 from .payment_instruments_api import PaymentInstrumentsApi
 from .platform_api import PlatformApi
 from .transaction_rules_api import TransactionRulesApi
+from .transfer_limits_balance_account_level_api import TransferLimitsBalanceAccountLevelApi
+from .transfer_limits_balance_platform_level_api import TransferLimitsBalancePlatformLevelApi
 from .transfer_routes_api import TransferRoutesApi
 
 
@@ -41,4 +43,6 @@ class AdyenBalancePlatformApi(AdyenServiceBase):
         self.payment_instruments_api = PaymentInstrumentsApi(client=client)
         self.platform_api = PlatformApi(client=client)
         self.transaction_rules_api = TransactionRulesApi(client=client)
+        self.transfer_limits_balance_account_level_api = TransferLimitsBalanceAccountLevelApi(client=client)
+        self.transfer_limits_balance_platform_level_api = TransferLimitsBalancePlatformLevelApi(client=client)
         self.transfer_routes_api = TransferRoutesApi(client=client)
