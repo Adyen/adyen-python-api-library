@@ -11,7 +11,7 @@ class TaxEDeliveryConsentApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TaxEDeliveryConsentApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
-        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v4"
 
     def check_status_of_consent_for_electronic_delivery_of_tax_forms(self, id, idempotency_key=None, **kwargs):
         """
