@@ -10,6 +10,7 @@ on:
       - main
       - develop
   workflow_dispatch: {}
+  workflow_call: {}
 
 permissions:
   contents: read
