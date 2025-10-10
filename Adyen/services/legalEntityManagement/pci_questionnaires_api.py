@@ -11,7 +11,7 @@ class PCIQuestionnairesApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(PCIQuestionnairesApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
-        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v4"
 
     def calculate_pci_status_of_legal_entity(self, request, id, idempotency_key=None, **kwargs):
         """
