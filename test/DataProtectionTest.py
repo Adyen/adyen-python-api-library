@@ -15,7 +15,7 @@ class TestCheckout(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    data_protection_url = adyen.dataProtection.baseUrl
+    data_protection_url = adyen.dataProtection.data_protection_api.baseUrl
     lib_version = settings.LIB_VERSION
 
     def test_data_erasure(self):
@@ -26,7 +26,7 @@ class TestCheckout(unittest.TestCase):
         }
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/dataProtection/erasure-response.json")
-        result = self.adyen.dataProtection.request_subject_erasure(request)
+        result = self.adyen.dataProtection.data_protection_api.request_subject_erasure(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.data_protection_url}'

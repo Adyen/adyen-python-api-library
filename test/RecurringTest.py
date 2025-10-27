@@ -14,7 +14,7 @@ class TestRecurring(unittest.TestCase):
     client.username = "YourWSUser"
     client.password = "YourWSPassword"
     client.platform = "test"
-    baseUrl = adyen.recurring.baseUrl
+    baseUrl = adyen.recurring.recurring_api.baseUrl
 
     def test_list_recurring_details(self):
         request = {}
@@ -30,7 +30,7 @@ class TestRecurring(unittest.TestCase):
                                                             'listRecurring'
                                                             'Details-'
                                                             'success.json')
-        result = self.adyen.recurring.list_recurring_details(request)
+        result = self.adyen.recurring.recurring_api.list_recurring_details(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.baseUrl}/listRecurringDetails',
@@ -57,7 +57,7 @@ class TestRecurring(unittest.TestCase):
                                                             'recurring/'
                                                             'disable-success'
                                                             '.json')
-        result = self.adyen.recurring.disable(request)
+        result = self.adyen.recurring.recurring_api.disable(request)
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.baseUrl}/disable',
@@ -83,7 +83,7 @@ class TestRecurring(unittest.TestCase):
         self.assertRaisesRegex(
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '803', 'message': 'PaymentDetail not found', 'errorType': 'validation'}",
-            self.adyen.recurring.disable,
+            self.adyen.recurring.recurring_api.disable,
             request
         )
 
