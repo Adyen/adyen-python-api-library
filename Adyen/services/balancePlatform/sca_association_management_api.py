@@ -1,4 +1,4 @@
-Hfrom ..base import AdyenServiceBase
+from ..base import AdyenServiceBase
 
 
 class SCAAssociationManagementApi(AdyenServiceBase):
