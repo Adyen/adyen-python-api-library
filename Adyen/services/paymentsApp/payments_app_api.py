@@ -13,7 +13,7 @@ class PaymentsAppApi(AdyenServiceBase):
         self.service = "paymentsApp"
         self.baseUrl = "https://management-live.adyen.com/v1"
 
-    def generate_payments_app_boarding_token_for_merchant(self, request, merchantId, boardingTokenRequest, idempotency_key=None, **kwargs):
+    def generate_payments_app_boarding_token_for_merchant(self, request, merchantId, idempotency_key=None, **kwargs):
         """
         Create a boarding token - merchant level
         """
@@ -21,7 +21,7 @@ class PaymentsAppApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def generate_payments_app_boarding_token_for_store(self, request, merchantId, storeId, boardingTokenRequest, idempotency_key=None, **kwargs):
+    def generate_payments_app_boarding_token_for_store(self, request, merchantId, storeId, idempotency_key=None, **kwargs):
         """
         Create a boarding token - store level
         """

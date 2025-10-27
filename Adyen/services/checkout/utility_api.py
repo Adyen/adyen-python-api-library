@@ -39,3 +39,11 @@ class UtilityApi(AdyenServiceBase):
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def validate_shopper_id(self, request, idempotency_key=None, **kwargs):
+        """
+        Validates shopper Id
+        """
+        endpoint = self.baseUrl + f"/validateShopperId"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

@@ -23,7 +23,7 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
 
     def create_split_configuration(self, request, merchantId, idempotency_key=None, **kwargs):
         """
-        Create a split configuration
+        Create a split configuration profile
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations"
         method = "POST"
@@ -31,7 +31,7 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
 
     def delete_split_configuration(self, merchantId, splitConfigurationId, idempotency_key=None, **kwargs):
         """
-        Delete a split configuration
+        Delete a split configuration profile
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
         method = "DELETE"
@@ -39,7 +39,7 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
 
     def delete_split_configuration_rule(self, merchantId, splitConfigurationId, ruleId, idempotency_key=None, **kwargs):
         """
-        Delete a split configuration rule
+        Delete a rule
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}"
         method = "DELETE"
@@ -47,7 +47,7 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
 
     def get_split_configuration(self, merchantId, splitConfigurationId, idempotency_key=None, **kwargs):
         """
-        Get a split configuration
+        Get a split configuration profile
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
         method = "GET"
@@ -55,7 +55,7 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
 
     def list_split_configurations(self, merchantId, idempotency_key=None, **kwargs):
         """
-        Get a list of split configurations
+        Get a list of split configuration profiles
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations"
         method = "GET"
@@ -63,7 +63,7 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
 
     def update_split_conditions(self, request, merchantId, splitConfigurationId, ruleId, idempotency_key=None, **kwargs):
         """
-        Update split conditions
+        Update the split conditions
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}"
         method = "PATCH"
@@ -71,7 +71,7 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
 
     def update_split_configuration_description(self, request, merchantId, splitConfigurationId, idempotency_key=None, **kwargs):
         """
-        Update split configuration description
+        Update the description of the split configuration profile
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
         method = "PATCH"
