@@ -87,6 +87,71 @@ class TestBalancePlatform(unittest.TestCase):
             xapikey="YourXapikey"
         )
 
+    def test_creating_transfer_limit(self):
+        request = {
+            "amount": {
+                "currency": "EUR",
+                "value": 10000
+            },
+            "reference": "Your reference for the transfer limit",
+            "scaInformation": {
+                "scaOnApproval": True
+            },
+            "scope": "perTransaction",
+            "startsAt": "2025-08-15T06:36:20+01:00",
+            "endsAt": "2026-08-14T00:00:00+01:00",
+            "transferType": "all"
+        }
+
+        balance_platform_id = 'YOUR_BALANCE_PLATFORM_ID'
+
+        self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/configuration/"
+                                                                            "transfer-limit-created.json")
+        result = self.adyen.balancePlatform.transfer_limits_balance_platform_level_api.create_transfer_limit(request,
+                                                                                                             balance_platform_id)
+        self.assertEqual("TRLI00000000000000000000000001", result.message['id'])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'{self.balance_platform_url}/balancePlatforms/{balance_platform_id}/transferLimits',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            json=request,
+            xapikey="YourXapikey"
+        )
+
+    def test_creating_webhook(self):
+        request = {
+            "type": "balance",
+            "target": {
+                "type": "balanceAccount",
+                "id": "BA00000000000000000LIABLE"
+            },
+            "currency": "USD",
+            "status": "active",
+            "conditions": [
+                {
+                    "balanceType": "available",
+                    "conditionType": "lessThan",
+                    "value": 500000
+                }
+            ]
+        }
+
+        balance_platform_id = 'YOUR_BALANCE_PLATFORM_ID'
+        webhook_id = 'YOUR_WEBHOOK_ID'
+
+        self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/configuration/"
+                                                                            "webhook-setting-created.json")
+        result = self.adyen.balancePlatform.balances_api.create_webhook_setting(request, balance_platform_id, webhook_id)
+        self.assertEqual("active", result.message['status'])
+        self.assertEqual("BWHS00000000000000000000000001", result.message['id'])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            'POST',
+            f'{self.balance_platform_url}/balancePlatforms/{balance_platform_id}/webhooks/{webhook_id}/settings',
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            json=request,
+            xapikey="YourXapikey"
+        )
+
     def test_creating_payment_instrument_group(self):
         request = {
             "balancePlatform": "YOUR_BALANCE_PLATFORM",

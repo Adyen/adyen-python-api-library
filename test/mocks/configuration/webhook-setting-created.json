@@ -1,0 +1,17 @@
+{
+  "id": "BWHS00000000000000000000000001",
+  "type": "balance",
+  "target": {
+    "type": "balanceAccount",
+    "id": "BA00000000000000000LIABLE"
+  },
+  "currency": "USD",
+  "status": "active",
+  "conditions": [
+    {
+      "balanceType": "available",
+      "conditionType": "lessThan",
+      "value": 500000
+    }
+  ]
+}
