@@ -13,7 +13,7 @@ class BalancesApi(AdyenServiceBase):
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
-    def create_webhook_setting(self, request, balancePlatformId, webhookId, balanceWebhookSettingInfo, idempotency_key=None, **kwargs):
+    def create_webhook_setting(self, request, balancePlatformId, webhookId, idempotency_key=None, **kwargs):
         """
         Create a balance webhook setting
         """
@@ -45,7 +45,7 @@ class BalancesApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def update_webhook_setting(self, request, balancePlatformId, webhookId, settingId, balanceWebhookSettingInfoUpdate, idempotency_key=None, **kwargs):
+    def update_webhook_setting(self, request, balancePlatformId, webhookId, settingId, idempotency_key=None, **kwargs):
         """
         Update a balance webhook setting by id
         """

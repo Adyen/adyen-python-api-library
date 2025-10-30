@@ -11,7 +11,7 @@ class TermsOfServiceApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(TermsOfServiceApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
-        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v4"
 
     def accept_terms_of_service(self, request, id, termsofservicedocumentid, idempotency_key=None, **kwargs):
         """

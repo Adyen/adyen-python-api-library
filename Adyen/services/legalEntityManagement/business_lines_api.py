@@ -11,7 +11,7 @@ class BusinessLinesApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(BusinessLinesApi, self).__init__(client=client)
         self.service = "legalEntityManagement"
-        self.baseUrl = "https://kyc-test.adyen.com/lem/v3"
+        self.baseUrl = "https://kyc-test.adyen.com/lem/v4"
 
     def create_business_line(self, request, idempotency_key=None, **kwargs):
         """

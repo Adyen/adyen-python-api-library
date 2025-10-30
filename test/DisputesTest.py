@@ -15,7 +15,7 @@ class TestDisputes(unittest.TestCase):
     test = BaseTest(adyen)
     client.xapikey = "YourXapikey"
     client.platform = "test"
-    disputes_url = adyen.disputes.baseUrl
+    disputes_url = adyen.disputes.disputes_api.baseUrl
 
     def test_accept_dispute(self):
         request = {
@@ -25,7 +25,7 @@ class TestDisputes(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/disputes/"
                                                               "post-acceptDispute-accept-dispute-200.json")
-        result = self.adyen.disputes.accept_dispute(request)
+        result = self.adyen.disputes.disputes_api.accept_dispute(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -44,7 +44,7 @@ class TestDisputes(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/disputes/"
                                                               "post-defendDispute-defend-dispute-200.json")
-        result = self.adyen.disputes.defend_dispute(request)
+        result = self.adyen.disputes.disputes_api.defend_dispute(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -63,7 +63,7 @@ class TestDisputes(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/disputes/"
                                                               "post-deleteDisputeDefenseDocument-delete-dispute-defense-document-200.json")
-        result = self.adyen.disputes.delete_dispute_defense_document(request)
+        result = self.adyen.disputes.disputes_api.delete_dispute_defense_document(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -81,7 +81,7 @@ class TestDisputes(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/disputes/"
                                                               "post-downloadDisputeDefenseDocument-download-dispute-defense-document-200.json")
-        result = self.adyen.disputes.delete_dispute_defense_document(request)
+        result = self.adyen.disputes.disputes_api.delete_dispute_defense_document(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -99,7 +99,7 @@ class TestDisputes(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/disputes/"
                                                               "post-retrieveApplicableDefenseReasons-retrieve-defense-reasons-200.json")
-        result = self.adyen.disputes.retrieve_applicable_defense_reasons(request)
+        result = self.adyen.disputes.disputes_api.retrieve_applicable_defense_reasons(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
@@ -124,7 +124,7 @@ class TestDisputes(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(200, request,
                                                               "test/mocks/disputes/"
                                                               "post-supplyDefenseDocument-supply-defense-document-200.json")
-        result = self.adyen.disputes.supply_defense_document(request)
+        result = self.adyen.disputes.disputes_api.supply_defense_document(request)
 
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',

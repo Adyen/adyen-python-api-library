@@ -13,7 +13,7 @@ class SessionAuthenticationApi(AdyenServiceBase):
         self.service = "sessionAuthentication"
         self.baseUrl = "https://test.adyen.com/authe/api/v1"
 
-    def create_authentication_session(self, request, authenticationSessionRequest, idempotency_key=None, **kwargs):
+    def create_authentication_session(self, request, idempotency_key=None, **kwargs):
         """
         Create a session token
         """

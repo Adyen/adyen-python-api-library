@@ -529,3 +529,24 @@ class TestCheckout(unittest.TestCase):
         )
         self.assertEqual("expired",result.message["status"])
 
+    def test_service_name_validation(self):
+        """
+        This test prevents a regression of a bug found in the Adyen Ruby library
+        where the `service` attribute of the `PaymentsApi` class was being
+        overridden due to the way Ruby handles open classes.
+
+        This test validates that the `service` and `baseUrl` attributes of the
+        `payments_api` for both `checkout` and `payment` are set correctly and
+        are not being overridden by ensuring that each service has its own
+        `PaymentsApi` class in a separate module.
+        """
+        checkout_service = self.adyen.checkout.payments_api.service
+        payment_service = self.adyen.payment.payments_api.service
+        checkout_base_url = self.adyen.checkout.payments_api.baseUrl
+        payment_base_url = self.adyen.payment.payments_api.baseUrl
+
+        self.assertEqual("checkout", checkout_service)
+        self.assertEqual("payments", payment_service)
+        self.assertTrue(checkout_base_url.startswith("https://checkout-test.adyen.com/"))
+        self.assertTrue(payment_base_url.startswith("https://pal-test.adyen.com/pal/servlet/Payment/"))
+

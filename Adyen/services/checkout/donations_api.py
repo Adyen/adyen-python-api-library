@@ -23,7 +23,7 @@ class DonationsApi(AdyenServiceBase):
 
     def donations(self, request, idempotency_key=None, **kwargs):
         """
-        Start a transaction for donations
+        Make a donation
         """
         endpoint = self.baseUrl + f"/donations"
         method = "POST"
