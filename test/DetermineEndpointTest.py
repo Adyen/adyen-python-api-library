@@ -23,6 +23,8 @@ class TestDetermineUrl(unittest.TestCase):
     payment_version = payment_url.split('/')[-1]
     binlookup_url = adyen.binlookup.bin_lookup_api.baseUrl
     management_url = adyen.management.account_merchant_level_api.baseUrl
+    sessionauth_url = adyen.sessionAuthentication.session_authentication_api.baseUrl
+    sessionauth_version = sessionauth_url.split('/')[-1]
 
     def test_checkout_api_url_custom(self):
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
@@ -133,3 +135,11 @@ class TestDetermineUrl(unittest.TestCase):
         companyId = "YOUR_COMPANY_ID"
         url = self.adyen.client._determine_api_url("test", self.management_url + f'/companies/{companyId}/users')
         self.assertEqual(url, f"{self.management_url}/companies/{companyId}/users")
+
+    def test_secureauthentication_api_url(self):
+        url = self.adyen.client._determine_api_url("test", self.sessionauth_url)
+        self.assertEqual(url, self.sessionauth_url)
+
+    def test_live_secureauthentication_api_url(self):
+        url = self.adyen.client._determine_api_url("live", self.sessionauth_url + "/sessions")
+        self.assertEqual(url, f"https://authe-live.adyen.com/authe/api/{self.sessionauth_version}/sessions")

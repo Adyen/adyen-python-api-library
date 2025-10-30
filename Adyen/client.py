@@ -154,6 +154,8 @@ class AdyenClient(object):
             else:
                 endpoint = endpoint.replace("https://checkout-test.adyen.com/",
                                             "https://" + self.live_endpoint_prefix + "-checkout-live.adyenpayments.com/checkout/")
+        elif "authe/api" in endpoint:
+            endpoint = endpoint.replace("https://test.adyen.com", "https://authe-live.adyen.com")
 
         endpoint = endpoint.replace("-test", "-live")
 
