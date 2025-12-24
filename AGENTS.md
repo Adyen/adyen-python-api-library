@@ -61,26 +61,19 @@ make install
 
 ### Running Tests
 
-To execute the unit tests across different Python versions:
-```bash
-make test
-```
-This command runs `tox`, which manages the test environments.
+You can run the unit tests using two main methods:
 
-### Code Style & Formatting
+1.  **Directly via `make`**: For a quick run of the test suite in your current environment.
+    ```bash
+    make tests
+    ```
+    This command executes the tests using Python's built-in `unittest` module.
 
-We use `flake8` for linting and `black` for formatting.
-
-- **Check for style violations and type errors**:
-  ```bash
-  make lint
-  ```
-- **Apply formatting**:
-  ```bash
-  make format
-  ```
-
-The build will fail if there are any linting violations. Run `make format` before committing.
+2.  **Via `tox`**: For comprehensive testing across multiple Python versions, as is done in the CI pipeline.
+    ```bash
+    tox
+    ```
+    This command uses the `tox.ini` configuration to create isolated environments and run tests in each, ensuring compatibility. This is the method used in our GitHub Actions workflow.
 
 ## Release Process
 
