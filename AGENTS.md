@@ -21,10 +21,10 @@ To test new features or changes to the templates, you must run the generation pr
     git clone https://github.com/Adyen/adyen-sdk-automation.git
     ```
 
-2.  **Link this library**: The automation project needs to target your local clone of `adyen-python-api-library`. From inside the `adyen-sdk-automation` directory, run the following commands. This will replace the `python/repo` directory with a symlink to your local project.
+2.  **Link this library**: The automation project needs to target your local clone of `adyen-python-api-library`. From inside the `adyen-sdk-automation` directory, run the following commands. This will replace the `python/repo` directory with a symlink to your local project. For example, if you cloned both repositories in the same parent directory:
     ```bash
     rm -rf python/repo
-    ln -s /path/to/your/adyen-python-api-library python/repo
+    ln -s ../adyen-python-api-library python/repo
     ```
 
 3.  **Run the generator**: You can now run the Gradle commands to generate code.
