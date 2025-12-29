@@ -22,7 +22,8 @@ on:
 
 jobs:
   release:
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    # Run on workflow_dispatch OR when PR is merged from same repository
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.merged == true && github.event.pull_request.head.repo.full_name == github.repository) }}    
     permissions:
       contents: write
       pull-requests: write
