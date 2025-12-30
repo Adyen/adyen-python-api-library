@@ -17,9 +17,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@61b9e3751b92087fd0b06925ba6dd6314e06f089 # master
       - name: Set up Python 3.10
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6
         with:
           python-version: "3.14"
 
@@ -38,11 +38,11 @@ jobs:
           --outdir dist/
           .
       # - name: Publish distribution 📦 to Test PyPI
-      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # release/v1
       #   with:
       #     password: ${{ secrets.PYPI_TEST_KEY }}
       #     repository-url: https://test.pypi.org/legacy/
       - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # release/v1
         with:
           password: ${{ secrets.PYPI_KEY }}
