@@ -9,24 +9,23 @@ except ImportError:
 
 
 class TestHttpClient(unittest.TestCase):
+    def setUp(self):
+        self.adyen = Adyen.Adyen()
+        self.client = self.adyen.client
+        self.client.xapikey = "TEST_XAPI_KEY"
+        self.test = BaseTest(self.adyen)
 
     def test_user_agent_without_application_name(self):
-        adyen = Adyen.Adyen()
-        client = adyen.client
-        client.xapikey = "TEST_XAPI_KEY"
-
-        test = BaseTest(adyen)
-        
         # Mock the http_client.request method
-        client = test.create_client_from_file(200, {}, "test/mocks/checkout/paymentmethods-success.json")
+        self.test.create_client_from_file(200, {}, "test/mocks/checkout/paymentmethods-success.json")
 
         # Call a dummy API method
-        _ = adyen.checkout.payments_api.payment_methods({})
+        _ = self.adyen.checkout.payments_api.payment_methods({})
 
         # Assert that http_client.request was called with the correct headers
-        client.http_client.request.assert_called_once_with(
+        self.client.http_client.request.assert_called_once_with(
             'POST',
-            f'{adyen.checkout.payments_api.baseUrl}/paymentMethods',
+            f'{self.adyen.checkout.payments_api.baseUrl}/paymentMethods',
             headers={
                 'adyen-library-name': settings.LIB_NAME,
                 'adyen-library-version': settings.LIB_VERSION,
@@ -37,23 +36,18 @@ class TestHttpClient(unittest.TestCase):
         )
 
     def test_user_agent_with_application_name(self):
-        adyen = Adyen.Adyen()
-        client = adyen.client
-        client.xapikey = "TEST_XAPI_KEY"
-        client.application_name = "MyTestApp"
-
-        test = BaseTest(adyen)
+        self.client.application_name = "MyTestApp"
 
         # Mock the http_client.request method
-        client = test.create_client_from_file(200, {}, "test/mocks/checkout/paymentmethods-success.json")
+        self.test.create_client_from_file(200, {}, "test/mocks/checkout/paymentmethods-success.json")
 
         # Call a dummy API method
-        _ = adyen.checkout.payments_api.payment_methods({})
+        _ = self.adyen.checkout.payments_api.payment_methods({})
 
         # Assert that http_client.request was called with the correct headers
-        client.http_client.request.assert_called_once_with(
+        self.client.http_client.request.assert_called_once_with(
             'POST',
-            f'{adyen.checkout.payments_api.baseUrl}/paymentMethods',
+            f'{self.adyen.checkout.payments_api.baseUrl}/paymentMethods',
             headers={
                 'adyen-library-name': settings.LIB_NAME,
                 'adyen-library-version': settings.LIB_VERSION,
