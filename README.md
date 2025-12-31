@@ -73,6 +73,8 @@ adyen = Adyen.Adyen()
 # Configure the client
 adyen.client.xapikey = "YourXapikey"
 adyen.client.platform = "test"  # change to "live" for production
+adyen.client.application_name = "MyTestApp" # if applicable, set application name (for tracking purposes)
+
 
 # Prepare the request
 request = {
@@ -109,6 +111,7 @@ from Adyen.services import AdyenCheckoutApi
 adyen_client = AdyenClient()
 adyen_client.xapikey = "YourXapikey"
 adyen_client.platform = "test"
+adyen_client.application_name = "MyTestApp" # if applicable, set application name (for tracking purposes)
 
 # Instantiate the AdyenCheckoutApi service
 checkout_service = AdyenCheckoutApi(client=adyen_client)
@@ -125,6 +128,7 @@ Similarly you can instantiate a separate client for services that required diffe
 adyen_lem_client = AdyenClient()
 adyen_lem_client.xapikey = "YourLEMXapikey"
 adyen_lem_client.platform = "test"
+adyen_lem_client.application_name = "MyTestApp" # if applicable, set application name (for tracking purposes)
 ~~~~
 
 #### Force HTTP library
