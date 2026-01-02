@@ -72,6 +72,7 @@ class AdyenClient(object):
             username=None,
             password=None,
             xapikey=None,
+            application_name=None,
             review_payout_username=None,
             review_payout_password=None,
             store_payout_username=None, store_payout_password=None,
@@ -100,6 +101,7 @@ class AdyenClient(object):
         self.username = username
         self.password = password
         self.xapikey = xapikey
+        self.application_name = application_name
         self.review_payout_username = review_payout_username
         self.review_payout_password = review_payout_password
         self.store_payout_username = store_payout_username
@@ -349,7 +351,8 @@ class AdyenClient(object):
 
         headers = {
             self.APPLICATION_INFO_HEADER_NAME: settings.LIB_NAME,
-            self.APPLICATION_VERSION_HEADER_NAME: settings.LIB_VERSION
+            self.APPLICATION_VERSION_HEADER_NAME: settings.LIB_VERSION,
+            'User-Agent': self.http_client.user_agent,
         }
 
         # Adyen requires this header to be set and uses the combination of
@@ -388,8 +391,11 @@ class AdyenClient(object):
         return adyen_result
 
     def _init_http_client(self):
+        user_agent_suffix = self.USER_AGENT_SUFFIX
+        if self.application_name:
+            user_agent_suffix = self.application_name + " " + user_agent_suffix
         self.http_client = HTTPClient(
-            user_agent_suffix=self.USER_AGENT_SUFFIX,
+            user_agent_suffix=user_agent_suffix,
             lib_version=self.LIB_VERSION,
             force_request=self.http_force,
             timeout=self.http_timeout,

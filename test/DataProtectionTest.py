@@ -31,7 +31,7 @@ class TestCheckout(unittest.TestCase):
             'POST',
             f'{self.data_protection_url}'
             '/requestSubjectErasure',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             xapikey="YourXapikey",
             json=request
         )

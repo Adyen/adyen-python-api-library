@@ -35,7 +35,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.stored_value_url}/issue',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -63,7 +63,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.stored_value_url}/changeStatus',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -90,7 +90,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.stored_value_url}/load',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -112,7 +112,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.stored_value_url}/checkBalance',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -138,7 +138,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.stored_value_url}/mergeBalance',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -155,7 +155,7 @@ class TestManagement(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.stored_value_url}/voidTransaction',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )

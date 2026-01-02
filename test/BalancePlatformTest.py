@@ -31,7 +31,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.balance_platform_url}/balanceAccounts',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -49,7 +49,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.balance_platform_url}/accountHolders',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -63,7 +63,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'{self.balance_platform_url}/balancePlatforms/{platform_id}',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
         )
@@ -82,7 +82,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.balance_platform_url}/paymentInstruments',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -113,7 +113,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.balance_platform_url}/balancePlatforms/{balance_platform_id}/transferLimits',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -147,7 +147,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.balance_platform_url}/balancePlatforms/{balance_platform_id}/webhooks/{webhook_id}/settings',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -164,7 +164,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.balance_platform_url}/paymentInstrumentGroups',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
@@ -179,7 +179,7 @@ class TestBalancePlatform(unittest.TestCase):
             'GET',
             f'{self.balance_platform_url}/'
             f'transactionRules/{transactionRuleId}',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=None,
             xapikey="YourXapikey"
         )
@@ -198,7 +198,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
             f'{self.balance_platform_url}/networkTokens/TK123ABC',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )

@@ -43,7 +43,7 @@ class TestSessionAuthentication(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.session_url}/sessions',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
