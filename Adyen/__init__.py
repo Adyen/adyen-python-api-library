@@ -14,6 +14,7 @@ from .client import AdyenClient
 from .services import (
     AdyenBase,
     AdyenPaymentsApi,
+    AdyenCapitalApi,
     AdyenBinlookupApi,
     AdyenRecurringApi,
     AdyenPayoutsApi,
@@ -36,6 +37,7 @@ class Adyen(AdyenBase):
     def __init__(self, **kwargs):
         self.client = AdyenClient(**kwargs)
         self.payment = AdyenPaymentsApi(client=self.client)
+        self.capital = AdyenCapitalApi(client=self.client)
         self.binlookup = AdyenBinlookupApi(client=self.client)
         self.payout = AdyenPayoutsApi(client=self.client)
         self.recurring = AdyenRecurringApi(client=self.client)
@@ -66,3 +68,4 @@ storedValue = _base_adyen_obj.storedValue
 balancePlatform = _base_adyen_obj.balancePlatform
 disputes = _base_adyen_obj.disputes
 sessionAuthentication = _base_adyen_obj.sessionAuthentication
+capital = _base_adyen_obj.capital
