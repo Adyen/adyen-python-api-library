@@ -25,6 +25,8 @@ class TestDetermineUrl(unittest.TestCase):
     management_url = adyen.management.account_merchant_level_api.baseUrl
     sessionauth_url = adyen.sessionAuthentication.session_authentication_api.baseUrl
     sessionauth_version = sessionauth_url.split('/')[-1]
+    capital_url = adyen.capital.grants_api.baseUrl
+    capital_version = capital_url.split('/')[-1]
 
     def test_checkout_api_url_custom(self):
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
@@ -143,3 +145,11 @@ class TestDetermineUrl(unittest.TestCase):
     def test_live_secureauthentication_api_url(self):
         url = self.adyen.client._determine_api_url("live", self.sessionauth_url + "/sessions")
         self.assertEqual(url, f"https://authe-live.adyen.com/authe/api/{self.sessionauth_version}/sessions")
+
+    def test_capital_api_url(self):
+        url = self.adyen.client._determine_api_url("test", self.capital_url)
+        self.assertEqual(url, self.capital_url)
+
+    def test_live_capital_api_url(self):
+        url = self.adyen.client._determine_api_url("live", self.capital_url)
+        self.assertEqual(url, f"https://balanceplatform-api-live.adyen.com/capital/{self.capital_version}")
