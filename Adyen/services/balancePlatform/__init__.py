@@ -13,6 +13,8 @@ from .network_tokens_api import NetworkTokensApi
 from .payment_instrument_groups_api import PaymentInstrumentGroupsApi
 from .payment_instruments_api import PaymentInstrumentsApi
 from .platform_api import PlatformApi
+from .sca_association_management_api import SCAAssociationManagementApi
+from .sca_device_management_api import SCADeviceManagementApi
 from .transaction_rules_api import TransactionRulesApi
 from .transfer_limits_balance_account_level_api import TransferLimitsBalanceAccountLevelApi
 from .transfer_limits_balance_platform_level_api import TransferLimitsBalancePlatformLevelApi
@@ -42,6 +44,8 @@ class AdyenBalancePlatformApi(AdyenServiceBase):
         self.payment_instrument_groups_api = PaymentInstrumentGroupsApi(client=client)
         self.payment_instruments_api = PaymentInstrumentsApi(client=client)
         self.platform_api = PlatformApi(client=client)
+        self.sca_association_management_api = SCAAssociationManagementApi(client=client)
+        self.sca_device_management_api = SCADeviceManagementApi(client=client)
         self.transaction_rules_api = TransactionRulesApi(client=client)
         self.transfer_limits_balance_account_level_api = TransferLimitsBalanceAccountLevelApi(client=client)
         self.transfer_limits_balance_platform_level_api = TransferLimitsBalancePlatformLevelApi(client=client)
