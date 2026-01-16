@@ -27,7 +27,8 @@ from .services import (
     AdyenStoredValueApi,
     AdyenBalancePlatformApi,
     AdyenDisputesApi,
-    AdyenSessionAuthenticationApi
+    AdyenSessionAuthenticationApi,
+    AdyenPosMobileApi
 )
 
 from .httpclient import HTTPClient
@@ -51,6 +52,7 @@ class Adyen(AdyenBase):
         self.balancePlatform = AdyenBalancePlatformApi(client=self.client)
         self.disputes = AdyenDisputesApi(client=self.client)
         self.sessionAuthentication = AdyenSessionAuthenticationApi(client=self.client)
+        self.posMobile = AdyenPosMobileApi(client=self.client)
 
 
 _base_adyen_obj = Adyen()
@@ -69,3 +71,4 @@ balancePlatform = _base_adyen_obj.balancePlatform
 disputes = _base_adyen_obj.disputes
 sessionAuthentication = _base_adyen_obj.sessionAuthentication
 capital = _base_adyen_obj.capital
+posMobile = _base_adyen_obj.posMobile

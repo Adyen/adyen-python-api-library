@@ -14,3 +14,5 @@ from .balancePlatform import AdyenBalancePlatformApi
 from .disputes import AdyenDisputesApi
 from .sessionAuthentication import AdyenSessionAuthenticationApi
 from .capital import AdyenCapitalApi
+from .posMobile import AdyenPosMobileApi
+
