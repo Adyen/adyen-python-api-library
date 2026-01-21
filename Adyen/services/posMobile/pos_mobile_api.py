@@ -20,3 +20,4 @@ class PosMobileApi(AdyenServiceBase):
         endpoint = self.baseUrl + f"/sessions"
         method = "POST"
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
