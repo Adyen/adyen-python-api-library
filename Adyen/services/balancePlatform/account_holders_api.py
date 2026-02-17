@@ -53,6 +53,14 @@ class AccountHoldersApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def get_tax_form_summary(self, id, idempotency_key=None, **kwargs):
+        """
+        Get summary of tax forms for an account holder
+        """
+        endpoint = self.baseUrl + f"/accountHolders/{id}/taxFormSummary"
+        method = "GET"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def update_account_holder(self, request, id, idempotency_key=None, **kwargs):
         """
         Update an account holder
