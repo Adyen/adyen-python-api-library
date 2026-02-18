@@ -11,7 +11,7 @@ class RecurringApi(AdyenServiceBase):
     def __init__(self, client=None):
         super(RecurringApi, self).__init__(client=client)
         self.service = "recurring"
-        self.baseUrl = "https://paltokenization-test.adyen.com/pal/servlet/Recurring/v68"
+        self.baseUrl = "https://paltokenization-test.adyen.com/paltokenization/servlet/Recurring/v68"
 
     def create_permit(self, request, idempotency_key=None, **kwargs):
         """
