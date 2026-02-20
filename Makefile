@@ -2,10 +2,10 @@ install:
 	@pip install requests pycurl mock coveralls pylint pycodestyle
 
 tests:
-	@python -m unittest discover -s test -p '*Test.py'
+	pytest
 
 coverage:
-	@coverage run -m unittest discover -s test -p '*Test.py'
+	pytest --cov=Adyen
 
 
 generator:=python
