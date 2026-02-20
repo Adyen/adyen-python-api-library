@@ -1,4 +1,4 @@
-from __future__ import absolute_import, division, unicode_literals
+from __future__ import annotations
 
 import json as json_lib
 
@@ -15,9 +15,10 @@ from .exceptions import (
     AdyenEndpointInvalidFormat)
 from . import settings
 import re
+from typing import Any
 
 
-class AdyenResult(object):
+class AdyenResult:
     """
     Args:
         message (dict, optional): Parsed message returned from API client.
@@ -29,20 +30,26 @@ class AdyenResult(object):
 
     """
 
-    def __init__(self, message=None, status_code=200,
-                 psp="", raw_request="", raw_response=""):
+    def __init__(
+        self,
+        message: dict[str, Any] | None = None,
+        status_code: int = 200,
+        psp: str = "",
+        raw_request: str = "",
+        raw_response: str = ""
+    ) -> None:
         self.message = message
         self.status_code = status_code
         self.psp = psp
         self.raw_request = raw_request
         self.raw_response = raw_response
-        self.details = {}
+        self.details: dict[str, Any] = {}
 
-    def __str__(self):
+    def __str__(self) -> str:
         return repr(self.message)
 
 
-class AdyenClient(object):
+class AdyenClient:
     IDEMPOTENCY_HEADER_NAME = 'Idempotency-Key'
     APPLICATION_INFO_HEADER_NAME = 'adyen-library-name'
     APPLICATION_VERSION_HEADER_NAME = 'adyen-library-version'
@@ -68,37 +75,38 @@ class AdyenClient(object):
     """
 
     def __init__(
-            self,
-            username=None,
-            password=None,
-            xapikey=None,
-            application_name=None,
-            review_payout_username=None,
-            review_payout_password=None,
-            store_payout_username=None, store_payout_password=None,
-            platform="test", merchant_account=None,
-            merchant_specific_url=None,
-            hmac=None,
-            http_force=None,
-            live_endpoint_prefix=None,
-            http_timeout=30,
-            api_bin_lookup_version=None,
-            api_checkout_version=None,
-            api_management_version=None,
-            api_payment_version=None,
-            api_payout_version=None,
-            api_recurring_version=None,
-            api_terminal_version=None,
-            api_legal_entity_management_version=None,
-            api_data_protection_version=None,
-            api_transfers_version=None,
-            api_stored_value_version=None,
-            api_balance_platform_version=None,
-            api_disputes_version=None,
-            api_session_authentication_version=None,
-            api_capital_version=None
-
-    ):
+        self,
+        username: str | None = None,
+        password: str | None = None,
+        xapikey: str | None = None,
+        application_name: str | None = None,
+        review_payout_username: str | None = None,
+        review_payout_password: str | None = None,
+        store_payout_username: str | None = None,
+        store_payout_password: str | None = None,
+        platform: str = "test",
+        merchant_account: str | None = None,
+        merchant_specific_url: str | None = None,
+        hmac: str | None = None,
+        http_force: str | None = None,
+        live_endpoint_prefix: str | None = None,
+        http_timeout: int = 30,
+        api_bin_lookup_version: str | int | None = None,
+        api_checkout_version: str | int | None = None,
+        api_management_version: str | int | None = None,
+        api_payment_version: str | int | None = None,
+        api_payout_version: str | int | None = None,
+        api_recurring_version: str | int | None = None,
+        api_terminal_version: str | int | None = None,
+        api_legal_entity_management_version: str | int | None = None,
+        api_data_protection_version: str | int | None = None,
+        api_transfers_version: str | int | None = None,
+        api_stored_value_version: str | int | None = None,
+        api_balance_platform_version: str | int | None = None,
+        api_disputes_version: str | int | None = None,
+        api_session_authentication_version: str | int | None = None,
+        api_capital_version: str | int | None = None
+    ) -> None:
         self.username = username
         self.password = password
         self.xapikey = xapikey
@@ -111,7 +119,7 @@ class AdyenClient(object):
         self.merchant_specific_url = merchant_specific_url
         self.hmac = hmac
         self.merchant_account = merchant_account
-        self.psp_list = []
+        self.psp_list: list[str] = []
         self.LIB_VERSION = settings.LIB_VERSION
         self.USER_AGENT_SUFFIX = settings.LIB_NAME + "/"
         self.http_init = False

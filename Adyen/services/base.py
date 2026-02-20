@@ -1,14 +1,14 @@
 from Adyen import AdyenClient
 
 
-class AdyenBase(object):
+class AdyenBase:
     def __setattr__(self, attr, value):
         client_attr = ["username", "password", "platform"]
         if attr in client_attr:
             if value:
                 self.client[attr] = value
         else:
-            super(AdyenBase, self).__setattr__(attr, value)
+            super().__setattr__(attr, value)
 
     def __getattr__(self, attr):
         client_attr = ["username", "password", "platform"]
