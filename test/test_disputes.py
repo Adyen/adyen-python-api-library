@@ -1,0 +1,112 @@
+import pytest
+
+from Adyen import settings
+
+
+@pytest.fixture
+def disputes_url(adyen_instance):
+    return adyen_instance.disputes.disputes_api.baseUrl
+
+def test_accept_dispute(adyen_instance, mock_client, disputes_url):
+    adyen_instance.client.xapikey = "YourXapikey"
+    request = {
+        "disputePspReference": "DZ4DPSHB4WD2WN82",
+        "merchantAccountCode": "YOUR_MERCHANT_ACCOUNT"
+    }
+    adyen_instance.client = mock_client(200, request,
+                                         "test/mocks/disputes/"
+                                         "post-acceptDispute-accept-dispute-200.json")
+    result = adyen_instance.disputes.disputes_api.accept_dispute(request)
+
+    adyen_instance.client.http_client.request.assert_called_once_with(
+        'POST',
+        f'{disputes_url}/acceptDispute',
+        headers={'adyen-library-name': settings.LIB_NAME, 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': settings.LIB_NAME + '/' + settings.LIB_VERSION},
+        json=request,
+        xapikey="YourXapikey"
+    )
+
+def test_defend_dispute(adyen_instance, mock_client, disputes_url):
+    adyen_instance.client.xapikey = "YourXapikey"
+    request = {
+        "defenseReasonCode": "SupplyDefenseMaterial",
+        "disputePspReference": "DZ4DPSHB4WD2WN82",
+        "merchantAccountCode": "YOUR_MERCHANT_ACCOUNT"
+    }
+    adyen_instance.client = mock_client(200, request,
+                                         "test/mocks/disputes/"
+                                         "post-defendDispute-defend-dispute-200.json")
+    result = adyen_instance.disputes.disputes_api.defend_dispute(request)
+
+    adyen_instance.client.http_client.request.assert_called_once_with(
+        'POST',
+        f'{disputes_url}/defendDispute',
+        headers={'adyen-library-name': settings.LIB_NAME, 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': settings.LIB_NAME + '/' + settings.LIB_VERSION},
+        json=request,
+        xapikey="YourXapikey"
+    )
+
+def test_delete_defense_dispute_document(adyen_instance, mock_client, disputes_url):
+    adyen_instance.client.xapikey = "YourXapikey"
+    request = {
+        "defenseDocumentType": "DefenseMaterial",
+        "disputePspReference": "DZ4DPSHB4WD2WN82",
+        "merchantAccountCode": "YOUR_MERCHANT_ACCOUNT"
+    }
+    adyen_instance.client = mock_client(200, request,
+                                         "test/mocks/disputes/"
+                                         "post-deleteDisputeDefenseDocument-delete-dispute-defense-document-200.json")
+    result = adyen_instance.disputes.disputes_api.delete_dispute_defense_document(request)
+
+    adyen_instance.client.http_client.request.assert_called_once_with(
+        'POST',
+        f'{disputes_url}/deleteDisputeDefenseDocument',
+        headers={'adyen-library-name': settings.LIB_NAME, 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': settings.LIB_NAME + '/' + settings.LIB_VERSION},
+        json=request,
+        xapikey="YourXapikey"
+    )
+
+def test_retrieve_applicable_defense_reasons(adyen_instance, mock_client, disputes_url):
+    adyen_instance.client.xapikey = "YourXapikey"
+    request = {
+        "disputePspReference": "DZ4DPSHB4WD2WN82",
+        "merchantAccountCode": "YOUR_MERCHANT_ACCOUNT"
+    }
+    adyen_instance.client = mock_client(200, request,
+                                         "test/mocks/disputes/"
+                                         "post-retrieveApplicableDefenseReasons-retrieve-defense-reasons-200.json")
+    result = adyen_instance.disputes.disputes_api.retrieve_applicable_defense_reasons(request)
+
+    adyen_instance.client.http_client.request.assert_called_once_with(
+        'POST',
+        f'{disputes_url}/retrieveApplicableDefenseReasons',
+        headers={'adyen-library-name': settings.LIB_NAME, 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': settings.LIB_NAME + '/' + settings.LIB_VERSION},
+        json=request,
+        xapikey="YourXapikey"
+    )
+
+def test_supply_defense_document(adyen_instance, mock_client, disputes_url):
+    adyen_instance.client.xapikey = "YourXapikey"
+    request = {
+        "defenseDocuments": [
+            {
+                "content": "JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==",
+                "contentType": "application/pdf",
+                "defenseDocumentTypeCode": "DefenseMaterial"
+            }
+        ],
+        "disputePspReference": "DZ4DPSHB4WD2WN82",
+        "merchantAccountCode": "YOUR_MERCHANT_ACCOUNT"
+    }
+    adyen_instance.client = mock_client(200, request,
+                                         "test/mocks/disputes/"
+                                         "post-supplyDefenseDocument-supply-defense-document-200.json")
+    result = adyen_instance.disputes.disputes_api.supply_defense_document(request)
+
+    adyen_instance.client.http_client.request.assert_called_once_with(
+        'POST',
+        f'{disputes_url}/supplyDefenseDocument',
+        headers={'adyen-library-name': settings.LIB_NAME, 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': settings.LIB_NAME + '/' + settings.LIB_VERSION},
+        json=request,
+        xapikey="YourXapikey"
+    )
