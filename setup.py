@@ -12,12 +12,30 @@ setup(
     author_email='support@adyen.com',
     url='https://github.com/Adyen/adyen-python-api-library',
     keywords=['payments', 'adyen', 'fintech'],
+    python_requires='>=3.8',
+    install_requires=[], # Core is standard library only, plus optional clients below
+    extras_require={
+        "requests": ["requests>=2.25.0"],
+        "pycurl": ["pycurl>=7.43.0"],
+        "test": [
+            "pytest>=7.0.0",
+            "pytest-cov>=4.0.0",
+            "mock>=4.0.0",
+            "requests>=2.25.0",
+        ],
+    },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.6'
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
     ]
 )

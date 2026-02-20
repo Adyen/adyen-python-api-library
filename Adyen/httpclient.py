@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, unicode_literals
-
 try:
     import requests
 except ImportError:
@@ -20,7 +18,7 @@ import json as json_lib
 import base64
 
 
-class HTTPClient(object):
+class HTTPClient:
     def __init__(
             self,
             user_agent_suffix,
