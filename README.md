@@ -13,6 +13,7 @@ This is the officially supported Python library for using Adyen's APIs.
 | [BIN lookup API](https://docs.adyen.com/api-explorer/BinLookup/54/overview)                       | The BIN Lookup API provides endpoints for retrieving information based on a given BIN.                                                                                                                                                                                                                                                                                                                                                                                | binLookup             | **v54**           |
 | [Balance Platform API](https://docs.adyen.com/api-explorer/balanceplatform/2/overview)            | The Balance Platform API enables you to create a platform where you can onboard your users as account holders and create balance accounts, cards, and business accounts.                                                                                                                                                                                                                                                                                              | balancePlatform       | **v2**            |
 | [Checkout API](https://docs.adyen.com/api-explorer/Checkout/71/overview)                          | Our latest integration for accepting online payments.                                                                                                                                                                                                                                                                                                                                                                                                                 | checkout              | **v71**           |
+| [Capital API](https://docs.adyen.com/api-explorer/capital/1/overview)                          | Provides endpoints for embedding Adyen Capital into your marketplace or platform.                                                                                                                                                                                                                                                                                                                                                                                                                 | capital              | **v1**           |
 | [Data Protection API](https://docs.adyen.com/development-resources/data-protection-api)           | Endpoint for requesting data erasure.                                                                                                                                                                                                                                                                                                                                                                                                                                 | dataProtection        | **v1**            |
 | [Legal Entity Management API](https://docs.adyen.com/api-explorer/legalentity/4/overview)         | The Legal Entity Management API enables you to manage legal entities that contain information required for verification.                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | legalEntityManagement | **v4**            |
 | [Management API](https://docs.adyen.com/api-explorer/Management/3/overview)                       | Configure and manage your Adyen company and merchant accounts, stores, and payment terminals.                                                                                                                                                                                                                                                                                                                                                                         | management            | **v3**            |
@@ -73,6 +74,8 @@ adyen = Adyen.Adyen()
 # Configure the client
 adyen.client.xapikey = "YourXapikey"
 adyen.client.platform = "test"  # change to "live" for production
+adyen.client.application_name = "MyTestApp" # if applicable, set application name (for tracking purposes)
+
 
 # Prepare the request
 request = {
@@ -109,6 +112,7 @@ from Adyen.services import AdyenCheckoutApi
 adyen_client = AdyenClient()
 adyen_client.xapikey = "YourXapikey"
 adyen_client.platform = "test"
+adyen_client.application_name = "MyTestApp" # if applicable, set application name (for tracking purposes)
 
 # Instantiate the AdyenCheckoutApi service
 checkout_service = AdyenCheckoutApi(client=adyen_client)
@@ -125,6 +129,7 @@ Similarly you can instantiate a separate client for services that required diffe
 adyen_lem_client = AdyenClient()
 adyen_lem_client.xapikey = "YourLEMXapikey"
 adyen_lem_client.platform = "test"
+adyen_lem_client.application_name = "MyTestApp" # if applicable, set application name (for tracking purposes)
 ~~~~
 
 #### Force HTTP library

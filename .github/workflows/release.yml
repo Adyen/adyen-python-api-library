@@ -22,15 +22,16 @@ on:
 
 jobs:
   release:
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    # Run on workflow_dispatch OR when PR is merged from same repository
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.merged == true && github.event.pull_request.head.repo.full_name == github.repository) }}    
     permissions:
       contents: write
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Prepare the next main release
-        uses: Adyen/release-automation-action@v1.3.1
+        uses: Adyen/release-automation-action@3e5694d5b365f344a62436e84049511ef318ecf5 # v1.4.0
         with:
           token: ${{ secrets.ADYEN_AUTOMATION_BOT_ACCESS_TOKEN }}
           develop-branch: main

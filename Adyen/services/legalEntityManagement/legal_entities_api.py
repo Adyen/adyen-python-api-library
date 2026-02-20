@@ -53,6 +53,14 @@ class LegalEntitiesApi(AdyenServiceBase):
         method = "GET"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def request_periodic_review(self, id, idempotency_key=None, **kwargs):
+        """
+        Request periodic data review.
+        """
+        endpoint = self.baseUrl + f"/legalEntities/{id}/requestPeriodicReview"
+        method = "POST"
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def update_legal_entity(self, request, id, idempotency_key=None, **kwargs):
         """
         Update a legal entity

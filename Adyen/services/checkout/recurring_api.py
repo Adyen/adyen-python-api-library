@@ -21,6 +21,14 @@ class RecurringApi(AdyenServiceBase):
         method = "DELETE"
         return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
+    def forward(self, request, idempotency_key=None, **kwargs):
+        """
+        Forward stored payment details
+        """
+        endpoint = self.baseUrl + f"/forward"
+        method = "POST"
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
     def get_tokens_for_stored_payment_details(self, idempotency_key=None, **kwargs):
         """
         Get tokens for stored payment details

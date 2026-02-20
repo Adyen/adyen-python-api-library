@@ -72,6 +72,7 @@ class AdyenClient(object):
             username=None,
             password=None,
             xapikey=None,
+            application_name=None,
             review_payout_username=None,
             review_payout_password=None,
             store_payout_username=None, store_payout_password=None,
@@ -95,11 +96,13 @@ class AdyenClient(object):
             api_balance_platform_version=None,
             api_disputes_version=None,
             api_session_authentication_version=None,
+            api_capital_version=None
 
     ):
         self.username = username
         self.password = password
         self.xapikey = xapikey
+        self.application_name = application_name
         self.review_payout_username = review_payout_username
         self.review_payout_password = review_payout_password
         self.store_payout_username = store_payout_username
@@ -129,6 +132,8 @@ class AdyenClient(object):
         self.api_balance_platform_version = api_balance_platform_version
         self.api_disputes_version = api_disputes_version
         self.api_session_authentication_version = api_session_authentication_version
+        self.api_capital_version = api_capital_version
+
 
     def _determine_api_url(self, platform, endpoint):
         if platform == "test":
@@ -286,7 +291,8 @@ class AdyenClient(object):
                           "storedValue": self.api_stored_value_version,
                           "balancePlatform": self.api_balance_platform_version,
                           "disputes": self.api_disputes_version,
-                          "sessionAuthentication": self.api_session_authentication_version
+                          "sessionAuthentication": self.api_session_authentication_version,
+                          "capital": self.api_capital_version,
                           }
 
         new_version = f"v{version_lookup[service]}"
@@ -343,13 +349,16 @@ class AdyenClient(object):
                     self.api_stored_value_version,
                     self.api_balance_platform_version,
                     self.api_disputes_version,
-                    self.api_session_authentication_version]
+                    self.api_session_authentication_version,
+                    self.api_capital_version,
+                    ]
         if any(versions):
             endpoint = self._set_url_version(service, endpoint)
 
         headers = {
             self.APPLICATION_INFO_HEADER_NAME: settings.LIB_NAME,
-            self.APPLICATION_VERSION_HEADER_NAME: settings.LIB_VERSION
+            self.APPLICATION_VERSION_HEADER_NAME: settings.LIB_VERSION,
+            'User-Agent': self.http_client.user_agent,
         }
 
         # Adyen requires this header to be set and uses the combination of
@@ -388,8 +397,11 @@ class AdyenClient(object):
         return adyen_result
 
     def _init_http_client(self):
+        user_agent_suffix = self.USER_AGENT_SUFFIX
+        if self.application_name:
+            user_agent_suffix = self.application_name + " " + user_agent_suffix
         self.http_client = HTTPClient(
-            user_agent_suffix=self.USER_AGENT_SUFFIX,
+            user_agent_suffix=user_agent_suffix,
             lib_version=self.LIB_VERSION,
             force_request=self.http_force,
             timeout=self.http_timeout,

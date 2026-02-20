@@ -96,7 +96,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.baseUrl}/payments',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json={
                 'returnUrl': 'https://your-company.com/...',
                 'reference': '54431',
@@ -134,7 +134,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.baseUrl}/payments/details',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             json={
                 'paymentData': 'Hee57361f99....',
                 'details': {'MD': 'sdfsdfsdf...', 'PaRes': 'sdkfhskdjfsdf...'}
@@ -323,7 +323,7 @@ class TestCheckout(unittest.TestCase):
             f'{self.baseUrl}/payments/{psp_reference}/captures',
             json=request,
             xapikey='YourXapikey',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
         )
         self.assertEqual(psp_reference, result.message["paymentPspReference"])
         self.assertIsNotNone(result.message["pspReference"])
@@ -365,7 +365,7 @@ class TestCheckout(unittest.TestCase):
             f'{self.baseUrl}/orders',
             json=request,
             xapikey='YourXapikey',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
 
         )
         self.assertEqual("8515930288670953", result.message['pspReference'])
@@ -387,7 +387,7 @@ class TestCheckout(unittest.TestCase):
             f'{self.baseUrl}/orders/cancel',
             json=request,
             xapikey='YourXapikey',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
         )
         self.assertEqual("8515931182066678", result.message['pspReference'])
         self.assertEqual("Received", result.message['resultCode'])
@@ -406,7 +406,7 @@ class TestCheckout(unittest.TestCase):
             f'{self.baseUrl}/paymentMethods/balance',
             json=request,
             xapikey='YourXapikey',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
         )
         self.assertEqual("851611111111713K", result.message['pspReference'])
         self.assertEqual("Success", result.message['resultCode'])
@@ -442,7 +442,7 @@ class TestCheckout(unittest.TestCase):
             f'{self.baseUrl}/sessions',
             json={'merchantAccount': 'YourMerchantAccount'},
             xapikey='YourXapikey',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
         )
         self.assertEqual(422, result.message['status'])
         self.assertEqual("130", result.message['errorCode'])
@@ -487,7 +487,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'{self.baseUrl}/paymentLinks',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             xapikey='YourXapikey',
             json=request
         )
@@ -504,7 +504,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'GET',
             f'{self.baseUrl}/paymentLinks/{id}',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             xapikey="YourXapikey",
             json=None
         )
@@ -523,7 +523,7 @@ class TestCheckout(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'PATCH',
             f'{self.baseUrl}/paymentLinks/{id}',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
             xapikey="YourXapikey",
             json=request
         )

@@ -105,7 +105,7 @@ class UtilTest(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             'POST',
             f'https://checkout-test.adyen.com/v{self.client.api_checkout_version}/paymentMethods',
-            headers={'adyen-library-name': settings.LIB_NAME, 'adyen-library-version': settings.LIB_VERSION},
+            headers={'adyen-library-name': settings.LIB_NAME, 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': settings.LIB_NAME + '/' + settings.LIB_VERSION},
             json=request,
             xapikey="YourXapikey"
         )
