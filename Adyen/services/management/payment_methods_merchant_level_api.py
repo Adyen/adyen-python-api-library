@@ -9,17 +9,24 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(PaymentMethodsMerchantLevelApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
-    def add_apple_pay_domain(self, request, merchantId, paymentMethodId, idempotency_key=None, **kwargs):
+    def add_apple_pay_domain(
+        self, request, merchantId, paymentMethodId, idempotency_key=None, **kwargs
+    ):
         """
         Add an Apple Pay domain
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains"
+        endpoint = (
+            self.baseUrl
+            + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains"
+        )
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_all_payment_methods(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -27,23 +34,34 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_apple_pay_domains(self, merchantId, paymentMethodId, idempotency_key=None, **kwargs):
         """
         Get Apple Pay domains
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains"
+        endpoint = (
+            self.baseUrl
+            + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains"
+        )
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def get_payment_method_details(self, merchantId, paymentMethodId, idempotency_key=None, **kwargs):
+    def get_payment_method_details(
+        self, merchantId, paymentMethodId, idempotency_key=None, **kwargs
+    ):
         """
         Get payment method details
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def request_payment_method(self, request, merchantId, idempotency_key=None, **kwargs):
         """
@@ -51,13 +69,18 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def update_payment_method(self, request, merchantId, paymentMethodId, idempotency_key=None, **kwargs):
+    def update_payment_method(
+        self, request, merchantId, paymentMethodId, idempotency_key=None, **kwargs
+    ):
         """
         Update a payment method
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

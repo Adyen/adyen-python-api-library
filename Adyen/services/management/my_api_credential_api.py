@@ -9,7 +9,7 @@ class MyAPICredentialApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(MyAPICredentialApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
@@ -17,17 +17,21 @@ class MyAPICredentialApi(AdyenServiceBase):
         """
         Add allowed origin
         """
-        endpoint = self.baseUrl + f"/me/allowedOrigins"
+        endpoint = self.baseUrl + "/me/allowedOrigins"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def generate_client_key(self, idempotency_key=None, **kwargs):
         """
         Generate a client key
         """
-        endpoint = self.baseUrl + f"/me/generateClientKey"
+        endpoint = self.baseUrl + "/me/generateClientKey"
         method = "POST"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_allowed_origin_details(self, originId, idempotency_key=None, **kwargs):
         """
@@ -35,23 +39,29 @@ class MyAPICredentialApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/me/allowedOrigins/{originId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_allowed_origins(self, idempotency_key=None, **kwargs):
         """
         Get allowed origins
         """
-        endpoint = self.baseUrl + f"/me/allowedOrigins"
+        endpoint = self.baseUrl + "/me/allowedOrigins"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_api_credential_details(self, idempotency_key=None, **kwargs):
         """
         Get API credential details
         """
-        endpoint = self.baseUrl + f"/me"
+        endpoint = self.baseUrl + "/me"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def remove_allowed_origin(self, originId, idempotency_key=None, **kwargs):
         """
@@ -59,5 +69,6 @@ class MyAPICredentialApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/me/allowedOrigins/{originId}"
         method = "DELETE"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )

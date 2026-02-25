@@ -1,5 +1,6 @@
-import Adyen
 import unittest
+
+import Adyen
 from Adyen import settings
 
 try:

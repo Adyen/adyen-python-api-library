@@ -9,7 +9,7 @@ class ManageCardPINApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(ManageCardPINApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -17,23 +17,28 @@ class ManageCardPINApi(AdyenServiceBase):
         """
         Change a card PIN
         """
-        endpoint = self.baseUrl + f"/pins/change"
+        endpoint = self.baseUrl + "/pins/change"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def public_key(self, idempotency_key=None, **kwargs):
         """
         Get an RSA public key
         """
-        endpoint = self.baseUrl + f"/publicKey"
+        endpoint = self.baseUrl + "/publicKey"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def reveal_card_pin(self, request, idempotency_key=None, **kwargs):
         """
         Reveal a card PIN
         """
-        endpoint = self.baseUrl + f"/pins/reveal"
+        endpoint = self.baseUrl + "/pins/reveal"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

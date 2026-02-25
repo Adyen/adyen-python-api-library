@@ -9,7 +9,7 @@ class UtilityApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(UtilityApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "checkout"
         self.baseUrl = "https://checkout-test.adyen.com/v71"
 
@@ -17,9 +17,11 @@ class UtilityApi(AdyenServiceBase):
         """
         Get an Apple Pay session
         """
-        endpoint = self.baseUrl + f"/applePay/sessions"
+        endpoint = self.baseUrl + "/applePay/sessions"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def origin_keys(self, request, idempotency_key=None, **kwargs):
         """
@@ -27,23 +29,28 @@ class UtilityApi(AdyenServiceBase):
 
         Deprecated since Adyen Checkout API v67
         """
-        endpoint = self.baseUrl + f"/originKeys"
+        endpoint = self.baseUrl + "/originKeys"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def updates_order_for_paypal_express_checkout(self, request, idempotency_key=None, **kwargs):
         """
         Updates the order for PayPal Express Checkout
         """
-        endpoint = self.baseUrl + f"/paypal/updateOrder"
+        endpoint = self.baseUrl + "/paypal/updateOrder"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def validate_shopper_id(self, request, idempotency_key=None, **kwargs):
         """
         Validates shopper Id
         """
-        endpoint = self.baseUrl + f"/validateShopperId"
+        endpoint = self.baseUrl + "/validateShopperId"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

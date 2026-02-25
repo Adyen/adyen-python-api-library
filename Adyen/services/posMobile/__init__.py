@@ -10,5 +10,5 @@ class AdyenPosMobileApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenPosMobileApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.pos_mobile_api = PosMobileApi(client=client)

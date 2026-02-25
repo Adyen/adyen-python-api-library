@@ -9,7 +9,7 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AndroidFilesCompanyLevelApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
@@ -19,7 +19,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/androidApps/{id}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_android_apps(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -27,7 +29,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/androidApps"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_android_certificates(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -35,7 +39,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/androidCertificates"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def reprocess_android_app(self, companyId, id, idempotency_key=None, **kwargs):
         """
@@ -43,7 +49,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/androidApps/{id}"
         method = "PATCH"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def upload_android_app(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -51,7 +59,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/androidApps"
         method = "POST"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def upload_android_certificate(self, companyId, idempotency_key=None, **kwargs):
         """
@@ -59,5 +69,6 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/androidCertificates"
         method = "POST"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )

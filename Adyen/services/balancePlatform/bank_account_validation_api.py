@@ -9,7 +9,7 @@ class BankAccountValidationApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(BankAccountValidationApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -17,7 +17,8 @@ class BankAccountValidationApi(AdyenServiceBase):
         """
         Validate a bank account
         """
-        endpoint = self.baseUrl + f"/validateBankAccountIdentification"
+        endpoint = self.baseUrl + "/validateBankAccountIdentification"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

@@ -9,7 +9,7 @@ class TransactionRulesApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(TransactionRulesApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -17,9 +17,11 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         Create a transaction rule
         """
-        endpoint = self.baseUrl + f"/transactionRules"
+        endpoint = self.baseUrl + "/transactionRules"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def delete_transaction_rule(self, transactionRuleId, idempotency_key=None, **kwargs):
         """
@@ -27,7 +29,9 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
         method = "DELETE"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_transaction_rule(self, transactionRuleId, idempotency_key=None, **kwargs):
         """
@@ -35,7 +39,9 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def update_transaction_rule(self, request, transactionRuleId, idempotency_key=None, **kwargs):
         """
@@ -43,5 +49,6 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

@@ -1,42 +1,42 @@
 import base64
-import hmac
-import hashlib
 import binascii
 import copy
+import hashlib
+import hmac
 
 
 # generates HMAC signature for the NotificationRequest object
 def generate_notification_sig(dict_object, hmac_key):
-
     if not isinstance(dict_object, dict):
         raise ValueError("Must Provide dictionary object")
 
     hmac_key = binascii.a2b_hex(hmac_key)
 
     request_dict = dict(dict_object)
-    request_dict['value'] = request_dict['amount']['value']
-    request_dict['currency'] = request_dict['amount']['currency']
+    request_dict["value"] = request_dict["amount"]["value"]
+    request_dict["currency"] = request_dict["amount"]["currency"]
 
     element_orders = [
-        'pspReference',
-        'originalReference',
-        'merchantAccountCode',
-        'merchantReference',
-        'value',
-        'currency',
-        'eventCode',
-        'success',
+        "pspReference",
+        "originalReference",
+        "merchantAccountCode",
+        "merchantReference",
+        "value",
+        "currency",
+        "eventCode",
+        "success",
     ]
 
-    signing_string = ':'.join(map(str, (request_dict.get(element, '') for element in element_orders)))
+    signing_string = ":".join(
+        map(str, (request_dict.get(element, "") for element in element_orders))
+    )
 
-    hm = hmac.new(hmac_key, signing_string.encode('utf-8'), hashlib.sha256)
+    hm = hmac.new(hmac_key, signing_string.encode("utf-8"), hashlib.sha256)
     return base64.b64encode(hm.digest())
 
 
 # generates HMAC signature for the payload (bytes)
 def generate_payload_sig(payload, hmac_key):
-
     if not isinstance(payload, bytes):
         raise ValueError("Must Provide payload as bytes")
 
@@ -58,17 +58,17 @@ def is_valid_hmac_notification(dict_object, hmac_key):
         boolean: true when HMAC signature is valid
     """
 
-    dict_object = copy.deepcopy(dict_object) 
+    dict_object = copy.deepcopy(dict_object)
 
-    if 'notificationItems' in dict_object:
-        dict_object = dict_object['notificationItems'][0]['NotificationRequestItem']
+    if "notificationItems" in dict_object:
+        dict_object = dict_object["notificationItems"][0]["NotificationRequestItem"]
 
-    if 'additionalData' in dict_object:
-        if dict_object['additionalData']['hmacSignature'] == "":
+    if "additionalData" in dict_object:
+        if dict_object["additionalData"]["hmacSignature"] == "":
             raise ValueError("Must Provide hmacSignature in additionalData")
         else:
-            expected_sign = dict_object['additionalData']['hmacSignature']
-            del dict_object['additionalData']
+            expected_sign = dict_object["additionalData"]["hmacSignature"]
+            del dict_object["additionalData"]
             merchant_sign = generate_notification_sig(dict_object, hmac_key)
             merchant_sign_str = merchant_sign.decode("utf-8")
             return hmac.compare_digest(merchant_sign_str, expected_sign)
@@ -94,4 +94,4 @@ def is_valid_hmac_payload(hmac_signature, hmac_key, payload):
 
 
 def get_query(query_parameters):
-    return '?' + '&'.join(["{}={}".format(k, v) for k, v in query_parameters.items()])
+    return "?" + "&".join([f"{k}={v}" for k, v in query_parameters.items()])

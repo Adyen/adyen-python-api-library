@@ -9,7 +9,7 @@ class TerminalsTerminalLevelApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(TerminalsTerminalLevelApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
@@ -17,9 +17,11 @@ class TerminalsTerminalLevelApi(AdyenServiceBase):
         """
         Get a list of terminals
         """
-        endpoint = self.baseUrl + f"/terminals"
+        endpoint = self.baseUrl + "/terminals"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def reassign_terminal(self, request, terminalId, idempotency_key=None, **kwargs):
         """
@@ -27,5 +29,6 @@ class TerminalsTerminalLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/terminals/{terminalId}/reassign"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

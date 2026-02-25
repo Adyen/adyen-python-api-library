@@ -9,7 +9,7 @@ class APICredentialsMerchantLevelApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(APICredentialsMerchantLevelApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
@@ -19,7 +19,9 @@ class APICredentialsMerchantLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_api_credential(self, merchantId, apiCredentialId, idempotency_key=None, **kwargs):
         """
@@ -27,7 +29,9 @@ class APICredentialsMerchantLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_api_credentials(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -35,13 +39,18 @@ class APICredentialsMerchantLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def update_api_credential(self, request, merchantId, apiCredentialId, idempotency_key=None, **kwargs):
+    def update_api_credential(
+        self, request, merchantId, apiCredentialId, idempotency_key=None, **kwargs
+    ):
         """
         Update an API credential
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

@@ -9,7 +9,7 @@ class TerminalActionsTerminalLevelApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(TerminalActionsTerminalLevelApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
@@ -17,7 +17,8 @@ class TerminalActionsTerminalLevelApi(AdyenServiceBase):
         """
         Create a terminal action
         """
-        endpoint = self.baseUrl + f"/terminals/scheduleActions"
+        endpoint = self.baseUrl + "/terminals/scheduleActions"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

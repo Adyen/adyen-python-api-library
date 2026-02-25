@@ -1,5 +1,6 @@
-import Adyen
 import unittest
+
+import Adyen
 from Adyen import settings
 
 try:
@@ -22,17 +23,21 @@ class TestCheckout(unittest.TestCase):
         request = {
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "pspReference": "9915520502347613",
-            "forceErasure": True
+            "forceErasure": True,
         }
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/dataProtection/erasure-response.json")
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/dataProtection/erasure-response.json"
+        )
         result = self.adyen.dataProtection.data_protection_api.request_subject_erasure(request)
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.data_protection_url}'
-            '/requestSubjectErasure',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.data_protection_url}/requestSubjectErasure",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             xapikey="YourXapikey",
-            json=request
+            json=request,
         )
         self.assertEqual("SUCCESS", result.message["result"])

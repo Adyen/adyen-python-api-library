@@ -1,5 +1,6 @@
-import Adyen
 import unittest
+
+import Adyen
 from Adyen import settings
 
 try:
@@ -19,31 +20,34 @@ class TestSessionAuthentication(unittest.TestCase):
 
     def test_create_session_token(self):
         request = {
-            "allowOrigin": 'https://www.your-website.com',
+            "allowOrigin": "https://www.your-website.com",
             "product": "platform",
             "policy": {
                 "resources": [
-                    {
-                        "type": "accountHolder",
-                        "accountHolderId": "AH00000000000000000000001"
-                    }
+                    {"type": "accountHolder", "accountHolderId": "AH00000000000000000000001"}
                 ],
                 "roles": [
                     "Transactions Overview Component: View",
-                    "Payouts Overview Component: View"
-                ]
-            }
+                    "Payouts Overview Component: View",
+                ],
+            },
         }
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/sessionAuthentication/"
-                                                              "authentication-session-created.json")
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/sessionAuthentication/authentication-session-created.json"
+        )
 
-        result = self.adyen.sessionAuthentication.session_authentication_api.create_authentication_session(request)
+        result = self.adyen.sessionAuthentication.session_authentication_api.create_authentication_session(
+            request
+        )
         self.assertEqual("long_session_token_string", result.message["sessionToken"])
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.session_url}/sessions',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.session_url}/sessions",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )

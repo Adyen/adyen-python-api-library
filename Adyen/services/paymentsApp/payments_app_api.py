@@ -9,25 +9,36 @@ class PaymentsAppApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(PaymentsAppApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "paymentsApp"
         self.baseUrl = "https://management-live.adyen.com/v1"
 
-    def generate_payments_app_boarding_token_for_merchant(self, request, merchantId, idempotency_key=None, **kwargs):
+    def generate_payments_app_boarding_token_for_merchant(
+        self, request, merchantId, idempotency_key=None, **kwargs
+    ):
         """
         Create a boarding token - merchant level
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/generatePaymentsAppBoardingToken"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def generate_payments_app_boarding_token_for_store(self, request, merchantId, storeId, idempotency_key=None, **kwargs):
+    def generate_payments_app_boarding_token_for_store(
+        self, request, merchantId, storeId, idempotency_key=None, **kwargs
+    ):
         """
         Create a boarding token - store level
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}/generatePaymentsAppBoardingToken"
+        endpoint = (
+            self.baseUrl
+            + f"/merchants/{merchantId}/stores/{storeId}/generatePaymentsAppBoardingToken"
+        )
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_payments_app_for_merchant(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -35,7 +46,9 @@ class PaymentsAppApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentsApps"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_payments_app_for_store(self, merchantId, storeId, idempotency_key=None, **kwargs):
         """
@@ -43,7 +56,9 @@ class PaymentsAppApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}/paymentsApps"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def revoke_payments_app(self, merchantId, installationId, idempotency_key=None, **kwargs):
         """
@@ -51,5 +66,6 @@ class PaymentsAppApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentsApps/{installationId}/revoke"
         method = "POST"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )

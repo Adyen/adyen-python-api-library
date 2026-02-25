@@ -9,7 +9,7 @@ class SCADeviceManagementApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(SCADeviceManagementApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -17,9 +17,11 @@ class SCADeviceManagementApi(AdyenServiceBase):
         """
         Begin SCA device registration
         """
-        endpoint = self.baseUrl + f"/scaDevices"
+        endpoint = self.baseUrl + "/scaDevices"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def finish_sca_device_registration(self, request, deviceId, idempotency_key=None, **kwargs):
         """
@@ -27,7 +29,9 @@ class SCADeviceManagementApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/scaDevices/{deviceId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def submit_sca_association(self, request, deviceId, idempotency_key=None, **kwargs):
         """
@@ -35,5 +39,6 @@ class SCADeviceManagementApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/scaDevices/{deviceId}/scaAssociations"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

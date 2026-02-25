@@ -10,5 +10,5 @@ class AdyenRecurringApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenRecurringApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.recurring_api = RecurringApi(client=client)

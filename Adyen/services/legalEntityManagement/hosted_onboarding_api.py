@@ -9,7 +9,7 @@ class HostedOnboardingApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(HostedOnboardingApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "legalEntityManagement"
         self.baseUrl = "https://kyc-test.adyen.com/lem/v4"
 
@@ -19,7 +19,9 @@ class HostedOnboardingApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/onboardingLinks"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_onboarding_link_theme(self, id, idempotency_key=None, **kwargs):
         """
@@ -27,13 +29,16 @@ class HostedOnboardingApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/themes/{id}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_hosted_onboarding_page_themes(self, idempotency_key=None, **kwargs):
         """
         Get a list of hosted onboarding page themes
         """
-        endpoint = self.baseUrl + f"/themes"
+        endpoint = self.baseUrl + "/themes"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )

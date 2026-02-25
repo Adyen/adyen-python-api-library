@@ -10,5 +10,5 @@ class AdyenDisputesApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenDisputesApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.disputes_api = DisputesApi(client=client)

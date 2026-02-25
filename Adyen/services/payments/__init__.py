@@ -11,6 +11,6 @@ class AdyenPaymentsApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenPaymentsApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.modifications_api = ModificationsApi(client=client)
         self.payments_api = PaymentsApi(client=client)

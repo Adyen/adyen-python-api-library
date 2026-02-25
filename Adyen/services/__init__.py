@@ -1,18 +1,17 @@
-from .base import AdyenBase
-from .binlookup import AdyenBinlookupApi
-from .checkout import AdyenCheckoutApi
-from .payments import AdyenPaymentsApi
-from .payouts import AdyenPayoutsApi
-from .recurring import AdyenRecurringApi
-from .terminal import AdyenTerminalApi
-from .management import AdyenManagementApi
-from .legalEntityManagement import AdyenLegalEntityManagementApi
-from .dataProtection import AdyenDataProtectionApi
-from .transfers import AdyenTransfersApi
-from .storedValue import AdyenStoredValueApi
-from .balancePlatform import AdyenBalancePlatformApi
-from .disputes import AdyenDisputesApi
-from .sessionAuthentication import AdyenSessionAuthenticationApi
-from .capital import AdyenCapitalApi
-from .posMobile import AdyenPosMobileApi
-
+from .balancePlatform import AdyenBalancePlatformApi as AdyenBalancePlatformApi
+from .base import AdyenBase as AdyenBase
+from .binlookup import AdyenBinlookupApi as AdyenBinlookupApi
+from .capital import AdyenCapitalApi as AdyenCapitalApi
+from .checkout import AdyenCheckoutApi as AdyenCheckoutApi
+from .dataProtection import AdyenDataProtectionApi as AdyenDataProtectionApi
+from .disputes import AdyenDisputesApi as AdyenDisputesApi
+from .legalEntityManagement import AdyenLegalEntityManagementApi as AdyenLegalEntityManagementApi
+from .management import AdyenManagementApi as AdyenManagementApi
+from .payments import AdyenPaymentsApi as AdyenPaymentsApi
+from .payouts import AdyenPayoutsApi as AdyenPayoutsApi
+from .posMobile import AdyenPosMobileApi as AdyenPosMobileApi
+from .recurring import AdyenRecurringApi as AdyenRecurringApi
+from .sessionAuthentication import AdyenSessionAuthenticationApi as AdyenSessionAuthenticationApi
+from .storedValue import AdyenStoredValueApi as AdyenStoredValueApi
+from .terminal import AdyenTerminalApi as AdyenTerminalApi
+from .transfers import AdyenTransfersApi as AdyenTransfersApi

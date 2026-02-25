@@ -9,7 +9,7 @@ class ModificationsApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(ModificationsApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "payments"
         self.baseUrl = "https://pal-test.adyen.com/pal/servlet/Payment/v68"
 
@@ -17,65 +17,80 @@ class ModificationsApi(AdyenServiceBase):
         """
         Change the authorised amount
         """
-        endpoint = self.baseUrl + f"/adjustAuthorisation"
+        endpoint = self.baseUrl + "/adjustAuthorisation"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def cancel(self, request, idempotency_key=None, **kwargs):
         """
         Cancel an authorisation
         """
-        endpoint = self.baseUrl + f"/cancel"
+        endpoint = self.baseUrl + "/cancel"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def cancel_or_refund(self, request, idempotency_key=None, **kwargs):
         """
         Cancel or refund a payment
         """
-        endpoint = self.baseUrl + f"/cancelOrRefund"
+        endpoint = self.baseUrl + "/cancelOrRefund"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def capture(self, request, idempotency_key=None, **kwargs):
         """
         Capture an authorisation
         """
-        endpoint = self.baseUrl + f"/capture"
+        endpoint = self.baseUrl + "/capture"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def donate(self, request, idempotency_key=None, **kwargs):
         """
         Create a donation
 
-        Deprecated 
+        Deprecated
         """
-        endpoint = self.baseUrl + f"/donate"
+        endpoint = self.baseUrl + "/donate"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def refund(self, request, idempotency_key=None, **kwargs):
         """
         Refund a captured payment
         """
-        endpoint = self.baseUrl + f"/refund"
+        endpoint = self.baseUrl + "/refund"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def technical_cancel(self, request, idempotency_key=None, **kwargs):
         """
         Cancel an authorisation using your reference
         """
-        endpoint = self.baseUrl + f"/technicalCancel"
+        endpoint = self.baseUrl + "/technicalCancel"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def void_pending_refund(self, request, idempotency_key=None, **kwargs):
         """
         Cancel an in-person refund
         """
-        endpoint = self.baseUrl + f"/voidPendingRefund"
+        endpoint = self.baseUrl + "/voidPendingRefund"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

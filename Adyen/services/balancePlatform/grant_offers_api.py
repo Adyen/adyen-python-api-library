@@ -9,7 +9,7 @@ class GrantOffersApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(GrantOffersApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -20,9 +20,11 @@ class GrantOffersApi(AdyenServiceBase):
         Deprecated since Configuration API v2
         Use the `/grantOffers` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers) instead.
         """
-        endpoint = self.baseUrl + f"/grantOffers"
+        endpoint = self.baseUrl + "/grantOffers"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_grant_offer(self, grantOfferId, idempotency_key=None, **kwargs):
         """
@@ -33,5 +35,6 @@ class GrantOffersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/grantOffers/{grantOfferId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )

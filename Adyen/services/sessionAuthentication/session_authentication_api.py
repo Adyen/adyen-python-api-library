@@ -9,7 +9,7 @@ class SessionAuthenticationApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(SessionAuthenticationApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "sessionAuthentication"
         self.baseUrl = "https://test.adyen.com/authe/api/v1"
 
@@ -17,7 +17,8 @@ class SessionAuthenticationApi(AdyenServiceBase):
         """
         Create a session token
         """
-        endpoint = self.baseUrl + f"/sessions"
+        endpoint = self.baseUrl + "/sessions"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

@@ -1,6 +1,8 @@
-import Adyen
 import unittest
+
+import Adyen
 from Adyen import settings
+
 try:
     from BaseTest import BaseTest
 except ImportError:
@@ -18,73 +20,72 @@ class TestRecurring(unittest.TestCase):
 
     def test_list_recurring_details(self):
         request = {}
-        request['merchantAccount'] = "YourMerchantAccount"
-        request['reference'] = "YourReference"
+        request["merchantAccount"] = "YourMerchantAccount"
+        request["reference"] = "YourReference"
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
-        request['recurring'] = {}
-        request["recurring"]['contract'] = "RECURRING"
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
-                                                            'recurring/'
-                                                            'listRecurring'
-                                                            'Details-'
-                                                            'success.json')
+        request["recurring"] = {}
+        request["recurring"]["contract"] = "RECURRING"
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/recurring/listRecurringDetails-success.json"
+        )
         result = self.adyen.recurring.recurring_api.list_recurring_details(request)
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.baseUrl}/listRecurringDetails',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.baseUrl}/listRecurringDetails",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            username='YourWSUser',
-            password='YourWSPassword'
+            username="YourWSUser",
+            password="YourWSPassword",
         )
-        self.assertEqual(1, len(result.message['details']))
-        self.assertEqual(1, len(result.message['details'][0]))
-        recurringDetail = result.message['details'][0]['RecurringDetail']
-        self.assertEqual("recurringReference",
-                         recurringDetail['recurringDetailReference'])
-        self.assertEqual("cardAlias", recurringDetail['alias'])
-        self.assertEqual("1111", recurringDetail['card']['number'])
+        self.assertEqual(1, len(result.message["details"]))
+        self.assertEqual(1, len(result.message["details"][0]))
+        recurringDetail = result.message["details"][0]["RecurringDetail"]
+        self.assertEqual("recurringReference", recurringDetail["recurringDetailReference"])
+        self.assertEqual("cardAlias", recurringDetail["alias"])
+        self.assertEqual("1111", recurringDetail["card"]["number"])
 
     def test_disable(self):
         request = {}
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
         request["recurringDetailReference"] = "12345678889"
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                            'test/mocks/'
-                                                            'recurring/'
-                                                            'disable-success'
-                                                            '.json')
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/recurring/disable-success.json"
+        )
         result = self.adyen.recurring.recurring_api.disable(request)
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.baseUrl}/disable',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.baseUrl}/disable",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            username='YourWSUser',
-            password='YourWSPassword',
+            username="YourWSUser",
+            password="YourWSPassword",
         )
-        self.assertEqual(1, len(result.message['details']))
-        self.assertEqual("[detail-successfully-disabled]",
-                         result.message['response'])
+        self.assertEqual(1, len(result.message["details"]))
+        self.assertEqual("[detail-successfully-disabled]", result.message["response"])
 
     def test_disable_803(self):
         request = {}
         request["shopperEmail"] = "ref@email.com"
         request["shopperReference"] = "ref"
         request["recurringDetailReference"] = "12345678889"
-        self.adyen.client = self.test.create_client_from_file(422, request,
-                                                            'test/mocks/'
-                                                            'recurring/'
-                                                            'disable-error-803'
-                                                            '.json')
+        self.adyen.client = self.test.create_client_from_file(
+            422, request, "test/mocks/recurring/disable-error-803.json"
+        )
         self.assertRaisesRegex(
             Adyen.AdyenAPIUnprocessableEntity,
             "AdyenAPIUnprocessableEntity:{'status': 422, 'errorCode': '803', 'message': 'PaymentDetail not found', 'errorType': 'validation'}",
             self.adyen.recurring.recurring_api.disable,
-            request
+            request,
         )
 
 

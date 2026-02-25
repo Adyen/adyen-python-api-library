@@ -10,3 +10,4 @@ venv/
 .env
 test.py
 build/
+*.egg-info/

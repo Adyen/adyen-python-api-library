@@ -9,25 +9,36 @@ class TermsOfServiceApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(TermsOfServiceApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "legalEntityManagement"
         self.baseUrl = "https://kyc-test.adyen.com/lem/v4"
 
-    def accept_terms_of_service(self, request, id, termsofservicedocumentid, idempotency_key=None, **kwargs):
+    def accept_terms_of_service(
+        self, request, id, termsofservicedocumentid, idempotency_key=None, **kwargs
+    ):
         """
         Accept Terms of Service
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfService/{termsofservicedocumentid}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def get_accepted_terms_of_service_document(self, id, termsofserviceacceptancereference, idempotency_key=None, **kwargs):
+    def get_accepted_terms_of_service_document(
+        self, id, termsofserviceacceptancereference, idempotency_key=None, **kwargs
+    ):
         """
         Get accepted Terms of Service document
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/acceptedTermsOfServiceDocument/{termsofserviceacceptancereference}"
+        endpoint = (
+            self.baseUrl
+            + f"/legalEntities/{id}/acceptedTermsOfServiceDocument/{termsofserviceacceptancereference}"
+        )
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_terms_of_service_document(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -35,7 +46,9 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfService"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_terms_of_service_information_for_legal_entity(self, id, idempotency_key=None, **kwargs):
         """
@@ -43,7 +56,9 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceAcceptanceInfos"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_terms_of_service_status(self, id, idempotency_key=None, **kwargs):
         """
@@ -51,5 +66,6 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceStatus"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )

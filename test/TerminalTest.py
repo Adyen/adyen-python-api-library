@@ -1,4 +1,5 @@
 import unittest
+
 import Adyen
 from Adyen import settings
 
@@ -9,10 +10,9 @@ except ImportError:
 
 
 class TestTerminal(unittest.TestCase):
-    adyen = Adyen.Adyen(username="YourWSUser",
-                        password="YourWSPassword",
-                        platform="test",
-                        xapikey="YourXapikey")
+    adyen = Adyen.Adyen(
+        username="YourWSUser", password="YourWSPassword", platform="test", xapikey="YourXapikey"
+    )
     test = BaseTest(adyen)
     client = adyen.client
     terminal_url = adyen.terminal.baseUrl
@@ -22,29 +22,27 @@ class TestTerminal(unittest.TestCase):
             "companyAccount": "YOUR_COMPANY_ACCOUNT",
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "store": "YOUR_STORE",
-            "terminals": [
-                "P400Plus-275479597"
-            ]
+            "terminals": ["P400Plus-275479597"],
         }
-        self.test.create_client_from_file(
-            200, request, "test/mocks/terminal/assignTerminals.json"
-        )
+        self.test.create_client_from_file(200, request, "test/mocks/terminal/assignTerminals.json")
         result = self.adyen.terminal.assign_terminals(request=request)
         self.assertIn("P400Plus-275479597", result.message["results"])
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.terminal_url}/assignTerminals",
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                 "store": "YOUR_STORE",
-                "terminals": [
-                    "P400Plus-275479597"
-                ]
+                "terminals": ["P400Plus-275479597"],
             },
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_assign_terminals_422(self):
@@ -52,9 +50,7 @@ class TestTerminal(unittest.TestCase):
             "companyAccount": "YOUR_COMPANY_ACCOUNT",
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "store": "YOUR_STORE",
-            "terminals": [
-                "P400Plus-123456789"
-            ]
+            "terminals": ["P400Plus-123456789"],
         }
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/assignTerminals-422.json"
@@ -66,34 +62,29 @@ class TestTerminal(unittest.TestCase):
         self.assertEqual("validation", result.message["errorType"])
 
     def test_find_terminal(self):
-        request = {
-            "terminal": "P400Plus-275479597",
-            "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
-        }
-        self.test.create_client_from_file(
-            200, request, "test/mocks/terminal/findTerminal.json"
-        )
+        request = {"terminal": "P400Plus-275479597", "merchantAccount": "YOUR_MERCHANT_ACCOUNT"}
+        self.test.create_client_from_file(200, request, "test/mocks/terminal/findTerminal.json")
         result = self.adyen.terminal.find_terminal(request=request)
         self.assertIn("P400Plus-275479597", result.message["terminal"])
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.terminal_url}/findTerminal",
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json={
                 "terminal": "P400Plus-275479597",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             },
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_find_terminal_422(self):
-        request = {
-            "terminal": "P400Plus-123456789"
-        }
-        self.test.create_client_from_file(
-            200, request, "test/mocks/terminal/findTerminal-422.json"
-        )
+        request = {"terminal": "P400Plus-123456789"}
+        self.test.create_client_from_file(200, request, "test/mocks/terminal/findTerminal-422.json")
         result = self.adyen.terminal.find_terminal(request=request)
         self.assertEqual(422, result.message["status"])
         self.assertEqual("000", result.message["errorCode"])
@@ -103,36 +94,43 @@ class TestTerminal(unittest.TestCase):
     def test_get_stores_under_account(self):
         request = {
             "companyAccount": "YOUR_COMPANY_ACCOUNT",
-            "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
         }
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/getStoresUnderAccount.json"
         )
         result = self.adyen.terminal.get_stores_under_account(request=request)
-        self.assertEqual(result.message["stores"], [
-            {
-                "store": "YOUR_STORE",
-                "description": "YOUR_STORE",
-                "address": {
-                    "city": "The City",
-                    "countryCode": "NL",
-                    "postalCode": "1234",
-                    "streetAddress": "The Street"
-                },
-                "status": "Active",
-                "merchantAccountCode": "YOUR_MERCHANT_ACCOUNT"
-            }
-        ])
+        self.assertEqual(
+            result.message["stores"],
+            [
+                {
+                    "store": "YOUR_STORE",
+                    "description": "YOUR_STORE",
+                    "address": {
+                        "city": "The City",
+                        "countryCode": "NL",
+                        "postalCode": "1234",
+                        "streetAddress": "The Street",
+                    },
+                    "status": "Active",
+                    "merchantAccountCode": "YOUR_MERCHANT_ACCOUNT",
+                }
+            ],
+        )
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.terminal_url}/getStoresUnderAccount",
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json={
-               "companyAccount": "YOUR_COMPANY_ACCOUNT",
+                "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             },
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_get_terminal_details(self):
@@ -152,18 +150,20 @@ class TestTerminal(unittest.TestCase):
         self.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.terminal_url}/getTerminalDetails",
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json={
                 "terminal": "P400Plus-275479597",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             },
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_get_terminal_details_422(self):
-        request = {
-            "terminal": "P400Plus-123456789"
-        }
+        request = {"terminal": "P400Plus-123456789"}
         self.test.create_client_from_file(
             200, request, "test/mocks/terminal/getTerminalDetails-422.json"
         )
@@ -176,7 +176,7 @@ class TestTerminal(unittest.TestCase):
     def test_get_terminals_under_account(self):
         request = {
             "companyAccount": "YOUR_COMPANY_ACCOUNT",
-            "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+            "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
         }
 
         self.test.create_client_from_file(
@@ -184,39 +184,37 @@ class TestTerminal(unittest.TestCase):
         )
         result = self.adyen.terminal.get_terminals_under_account(request=request)
 
-        self.assertEqual(result.message["merchantAccounts"], [
-            {
-                "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "inStoreTerminals": [
-                    "P400Plus-275479597"
-                ],
-                "stores": [
-                    {
-                        "store": "YOUR_STORE",
-                        "inStoreTerminals": [
-                            "M400-401972715"
-                        ]
-                    }
-                ]
-            }
-        ])
+        self.assertEqual(
+            result.message["merchantAccounts"],
+            [
+                {
+                    "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+                    "inStoreTerminals": ["P400Plus-275479597"],
+                    "stores": [{"store": "YOUR_STORE", "inStoreTerminals": ["M400-401972715"]}],
+                }
+            ],
+        )
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.terminal_url}/getTerminalsUnderAccount",
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             },
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_get_terminals_under_account_store(self):
         request = {
             "companyAccount": "YOUR_COMPANY_ACCOUNT",
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-            "store": "YOUR_STORE"
+            "store": "YOUR_STORE",
         }
 
         self.test.create_client_from_file(
@@ -224,30 +222,30 @@ class TestTerminal(unittest.TestCase):
         )
         result = self.adyen.terminal.get_terminals_under_account(request=request)
 
-        self.assertEqual(result.message["merchantAccounts"], [
-            {
-                "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
-                "stores": [
-                    {
-                        "store": "YOUR_STORE",
-                        "inStoreTerminals": [
-                            "M400-401972715"
-                        ]
-                    }
-                ]
-            }
-        ])
+        self.assertEqual(
+            result.message["merchantAccounts"],
+            [
+                {
+                    "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+                    "stores": [{"store": "YOUR_STORE", "inStoreTerminals": ["M400-401972715"]}],
+                }
+            ],
+        )
 
         self.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.terminal_url}/getTerminalsUnderAccount",
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json={
                 "companyAccount": "YOUR_COMPANY_ACCOUNT",
                 "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
                 "store": "YOUR_STORE",
             },
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
 

@@ -9,7 +9,7 @@ class LegalEntitiesApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(LegalEntitiesApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "legalEntityManagement"
         self.baseUrl = "https://kyc-test.adyen.com/lem/v4"
 
@@ -19,7 +19,9 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/checkVerificationErrors"
         method = "POST"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def confirm_data_review(self, id, idempotency_key=None, **kwargs):
         """
@@ -27,15 +29,19 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/confirmDataReview"
         method = "POST"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def create_legal_entity(self, request, idempotency_key=None, **kwargs):
         """
         Create a legal entity
         """
-        endpoint = self.baseUrl + f"/legalEntities"
+        endpoint = self.baseUrl + "/legalEntities"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_all_business_lines_under_legal_entity(self, id, idempotency_key=None, **kwargs):
         """
@@ -43,7 +49,9 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/businessLines"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_legal_entity(self, id, idempotency_key=None, **kwargs):
         """
@@ -51,7 +59,9 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def request_periodic_review(self, id, idempotency_key=None, **kwargs):
         """
@@ -59,7 +69,9 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/requestPeriodicReview"
         method = "POST"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def update_legal_entity(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -67,5 +79,6 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

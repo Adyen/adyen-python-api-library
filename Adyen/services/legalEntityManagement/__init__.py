@@ -17,7 +17,7 @@ class AdyenLegalEntityManagementApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenLegalEntityManagementApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.business_lines_api = BusinessLinesApi(client=client)
         self.documents_api = DocumentsApi(client=client)
         self.hosted_onboarding_api = HostedOnboardingApi(client=client)

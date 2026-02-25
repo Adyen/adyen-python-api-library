@@ -1,4 +1,5 @@
 import unittest
+
 from Adyen import checkout
 
 
@@ -100,5 +101,3 @@ class TestUtilityApi(unittest.TestCase):
 
     def test_origin_keys(self):
         self.assertIsNotNone(self.client.origin_keys)
-
-
