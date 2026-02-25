@@ -12,7 +12,7 @@ class AdyenTransfersApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenTransfersApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.capital_api = CapitalApi(client=client)
         self.transactions_api = TransactionsApi(client=client)
         self.transfers_api = TransfersApi(client=client)

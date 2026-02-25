@@ -9,7 +9,7 @@ class TransferRoutesApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(TransferRoutesApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -17,7 +17,8 @@ class TransferRoutesApi(AdyenServiceBase):
         """
         Calculate transfer routes
         """
-        endpoint = self.baseUrl + f"/transferRoutes/calculate"
+        endpoint = self.baseUrl + "/transferRoutes/calculate"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

@@ -9,7 +9,7 @@ class TransfersApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(TransfersApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "transfers"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/btl/v4"
 
@@ -17,25 +17,31 @@ class TransfersApi(AdyenServiceBase):
         """
         Approve initiated transfers
         """
-        endpoint = self.baseUrl + f"/transfers/approve"
+        endpoint = self.baseUrl + "/transfers/approve"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def cancel_initiated_transfers(self, request, idempotency_key=None, **kwargs):
         """
         Cancel initiated transfers
         """
-        endpoint = self.baseUrl + f"/transfers/cancel"
+        endpoint = self.baseUrl + "/transfers/cancel"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_all_transfers(self, idempotency_key=None, **kwargs):
         """
         Get all transfers
         """
-        endpoint = self.baseUrl + f"/transfers"
+        endpoint = self.baseUrl + "/transfers"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_transfer(self, id, idempotency_key=None, **kwargs):
         """
@@ -43,7 +49,9 @@ class TransfersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transfers/{id}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def return_transfer(self, request, transferId, idempotency_key=None, **kwargs):
         """
@@ -51,13 +59,16 @@ class TransfersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transfers/{transferId}/returns"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def transfer_funds(self, request, idempotency_key=None, **kwargs):
         """
         Transfer funds
         """
-        endpoint = self.baseUrl + f"/transfers"
+        endpoint = self.baseUrl + "/transfers"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

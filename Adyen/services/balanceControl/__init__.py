@@ -10,5 +10,5 @@ class AdyenBalanceControlApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenBalanceControlApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.balance_control_api = BalanceControlApi(client=client)

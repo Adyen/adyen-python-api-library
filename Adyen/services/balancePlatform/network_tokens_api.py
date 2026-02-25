@@ -9,7 +9,7 @@ class NetworkTokensApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(NetworkTokensApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -19,7 +19,9 @@ class NetworkTokensApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/networkTokens/{networkTokenId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def update_network_token(self, request, networkTokenId, idempotency_key=None, **kwargs):
         """
@@ -27,5 +29,6 @@ class NetworkTokensApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/networkTokens/{networkTokenId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

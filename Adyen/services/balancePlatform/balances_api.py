@@ -9,47 +9,79 @@ class BalancesApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(BalancesApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
-    def create_webhook_setting(self, request, balancePlatformId, webhookId, idempotency_key=None, **kwargs):
+    def create_webhook_setting(
+        self, request, balancePlatformId, webhookId, idempotency_key=None, **kwargs
+    ):
         """
         Create a balance webhook setting
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings"
+        endpoint = (
+            self.baseUrl + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings"
+        )
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def delete_webhook_setting(self, balancePlatformId, webhookId, settingId, idempotency_key=None, **kwargs):
+    def delete_webhook_setting(
+        self, balancePlatformId, webhookId, settingId, idempotency_key=None, **kwargs
+    ):
         """
         Delete a balance webhook setting by id
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}"
+        endpoint = (
+            self.baseUrl
+            + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}"
+        )
         method = "DELETE"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def get_all_webhook_settings(self, balancePlatformId, webhookId, idempotency_key=None, **kwargs):
+    def get_all_webhook_settings(
+        self, balancePlatformId, webhookId, idempotency_key=None, **kwargs
+    ):
         """
         Get all balance webhook settings
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings"
+        endpoint = (
+            self.baseUrl + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings"
+        )
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def get_webhook_setting(self, balancePlatformId, webhookId, settingId, idempotency_key=None, **kwargs):
+    def get_webhook_setting(
+        self, balancePlatformId, webhookId, settingId, idempotency_key=None, **kwargs
+    ):
         """
         Get a balance webhook setting by id
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}"
+        endpoint = (
+            self.baseUrl
+            + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}"
+        )
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def update_webhook_setting(self, request, balancePlatformId, webhookId, settingId, idempotency_key=None, **kwargs):
+    def update_webhook_setting(
+        self, request, balancePlatformId, webhookId, settingId, idempotency_key=None, **kwargs
+    ):
         """
         Update a balance webhook setting by id
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}"
+        endpoint = (
+            self.baseUrl
+            + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}"
+        )
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

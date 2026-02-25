@@ -9,7 +9,7 @@ class ModificationsApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(ModificationsApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "checkout"
         self.baseUrl = "https://checkout-test.adyen.com/v71"
 
@@ -17,25 +17,35 @@ class ModificationsApi(AdyenServiceBase):
         """
         Cancel an authorised payment
         """
-        endpoint = self.baseUrl + f"/cancels"
+        endpoint = self.baseUrl + "/cancels"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def cancel_authorised_payment_by_psp_reference(self, request, paymentPspReference, idempotency_key=None, **kwargs):
+    def cancel_authorised_payment_by_psp_reference(
+        self, request, paymentPspReference, idempotency_key=None, **kwargs
+    ):
         """
         Cancel an authorised payment
         """
         endpoint = self.baseUrl + f"/payments/{paymentPspReference}/cancels"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def capture_authorised_payment(self, request, paymentPspReference, idempotency_key=None, **kwargs):
+    def capture_authorised_payment(
+        self, request, paymentPspReference, idempotency_key=None, **kwargs
+    ):
         """
         Capture an authorised payment
         """
         endpoint = self.baseUrl + f"/payments/{paymentPspReference}/captures"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def refund_captured_payment(self, request, paymentPspReference, idempotency_key=None, **kwargs):
         """
@@ -43,21 +53,30 @@ class ModificationsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/payments/{paymentPspReference}/refunds"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def refund_or_cancel_payment(self, request, paymentPspReference, idempotency_key=None, **kwargs):
+    def refund_or_cancel_payment(
+        self, request, paymentPspReference, idempotency_key=None, **kwargs
+    ):
         """
         Refund or cancel a payment
         """
         endpoint = self.baseUrl + f"/payments/{paymentPspReference}/reversals"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
-    def update_authorised_amount(self, request, paymentPspReference, idempotency_key=None, **kwargs):
+    def update_authorised_amount(
+        self, request, paymentPspReference, idempotency_key=None, **kwargs
+    ):
         """
         Update an authorised amount
         """
         endpoint = self.baseUrl + f"/payments/{paymentPspReference}/amountUpdates"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

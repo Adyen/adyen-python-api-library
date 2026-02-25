@@ -10,5 +10,5 @@ class AdyenSessionAuthenticationApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenSessionAuthenticationApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.session_authentication_api = SessionAuthenticationApi(client=client)

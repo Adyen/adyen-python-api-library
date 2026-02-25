@@ -9,7 +9,7 @@ class GrantAccountsApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(GrantAccountsApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -22,5 +22,6 @@ class GrantAccountsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/grantAccounts/{id}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )

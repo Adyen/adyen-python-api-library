@@ -9,7 +9,7 @@ class AdyenTerminalApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenTerminalApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "terminal"
         self.baseUrl = "https://postfmapi-test.adyen.com/postfmapi/terminal/v1"
 
@@ -20,9 +20,11 @@ class AdyenTerminalApi(AdyenServiceBase):
         Deprecated since POS Terminal Management API v1
         Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
-        endpoint = self.baseUrl + f"/assignTerminals"
+        endpoint = self.baseUrl + "/assignTerminals"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def find_terminal(self, request, idempotency_key=None, **kwargs):
         """
@@ -31,9 +33,11 @@ class AdyenTerminalApi(AdyenServiceBase):
         Deprecated since POS Terminal Management API v1
         Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
-        endpoint = self.baseUrl + f"/findTerminal"
+        endpoint = self.baseUrl + "/findTerminal"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_stores_under_account(self, request, idempotency_key=None, **kwargs):
         """
@@ -42,9 +46,11 @@ class AdyenTerminalApi(AdyenServiceBase):
         Deprecated since POS Terminal Management API v1
         Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
-        endpoint = self.baseUrl + f"/getStoresUnderAccount"
+        endpoint = self.baseUrl + "/getStoresUnderAccount"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_terminal_details(self, request, idempotency_key=None, **kwargs):
         """
@@ -53,9 +59,11 @@ class AdyenTerminalApi(AdyenServiceBase):
         Deprecated since POS Terminal Management API v1
         Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
-        endpoint = self.baseUrl + f"/getTerminalDetails"
+        endpoint = self.baseUrl + "/getTerminalDetails"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_terminals_under_account(self, request, idempotency_key=None, **kwargs):
         """
@@ -64,7 +72,8 @@ class AdyenTerminalApi(AdyenServiceBase):
         Deprecated since POS Terminal Management API v1
         Use [Management API](https://docs.adyen.com/api-explorer/Management/latest/overview).
         """
-        endpoint = self.baseUrl + f"/getTerminalsUnderAccount"
+        endpoint = self.baseUrl + "/getTerminalsUnderAccount"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

@@ -1,5 +1,6 @@
-import Adyen
 import unittest
+
+import Adyen
 from Adyen import settings
 
 try:
@@ -20,10 +21,8 @@ class TestPosMobile(unittest.TestCase):
     def test_create_communication_session(self):
         request = {}
         self.adyen.client = self.test.create_client_from_file(
-            200,
-            request,
-            "test/mocks/posMobile/create-communication-session-success.json"
+            200, request, "test/mocks/posMobile/create-communication-session-success.json"
         )
         result = self.adyen.posMobile.pos_mobile_api.create_communication_session(request)
-        self.assertEqual("CS00000000000000000000001", result.message['id'])
-        self.assertEqual("session_data_example", result.message['sessionData'])
+        self.assertEqual("CS00000000000000000000001", result.message["id"])
+        self.assertEqual("session_data_example", result.message["sessionData"])

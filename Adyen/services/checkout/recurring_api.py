@@ -9,39 +9,48 @@ class RecurringApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(RecurringApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "checkout"
         self.baseUrl = "https://checkout-test.adyen.com/v71"
 
-    def delete_token_for_stored_payment_details(self, storedPaymentMethodId, idempotency_key=None, **kwargs):
+    def delete_token_for_stored_payment_details(
+        self, storedPaymentMethodId, idempotency_key=None, **kwargs
+    ):
         """
         Delete a token for stored payment details
         """
         endpoint = self.baseUrl + f"/storedPaymentMethods/{storedPaymentMethodId}"
         method = "DELETE"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def forward(self, request, idempotency_key=None, **kwargs):
         """
         Forward stored payment details
         """
-        endpoint = self.baseUrl + f"/forward"
+        endpoint = self.baseUrl + "/forward"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_tokens_for_stored_payment_details(self, idempotency_key=None, **kwargs):
         """
         Get tokens for stored payment details
         """
-        endpoint = self.baseUrl + f"/storedPaymentMethods"
+        endpoint = self.baseUrl + "/storedPaymentMethods"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def stored_payment_methods(self, request, idempotency_key=None, **kwargs):
         """
         Create a token to store payment details
         """
-        endpoint = self.baseUrl + f"/storedPaymentMethods"
+        endpoint = self.baseUrl + "/storedPaymentMethods"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

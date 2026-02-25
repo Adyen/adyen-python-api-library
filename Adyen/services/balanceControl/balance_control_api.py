@@ -9,7 +9,7 @@ class BalanceControlApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(BalanceControlApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balanceControl"
         self.baseUrl = "https://pal-test.adyen.com/pal/servlet/BalanceControl/v1"
 
@@ -19,7 +19,8 @@ class BalanceControlApi(AdyenServiceBase):
 
         Deprecated since Adyen Balance Control API v1
         """
-        endpoint = self.baseUrl + f"/balanceTransfer"
+        endpoint = self.baseUrl + "/balanceTransfer"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

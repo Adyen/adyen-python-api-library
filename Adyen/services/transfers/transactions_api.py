@@ -9,7 +9,7 @@ class TransactionsApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(TransactionsApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "transfers"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/btl/v4"
 
@@ -17,9 +17,11 @@ class TransactionsApi(AdyenServiceBase):
         """
         Get all transactions
         """
-        endpoint = self.baseUrl + f"/transactions"
+        endpoint = self.baseUrl + "/transactions"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_transaction(self, id, idempotency_key=None, **kwargs):
         """
@@ -27,5 +29,6 @@ class TransactionsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transactions/{id}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )

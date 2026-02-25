@@ -10,5 +10,5 @@ class AdyenDataProtectionApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenDataProtectionApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.data_protection_api = DataProtectionApi(client=client)

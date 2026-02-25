@@ -9,7 +9,7 @@ class BusinessLinesApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(BusinessLinesApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "legalEntityManagement"
         self.baseUrl = "https://kyc-test.adyen.com/lem/v4"
 
@@ -17,9 +17,11 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         Create a business line
         """
-        endpoint = self.baseUrl + f"/businessLines"
+        endpoint = self.baseUrl + "/businessLines"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def delete_business_line(self, id, idempotency_key=None, **kwargs):
         """
@@ -27,7 +29,9 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/businessLines/{id}"
         method = "DELETE"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_business_line(self, id, idempotency_key=None, **kwargs):
         """
@@ -35,7 +39,9 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/businessLines/{id}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def update_business_line(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -43,5 +49,6 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/businessLines/{id}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

@@ -1,14 +1,14 @@
 from ..base import AdyenServiceBase
-from .api_credentials_company_level_api import APICredentialsCompanyLevelApi
-from .api_credentials_merchant_level_api import APICredentialsMerchantLevelApi
-from .api_key_company_level_api import APIKeyCompanyLevelApi
-from .api_key_merchant_level_api import APIKeyMerchantLevelApi
 from .account_company_level_api import AccountCompanyLevelApi
 from .account_merchant_level_api import AccountMerchantLevelApi
 from .account_store_level_api import AccountStoreLevelApi
 from .allowed_origins_company_level_api import AllowedOriginsCompanyLevelApi
 from .allowed_origins_merchant_level_api import AllowedOriginsMerchantLevelApi
 from .android_files_company_level_api import AndroidFilesCompanyLevelApi
+from .api_credentials_company_level_api import APICredentialsCompanyLevelApi
+from .api_credentials_merchant_level_api import APICredentialsMerchantLevelApi
+from .api_key_company_level_api import APIKeyCompanyLevelApi
+from .api_key_merchant_level_api import APIKeyMerchantLevelApi
 from .client_key_company_level_api import ClientKeyCompanyLevelApi
 from .client_key_merchant_level_api import ClientKeyMerchantLevelApi
 from .my_api_credential_api import MyAPICredentialApi
@@ -38,7 +38,7 @@ class AdyenManagementApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenManagementApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.api_credentials_company_level_api = APICredentialsCompanyLevelApi(client=client)
         self.api_credentials_merchant_level_api = APICredentialsMerchantLevelApi(client=client)
         self.api_key_company_level_api = APIKeyCompanyLevelApi(client=client)
@@ -54,7 +54,9 @@ class AdyenManagementApi(AdyenServiceBase):
         self.my_api_credential_api = MyAPICredentialApi(client=client)
         self.payment_methods_merchant_level_api = PaymentMethodsMerchantLevelApi(client=client)
         self.payout_settings_merchant_level_api = PayoutSettingsMerchantLevelApi(client=client)
-        self.split_configuration_merchant_level_api = SplitConfigurationMerchantLevelApi(client=client)
+        self.split_configuration_merchant_level_api = SplitConfigurationMerchantLevelApi(
+            client=client
+        )
         self.terminal_actions_company_level_api = TerminalActionsCompanyLevelApi(client=client)
         self.terminal_actions_terminal_level_api = TerminalActionsTerminalLevelApi(client=client)
         self.terminal_orders_company_level_api = TerminalOrdersCompanyLevelApi(client=client)

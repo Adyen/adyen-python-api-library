@@ -9,7 +9,7 @@ class PaymentInstrumentsApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(PaymentInstrumentsApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -19,15 +19,19 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{id}/networkTokenActivationData"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def create_payment_instrument(self, request, idempotency_key=None, **kwargs):
         """
         Create a payment instrument
         """
-        endpoint = self.baseUrl + f"/paymentInstruments"
+        endpoint = self.baseUrl + "/paymentInstruments"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_all_transaction_rules_for_payment_instrument(self, id, idempotency_key=None, **kwargs):
         """
@@ -35,7 +39,9 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{id}/transactionRules"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_network_token_activation_data(self, id, idempotency_key=None, **kwargs):
         """
@@ -43,7 +49,9 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{id}/networkTokenActivationData"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_pan_of_payment_instrument(self, id, idempotency_key=None, **kwargs):
         """
@@ -51,7 +59,9 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{id}/reveal"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_payment_instrument(self, id, idempotency_key=None, **kwargs):
         """
@@ -59,7 +69,9 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{id}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_network_tokens(self, id, idempotency_key=None, **kwargs):
         """
@@ -67,15 +79,19 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{id}/networkTokens"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def reveal_data_of_payment_instrument(self, request, idempotency_key=None, **kwargs):
         """
         Reveal the data of a payment instrument
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/reveal"
+        endpoint = self.baseUrl + "/paymentInstruments/reveal"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def update_payment_instrument(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -83,5 +99,6 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/paymentInstruments/{id}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

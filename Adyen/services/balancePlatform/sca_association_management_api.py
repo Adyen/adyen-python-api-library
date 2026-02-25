@@ -9,7 +9,7 @@ class SCAAssociationManagementApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(SCAAssociationManagementApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -17,23 +17,28 @@ class SCAAssociationManagementApi(AdyenServiceBase):
         """
         Approve a pending approval association
         """
-        endpoint = self.baseUrl + f"/scaAssociations"
+        endpoint = self.baseUrl + "/scaAssociations"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_associations(self, idempotency_key=None, **kwargs):
         """
         Get a list of devices associated with an entity
         """
-        endpoint = self.baseUrl + f"/scaAssociations"
+        endpoint = self.baseUrl + "/scaAssociations"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def remove_association(self, request, idempotency_key=None, **kwargs):
         """
         Delete association to devices
         """
-        endpoint = self.baseUrl + f"/scaAssociations"
+        endpoint = self.baseUrl + "/scaAssociations"
         method = "DELETE"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

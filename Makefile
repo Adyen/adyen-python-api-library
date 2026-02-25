@@ -1,5 +1,14 @@
 install:
-	@pip install requests pycurl mock coveralls pylint pycodestyle
+	@pip install requests pycurl mock coveralls ruff
+
+lint:
+	@ruff check Adyen test
+
+lint-fix:
+	@ruff check --fix Adyen test
+
+format:
+	@ruff format Adyen test
 
 tests:
 	@python -m unittest discover -s test -p '*Test.py'

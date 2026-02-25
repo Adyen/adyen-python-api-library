@@ -9,7 +9,7 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(TransferLimitsBalanceAccountLevelApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -19,7 +19,9 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits/approve"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def create_transfer_limit(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -27,7 +29,9 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def delete_pending_transfer_limit(self, id, transferLimitId, idempotency_key=None, **kwargs):
         """
@@ -35,7 +39,9 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits/{transferLimitId}"
         method = "DELETE"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_current_transfer_limits(self, id, idempotency_key=None, **kwargs):
         """
@@ -43,7 +49,9 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits/current"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_specific_transfer_limit(self, id, transferLimitId, idempotency_key=None, **kwargs):
         """
@@ -51,7 +59,9 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits/{transferLimitId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_transfer_limits(self, id, idempotency_key=None, **kwargs):
         """
@@ -59,5 +69,6 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )

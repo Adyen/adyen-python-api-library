@@ -10,5 +10,5 @@ class AdyenBinlookupApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenBinlookupApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.bin_lookup_api = BinLookupApi(client=client)

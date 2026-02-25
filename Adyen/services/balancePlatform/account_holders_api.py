@@ -9,7 +9,7 @@ class AccountHoldersApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AccountHoldersApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
@@ -17,9 +17,11 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Create an account holder
         """
-        endpoint = self.baseUrl + f"/accountHolders"
+        endpoint = self.baseUrl + "/accountHolders"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_account_holder(self, id, idempotency_key=None, **kwargs):
         """
@@ -27,7 +29,9 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/accountHolders/{id}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_all_balance_accounts_of_account_holder(self, id, idempotency_key=None, **kwargs):
         """
@@ -35,7 +39,9 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/accountHolders/{id}/balanceAccounts"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_all_transaction_rules_for_account_holder(self, id, idempotency_key=None, **kwargs):
         """
@@ -43,7 +49,9 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/accountHolders/{id}/transactionRules"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_tax_form(self, id, idempotency_key=None, **kwargs):
         """
@@ -51,7 +59,9 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/accountHolders/{id}/taxForms"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def update_account_holder(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -59,5 +69,6 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/accountHolders/{id}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

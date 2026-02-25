@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Adyen"
+version = "14.0.0"
+description = "Adyen Python Api"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "Adyen", email = "support@adyen.com"},
+]
+maintainers = [
+    {name = "Adyen", email = "support@adyen.com"},
+]
+keywords = ["payments", "adyen", "fintech"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+
+[project.optional-dependencies]
+requests = ["requests>=2.25.0"]
+pycurl = ["pycurl>=7.43.0"]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "mock>=4.0.0",
+    "requests>=2.25.0",
+]
+dev = [
+    "ruff>=0.4.4",
+    "pre-commit>=3.0.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+exclude = [
+    ".git",
+    ".venv",
+    "build",
+    "dist",
+    ".egg-info",
+    "Adyen.egg-info",
+    "__pycache__",
+    ".tox",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # Pyflakes
+    "I",     # isort
+    "C4",    # flake8-comprehensions
+    "B",     # flake8-bugbear
+    "UP",    # pyupgrade
+]
+ignore = [
+    "E501",  # Line too long (handled by formatter)
+    "W292",  # Blank line at end of file
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["Adyen"]
+
+[tool.coverage.run]
+source = ["Adyen/"]

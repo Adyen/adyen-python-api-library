@@ -8,23 +8,21 @@ try:
 except ImportError:
     pycurl = None
 
+import base64
+import json as json_lib
+from io import BytesIO
+from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
-from urllib.error import HTTPError
-
-from io import BytesIO
-
-import json as json_lib
-import base64
 
 
 class HTTPClient:
     def __init__(
-            self,
-            user_agent_suffix,
-            lib_version,
-            force_request=None,
-            timeout=None,
+        self,
+        user_agent_suffix,
+        lib_version,
+        force_request=None,
+        timeout=None,
     ):
         # Check if requests already available, default to urllib
         self.user_agent = user_agent_suffix + lib_version
@@ -36,9 +34,9 @@ class HTTPClient:
             else:
                 self.request = self._urllib_request
         else:
-            if force_request == 'requests':
+            if force_request == "requests":
                 self.request = self._requests_request
-            elif force_request == 'pycurl':
+            elif force_request == "pycurl":
                 self.request = self._pycurl_request
             else:
                 self.request = self._urllib_request
@@ -46,15 +44,7 @@ class HTTPClient:
         self.timeout = timeout
 
     def _pycurl_request(
-            self,
-            method,
-            url,
-            json=None,
-            data=None,
-            username="",
-            password="",
-            xapikey="",
-            headers=None
+        self, method, url, json=None, data=None, username="", password="", xapikey="", headers=None
     ):
         """This function will send a request with a specified method to the url endpoint using pycurl.
         Returning an AdyenResult object on 200 HTTP response.
@@ -90,15 +80,15 @@ class HTTPClient:
 
         # Add User-Agent header to request so that the
         # request can be identified as coming from the Adyen Python library.
-        headers['User-Agent'] = self.user_agent
+        headers["User-Agent"] = self.user_agent
 
         if username and password:
-            curl.setopt(curl.USERPWD, '%s:%s' % (username, password))
+            curl.setopt(curl.USERPWD, f"{username}:{password}")
         elif xapikey:
             headers["X-API-KEY"] = xapikey
 
         # Convert the header dict to formatted array as pycurl needs.
-        header_list = ["%s:%s" % (k, v) for k, v in headers.items()]
+        header_list = [f"{k}:{v}" for k, v in headers.items()]
         # Ensure proper content-type when adding headers
         if json:
             header_list.append("Content-Type:application/json")
@@ -133,15 +123,7 @@ class HTTPClient:
         return result, raw_request, status_code, response_headers
 
     def _requests_request(
-            self,
-            method,
-            url,
-            json=None,
-            data=None,
-            username="",
-            password="",
-            xapikey="",
-            headers=None
+        self, method, url, json=None, data=None, username="", password="", xapikey="", headers=None
     ):
         """This function will send a request with a specified method to the url endpoint using requests.
         Returning an AdyenResult object on 200 HTTP response.
@@ -174,11 +156,11 @@ class HTTPClient:
         if username and password:
             auth = requests.auth.HTTPBasicAuth(username, password)
         elif xapikey:
-            headers['x-api-key'] = xapikey
+            headers["x-api-key"] = xapikey
 
         # Add User-Agent header to request so that the request
         # can be identified as coming from the Adyen Python library.
-        headers['User-Agent'] = self.user_agent
+        headers["User-Agent"] = self.user_agent
         request = requests.request(
             method=method,
             url=url,
@@ -186,7 +168,7 @@ class HTTPClient:
             data=data,
             json=json,
             headers=headers,
-            timeout=self.timeout
+            timeout=self.timeout,
         )
 
         # Ensure either json or data is returned for raw request
@@ -197,52 +179,50 @@ class HTTPClient:
         return request.text, message, request.status_code, request.headers
 
     def _urllib_request(
-            self,
-            method,
-            url,
-            json=None,
-            data=None,
-            username="",
-            password="",
-            xapikey="",
-            headers=None,
+        self,
+        method,
+        url,
+        json=None,
+        data=None,
+        username="",
+        password="",
+        xapikey="",
+        headers=None,
     ):
-
         """This function will send a request with a specified method to the url endpoint using urlib2.
-                Returning an AdyenResult object on 200 HTTP response.
-                Either json or data has to be provided for POST/PATCH.
-                If username and password are provided, basic auth will be used.
-                Args:
-                    method (str): This is the method used to send the request to an endpoint.
-                    url (str): url to send the request
-                    json (dict, optional): Dict of the JSON to POST/PATCH
-                    data (dict, optional): Dict, presumed flat structure of key/value
-                        of request to place
-                    username (str, optionl): Username for basic auth. Must be included
-                        as part of password.
-                    password (str, optional): Password for basic auth. Must be included
-                        as part of username.
-                    xapikey (str, optional):    Adyen API key.  Will be used for auth
-                                                if username and password are absent.
-                    headers (dict, optional): Key/Value pairs of headers to include
-                Returns:
-                    str:    Raw response received
-                    str:    Raw request placed
-                    int:    HTTP status code, eg 200,404,401
-                    dict:   Key/Value pairs of the headers received.
-                """
+        Returning an AdyenResult object on 200 HTTP response.
+        Either json or data has to be provided for POST/PATCH.
+        If username and password are provided, basic auth will be used.
+        Args:
+            method (str): This is the method used to send the request to an endpoint.
+            url (str): url to send the request
+            json (dict, optional): Dict of the JSON to POST/PATCH
+            data (dict, optional): Dict, presumed flat structure of key/value
+                of request to place
+            username (str, optionl): Username for basic auth. Must be included
+                as part of password.
+            password (str, optional): Password for basic auth. Must be included
+                as part of username.
+            xapikey (str, optional):    Adyen API key.  Will be used for auth
+                                        if username and password are absent.
+            headers (dict, optional): Key/Value pairs of headers to include
+        Returns:
+            str:    Raw response received
+            str:    Raw request placed
+            int:    HTTP status code, eg 200,404,401
+            dict:   Key/Value pairs of the headers received.
+        """
         if headers is None:
             headers = {}
 
         if method == "POST" or method == "PATCH":
-
             # Store regular dict to return later:
             raw_store = json
             raw_request = json_lib.dumps(json) if json else urlencode(data)
-            url_request = Request(url, data=raw_request.encode('utf8'), method=method)
+            url_request = Request(url, data=raw_request.encode("utf8"), method=method)
             raw_request = raw_store
             if json:
-                url_request.add_header('Content-Type', 'application/json')
+                url_request.add_header("Content-Type", "application/json")
             elif not data:
                 raise ValueError("Please provide either a json or a data field.")
 
@@ -252,19 +232,17 @@ class HTTPClient:
 
         # Add User-Agent header to request so that the
         # request can be identified as coming from the Adyen Python library.
-        headers['User-Agent'] = self.user_agent
+        headers["User-Agent"] = self.user_agent
 
         # Set regular dict to return as raw_request:
 
         # Adding basic auth is username and password provided.
         if username and password:
-            basic_authstring = base64.encodebytes(('%s:%s' %
-                                                   (username, password))
-                                                  .encode()).decode(). \
-                replace('\n', '')
+            basic_authstring = (
+                base64.encodebytes(f"{username}:{password}".encode()).decode().replace("\n", "")
+            )
 
-            url_request.add_header("Authorization",
-                                   "Basic %s" % basic_authstring)
+            url_request.add_header("Authorization", f"Basic {basic_authstring}")
         elif xapikey:
             headers["X-API-KEY"] = xapikey
 
@@ -285,18 +263,17 @@ class HTTPClient:
 
             # The dict(response.info()) is the headers of the response
             # Raw response, raw request, status code and headers returned
-            return (raw_response, raw_request,
-                    response.getcode(), dict(response.info()))
+            return (raw_response, raw_request, response.getcode(), dict(response.info()))
 
     def request(
-            self,
-            method,
-            url,
-            json="",
-            data="",
-            username="",
-            password="",
-            headers=None,
+        self,
+        method,
+        url,
+        json="",
+        data="",
+        username="",
+        password="",
+        headers=None,
     ):
         """This is overridden on module initialization. This function will make
         an HTTP method call to a given url. Either json/data will be what is posted to
@@ -323,7 +300,9 @@ class HTTPClient:
             int:    HTTP status code, eg 200,404,401
             dict:   Key/Value pairs of the headers received.
         """
-        raise NotImplementedError('request of HTTPClient should have been '
-                                  'overridden on initialization. '
-                                  'Otherwise, can be overridden to '
-                                  'supply your own post method')
+        raise NotImplementedError(
+            "request of HTTPClient should have been "
+            "overridden on initialization. "
+            "Otherwise, can be overridden to "
+            "supply your own post method"
+        )

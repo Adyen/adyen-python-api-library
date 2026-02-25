@@ -9,7 +9,7 @@ class PaymentLinksApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(PaymentLinksApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "checkout"
         self.baseUrl = "https://checkout-test.adyen.com/v71"
 
@@ -19,15 +19,19 @@ class PaymentLinksApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/paymentLinks/{linkId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def payment_links(self, request, idempotency_key=None, **kwargs):
         """
         Create a payment link
         """
-        endpoint = self.baseUrl + f"/paymentLinks"
+        endpoint = self.baseUrl + "/paymentLinks"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def update_payment_link(self, request, linkId, idempotency_key=None, **kwargs):
         """
@@ -35,5 +39,6 @@ class PaymentLinksApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/paymentLinks/{linkId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

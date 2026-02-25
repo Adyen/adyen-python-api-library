@@ -9,7 +9,7 @@ class DonationsApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(DonationsApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "checkout"
         self.baseUrl = "https://checkout-test.adyen.com/v71"
 
@@ -17,15 +17,18 @@ class DonationsApi(AdyenServiceBase):
         """
         Get a list of donation campaigns.
         """
-        endpoint = self.baseUrl + f"/donationCampaigns"
+        endpoint = self.baseUrl + "/donationCampaigns"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def donations(self, request, idempotency_key=None, **kwargs):
         """
         Make a donation
         """
-        endpoint = self.baseUrl + f"/donations"
+        endpoint = self.baseUrl + "/donations"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

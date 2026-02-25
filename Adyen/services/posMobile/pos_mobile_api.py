@@ -9,7 +9,7 @@ class PosMobileApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(PosMobileApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "posMobile"
         self.baseUrl = "https://checkout-test.adyen.com/checkout/possdk/v68"
 
@@ -17,7 +17,8 @@ class PosMobileApi(AdyenServiceBase):
         """
         Create a communication session
         """
-        endpoint = self.baseUrl + f"/sessions"
+        endpoint = self.baseUrl + "/sessions"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

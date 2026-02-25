@@ -1,5 +1,6 @@
-import Adyen
 import unittest
+
+import Adyen
 from Adyen import settings
 
 try:
@@ -21,78 +22,86 @@ class TestManagement(unittest.TestCase):
         request = {
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "store": "YOUR_STORE_ID",
-            "paymentMethod": {
-                "type": "valuelink"
-            },
+            "paymentMethod": {"type": "valuelink"},
             "giftCardPromoCode": "1324",
-            "reference": "YOUR_REFERENCE"
+            "reference": "YOUR_REFERENCE",
         }
 
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/storedValue/issue-giftcard.json")
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/storedValue/issue-giftcard.json"
+        )
         result = self.adyen.storedValue.stored_value_api.issue(request)
-        self.assertEqual(result.message['paymentMethod']['type'], 'givex')
+        self.assertEqual(result.message["paymentMethod"]["type"], "givex")
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.stored_value_url}/issue',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.stored_value_url}/issue",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_activate_giftcard(self):
         request = {
             "status": "active",
-            "amount": {
-                "currency": "USD",
-                "value": 1000
-            },
+            "amount": {"currency": "USD", "value": 1000},
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "store": "YOUR_STORE_ID",
             "paymentMethod": {
                 "type": "svs",
                 "number": "6006491286999921374",
-                "securityCode": "1111"
+                "securityCode": "1111",
             },
-            "reference": "YOUR_REFERENCE"
+            "reference": "YOUR_REFERENCE",
         }
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/storedValue/activate-giftcards.json")
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/storedValue/activate-giftcards.json"
+        )
         result = self.adyen.storedValue.stored_value_api.change_status(request)
-        self.assertEqual(result.message['currentBalance']['value'], 1000)
+        self.assertEqual(result.message["currentBalance"]["value"], 1000)
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.stored_value_url}/changeStatus',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.stored_value_url}/changeStatus",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_load_funds(self):
         request = {
-            "amount": {
-                "currency": "USD",
-                "value": 2000
-            },
+            "amount": {"currency": "USD", "value": 2000},
             "loadType": "merchandiseReturn",
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "store": "YOUR_STORE_ID",
             "paymentMethod": {
                 "type": "svs",
                 "number": "6006491286999921374",
-                "securityCode": "1111"
+                "securityCode": "1111",
             },
-            "reference": "YOUR_REFERENCE"
+            "reference": "YOUR_REFERENCE",
         }
-        self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/storedValue/load-funds.json")
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/storedValue/load-funds.json"
+        )
         result = self.adyen.storedValue.stored_value_api.load(request)
-        self.assertEqual(result.message['resultCode'], 'Success')
+        self.assertEqual(result.message["resultCode"], "Success")
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.stored_value_url}/load',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.stored_value_url}/load",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_check_balance(self):
@@ -102,60 +111,75 @@ class TestManagement(unittest.TestCase):
             "paymentMethod": {
                 "type": "svs",
                 "number": "603628672882001915092",
-                "securityCode": "5754"
+                "securityCode": "5754",
             },
-            "reference": "YOUR_REFERENCE"
+            "reference": "YOUR_REFERENCE",
         }
-        self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/storedValue/check-balance.json")
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/storedValue/check-balance.json"
+        )
         result = self.adyen.storedValue.stored_value_api.check_balance(request)
-        self.assertEqual(result.message['currentBalance']['value'], 5600)
+        self.assertEqual(result.message["currentBalance"]["value"], 5600)
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.stored_value_url}/checkBalance',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.stored_value_url}/checkBalance",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_merge_balance(self):
         request = {
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "store": "YOUR_STORE_ID",
-            "sourcePaymentMethod": {
-                "number": "7777182708544835",
-                "securityCode": "2329"
-            },
+            "sourcePaymentMethod": {"number": "7777182708544835", "securityCode": "2329"},
             "paymentMethod": {
                 "type": "valuelink",
                 "number": "8888182708544836",
-                "securityCode": "2330"
+                "securityCode": "2330",
             },
-            "reference": "YOUR_REFERENCE"
+            "reference": "YOUR_REFERENCE",
         }
-        self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/storedValue/merge-balance.json")
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/storedValue/merge-balance.json"
+        )
         result = self.adyen.storedValue.stored_value_api.merge_balance(request)
-        self.assertEqual(result.message['pspReference'], "881564657480267D")
+        self.assertEqual(result.message["pspReference"], "881564657480267D")
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.stored_value_url}/mergeBalance',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.stored_value_url}/mergeBalance",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_void_transaction(self):
         request = {
             "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
             "originalReference": "851564654294247B",
-            "reference": "YOUR_REFERENCE"
+            "reference": "YOUR_REFERENCE",
         }
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/storedValue/undo-transaction.json")
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/storedValue/undo-transaction.json"
+        )
         result = self.adyen.storedValue.stored_value_api.void_transaction(request)
+        self.assertIsNotNone(result)
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.stored_value_url}/voidTransaction',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.stored_value_url}/voidTransaction",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )

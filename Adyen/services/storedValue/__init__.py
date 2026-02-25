@@ -10,5 +10,5 @@ class AdyenStoredValueApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AdyenStoredValueApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.stored_value_api = StoredValueApi(client=client)

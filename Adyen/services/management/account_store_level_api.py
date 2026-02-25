@@ -9,7 +9,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(AccountStoreLevelApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "management"
         self.baseUrl = "https://management-test.adyen.com/v3"
 
@@ -17,9 +17,11 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Create a store
         """
-        endpoint = self.baseUrl + f"/stores"
+        endpoint = self.baseUrl + "/stores"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def create_store_by_merchant_id(self, request, merchantId, idempotency_key=None, **kwargs):
         """
@@ -27,7 +29,9 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/stores"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_store(self, merchantId, storeId, idempotency_key=None, **kwargs):
         """
@@ -35,7 +39,9 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def get_store_by_id(self, storeId, idempotency_key=None, **kwargs):
         """
@@ -43,15 +49,19 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/stores/{storeId}"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_stores(self, idempotency_key=None, **kwargs):
         """
         Get a list of stores
         """
-        endpoint = self.baseUrl + f"/stores"
+        endpoint = self.baseUrl + "/stores"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def list_stores_by_merchant_id(self, merchantId, idempotency_key=None, **kwargs):
         """
@@ -59,7 +69,9 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/stores"
         method = "GET"
-        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def update_store(self, request, merchantId, storeId, idempotency_key=None, **kwargs):
         """
@@ -67,7 +79,9 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def update_store_by_id(self, request, storeId, idempotency_key=None, **kwargs):
         """
@@ -75,5 +89,6 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/stores/{storeId}"
         method = "PATCH"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

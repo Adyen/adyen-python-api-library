@@ -9,7 +9,7 @@ class InitializationApi(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super(InitializationApi, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "payouts"
         self.baseUrl = "https://pal-test.adyen.com/pal/servlet/Payout/v68"
 
@@ -17,23 +17,28 @@ class InitializationApi(AdyenServiceBase):
         """
         Store payout details
         """
-        endpoint = self.baseUrl + f"/storeDetail"
+        endpoint = self.baseUrl + "/storeDetail"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def store_detail_and_submit_third_party(self, request, idempotency_key=None, **kwargs):
         """
         Store details and submit a payout
         """
-        endpoint = self.baseUrl + f"/storeDetailAndSubmitThirdParty"
+        endpoint = self.baseUrl + "/storeDetailAndSubmitThirdParty"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
 
     def submit_third_party(self, request, idempotency_key=None, **kwargs):
         """
         Submit a payout
         """
-        endpoint = self.baseUrl + f"/submitThirdParty"
+        endpoint = self.baseUrl + "/submitThirdParty"
         method = "POST"
-        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
-
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )

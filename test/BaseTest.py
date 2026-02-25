@@ -1,10 +1,8 @@
-
 try:
-    import mock
+    from unittest import mock
 except Exception:
     from unittest import mock
 import json
-from Adyen import httpclient
 
 
 class BaseTest:
@@ -28,7 +26,8 @@ class BaseTest:
 
         self.ady.client.http_init = True
         self.ady.client.http_client.request = mock.MagicMock(
-            return_value=[strjson, request, status, data])
+            return_value=[strjson, request, status, data]
+        )
 
         mockclient = self.ady.client
         if st:

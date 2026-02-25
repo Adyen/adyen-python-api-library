@@ -1,5 +1,6 @@
-import Adyen
 import unittest
+
+import Adyen
 from Adyen import settings
 
 try:
@@ -25,81 +26,89 @@ class TestManagement(unittest.TestCase):
                     "city": "Amsterdam",
                     "country": "NL",
                     "postalCode": "1011DJ",
-                    "street": "Simon Carmiggeltstraat 6 - 50"
+                    "street": "Simon Carmiggeltstraat 6 - 50",
                 },
-                "name": {
-                    "firstName": "Shelly",
-                    "lastName": "Eller"
-                },
-                "birthData": {
-                    "dateOfBirth": "1990-06-21"
-                },
-                "email": "s.eller@example.com"
-            }
+                "name": {"firstName": "Shelly", "lastName": "Eller"},
+                "birthData": {"dateOfBirth": "1990-06-21"},
+                "email": "s.eller@example.com",
+            },
         }
-        self.adyen.client = self.test.create_client_from_file(200, request,
-                                                              "test/mocks/legalEntityManagement/"
-                                                              "individual_legal_entity_created.json")
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/legalEntityManagement/individual_legal_entity_created.json"
+        )
         result = self.adyen.legalEntityManagement.legal_entities_api.create_legal_entity(request)
-        self.assertEqual('Shelly', result.message['individual']['name']['firstName'])
+        self.assertEqual("Shelly", result.message["individual"]["name"]["firstName"])
         self.adyen.client.http_client.request.assert_called_once_with(
-            'POST',
-            f'{self.lem_url}/legalEntities',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "POST",
+            f"{self.lem_url}/legalEntities",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_get_transfer_instrument(self):
         instrumentId = "SE322JV223222F5GNXSR89TMW"
-        self.adyen.client = self.test.create_client_from_file(200, None, "test/mocks/legalEntityManagement/"
-                                                                         "details_of_trainsfer_instrument.json")
-        result = self.adyen.legalEntityManagement.transfer_instruments_api.get_transfer_instrument(instrumentId)
-        self.assertEqual(instrumentId, result.message['id'])
+        self.adyen.client = self.test.create_client_from_file(
+            200, None, "test/mocks/legalEntityManagement/details_of_trainsfer_instrument.json"
+        )
+        result = self.adyen.legalEntityManagement.transfer_instruments_api.get_transfer_instrument(
+            instrumentId
+        )
+        self.assertEqual(instrumentId, result.message["id"])
         self.adyen.client.http_client.request.assert_called_once_with(
-            'GET',
-            f'{self.lem_url}/transferInstruments/{instrumentId}',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "GET",
+            f"{self.lem_url}/transferInstruments/{instrumentId}",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=None,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_update_business_line(self):
         businessLineId = "SE322JV223222F5GVGMLNB83F"
-        request = {
-            "industryCode": "55",
-            "webData": [
-                {
-                    "webAddress": "https://www.example.com"
-                }
-            ]
-        }
-        self.adyen.client = self.test.create_client_from_file(200, request, "test/mocks/legalEntityManagement/"
-                                                                            "business_line_updated.json")
-        result = self.adyen.legalEntityManagement.business_lines_api.update_business_line(request, businessLineId)
-        self.assertEqual(businessLineId, result.message['id'])
+        request = {"industryCode": "55", "webData": [{"webAddress": "https://www.example.com"}]}
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/legalEntityManagement/business_line_updated.json"
+        )
+        result = self.adyen.legalEntityManagement.business_lines_api.update_business_line(
+            request, businessLineId
+        )
+        self.assertEqual(businessLineId, result.message["id"])
         self.adyen.client.http_client.request.assert_called_once_with(
-            'PATCH',
-            f'{self.lem_url}/businessLines/{businessLineId}',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "PATCH",
+            f"{self.lem_url}/businessLines/{businessLineId}",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
 
     def test_accept_terms_of_service(self):
         legalEntityId = "legalId"
         documentId = "documentId"
-        request = {
-            'acceptedBy': "UserId",
-            'ipAddress': "UserIpAddress"
-        }
+        request = {"acceptedBy": "UserId", "ipAddress": "UserIpAddress"}
         self.adyen.client = self.test.create_client_from_file(204, request)
-        self.adyen.legalEntityManagement.terms_of_service_api.accept_terms_of_service(request, legalEntityId,
-                                                                                      documentId)
+        self.adyen.legalEntityManagement.terms_of_service_api.accept_terms_of_service(
+            request, legalEntityId, documentId
+        )
         self.adyen.client.http_client.request.assert_called_once_with(
-            'PATCH',
-            f'{self.lem_url}/legalEntities/{legalEntityId}/termsOfService/{documentId}',
-            headers={'adyen-library-name': 'adyen-python-api-library', 'adyen-library-version': settings.LIB_VERSION, 'User-Agent': 'adyen-python-api-library/' + settings.LIB_VERSION},
+            "PATCH",
+            f"{self.lem_url}/legalEntities/{legalEntityId}/termsOfService/{documentId}",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
             json=request,
-            xapikey="YourXapikey"
+            xapikey="YourXapikey",
         )
