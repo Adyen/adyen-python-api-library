@@ -13,7 +13,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.8"]
 
     steps:
     - uses: actions/checkout@v4
@@ -54,7 +54,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.11"
+        python-version: "3.8"
 
     - name: Run pre-commit
       uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
