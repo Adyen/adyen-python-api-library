@@ -9,7 +9,7 @@ class {{classname}}(AdyenServiceBase):
     """
 
     def __init__(self, client=None):
-        super({{classname}}, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "{{serviceName}}"
         self.baseUrl = "{{basePath}}"
 
