@@ -9,7 +9,7 @@ class Adyen{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}Api(AdyenSer
     """
 
     def __init__(self, client=None):
-        super(Adyen{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}Api, self).__init__(client=client)
+        super().__init__(client=client)
         self.service = "{{serviceName}}"
         self.baseUrl = "{{basePath}}"
 
