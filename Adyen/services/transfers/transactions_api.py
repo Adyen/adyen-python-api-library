@@ -17,11 +17,9 @@ class TransactionsApi(AdyenServiceBase):
         """
         Get all transactions
         """
-        endpoint = self.baseUrl + "/transactions"
+        endpoint = self.baseUrl + f"/transactions"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_transaction(self, id, idempotency_key=None, **kwargs):
         """
@@ -29,6 +27,5 @@ class TransactionsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transactions/{id}"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+
