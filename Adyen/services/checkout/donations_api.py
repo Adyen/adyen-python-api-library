@@ -17,18 +17,15 @@ class DonationsApi(AdyenServiceBase):
         """
         Get a list of donation campaigns.
         """
-        endpoint = self.baseUrl + "/donationCampaigns"
+        endpoint = self.baseUrl + f"/donationCampaigns"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def donations(self, request, idempotency_key=None, **kwargs):
         """
         Make a donation
         """
-        endpoint = self.baseUrl + "/donations"
+        endpoint = self.baseUrl + f"/donations"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

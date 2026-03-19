@@ -17,11 +17,9 @@ class UtilityApi(AdyenServiceBase):
         """
         Get an Apple Pay session
         """
-        endpoint = self.baseUrl + "/applePay/sessions"
+        endpoint = self.baseUrl + f"/applePay/sessions"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def origin_keys(self, request, idempotency_key=None, **kwargs):
         """
@@ -29,28 +27,23 @@ class UtilityApi(AdyenServiceBase):
 
         Deprecated since Adyen Checkout API v67
         """
-        endpoint = self.baseUrl + "/originKeys"
+        endpoint = self.baseUrl + f"/originKeys"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def updates_order_for_paypal_express_checkout(self, request, idempotency_key=None, **kwargs):
         """
         Updates the order for PayPal Express Checkout
         """
-        endpoint = self.baseUrl + "/paypal/updateOrder"
+        endpoint = self.baseUrl + f"/paypal/updateOrder"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def validate_shopper_id(self, request, idempotency_key=None, **kwargs):
         """
         Validates shopper Id
         """
-        endpoint = self.baseUrl + "/validateShopperId"
+        endpoint = self.baseUrl + f"/validateShopperId"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

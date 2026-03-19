@@ -17,28 +17,23 @@ class OrdersApi(AdyenServiceBase):
         """
         Cancel an order
         """
-        endpoint = self.baseUrl + "/orders/cancel"
+        endpoint = self.baseUrl + f"/orders/cancel"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_balance_of_gift_card(self, request, idempotency_key=None, **kwargs):
         """
         Get the balance of a gift card
         """
-        endpoint = self.baseUrl + "/paymentMethods/balance"
+        endpoint = self.baseUrl + f"/paymentMethods/balance"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def orders(self, request, idempotency_key=None, **kwargs):
         """
         Create an order
         """
-        endpoint = self.baseUrl + "/orders"
+        endpoint = self.baseUrl + f"/orders"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
