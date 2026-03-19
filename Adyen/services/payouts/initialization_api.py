@@ -17,28 +17,23 @@ class InitializationApi(AdyenServiceBase):
         """
         Store payout details
         """
-        endpoint = self.baseUrl + "/storeDetail"
+        endpoint = self.baseUrl + f"/storeDetail"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def store_detail_and_submit_third_party(self, request, idempotency_key=None, **kwargs):
         """
         Store details and submit a payout
         """
-        endpoint = self.baseUrl + "/storeDetailAndSubmitThirdParty"
+        endpoint = self.baseUrl + f"/storeDetailAndSubmitThirdParty"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def submit_third_party(self, request, idempotency_key=None, **kwargs):
         """
         Submit a payout
         """
-        endpoint = self.baseUrl + "/submitThirdParty"
+        endpoint = self.baseUrl + f"/submitThirdParty"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

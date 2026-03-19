@@ -17,18 +17,15 @@ class ReviewingApi(AdyenServiceBase):
         """
         Confirm a payout
         """
-        endpoint = self.baseUrl + "/confirmThirdParty"
+        endpoint = self.baseUrl + f"/confirmThirdParty"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def decline_third_party(self, request, idempotency_key=None, **kwargs):
         """
         Cancel a payout
         """
-        endpoint = self.baseUrl + "/declineThirdParty"
+        endpoint = self.baseUrl + f"/declineThirdParty"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
