@@ -19,8 +19,7 @@ class BalanceControlApi(AdyenServiceBase):
 
         Deprecated since Adyen Balance Control API v1
         """
-        endpoint = self.baseUrl + "/balanceTransfer"
+        endpoint = self.baseUrl + f"/balanceTransfer"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
