@@ -17,80 +17,65 @@ class ModificationsApi(AdyenServiceBase):
         """
         Change the authorised amount
         """
-        endpoint = self.baseUrl + "/adjustAuthorisation"
+        endpoint = self.baseUrl + f"/adjustAuthorisation"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def cancel(self, request, idempotency_key=None, **kwargs):
         """
         Cancel an authorisation
         """
-        endpoint = self.baseUrl + "/cancel"
+        endpoint = self.baseUrl + f"/cancel"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def cancel_or_refund(self, request, idempotency_key=None, **kwargs):
         """
         Cancel or refund a payment
         """
-        endpoint = self.baseUrl + "/cancelOrRefund"
+        endpoint = self.baseUrl + f"/cancelOrRefund"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def capture(self, request, idempotency_key=None, **kwargs):
         """
         Capture an authorisation
         """
-        endpoint = self.baseUrl + "/capture"
+        endpoint = self.baseUrl + f"/capture"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def donate(self, request, idempotency_key=None, **kwargs):
         """
         Create a donation
 
-        Deprecated
+        Deprecated 
         """
-        endpoint = self.baseUrl + "/donate"
+        endpoint = self.baseUrl + f"/donate"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def refund(self, request, idempotency_key=None, **kwargs):
         """
         Refund a captured payment
         """
-        endpoint = self.baseUrl + "/refund"
+        endpoint = self.baseUrl + f"/refund"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def technical_cancel(self, request, idempotency_key=None, **kwargs):
         """
         Cancel an authorisation using your reference
         """
-        endpoint = self.baseUrl + "/technicalCancel"
+        endpoint = self.baseUrl + f"/technicalCancel"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def void_pending_refund(self, request, idempotency_key=None, **kwargs):
         """
         Cancel an in-person refund
         """
-        endpoint = self.baseUrl + "/voidPendingRefund"
+        endpoint = self.baseUrl + f"/voidPendingRefund"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

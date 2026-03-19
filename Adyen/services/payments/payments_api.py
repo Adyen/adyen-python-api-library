@@ -17,48 +17,39 @@ class PaymentsApi(AdyenServiceBase):
         """
         Create an authorisation
         """
-        endpoint = self.baseUrl + "/authorise"
+        endpoint = self.baseUrl + f"/authorise"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def authorise3d(self, request, idempotency_key=None, **kwargs):
         """
         Complete a 3DS authorisation
         """
-        endpoint = self.baseUrl + "/authorise3d"
+        endpoint = self.baseUrl + f"/authorise3d"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def authorise3ds2(self, request, idempotency_key=None, **kwargs):
         """
         Complete a 3DS2 authorisation
         """
-        endpoint = self.baseUrl + "/authorise3ds2"
+        endpoint = self.baseUrl + f"/authorise3ds2"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_authentication_result(self, request, idempotency_key=None, **kwargs):
         """
         Get the 3DS authentication result
         """
-        endpoint = self.baseUrl + "/getAuthenticationResult"
+        endpoint = self.baseUrl + f"/getAuthenticationResult"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def retrieve3ds2_result(self, request, idempotency_key=None, **kwargs):
         """
         Get the 3DS2 authentication result
         """
-        endpoint = self.baseUrl + "/retrieve3ds2Result"
+        endpoint = self.baseUrl + f"/retrieve3ds2Result"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
