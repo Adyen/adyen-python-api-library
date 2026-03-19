@@ -11,7 +11,7 @@ class RecurringApi(AdyenServiceBase):
     def __init__(self, client=None):
         super().__init__(client=client)
         self.service = "recurring"
-        self.baseUrl = "https://paltokenization-test.adyen.com/pal/servlet/Recurring/v68"
+        self.baseUrl = "https://paltokenization-test.adyen.com/paltokenization/servlet/Recurring/v68"
 
     def create_permit(self, request, idempotency_key=None, **kwargs):
         """
@@ -19,21 +19,17 @@ class RecurringApi(AdyenServiceBase):
 
         Deprecated since Adyen Recurring API v68
         """
-        endpoint = self.baseUrl + "/createPermit"
+        endpoint = self.baseUrl + f"/createPermit"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def disable(self, request, idempotency_key=None, **kwargs):
         """
         Disable stored payment details
         """
-        endpoint = self.baseUrl + "/disable"
+        endpoint = self.baseUrl + f"/disable"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def disable_permit(self, request, idempotency_key=None, **kwargs):
         """
@@ -41,38 +37,31 @@ class RecurringApi(AdyenServiceBase):
 
         Deprecated since Adyen Recurring API v68
         """
-        endpoint = self.baseUrl + "/disablePermit"
+        endpoint = self.baseUrl + f"/disablePermit"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def list_recurring_details(self, request, idempotency_key=None, **kwargs):
         """
         Get stored payment details
         """
-        endpoint = self.baseUrl + "/listRecurringDetails"
+        endpoint = self.baseUrl + f"/listRecurringDetails"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def notify_shopper(self, request, idempotency_key=None, **kwargs):
         """
         Ask issuer to notify the shopper
         """
-        endpoint = self.baseUrl + "/notifyShopper"
+        endpoint = self.baseUrl + f"/notifyShopper"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def schedule_account_updater(self, request, idempotency_key=None, **kwargs):
         """
         Schedule running the Account Updater
         """
-        endpoint = self.baseUrl + "/scheduleAccountUpdater"
+        endpoint = self.baseUrl + f"/scheduleAccountUpdater"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
