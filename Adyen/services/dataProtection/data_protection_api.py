@@ -17,8 +17,7 @@ class DataProtectionApi(AdyenServiceBase):
         """
         Submit a Subject Erasure Request.
         """
-        endpoint = self.baseUrl + "/requestSubjectErasure"
+        endpoint = self.baseUrl + f"/requestSubjectErasure"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
