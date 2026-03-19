@@ -17,58 +17,47 @@ class StoredValueApi(AdyenServiceBase):
         """
         Changes the status of the payment method.
         """
-        endpoint = self.baseUrl + "/changeStatus"
+        endpoint = self.baseUrl + f"/changeStatus"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def check_balance(self, request, idempotency_key=None, **kwargs):
         """
         Checks the balance.
         """
-        endpoint = self.baseUrl + "/checkBalance"
+        endpoint = self.baseUrl + f"/checkBalance"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def issue(self, request, idempotency_key=None, **kwargs):
         """
         Issues a new card.
         """
-        endpoint = self.baseUrl + "/issue"
+        endpoint = self.baseUrl + f"/issue"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def load(self, request, idempotency_key=None, **kwargs):
         """
         Loads the payment method.
         """
-        endpoint = self.baseUrl + "/load"
+        endpoint = self.baseUrl + f"/load"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def merge_balance(self, request, idempotency_key=None, **kwargs):
         """
         Merge the balance of two cards.
         """
-        endpoint = self.baseUrl + "/mergeBalance"
+        endpoint = self.baseUrl + f"/mergeBalance"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def void_transaction(self, request, idempotency_key=None, **kwargs):
         """
         Voids a transaction.
         """
-        endpoint = self.baseUrl + "/voidTransaction"
+        endpoint = self.baseUrl + f"/voidTransaction"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
