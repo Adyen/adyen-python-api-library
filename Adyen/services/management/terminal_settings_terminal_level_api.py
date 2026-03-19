@@ -19,9 +19,7 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/terminals/{terminalId}/terminalLogos"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_terminal_settings(self, terminalId, idempotency_key=None, **kwargs):
         """
@@ -29,9 +27,7 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/terminals/{terminalId}/terminalSettings"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def update_logo(self, request, terminalId, idempotency_key=None, **kwargs):
         """
@@ -39,9 +35,7 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/terminals/{terminalId}/terminalLogos"
         method = "PATCH"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def update_terminal_settings(self, request, terminalId, idempotency_key=None, **kwargs):
         """
@@ -49,6 +43,5 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/terminals/{terminalId}/terminalSettings"
         method = "PATCH"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

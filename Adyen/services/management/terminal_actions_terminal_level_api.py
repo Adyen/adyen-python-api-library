@@ -17,8 +17,7 @@ class TerminalActionsTerminalLevelApi(AdyenServiceBase):
         """
         Create a terminal action
         """
-        endpoint = self.baseUrl + "/terminals/scheduleActions"
+        endpoint = self.baseUrl + f"/terminals/scheduleActions"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

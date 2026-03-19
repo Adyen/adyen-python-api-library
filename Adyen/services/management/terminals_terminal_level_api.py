@@ -17,11 +17,9 @@ class TerminalsTerminalLevelApi(AdyenServiceBase):
         """
         Get a list of terminals
         """
-        endpoint = self.baseUrl + "/terminals"
+        endpoint = self.baseUrl + f"/terminals"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def reassign_terminal(self, request, terminalId, idempotency_key=None, **kwargs):
         """
@@ -29,6 +27,5 @@ class TerminalsTerminalLevelApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/terminals/{terminalId}/reassign"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
