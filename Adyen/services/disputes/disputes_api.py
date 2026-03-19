@@ -17,48 +17,39 @@ class DisputesApi(AdyenServiceBase):
         """
         Accept a dispute
         """
-        endpoint = self.baseUrl + "/acceptDispute"
+        endpoint = self.baseUrl + f"/acceptDispute"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def defend_dispute(self, request, idempotency_key=None, **kwargs):
         """
         Defend a dispute
         """
-        endpoint = self.baseUrl + "/defendDispute"
+        endpoint = self.baseUrl + f"/defendDispute"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def delete_dispute_defense_document(self, request, idempotency_key=None, **kwargs):
         """
         Delete a defense document
         """
-        endpoint = self.baseUrl + "/deleteDisputeDefenseDocument"
+        endpoint = self.baseUrl + f"/deleteDisputeDefenseDocument"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def retrieve_applicable_defense_reasons(self, request, idempotency_key=None, **kwargs):
         """
         Get applicable defense reasons
         """
-        endpoint = self.baseUrl + "/retrieveApplicableDefenseReasons"
+        endpoint = self.baseUrl + f"/retrieveApplicableDefenseReasons"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def supply_defense_document(self, request, idempotency_key=None, **kwargs):
         """
         Supply a defense document
         """
-        endpoint = self.baseUrl + "/supplyDefenseDocument"
+        endpoint = self.baseUrl + f"/supplyDefenseDocument"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
