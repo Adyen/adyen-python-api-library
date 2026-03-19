@@ -15,20 +15,17 @@ class GrantOffersApi(AdyenServiceBase):
 
     def get_all_grant_offers(self, idempotency_key=None, **kwargs):
         """
-        Get all available grant offers
+        Get all available static offers
         """
-        endpoint = self.baseUrl + "/grantOffers"
+        endpoint = self.baseUrl + f"/grantOffers"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_grant_offer(self, id, idempotency_key=None, **kwargs):
         """
-        Get the details of a grant offer
+        Get the details of a static offer
         """
         endpoint = self.baseUrl + f"/grantOffers/{id}"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+

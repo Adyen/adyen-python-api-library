@@ -19,19 +19,15 @@ class GrantsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/grants/{grantId}/disbursements"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_all_grants(self, idempotency_key=None, **kwargs):
         """
         Get all the grants of an account holder
         """
-        endpoint = self.baseUrl + "/grants"
+        endpoint = self.baseUrl + f"/grants"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_grant(self, grantId, idempotency_key=None, **kwargs):
         """
@@ -39,9 +35,7 @@ class GrantsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/grants/{grantId}"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_grant_disbursement(self, grantId, disbursementId, idempotency_key=None, **kwargs):
         """
@@ -49,28 +43,21 @@ class GrantsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/grants/{grantId}/disbursements/{disbursementId}"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def request_grant(self, request, idempotency_key=None, **kwargs):
         """
         Make a request for a grant
         """
-        endpoint = self.baseUrl + "/grants"
+        endpoint = self.baseUrl + f"/grants"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def update_grant_disbursement(
-        self, request, grantId, disbursementId, idempotency_key=None, **kwargs
-    ):
+    def update_grant_disbursement(self, request, grantId, disbursementId, idempotency_key=None, **kwargs):
         """
         Update the repayment configuration of a disbursement
         """
         endpoint = self.baseUrl + f"/grants/{grantId}/disbursements/{disbursementId}"
         method = "PATCH"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
