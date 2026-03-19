@@ -19,9 +19,7 @@ class DocumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/documents/{id}"
         method = "DELETE"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_document(self, id, idempotency_key=None, **kwargs):
         """
@@ -29,9 +27,7 @@ class DocumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/documents/{id}"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def update_document(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -39,16 +35,13 @@ class DocumentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/documents/{id}"
         method = "PATCH"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def upload_document_for_verification_checks(self, request, idempotency_key=None, **kwargs):
         """
         Upload a document for verification checks
         """
-        endpoint = self.baseUrl + "/documents"
+        endpoint = self.baseUrl + f"/documents"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

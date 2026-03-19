@@ -19,9 +19,7 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/signingRequired"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def generate_pci_questionnaire(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -29,9 +27,7 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/generatePciTemplates"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_pci_questionnaire(self, id, pciid, idempotency_key=None, **kwargs):
         """
@@ -39,9 +35,7 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/{pciid}"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_pci_questionnaire_details(self, id, idempotency_key=None, **kwargs):
         """
@@ -49,9 +43,7 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def sign_pci_questionnaire(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -59,6 +51,5 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/signPciTemplates"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
