@@ -17,18 +17,15 @@ class BinLookupApi(AdyenServiceBase):
         """
         Check if 3D Secure is available
         """
-        endpoint = self.baseUrl + "/get3dsAvailability"
+        endpoint = self.baseUrl + f"/get3dsAvailability"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_cost_estimate(self, request, idempotency_key=None, **kwargs):
         """
         Get a fees cost estimate
         """
-        endpoint = self.baseUrl + "/getCostEstimate"
+        endpoint = self.baseUrl + f"/getCostEstimate"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+
