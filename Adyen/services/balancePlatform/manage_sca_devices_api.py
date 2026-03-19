@@ -13,17 +13,13 @@ class ManageSCADevicesApi(AdyenServiceBase):
         self.service = "balancePlatform"
         self.baseUrl = "https://balanceplatform-api-test.adyen.com/bcl/v2"
 
-    def complete_association_between_sca_device_and_resource(
-        self, request, deviceId, idempotency_key=None, **kwargs
-    ):
+    def complete_association_between_sca_device_and_resource(self, request, deviceId, idempotency_key=None, **kwargs):
         """
         Complete an association between an SCA device and a resource
         """
         endpoint = self.baseUrl + f"/registeredDevices/{deviceId}/associations"
         method = "PATCH"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def complete_registration_of_sca_device(self, request, id, idempotency_key=None, **kwargs):
         """
@@ -31,9 +27,7 @@ class ManageSCADevicesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/registeredDevices/{id}"
         method = "PATCH"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def delete_registration_of_sca_device(self, id, idempotency_key=None, **kwargs):
         """
@@ -41,38 +35,29 @@ class ManageSCADevicesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/registeredDevices/{id}"
         method = "DELETE"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
-    def initiate_association_between_sca_device_and_resource(
-        self, request, deviceId, idempotency_key=None, **kwargs
-    ):
+    def initiate_association_between_sca_device_and_resource(self, request, deviceId, idempotency_key=None, **kwargs):
         """
         Initiate an association between an SCA device and a resource
         """
         endpoint = self.baseUrl + f"/registeredDevices/{deviceId}/associations"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def initiate_registration_of_sca_device(self, request, idempotency_key=None, **kwargs):
         """
         Initiate the registration of an SCA device
         """
-        endpoint = self.baseUrl + "/registeredDevices"
+        endpoint = self.baseUrl + f"/registeredDevices"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def list_registered_sca_devices(self, idempotency_key=None, **kwargs):
         """
         Get a list of registered SCA devices
         """
-        endpoint = self.baseUrl + "/registeredDevices"
+        endpoint = self.baseUrl + f"/registeredDevices"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+

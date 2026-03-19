@@ -17,8 +17,7 @@ class TransferRoutesApi(AdyenServiceBase):
         """
         Calculate transfer routes
         """
-        endpoint = self.baseUrl + "/transferRoutes/calculate"
+        endpoint = self.baseUrl + f"/transferRoutes/calculate"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

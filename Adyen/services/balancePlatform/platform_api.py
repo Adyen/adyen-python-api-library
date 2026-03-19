@@ -19,9 +19,7 @@ class PlatformApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/balancePlatforms/{id}/accountHolders"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_all_transaction_rules_for_balance_platform(self, id, idempotency_key=None, **kwargs):
         """
@@ -29,9 +27,7 @@ class PlatformApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/balancePlatforms/{id}/transactionRules"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_balance_platform(self, id, idempotency_key=None, **kwargs):
         """
@@ -39,6 +35,5 @@ class PlatformApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/balancePlatforms/{id}"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+

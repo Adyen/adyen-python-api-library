@@ -22,6 +22,5 @@ class GrantAccountsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/grantAccounts/{id}"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+

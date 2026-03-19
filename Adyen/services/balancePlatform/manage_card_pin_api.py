@@ -17,28 +17,23 @@ class ManageCardPINApi(AdyenServiceBase):
         """
         Change a card PIN
         """
-        endpoint = self.baseUrl + "/pins/change"
+        endpoint = self.baseUrl + f"/pins/change"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def public_key(self, idempotency_key=None, **kwargs):
         """
         Get an RSA public key
         """
-        endpoint = self.baseUrl + "/publicKey"
+        endpoint = self.baseUrl + f"/publicKey"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def reveal_card_pin(self, request, idempotency_key=None, **kwargs):
         """
         Reveal a card PIN
         """
-        endpoint = self.baseUrl + "/pins/reveal"
+        endpoint = self.baseUrl + f"/pins/reveal"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

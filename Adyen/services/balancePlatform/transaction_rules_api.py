@@ -17,11 +17,9 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         Create a transaction rule
         """
-        endpoint = self.baseUrl + "/transactionRules"
+        endpoint = self.baseUrl + f"/transactionRules"
         method = "POST"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def delete_transaction_rule(self, transactionRuleId, idempotency_key=None, **kwargs):
         """
@@ -29,9 +27,7 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
         method = "DELETE"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def get_transaction_rule(self, transactionRuleId, idempotency_key=None, **kwargs):
         """
@@ -39,9 +35,7 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def update_transaction_rule(self, request, transactionRuleId, idempotency_key=None, **kwargs):
         """
@@ -49,6 +43,5 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
         method = "PATCH"
-        return self.client.call_adyen_api(
-            request, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)
+

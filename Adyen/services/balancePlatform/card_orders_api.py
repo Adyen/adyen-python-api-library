@@ -19,16 +19,13 @@ class CardOrdersApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + f"/cardorders/{id}/items"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
 
     def list_card_orders(self, idempotency_key=None, **kwargs):
         """
         Get a list of card orders
         """
-        endpoint = self.baseUrl + "/cardorders"
+        endpoint = self.baseUrl + f"/cardorders"
         method = "GET"
-        return self.client.call_adyen_api(
-            None, self.service, method, endpoint, idempotency_key, **kwargs
-        )
+        return self.client.call_adyen_api(None, self.service, method, endpoint, idempotency_key, **kwargs)
+

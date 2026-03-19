@@ -5,10 +5,11 @@ from .balance_accounts_api import BalanceAccountsApi
 from .balances_api import BalancesApi
 from .bank_account_validation_api import BankAccountValidationApi
 from .card_orders_api import CardOrdersApi
+from .direct_debit_mandates_api import DirectDebitMandatesApi
 from .grant_accounts_api import GrantAccountsApi
 from .grant_offers_api import GrantOffersApi
-from .manage_card_pin_api import ManageCardPINApi
 from .manage_sca_devices_api import ManageSCADevicesApi
+from .manage_card_pin_api import ManageCardPINApi
 from .network_tokens_api import NetworkTokensApi
 from .payment_instrument_groups_api import PaymentInstrumentGroupsApi
 from .payment_instruments_api import PaymentInstrumentsApi
@@ -36,6 +37,7 @@ class AdyenBalancePlatformApi(AdyenServiceBase):
         self.balances_api = BalancesApi(client=client)
         self.bank_account_validation_api = BankAccountValidationApi(client=client)
         self.card_orders_api = CardOrdersApi(client=client)
+        self.direct_debit_mandates_api = DirectDebitMandatesApi(client=client)
         self.grant_accounts_api = GrantAccountsApi(client=client)
         self.grant_offers_api = GrantOffersApi(client=client)
         self.manage_sca_devices_api = ManageSCADevicesApi(client=client)
@@ -47,10 +49,6 @@ class AdyenBalancePlatformApi(AdyenServiceBase):
         self.sca_association_management_api = SCAAssociationManagementApi(client=client)
         self.sca_device_management_api = SCADeviceManagementApi(client=client)
         self.transaction_rules_api = TransactionRulesApi(client=client)
-        self.transfer_limits_balance_account_level_api = TransferLimitsBalanceAccountLevelApi(
-            client=client
-        )
-        self.transfer_limits_balance_platform_level_api = TransferLimitsBalancePlatformLevelApi(
-            client=client
-        )
+        self.transfer_limits_balance_account_level_api = TransferLimitsBalanceAccountLevelApi(client=client)
+        self.transfer_limits_balance_platform_level_api = TransferLimitsBalancePlatformLevelApi(client=client)
         self.transfer_routes_api = TransferRoutesApi(client=client)
