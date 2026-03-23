@@ -1,0 +1,18 @@
+{
+  "dynamicOffers": [
+    {
+      "id": "DO00000000000000000000001",
+      "accountHolderId": "AH00000000000000000000001",
+      "financing": {
+        "minimum": {
+          "currency": "EUR",
+          "value": 5000
+        },
+        "maximum": {
+          "currency": "EUR",
+          "value": 25000
+        }
+      }
+    }
+  ]
+}

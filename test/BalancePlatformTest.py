@@ -238,3 +238,119 @@ class TestBalancePlatform(unittest.TestCase):
             json=request,
             xapikey="YourXapikey",
         )
+
+    def test_get_list_of_mandates(self):
+        request = {}
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/configuration/get-mandates-success.json"
+        )
+        result = self.adyen.balancePlatform.direct_debit_mandates_api.get_list_of_mandates()
+        self.assertEqual(1, len(result.message["mandates"]))
+        self.assertEqual("MNDT7QXPLKT9R333640TX334709E", result.message["mandates"][0]["id"])
+        self.assertEqual("approved", result.message["mandates"][0]["status"])
+        self.assertEqual("bacs", result.message["mandates"][0]["type"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "GET",
+            f"{self.balance_platform_url}/mandates",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
+            json=None,
+            xapikey="YourXapikey",
+        )
+
+    def test_get_mandate_by_id(self):
+        request = {}
+        mandate_id = "MNDT7QXPLKT9R333640TX334709E"
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/configuration/get-mandate-success.json"
+        )
+        result = self.adyen.balancePlatform.direct_debit_mandates_api.get_mandate_by_id(mandate_id)
+        self.assertEqual(mandate_id, result.message["id"])
+        self.assertEqual("bacs", result.message["type"])
+        self.assertEqual("approved", result.message["status"])
+        self.assertEqual("BA43EKD334339T6N8X655DW77", result.message["balanceAccountId"])
+        self.assertEqual("PI43EKK334339T6N8X65688CS", result.message["paymentInstrumentId"])
+        self.assertEqual(
+            "Example Merchant Ltd",
+            result.message["counterparty"]["accountHolder"]["fullName"],
+        )
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "GET",
+            f"{self.balance_platform_url}/mandates/{mandate_id}",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
+            json=None,
+            xapikey="YourXapikey",
+        )
+
+    def test_cancel_mandate(self):
+        mandate_id = "MNDT7QXPLKT9R333640TX334709E"
+        self.adyen.client = self.test.create_client_from_file(202, None)
+        result = self.adyen.balancePlatform.direct_debit_mandates_api.cancel_mandate(mandate_id)
+
+        self.assertEqual(202, result.status_code)
+        self.assertEqual({}, result.message)
+        self.assertEqual("", result.raw_response)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "POST",
+            f"{self.balance_platform_url}/mandates/{mandate_id}/cancel",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
+            json=None,
+            xapikey="YourXapikey",
+        )
+
+    def test_update_mandate(self):
+        request = {"status": "approved"}
+        mandate_id = "MNDT7QXPLKT9R333640TX334709E"
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/configuration/update-mandate-success.json"
+        )
+        result = self.adyen.balancePlatform.direct_debit_mandates_api.update_mandate(
+            request, mandate_id
+        )
+        self.assertEqual(mandate_id, result.message["id"])
+        self.assertEqual("approved", result.message["status"])
+        self.assertEqual("bacs", result.message["type"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "PATCH",
+            f"{self.balance_platform_url}/mandates/{mandate_id}",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
+            json=request,
+            xapikey="YourXapikey",
+        )
+
+    def test_get_tax_form_summary(self):
+        request = {}
+        account_holder_id = "AH00000000000000000000001"
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/configuration/get-tax-form-summary-success.json"
+        )
+        result = self.adyen.balancePlatform.account_holders_api.get_tax_form_summary(
+            account_holder_id
+        )
+        self.assertEqual("available", result.message["taxForms"][0]["status"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "GET",
+            f"{self.balance_platform_url}/accountHolders/{account_holder_id}/taxFormSummary",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
+            json=None,
+            xapikey="YourXapikey",
+        )

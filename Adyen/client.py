@@ -142,41 +142,44 @@ class AdyenClient:
         self.api_session_authentication_version = api_session_authentication_version
         self.api_capital_version = api_capital_version
 
+    def _require_live_endpoint_prefix(self):
+        if self.live_endpoint_prefix is None:
+            error_string = (
+                "Please set your live suffix. You can set it by running "
+                "adyen.client.live_endpoint_prefix = 'Your live suffix'"
+            )
+            raise AdyenEndpointInvalidFormat(error_string)
+        return self.live_endpoint_prefix
+
     def _determine_api_url(self, platform, endpoint):
         if platform == "test":
             # Replace live with test in base url is configured with live url by default
             return endpoint.replace("-live", "-test")
 
         if "pal-" in endpoint:
-            if self.live_endpoint_prefix is None:
-                error_string = (
-                    "Please set your live suffix. You can set it by running "
-                    "adyen.client.live_endpoint_prefix = 'Your live suffix'"
-                )
-                raise AdyenEndpointInvalidFormat(error_string)
+            live_endpoint_prefix = self._require_live_endpoint_prefix()
             endpoint = endpoint.replace(
                 "https://pal-test.adyen.com/pal/servlet/",
-                "https://" + self.live_endpoint_prefix + "-pal-live.adyenpayments.com/pal/servlet/",
+                f"https://{live_endpoint_prefix}-pal-live.adyenpayments.com/pal/servlet/",
+            )
+        elif "paltokenization-" in endpoint:
+            live_endpoint_prefix = self._require_live_endpoint_prefix()
+            endpoint = endpoint.replace(
+                "https://paltokenization-test.adyen.com/paltokenization/servlet/",
+                f"https://{live_endpoint_prefix}-paltokenization-live.adyenpayments.com/paltokenization/servlet/",
             )
         elif "checkout-" in endpoint:
-            if self.live_endpoint_prefix is None:
-                error_string = (
-                    "Please set your live suffix. You can set it by running "
-                    "adyen.client.live_endpoint_prefix = 'Your live suffix'"
-                )
-                raise AdyenEndpointInvalidFormat(error_string)
+            live_endpoint_prefix = self._require_live_endpoint_prefix()
 
             if "possdk" in endpoint:
                 endpoint = endpoint.replace(
                     "https://checkout-test.adyen.com/",
-                    "https://" + self.live_endpoint_prefix + "-checkout-live.adyenpayments.com/",
+                    f"https://{live_endpoint_prefix}-checkout-live.adyenpayments.com/",
                 )
             else:
                 endpoint = endpoint.replace(
                     "https://checkout-test.adyen.com/",
-                    "https://"
-                    + self.live_endpoint_prefix
-                    + "-checkout-live.adyenpayments.com/checkout/",
+                    f"https://{live_endpoint_prefix}-checkout-live.adyenpayments.com/checkout/",
                 )
         elif "authe/api" in endpoint:
             endpoint = endpoint.replace("https://test.adyen.com", "https://authe-live.adyen.com")

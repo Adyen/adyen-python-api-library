@@ -1,14 +1,15 @@
 import unittest
 
 import Adyen
+from Adyen.exceptions import AdyenEndpointInvalidFormat
 from Adyen.services.posMobile import AdyenPosMobileApi
+
+RECURRING_DETAILS = "/listRecurringDetails"
 
 try:
     from BaseTest import BaseTest
 except ImportError:
     from .BaseTest import BaseTest
-
-from Adyen.exceptions import AdyenEndpointInvalidFormat
 
 
 class TestDetermineUrl(unittest.TestCase):
@@ -25,6 +26,8 @@ class TestDetermineUrl(unittest.TestCase):
     management_url = adyen.management.account_merchant_level_api.baseUrl
     sessionauth_url = adyen.sessionAuthentication.session_authentication_api.baseUrl
     sessionauth_version = sessionauth_url.split("/")[-1]
+    recurring_url = adyen.recurring.recurring_api.baseUrl
+    recurring_version = recurring_url.split("/")[-1]
     capital_url = adyen.capital.grants_api.baseUrl
     capital_version = capital_url.split("/")[-1]
 
@@ -153,4 +156,35 @@ class TestDetermineUrl(unittest.TestCase):
         url = self.adyen.client._determine_api_url("live", self.capital_url)
         self.assertEqual(
             url, f"https://balanceplatform-api-live.adyen.com/capital/{self.capital_version}"
+        )
+
+    def test_recurring_api_base_url(self):
+        self.assertTrue(
+            self.recurring_url.startswith(
+                "https://paltokenization-test.adyen.com/paltokenization/servlet/Recurring/"
+            )
+        )
+
+    def test_recurring_api_url_test_platform(self):
+        self.client.live_endpoint_prefix = None
+        url = self.adyen.client._determine_api_url("test", self.recurring_url + RECURRING_DETAILS)
+        self.assertEqual(url, f"{self.recurring_url}{RECURRING_DETAILS}")
+
+    def test_recurring_api_url_live_with_prefix(self):
+        self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        url = self.adyen.client._determine_api_url("live", self.recurring_url + RECURRING_DETAILS)
+        self.assertEqual(
+            url,
+            "https://1797a841fbb37ca7-AdyenDemo-paltokenization-live.adyenpayments.com"
+            f"/paltokenization/servlet/Recurring/{self.recurring_version}{RECURRING_DETAILS}",
+        )
+
+    def test_recurring_api_url_live_no_prefix_raises(self):
+        self.client.live_endpoint_prefix = None
+        self.assertRaisesRegex(
+            AdyenEndpointInvalidFormat,
+            "Please set your live suffix",
+            self.adyen.client._determine_api_url,
+            "live",
+            self.recurring_url + "RECURRING_DETAILS",
         )
