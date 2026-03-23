@@ -5,6 +5,7 @@ from .balance_accounts_api import BalanceAccountsApi
 from .balances_api import BalancesApi
 from .bank_account_validation_api import BankAccountValidationApi
 from .card_orders_api import CardOrdersApi
+from .direct_debit_mandates_api import DirectDebitMandatesApi
 from .grant_accounts_api import GrantAccountsApi
 from .grant_offers_api import GrantOffersApi
 from .manage_card_pin_api import ManageCardPINApi
@@ -36,6 +37,7 @@ class AdyenBalancePlatformApi(AdyenServiceBase):
         self.balances_api = BalancesApi(client=client)
         self.bank_account_validation_api = BankAccountValidationApi(client=client)
         self.card_orders_api = CardOrdersApi(client=client)
+        self.direct_debit_mandates_api = DirectDebitMandatesApi(client=client)
         self.grant_accounts_api = GrantAccountsApi(client=client)
         self.grant_offers_api = GrantOffersApi(client=client)
         self.manage_sca_devices_api = ManageSCADevicesApi(client=client)
