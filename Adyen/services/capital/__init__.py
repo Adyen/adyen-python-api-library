@@ -1,4 +1,5 @@
 from ..base import AdyenServiceBase
+from .dynamic_offers_api import DynamicOffersApi
 from .grant_accounts_api import GrantAccountsApi
 from .grant_offers_api import GrantOffersApi
 from .grants_api import GrantsApi
@@ -13,6 +14,7 @@ class AdyenCapitalApi(AdyenServiceBase):
 
     def __init__(self, client=None):
         super().__init__(client=client)
+        self.dynamic_offers_api = DynamicOffersApi(client=client)
         self.grant_accounts_api = GrantAccountsApi(client=client)
         self.grant_offers_api = GrantOffersApi(client=client)
         self.grants_api = GrantsApi(client=client)
