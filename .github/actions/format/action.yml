@@ -1,0 +1,28 @@
+name: 'Format Python Code'
+description: 'Runs ruff format and ruff check --fix'
+inputs:
+  path:
+    description: 'Path to the python repository'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Install ruff
+      run: pip install -e ".[dev]"
+      shell: bash
+      working-directory: ${{ inputs.path }}
+
+    - name: Run ruff format
+      run: ruff format Adyen
+      shell: bash
+      working-directory: ${{ inputs.path }}
+
+    - name: Run ruff check --fix
+      run: ruff check --fix Adyen
+      shell: bash
+      working-directory: ${{ inputs.path }}
