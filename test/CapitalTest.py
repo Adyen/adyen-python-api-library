@@ -103,3 +103,36 @@ class TestCapital(unittest.TestCase):
         )
         result = self.adyen.capital.grant_offers_api.get_grant_offer(id="GO00000000000000000000001")
         self.assertEqual("GO00000000000000000000001", result.message["id"])
+
+    def test_get_all_dynamic_offers(self):
+        request = {}
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/capital/get-dynamic-offers-success.json"
+        )
+        result = self.adyen.capital.dynamic_offers_api.get_all_dynamic_offers()
+        self.assertEqual(1, len(result.message["dynamicOffers"]))
+        self.assertEqual("DO00000000000000000000001", result.message["dynamicOffers"][0]["id"])
+
+    def test_calculate_preliminary_offer_from_dynamic_offer(self):
+        request = {"amount": {"currency": "EUR", "value": 10000}}
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/capital/calculate-dynamic-offer-success.json"
+        )
+        result = (
+            self.adyen.capital.dynamic_offers_api.calculate_preliminary_offer_from_dynamic_offer(
+                request, id="DO00000000000000000000001"
+            )
+        )
+        self.assertEqual("DO00000000000000000000001", result.message["id"])
+        self.assertEqual(1000, result.message["repayment"]["basisPoints"])
+
+    def test_create_static_offer_from_dynamic_offer(self):
+        request = {"amount": {"currency": "EUR", "value": 10000}}
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/capital/create-static-offer-from-dynamic-success.json"
+        )
+        result = self.adyen.capital.dynamic_offers_api.create_static_offer_from_dynamic_offer(
+            request, id="DO00000000000000000000001"
+        )
+        self.assertEqual("GO00000000000000000000002", result.message["id"])
+        self.assertEqual("cashAdvance", result.message["contractType"])
