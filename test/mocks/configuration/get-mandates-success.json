@@ -1,0 +1,19 @@
+{
+  "mandates": [
+    {
+      "id": "MNDT7QXPLKT9R333640TX334709E",
+      "type": "bacs",
+      "balanceAccountId": "BA43EKD334339T6N8X655DW77",
+      "paymentInstrumentId": "PI43EKK334339T6N8X65688CS",
+      "status": "approved",
+      "counterparty": {
+        "accountHolder": {
+          "fullName": "Example Merchant Ltd"
+        }
+      },
+      "createdAt": "2026-02-23T13:04:15.683Z",
+      "updatedAt": "2026-02-23T13:04:15.683Z"
+    }
+  ],
+  "itemsTotal": 1
+}
