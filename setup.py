@@ -13,7 +13,7 @@ setup(
     url="https://github.com/Adyen/adyen-python-api-library",
     keywords=["payments", "adyen", "fintech"],
     python_requires=">=3.8",
-    install_requires=[],  # Core is standard library only, plus optional clients below
+    install_requires=[],
     extras_require={
         "requests": ["requests>=2.25.0"],
         "pycurl": ["pycurl>=7.43.0"],
