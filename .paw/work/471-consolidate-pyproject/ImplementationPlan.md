@@ -37,8 +37,8 @@ No tests verify packaging metadata — all existing tests cover API runtime beha
 
 ## Phase Status
 
-- [ ] **Phase 1: Metadata Consolidation** — Consolidate all metadata into pyproject.toml and update all dependent files
-- [ ] **Phase 2: Documentation** — Create Docs.md technical reference
+- [x] **Phase 1: Metadata Consolidation** — Consolidate all metadata into pyproject.toml and update all dependent files
+- [x] **Phase 2: Documentation** — Create Docs.md technical reference
 
 ## Phase Candidates
 
