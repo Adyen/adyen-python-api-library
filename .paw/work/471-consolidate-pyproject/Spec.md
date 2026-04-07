@@ -48,12 +48,12 @@ Narrative: The release automation action triggers a version bump. It updates ver
 Independent Test: Simulate a version bump by replacing the version string in `pyproject.toml` and `Adyen/settings.py`, build the package, and verify the new version appears in the built distribution metadata.
 
 Acceptance Scenarios:
-1. Given the release workflow runs, When it processes `version-files`, Then it updates `pyproject.toml` and `Adyen/settings.py` (not `setup.py`)
-2. Given setup.py contains only `from setuptools import setup; setup()`, When the release action's perl regex runs against it, Then no error occurs (regex finds no match, which is a no-op)
+1. Given the release workflow runs, When it processes `version-files`, Then it updates `pyproject.toml` and `Adyen/settings.py` only (setup.py is not in the list)
+2. Given setup.py is not listed in `version-files`, When the release action runs, Then setup.py is not processed at all
 
 ### Edge Cases
 
-- **Legacy pip install**: Users with older pip versions that invoke `python setup.py install` — the minimal shim delegates to setuptools which reads pyproject.toml (requires setuptools ≥ 61.0.0 installed, ensured by build-system.requires)
+- **Legacy pip install**: Users with older pip versions that invoke `python setup.py install` — the minimal shim delegates to setuptools which reads pyproject.toml. This path requires setuptools ≥ 61.0.0 to be already installed in the user's environment (note: `build-system.requires` only applies via PEP 517 frontends like `pip install`, not direct `python setup.py` invocation). The risk is low — setuptools 61.0.0 was released in March 2022 and is widely available.
 - **Editable install**: `pip install -e .` works with the shim + pyproject.toml metadata via PEP 660 (setuptools ≥ 64) or legacy mode (shim present)
 - **tox environments**: tox.ini installs deps directly (not via extras) — unaffected by this change, continues to work as-is
 - **setup.py with no version**: The release action's perl substitution is a no-op on a file with no version string — no error, no change
@@ -74,7 +74,7 @@ Acceptance Scenarios:
 ### Cross-Cutting / Non-Functional
 
 - All existing tests pass without modification after the consolidation
-- Package builds (`python -m build`) produce identical metadata to the current release (minus the improved long_description from README)
+- Package builds (`python -m build`) produce equivalent core metadata (name, version, dependencies, classifiers) to the current release. The `long_description` (full README) and `project-urls` fields are intentionally improved.
 - No breaking change for users who `pip install Adyen` from PyPI
 
 ## Success Criteria
@@ -92,6 +92,7 @@ Acceptance Scenarios:
 - The `adyen-sdk-automation` code generator does not generate or modify `setup.py` (confirmed by SpecResearch — templates only generate service files)
 - Keeping `wheel` in `build-system.requires` alongside setuptools (harmless, improves compatibility)
 - The `coveralls` package previously installed by `make install` is not required for local development (it was a CI-only tool); dropping it from `make install` is acceptable
+- Excluding `pycurl` from `make install` is acceptable — it requires system-level libcurl, often fails on developer machines without it, and is adequately tested via tox's pycurl variant
 
 ## Scope
 
