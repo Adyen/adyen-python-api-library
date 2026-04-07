@@ -1,5 +1,5 @@
 install:
-	@pip install requests pycurl mock coveralls ruff
+	@pip install -e ".[requests,test,dev]"
 
 lint:
 	@ruff check Adyen test

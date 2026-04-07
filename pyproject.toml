@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=45", "wheel"]
+requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -31,6 +31,11 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 
+[project.urls]
+Homepage = "https://github.com/Adyen/adyen-python-api-library"
+Repository = "https://github.com/Adyen/adyen-python-api-library"
+Issues = "https://github.com/Adyen/adyen-python-api-library/issues"
+
 [project.optional-dependencies]
 requests = ["requests>=2.25.0"]
 pycurl = ["pycurl>=7.43.0"]
@@ -44,6 +49,9 @@ dev = [
     "ruff>=0.4.4",
     "pre-commit>=3.0.0",
 ]
+
+[tool.setuptools.packages.find]
+include = ["Adyen*"]
 
 [tool.ruff]
 line-length = 100
