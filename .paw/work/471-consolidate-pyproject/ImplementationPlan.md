@@ -48,7 +48,7 @@ No tests verify packaging metadata — all existing tests cover API runtime beha
 
 ## Phase 1: Metadata Consolidation
 
-All five file changes are tightly coupled and must be applied atomically — the pyproject.toml additions and setup.py simplification are interdependent.
+All five file changes are tightly coupled and must be applied atomically — the pyproject.toml additions and setup.py simplification are interdependent. Covers FR-001 through FR-008.
 
 ### Changes Required:
 
@@ -83,21 +83,24 @@ All five file changes are tightly coupled and must be applied atomically — the
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Tests pass: `make tests`
+- [ ] `pip install .` in clean env installs pydantic: `pip install . && python -c "import pydantic"` (SC-001)
+- [ ] Editable install with extras: `pip install -e ".[requests,test,dev]"` succeeds and extras available (SC-002)
+- [ ] Package build + metadata: `python -m build --sdist --wheel` succeeds; inspect built metadata for correct name, version, dependencies, URLs (SC-003)
+- [ ] Full dev workflow: `make install && make tests` succeeds with all tests passing (SC-004)
 - [ ] Lint passes: `make lint`
-- [ ] Editable install works: `pip install -e ".[requests,test,dev]"` succeeds
-- [ ] Package build works: `python -m build --sdist --wheel` (if `build` package available)
 
 #### Manual Verification:
-- [ ] `setup.py` contains exactly 2 lines (import + setup call), no metadata arguments
-- [ ] `grep -c 'version' setup.py` returns 0 (SC-006)
-- [ ] `pyproject.toml` has `[project.urls]`, `[tool.setuptools.packages.find]`, and `setuptools>=61.0.0`
-- [ ] `release.yml` version-files does not include `setup.py`
-- [ ] `lint.yml` cache key uses `hashFiles('**/pyproject.toml')`
+- [ ] `setup.py` contains exactly 2 lines (import + setup call), no metadata arguments (SC-005)
+- [ ] `grep -c 'version' setup.py` returns 0 — no version string in setup.py (SC-006)
+- [ ] `pyproject.toml` has `[project.urls]`, `[tool.setuptools.packages.find]`, and `setuptools>=61.0.0` (FR-003, FR-004, FR-005)
+- [ ] `release.yml` version-files does not include `setup.py` (FR-007)
+- [ ] `lint.yml` cache key uses `hashFiles('**/pyproject.toml')` (FR-008)
 
 ---
 
 ## Phase 2: Documentation
+
+> Depends on: Phase 1
 
 ### Changes Required:
 
