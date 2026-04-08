@@ -160,9 +160,7 @@ class TestDetermineUrl(unittest.TestCase):
 
     def test_recurring_api_base_url(self):
         self.assertTrue(
-            self.recurring_url.startswith(
-                "https://paltokenization-test.adyen.com/paltokenization/servlet/Recurring/"
-            )
+            self.recurring_url.startswith("https://pal-test.adyen.com/pal/servlet/Recurring/")
         )
 
     def test_recurring_api_url_test_platform(self):
@@ -175,8 +173,8 @@ class TestDetermineUrl(unittest.TestCase):
         url = self.adyen.client._determine_api_url("live", self.recurring_url + RECURRING_DETAILS)
         self.assertEqual(
             url,
-            "https://1797a841fbb37ca7-AdyenDemo-paltokenization-live.adyenpayments.com"
-            f"/paltokenization/servlet/Recurring/{self.recurring_version}{RECURRING_DETAILS}",
+            "https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
+            f"/pal/servlet/Recurring/{self.recurring_version}{RECURRING_DETAILS}",
         )
 
     def test_recurring_api_url_live_no_prefix_raises(self):
