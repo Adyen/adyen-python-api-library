@@ -162,12 +162,6 @@ class AdyenClient:
                 "https://pal-test.adyen.com/pal/servlet/",
                 f"https://{live_endpoint_prefix}-pal-live.adyenpayments.com/pal/servlet/",
             )
-        elif "paltokenization-" in endpoint:
-            live_endpoint_prefix = self._require_live_endpoint_prefix()
-            endpoint = endpoint.replace(
-                "https://paltokenization-test.adyen.com/paltokenization/servlet/",
-                f"https://{live_endpoint_prefix}-paltokenization-live.adyenpayments.com/paltokenization/servlet/",
-            )
         elif "checkout-" in endpoint:
             live_endpoint_prefix = self._require_live_endpoint_prefix()
 

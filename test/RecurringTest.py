@@ -2,6 +2,7 @@ import unittest
 
 import Adyen
 from Adyen import settings
+from Adyen.exceptions import AdyenEndpointInvalidFormat
 
 try:
     from BaseTest import BaseTest
@@ -17,6 +18,31 @@ class TestRecurring(unittest.TestCase):
     client.password = "YourWSPassword"
     client.platform = "test"
     baseUrl = adyen.recurring.recurring_api.baseUrl
+
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.baseUrl)
+        self.assertEqual(url, self.baseUrl)
+        self.assertTrue(url.startswith("https://pal-test.adyen.com/pal/servlet/Recurring/"))
+
+    def test_base_url_live_environment(self):
+        self.adyen.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        recurring_version = self.baseUrl.split("/")[-1]
+        url = self.adyen.client._determine_api_url("live", self.baseUrl)
+        self.assertEqual(
+            url,
+            f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
+            f"/pal/servlet/Recurring/{recurring_version}",
+        )
+        self.adyen.client.live_endpoint_prefix = None
+
+    def test_base_url_live_environment_no_prefix_raises(self):
+        self.adyen.client.live_endpoint_prefix = None
+        self.assertRaises(
+            AdyenEndpointInvalidFormat,
+            self.adyen.client._determine_api_url,
+            "live",
+            self.baseUrl,
+        )
 
     def test_list_recurring_details(self):
         request = {}
