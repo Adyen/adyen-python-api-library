@@ -16,6 +16,9 @@ class PosMobileApi(AdyenServiceBase):
     def create_communication_session(self, request, idempotency_key=None, **kwargs):
         """
         Create a communication session
+
+        Deprecated since POS Mobile API v68
+        Use POST [/auth/certificate](https://docs.adyen.com/api-explorer/softpos-configuration-api/latest/post/auth/certificate) to establish secure communications.
         """
         endpoint = self.baseUrl + "/sessions"
         method = "POST"
