@@ -1,0 +1,8 @@
+{
+  "service": "posmobile",
+  "project": "python",
+  "generatedAt": "2026-05-28T09:02:02Z",
+  "openapiCommitSha": "1e3919b0fb3a780c92f1b11f8ca3d829a641066c",
+  "automationCommitSha": "6f06b47d0661f0891defe6b85461d2c367fbd284",
+  "libraryCommitSha": "20da67d74d66b555a063b507ab54fe0ad7e1f3e5"
+}
