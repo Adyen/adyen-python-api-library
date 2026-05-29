@@ -1,0 +1,14 @@
+{
+  "hasNext": false,
+  "hasPrevious": false,
+  "paymentInstruments": [
+    {
+      "balanceAccountId": "BA32272223222B59CZ3T52DKZ",
+      "description": "S.Hopper - Loss prevention  card",
+      "id": "PI32272223222B59M5TM658DT",
+      "issuingCountryCode": "GB",
+      "status": "active",
+      "type": "card"
+    }
+  ]
+}

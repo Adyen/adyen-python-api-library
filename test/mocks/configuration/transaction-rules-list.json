@@ -1,0 +1,11 @@
+{
+  "transactionRules": [
+    {
+      "id": "TR32272223222B5CMD3V73HXG",
+      "description": "Only allow point-of-sale transactions",
+      "reference": "YOUR_REFERENCE_4F7346",
+      "status": "active",
+      "type": "blockList"
+    }
+  ]
+}
