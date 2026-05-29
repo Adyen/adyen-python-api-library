@@ -41,9 +41,9 @@ For more information, refer to our [documentation](https://docs.adyen.com/) or t
 
 ### For development purpose
 
-Clone this repository and run 
+Clone this repository and install all dependencies with:
 
-~~~~ bash 
+~~~~ bash
 make install
 ~~~~
 
@@ -211,6 +211,70 @@ except Adyen.exceptions.AdyenError as error:
 ### Example integration
  
 For a closer look at how our Python library works, clone our [example integration](https://github.com/adyen-examples/adyen-python-online-payments). This includes commented code, highlighting key features and concepts, and examples of API calls that can be made using the library.
+
+## Development
+
+### Prerequisites
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), the package manager used to manage dependencies and run tooling.
+
+
+### Setup
+
+Clone the repository and install all development and test dependencies:
+
+~~~~ bash
+git clone https://github.com/Adyen/adyen-python-api-library.git
+cd adyen-python-api-library
+make install
+~~~~
+
+This creates a `.venv` directory with all dependencies pinned to the versions in `uv.lock`.
+
+### Testing
+
+~~~~ bash
+make tests
+~~~~
+
+The test suite runs against the `requests` HTTP backend by default. To run with a different backend, install the corresponding extra and set it directly:
+
+~~~~ bash
+uv sync --extra test --extra pycurl
+uv run python -m unittest discover -s test -p '*Test.py'
+~~~~
+
+### Linting and formatting
+
+~~~~ bash
+make lint        # check for lint errors
+make lint-fix    # auto-fix lint errors
+make format      # format code
+~~~~
+
+### Managing dependencies
+
+Dependencies are locked in `uv.lock`. This file is committed to the repository and covers all extras and Python versions in a single universal resolution.
+
+To update the lock file after changing `pyproject.toml`:
+
+~~~~ bash
+make lock
+~~~~
+
+To upgrade all locked dependencies to their latest compatible versions:
+
+~~~~ bash
+make upgrade
+~~~~
+
+### Building the package
+
+~~~~ bash
+uv build
+~~~~
+
+This produces a source distribution and wheel under `dist/`.
 
 ## Feedback
 

@@ -1,21 +1,34 @@
+# UV_NO_CONFIG bypasses system overrides
+# UV_DEFAULT_INDEX enforces the use of PYPI registry
+UV=UV_NO_CONFIG=1 UV_DEFAULT_INDEX=https://pypi.org/simple/ uv
+
 install:
-	@pip install requests pycurl mock coveralls ruff
+	@$(UV) sync --extra dev --extra test --extra requests
+
+lock:
+	@$(UV) lock
+
+upgrade:
+	@$(UV) lock --upgrade
 
 lint:
-	@ruff check Adyen test
+	@$(UV) run ruff check Adyen test
 
 lint-fix:
-	@ruff check --fix Adyen test
+	@$(UV) run ruff check --fix Adyen test
 
 format:
-	@ruff format Adyen test
+	@$(UV) run ruff format Adyen test
 
 tests:
-	@python -m unittest discover -s test -p '*Test.py'
+	@$(UV) run python -m unittest discover -s test -p '*Test.py'
 
 coverage:
-	@coverage run -m unittest discover -s test -p '*Test.py'
+	@$(UV) run coverage run -m unittest discover -s test -p '*Test.py'
 
+clean:
+	@find . -not -path './.venv/*' -not -path './venv/*' -type d -name '__pycache__' -exec rm -rf {} + 2>/dev/null || true
+	@rm -rf dist/ build/ .tox/ .coverage htmlcov/ Adyen.egg-info
 
 generator:=python
 openapi-generator-version:=6.0.1

@@ -4,6 +4,7 @@
 *.pypirc
 releaseguide.md
 venv/
+.venv/
 .idea/
 .coverage
 .vagrant/

@@ -38,12 +38,20 @@ test = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "mock>=4.0.0",
-    "requests>=2.25.0",
 ]
 dev = [
     "ruff>=0.4.4",
     "pre-commit>=3.0.0",
+    "tox>=4.0.0",
+    "tox-uv>=1.0.0",
 ]
+
+[[tool.uv.index]]
+url = "https://pypi.org/simple/"
+default = true
+
+[tool.setuptools.packages.find]
+include = ["Adyen*"]
 
 [tool.ruff]
 line-length = 100
