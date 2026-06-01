@@ -17,6 +17,11 @@ class TestBalancePlatform(unittest.TestCase):
     client.xapikey = "YourXapikey"
     client.platform = "test"
     balance_platform_url = adyen.balancePlatform.platform_api.baseUrl
+    expected_headers = {
+        "adyen-library-name": "adyen-python-api-library",
+        "adyen-library-version": settings.LIB_VERSION,
+        "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+    }
 
     def test_creating_balance_account(self):
         request = {
@@ -31,11 +36,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.balance_platform_url}/balanceAccounts",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=request,
             xapikey="YourXapikey",
         )
@@ -54,11 +55,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.balance_platform_url}/accountHolders",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=request,
             xapikey="YourXapikey",
         )
@@ -73,11 +70,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "GET",
             f"{self.balance_platform_url}/balancePlatforms/{platform_id}",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=None,
             xapikey="YourXapikey",
         )
@@ -99,12 +92,186 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.balance_platform_url}/paymentInstruments",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=request,
+            xapikey="YourXapikey",
+        )
+
+    def test_get_balance_account(self):
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        self.adyen.client = self.test.create_client_from_file(
+            200, None, "test/mocks/configuration/balance-account-retrieved.json"
+        )
+        result = self.adyen.balancePlatform.balance_accounts_api.get_balance_account(
+            balance_account_id
+        )
+        self.assertEqual(balance_account_id, result.message["id"])
+        self.assertEqual("active", result.message["status"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "GET",
+            f"{self.balance_platform_url}/balanceAccounts/{balance_account_id}",
+            headers=self.expected_headers,
+            json=None,
+            xapikey="YourXapikey",
+        )
+
+    def test_update_balance_account(self):
+        request = {
+            "description": "S.Hopper - Updated balance account",
+        }
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/configuration/balance-account-updated.json"
+        )
+        result = self.adyen.balancePlatform.balance_accounts_api.update_balance_account(
+            request, balance_account_id
+        )
+        self.assertEqual(balance_account_id, result.message["id"])
+        self.assertEqual("S.Hopper - Updated balance account", result.message["description"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "PATCH",
+            f"{self.balance_platform_url}/balanceAccounts/{balance_account_id}",
+            headers=self.expected_headers,
+            json=request,
+            xapikey="YourXapikey",
+        )
+
+    def test_create_sweep(self):
+        request = {
+            "counterparty": {
+                "balanceAccountId": "BA32272223222B5FTD2KR6TJD",
+            },
+            "currency": "EUR",
+            "schedule": {"type": "daily"},
+            "triggerAmount": {"currency": "EUR", "value": 50000},
+            "type": "push",
+        }
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/configuration/sweep-created.json"
+        )
+        result = self.adyen.balancePlatform.balance_accounts_api.create_sweep(
+            request, balance_account_id
+        )
+        self.assertEqual("SWPC4227C224555B5FTD2NT2JV4WN5", result.message["id"])
+        self.assertEqual("active", result.message["status"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "POST",
+            f"{self.balance_platform_url}/balanceAccounts/{balance_account_id}/sweeps",
+            headers=self.expected_headers,
+            json=request,
+            xapikey="YourXapikey",
+        )
+
+    def test_get_sweep(self):
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        sweep_id = "SWPC4227C224555B5FTD2NT2JV4WN5"
+        self.adyen.client = self.test.create_client_from_file(
+            200, None, "test/mocks/configuration/sweep-created.json"
+        )
+        result = self.adyen.balancePlatform.balance_accounts_api.get_sweep(
+            balance_account_id, sweep_id
+        )
+        self.assertEqual(sweep_id, result.message["id"])
+        self.assertEqual("push", result.message["type"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "GET",
+            f"{self.balance_platform_url}/balanceAccounts/{balance_account_id}/sweeps/{sweep_id}",
+            headers=self.expected_headers,
+            json=None,
+            xapikey="YourXapikey",
+        )
+
+    def test_update_sweep(self):
+        request = {
+            "schedule": {"type": "weekly"},
+            "triggerAmount": {"currency": "EUR", "value": 75000},
+        }
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        sweep_id = "SWPC4227C224555B5FTD2NT2JV4WN5"
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/configuration/sweep-updated.json"
+        )
+        result = self.adyen.balancePlatform.balance_accounts_api.update_sweep(
+            request, balance_account_id, sweep_id
+        )
+        self.assertEqual(sweep_id, result.message["id"])
+        self.assertEqual("weekly", result.message["schedule"]["type"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "PATCH",
+            f"{self.balance_platform_url}/balanceAccounts/{balance_account_id}/sweeps/{sweep_id}",
+            headers=self.expected_headers,
+            json=request,
+            xapikey="YourXapikey",
+        )
+
+    def test_delete_sweep(self):
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        sweep_id = "SWPC4227C224555B5FTD2NT2JV4WN5"
+        self.adyen.client = self.test.create_client_from_file(204, None)
+        result = self.adyen.balancePlatform.balance_accounts_api.delete_sweep(
+            balance_account_id, sweep_id
+        )
+        self.assertEqual(204, result.status_code)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "DELETE",
+            f"{self.balance_platform_url}/balanceAccounts/{balance_account_id}/sweeps/{sweep_id}",
+            headers=self.expected_headers,
+            json=None,
+            xapikey="YourXapikey",
+        )
+
+    def test_get_all_sweeps_for_balance_account(self):
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        self.adyen.client = self.test.create_client_from_file(
+            200, None, "test/mocks/configuration/sweeps-list.json"
+        )
+        result = self.adyen.balancePlatform.balance_accounts_api.get_all_sweeps_for_balance_account(
+            balance_account_id
+        )
+        self.assertEqual(1, len(result.message["sweeps"]))
+        self.assertEqual("SWPC4227C224555B5FTD2NT2JV4WN5", result.message["sweeps"][0]["id"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "GET",
+            f"{self.balance_platform_url}/balanceAccounts/{balance_account_id}/sweeps",
+            headers=self.expected_headers,
+            json=None,
+            xapikey="YourXapikey",
+        )
+
+    def test_get_all_transaction_rules_for_balance_account(self):
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        self.adyen.client = self.test.create_client_from_file(
+            200, None, "test/mocks/configuration/transaction-rules-list.json"
+        )
+        result = self.adyen.balancePlatform.balance_accounts_api.get_all_transaction_rules_for_balance_account(
+            balance_account_id
+        )
+        self.assertEqual(1, len(result.message["transactionRules"]))
+        self.assertEqual("TR32272223222B5CMD3V73HXG", result.message["transactionRules"][0]["id"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "GET",
+            f"{self.balance_platform_url}/balanceAccounts/{balance_account_id}/transactionRules",
+            headers=self.expected_headers,
+            json=None,
+            xapikey="YourXapikey",
+        )
+
+    def test_get_payment_instruments_linked_to_balance_account(self):
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        self.adyen.client = self.test.create_client_from_file(
+            200, None, "test/mocks/configuration/payment-instruments-list.json"
+        )
+        result = self.adyen.balancePlatform.balance_accounts_api.get_payment_instruments_linked_to_balance_account(
+            balance_account_id
+        )
+        self.assertEqual(1, len(result.message["paymentInstruments"]))
+        self.assertEqual("PI32272223222B59M5TM658DT", result.message["paymentInstruments"][0]["id"])
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "GET",
+            f"{self.balance_platform_url}/balanceAccounts/{balance_account_id}/paymentInstruments",
+            headers=self.expected_headers,
+            json=None,
             xapikey="YourXapikey",
         )
 
@@ -131,11 +298,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.balance_platform_url}/balancePlatforms/{balance_platform_id}/transferLimits",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=request,
             xapikey="YourXapikey",
         )
@@ -165,11 +328,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.balance_platform_url}/balancePlatforms/{balance_platform_id}/webhooks/{webhook_id}/settings",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=request,
             xapikey="YourXapikey",
         )
@@ -186,11 +345,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.balance_platform_url}/paymentInstrumentGroups",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=request,
             xapikey="YourXapikey",
         )
@@ -207,11 +362,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "GET",
             f"{self.balance_platform_url}/transactionRules/{transactionRuleId}",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=None,
             xapikey="YourXapikey",
         )
@@ -230,11 +381,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "PATCH",
             f"{self.balance_platform_url}/networkTokens/TK123ABC",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=request,
             xapikey="YourXapikey",
         )
@@ -252,11 +399,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "GET",
             f"{self.balance_platform_url}/mandates",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=None,
             xapikey="YourXapikey",
         )
@@ -280,11 +423,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "GET",
             f"{self.balance_platform_url}/mandates/{mandate_id}",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=None,
             xapikey="YourXapikey",
         )
@@ -300,11 +439,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "POST",
             f"{self.balance_platform_url}/mandates/{mandate_id}/cancel",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=None,
             xapikey="YourXapikey",
         )
@@ -324,11 +459,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "PATCH",
             f"{self.balance_platform_url}/mandates/{mandate_id}",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=request,
             xapikey="YourXapikey",
         )
@@ -346,11 +477,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "GET",
             f"{self.balance_platform_url}/accountHolders/{account_holder_id}/taxFormSummary",
-            headers={
-                "adyen-library-name": "adyen-python-api-library",
-                "adyen-library-version": settings.LIB_VERSION,
-                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
-            },
+            headers=self.expected_headers,
             json=None,
             xapikey="YourXapikey",
         )
