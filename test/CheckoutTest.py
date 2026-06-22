@@ -542,3 +542,30 @@ class TestCheckout(unittest.TestCase):
         self.assertTrue(
             payment_base_url.startswith("https://pal-test.adyen.com/pal/servlet/Payment/")
         )
+
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.baseUrl)
+        self.assertEqual(url, self.baseUrl)
+        self.assertTrue(url.startswith("https://checkout-test.adyen.com/"))
+
+    def test_base_url_live_environment(self):
+        self.adyen.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        checkout_version = self.baseUrl.split("/")[-1]
+        url = self.adyen.client._determine_api_url("live", self.baseUrl)
+        self.assertEqual(
+            url,
+            f"https://1797a841fbb37ca7-AdyenDemo-checkout-live.adyenpayments.com"
+            f"/checkout/{checkout_version}",
+        )
+        self.adyen.client.live_endpoint_prefix = None
+
+    def test_base_url_live_environment_no_prefix_raises(self):
+        self.adyen.client.live_endpoint_prefix = None
+        from Adyen.exceptions import AdyenEndpointInvalidFormat
+        self.assertRaises(
+            AdyenEndpointInvalidFormat,
+            self.adyen.client._determine_api_url,
+            "live",
+            self.baseUrl,
+        )
+

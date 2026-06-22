@@ -175,3 +175,13 @@ class TestDisputes(unittest.TestCase):
             json=request,
             xapikey="YourXapikey",
         )
+
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.disputes_url)
+        self.assertEqual(url, self.disputes_url)
+        self.assertTrue(url.startswith("https://ca-test.adyen.com/ca/services/DisputeService/"))
+
+    def test_base_url_live_environment(self):
+        url = self.adyen.client._determine_api_url("live", self.disputes_url)
+        self.assertTrue(url.startswith("https://ca-live.adyen.com/ca/services/DisputeService/"))
+

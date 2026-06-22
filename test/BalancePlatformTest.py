@@ -481,3 +481,13 @@ class TestBalancePlatform(unittest.TestCase):
             json=None,
             xapikey="YourXapikey",
         )
+
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.balance_platform_url)
+        self.assertEqual(url, self.balance_platform_url)
+        self.assertTrue(url.startswith("https://balanceplatform-api-test.adyen.com/"))
+
+    def test_base_url_live_environment(self):
+        url = self.adyen.client._determine_api_url("live", self.balance_platform_url)
+        self.assertTrue(url.startswith("https://balanceplatform-api-live.adyen.com/"))
+

@@ -183,3 +183,13 @@ class TestManagement(unittest.TestCase):
             json=None,
             xapikey="YourXapikey",
         )
+
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.management_url)
+        self.assertEqual(url, self.management_url)
+        self.assertTrue(url.startswith("https://management-test.adyen.com/"))
+
+    def test_base_url_live_environment(self):
+        url = self.adyen.client._determine_api_url("live", self.management_url)
+        self.assertTrue(url.startswith("https://management-live.adyen.com/"))
+

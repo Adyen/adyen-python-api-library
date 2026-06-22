@@ -248,6 +248,16 @@ class TestTerminal(unittest.TestCase):
             xapikey="YourXapikey",
         )
 
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.terminal_url)
+        self.assertEqual(url, self.terminal_url)
+        self.assertTrue(url.startswith("https://postfmapi-test.adyen.com/"))
+
+    def test_base_url_live_environment(self):
+        url = self.adyen.client._determine_api_url("live", self.terminal_url)
+        self.assertTrue(url.startswith("https://postfmapi-live.adyen.com/"))
+
+
 
 TestTerminal.client.http_force = "requests"
 suite = unittest.TestLoader().loadTestsFromTestCase(TestTerminal)

@@ -136,3 +136,15 @@ class TestCapital(unittest.TestCase):
         )
         self.assertEqual("GO00000000000000000000002", result.message["id"])
         self.assertEqual("cashAdvance", result.message["contractType"])
+
+    def test_base_url_test_environment(self):
+        capital_url = self.adyen.capital.grants_api.baseUrl
+        url = self.adyen.client._determine_api_url("test", capital_url)
+        self.assertEqual(url, capital_url)
+        self.assertTrue(url.startswith("https://balanceplatform-api-test.adyen.com/capital/"))
+
+    def test_base_url_live_environment(self):
+        capital_url = self.adyen.capital.grants_api.baseUrl
+        url = self.adyen.client._determine_api_url("live", capital_url)
+        self.assertTrue(url.startswith("https://balanceplatform-api-live.adyen.com/capital/"))
+

@@ -183,3 +183,30 @@ class TestManagement(unittest.TestCase):
             json=request,
             xapikey="YourXapikey",
         )
+
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.stored_value_url)
+        self.assertEqual(url, self.stored_value_url)
+        self.assertTrue(url.startswith("https://pal-test.adyen.com/pal/servlet/StoredValue/"))
+
+    def test_base_url_live_environment(self):
+        self.adyen.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        stored_value_version = self.stored_value_url.split("/")[-1]
+        url = self.adyen.client._determine_api_url("live", self.stored_value_url)
+        self.assertEqual(
+            url,
+            f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
+            f"/pal/servlet/StoredValue/{stored_value_version}",
+        )
+        self.adyen.client.live_endpoint_prefix = None
+
+    def test_base_url_live_environment_no_prefix_raises(self):
+        self.adyen.client.live_endpoint_prefix = None
+        from Adyen.exceptions import AdyenEndpointInvalidFormat
+        self.assertRaises(
+            AdyenEndpointInvalidFormat,
+            self.adyen.client._determine_api_url,
+            "live",
+            self.stored_value_url,
+        )
+

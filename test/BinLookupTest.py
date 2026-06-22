@@ -78,6 +78,36 @@ class TestBinLookup(unittest.TestCase):
         self.assertEqual("Invalid card number", result.message["message"])
         self.assertEqual("validation", result.message["errorType"])
 
+    def test_base_url_test_environment(self):
+        binlookup_url = self.ady.binlookup.bin_lookup_api.baseUrl
+        url = self.ady.client._determine_api_url("test", binlookup_url)
+        self.assertEqual(url, binlookup_url)
+        self.assertTrue(url.startswith("https://pal-test.adyen.com/pal/servlet/BinLookup/"))
+
+    def test_base_url_live_environment(self):
+        self.ady.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        binlookup_url = self.ady.binlookup.bin_lookup_api.baseUrl
+        binlookup_version = binlookup_url.split("/")[-1]
+        url = self.ady.client._determine_api_url("live", binlookup_url)
+        self.assertEqual(
+            url,
+            f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
+            f"/pal/servlet/BinLookup/{binlookup_version}",
+        )
+        self.ady.client.live_endpoint_prefix = None
+
+    def test_base_url_live_environment_no_prefix_raises(self):
+        self.ady.client.live_endpoint_prefix = None
+        binlookup_url = self.ady.binlookup.bin_lookup_api.baseUrl
+        from Adyen.exceptions import AdyenEndpointInvalidFormat
+        self.assertRaises(
+            AdyenEndpointInvalidFormat,
+            self.ady.client._determine_api_url,
+            "live",
+            binlookup_url,
+        )
+
+
 
 TestBinLookup.client.http_force = "requests"
 suite = unittest.TestLoader().loadTestsFromTestCase(TestBinLookup)

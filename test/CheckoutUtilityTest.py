@@ -52,10 +52,32 @@ class TestCheckoutUtility(unittest.TestCase):
             result.message["originKeys"]["https://www.your-domain2.com"],
         )
 
-    def test_checkout_utility_api_url_custom(self):
-        url = self.ady.client._determine_api_url("test", self.checkout_url + "/originKeys")
+    def test_base_url_test_environment(self):
+        url = self.ady.client._determine_api_url("test", self.checkout_url)
+        self.assertEqual(url, self.checkout_url)
+        self.assertTrue(url.startswith("https://checkout-test.adyen.com/"))
 
-        self.assertEqual(url, f"{self.checkout_url}/originKeys")
+    def test_base_url_live_environment(self):
+        self.ady.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        checkout_version = self.checkout_url.split("/")[-1]
+        url = self.ady.client._determine_api_url("live", self.checkout_url)
+        self.assertEqual(
+            url,
+            f"https://1797a841fbb37ca7-AdyenDemo-checkout-live.adyenpayments.com"
+            f"/checkout/{checkout_version}",
+        )
+        self.ady.client.live_endpoint_prefix = None
+
+    def test_base_url_live_environment_no_prefix_raises(self):
+        self.ady.client.live_endpoint_prefix = None
+        from Adyen.exceptions import AdyenEndpointInvalidFormat
+        self.assertRaises(
+            AdyenEndpointInvalidFormat,
+            self.ady.client._determine_api_url,
+            "live",
+            self.checkout_url,
+        )
+
 
     def test_applePay_session(self):
         request = {
