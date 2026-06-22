@@ -322,7 +322,10 @@ class AdyenClient:
             "capital": self.api_capital_version,
         }
 
-        new_version = f"v{version_lookup[service]}"
+        version = version_lookup.get(service)
+        if version is None:
+            return endpoint
+        new_version = f"v{version}"
         endpoint = re.sub(r"/v\d+(\b|$)", f"/{new_version}", endpoint)
         return endpoint
 
