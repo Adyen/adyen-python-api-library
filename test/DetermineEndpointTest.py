@@ -203,6 +203,11 @@ class TestDetermineUrl(unittest.TestCase):
         self.assertTrue(recurring_url.endswith("/v77"))
         self.assertTrue(binlookup_url.endswith("/v66"))
 
+        # Test that None versions do not override the URL
+        self.client.api_payment_version = None
+        unchanged_url = self.client._set_url_version("payments", self.payment_url)
+        self.assertEqual(unchanged_url, self.payment_url)
+
         # Cleanup
         self.client.api_payment_version = None
         self.client.api_checkout_version = None
