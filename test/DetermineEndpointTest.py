@@ -186,3 +186,26 @@ class TestDetermineUrl(unittest.TestCase):
             "live",
             self.recurring_url + "RECURRING_DETAILS",
         )
+
+    def test_set_url_version(self):
+        self.client.api_payment_version = 99
+        self.client.api_checkout_version = 88
+        self.client.api_recurring_version = 77
+        self.client.api_bin_lookup_version = 66
+
+        payments_url = self.client._set_url_version("payments", self.payment_url)
+        checkout_url = self.client._set_url_version("checkout", self.checkout_url)
+        recurring_url = self.client._set_url_version("recurring", self.recurring_url)
+        binlookup_url = self.client._set_url_version("binlookup", self.binlookup_url)
+
+        self.assertTrue(payments_url.endswith("/v99"))
+        self.assertTrue(checkout_url.endswith("/v88"))
+        self.assertTrue(recurring_url.endswith("/v77"))
+        self.assertTrue(binlookup_url.endswith("/v66"))
+
+        # Cleanup
+        self.client.api_payment_version = None
+        self.client.api_checkout_version = None
+        self.client.api_recurring_version = None
+        self.client.api_bin_lookup_version = None
+

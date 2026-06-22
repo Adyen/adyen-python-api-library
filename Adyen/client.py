@@ -323,8 +323,9 @@ class AdyenClient:
         }
 
         new_version = f"v{version_lookup[service]}"
-        endpoint = re.sub(r"\.com/v\d{1,2}", f".com/{new_version}", endpoint)
+        endpoint = re.sub(r"/v\d+(\b|$)", f"/{new_version}", endpoint)
         return endpoint
+
 
     def call_adyen_api(
         self, request_data, service, method, endpoint, idempotency_key=None, **kwargs
