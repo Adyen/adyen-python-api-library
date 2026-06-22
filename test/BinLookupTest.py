@@ -86,15 +86,17 @@ class TestBinLookup(unittest.TestCase):
 
     def test_base_url_live_environment(self):
         self.ady.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
-        binlookup_url = self.ady.binlookup.bin_lookup_api.baseUrl
-        binlookup_version = binlookup_url.split("/")[-1]
-        url = self.ady.client._determine_api_url("live", binlookup_url)
-        self.assertEqual(
-            url,
-            f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
-            f"/pal/servlet/BinLookup/{binlookup_version}",
-        )
-        self.ady.client.live_endpoint_prefix = None
+        try:
+            binlookup_url = self.ady.binlookup.bin_lookup_api.baseUrl
+            binlookup_version = binlookup_url.split("/")[-1]
+            url = self.ady.client._determine_api_url("live", binlookup_url)
+            self.assertEqual(
+                url,
+                f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
+                f"/pal/servlet/BinLookup/{binlookup_version}",
+            )
+        finally:
+            self.ady.client.live_endpoint_prefix = None
 
     def test_base_url_live_environment_no_prefix_raises(self):
         self.ady.client.live_endpoint_prefix = None

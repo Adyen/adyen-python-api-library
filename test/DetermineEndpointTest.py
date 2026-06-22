@@ -31,6 +31,10 @@ class TestDetermineUrl(unittest.TestCase):
     capital_url = adyen.capital.grants_api.baseUrl
     capital_version = capital_url.split("/")[-1]
 
+    def tearDown(self):
+        self.client.live_endpoint_prefix = None
+        self.client.platform = "test"
+
     def test_checkout_api_url_custom(self):
         self.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
         url = self.adyen.client._determine_api_url("live", self.checkout_url + "/payments")

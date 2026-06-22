@@ -550,14 +550,16 @@ class TestCheckout(unittest.TestCase):
 
     def test_base_url_live_environment(self):
         self.adyen.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
-        checkout_version = self.baseUrl.split("/")[-1]
-        url = self.adyen.client._determine_api_url("live", self.baseUrl)
-        self.assertEqual(
-            url,
-            f"https://1797a841fbb37ca7-AdyenDemo-checkout-live.adyenpayments.com"
-            f"/checkout/{checkout_version}",
-        )
-        self.adyen.client.live_endpoint_prefix = None
+        try:
+            checkout_version = self.baseUrl.split("/")[-1]
+            url = self.adyen.client._determine_api_url("live", self.baseUrl)
+            self.assertEqual(
+                url,
+                f"https://1797a841fbb37ca7-AdyenDemo-checkout-live.adyenpayments.com"
+                f"/checkout/{checkout_version}",
+            )
+        finally:
+            self.adyen.client.live_endpoint_prefix = None
 
     def test_base_url_live_environment_no_prefix_raises(self):
         self.adyen.client.live_endpoint_prefix = None

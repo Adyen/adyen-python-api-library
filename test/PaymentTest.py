@@ -180,15 +180,17 @@ class TestPayments(unittest.TestCase):
 
     def test_base_url_live_environment(self):
         self.adyen.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
-        payment_url = self.adyen.payment.payments_api.baseUrl
-        payment_version = payment_url.split("/")[-1]
-        url = self.adyen.client._determine_api_url("live", payment_url)
-        self.assertEqual(
-            url,
-            f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
-            f"/pal/servlet/Payment/{payment_version}",
-        )
-        self.adyen.client.live_endpoint_prefix = None
+        try:
+            payment_url = self.adyen.payment.payments_api.baseUrl
+            payment_version = payment_url.split("/")[-1]
+            url = self.adyen.client._determine_api_url("live", payment_url)
+            self.assertEqual(
+                url,
+                f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
+                f"/pal/servlet/Payment/{payment_version}",
+            )
+        finally:
+            self.adyen.client.live_endpoint_prefix = None
 
     def test_base_url_live_environment_no_prefix_raises(self):
         self.adyen.client.live_endpoint_prefix = None
@@ -375,15 +377,17 @@ class TestPaymentsWithXapiKey(unittest.TestCase):
 
     def test_base_url_live_environment(self):
         self.adyen.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
-        payment_url = self.adyen.payment.payments_api.baseUrl
-        payment_version = payment_url.split("/")[-1]
-        url = self.adyen.client._determine_api_url("live", payment_url)
-        self.assertEqual(
-            url,
-            f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
-            f"/pal/servlet/Payment/{payment_version}",
-        )
-        self.adyen.client.live_endpoint_prefix = None
+        try:
+            payment_url = self.adyen.payment.payments_api.baseUrl
+            payment_version = payment_url.split("/")[-1]
+            url = self.adyen.client._determine_api_url("live", payment_url)
+            self.assertEqual(
+                url,
+                f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
+                f"/pal/servlet/Payment/{payment_version}",
+            )
+        finally:
+            self.adyen.client.live_endpoint_prefix = None
 
     def test_base_url_live_environment_no_prefix_raises(self):
         self.adyen.client.live_endpoint_prefix = None

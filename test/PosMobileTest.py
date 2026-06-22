@@ -35,15 +35,17 @@ class TestPosMobile(unittest.TestCase):
 
     def test_base_url_live_environment(self):
         self.adyen.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
-        pos_mobile_url = self.adyen.posMobile.pos_mobile_api.baseUrl
-        pos_mobile_version = pos_mobile_url.split("/")[-1]
-        url = self.adyen.client._determine_api_url("live", pos_mobile_url)
-        self.assertEqual(
-            url,
-            f"https://1797a841fbb37ca7-AdyenDemo-checkout-live.adyenpayments.com"
-            f"/checkout/possdk/{pos_mobile_version}",
-        )
-        self.adyen.client.live_endpoint_prefix = None
+        try:
+            pos_mobile_url = self.adyen.posMobile.pos_mobile_api.baseUrl
+            pos_mobile_version = pos_mobile_url.split("/")[-1]
+            url = self.adyen.client._determine_api_url("live", pos_mobile_url)
+            self.assertEqual(
+                url,
+                f"https://1797a841fbb37ca7-AdyenDemo-checkout-live.adyenpayments.com"
+                f"/checkout/possdk/{pos_mobile_version}",
+            )
+        finally:
+            self.adyen.client.live_endpoint_prefix = None
 
     def test_base_url_live_environment_no_prefix_raises(self):
         self.adyen.client.live_endpoint_prefix = None
