@@ -21,5 +21,7 @@ class TestClient(unittest.TestCase):
     def test_unknown_properties_raise_attribute_error(self):
         with self.assertRaises(AttributeError):
             _ = self.adyen.foobar
+        # Resolve parent attributes outside of assertRaises to avoid false positives
+        payments_api = self.adyen.payment.payments_api
         with self.assertRaises(AttributeError):
-            _ = self.adyen.payment.payments_api.foobar
+            _ = payments_api.foobar
