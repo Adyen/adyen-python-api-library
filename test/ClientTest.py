@@ -17,3 +17,9 @@ class TestClient(unittest.TestCase):
     client.xapikey = "YOUR_API_KEY"
     client.platform = "test"
     lib_version = settings.LIB_VERSION
+
+    def test_unknown_properties_raise_attribute_error(self):
+        with self.assertRaises(AttributeError):
+            _ = self.adyen.foobar
+        with self.assertRaises(AttributeError):
+            _ = self.adyen.payment.payments_api.foobar
