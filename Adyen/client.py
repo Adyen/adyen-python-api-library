@@ -322,8 +322,12 @@ class AdyenClient:
             "capital": self.api_capital_version,
         }
 
-        new_version = f"v{version_lookup[service]}"
-        endpoint = re.sub(r"\.com/v\d{1,2}", f".com/{new_version}", endpoint)
+        override_version = version_lookup.get(service)
+        if override_version is None:
+            return endpoint
+
+        new_version = f"v{override_version}"
+        endpoint = re.sub(r"/v\d{1,2}(/|$)", f"/{new_version}\\1", endpoint)
         return endpoint
 
     def call_adyen_api(

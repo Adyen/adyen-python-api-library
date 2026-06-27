@@ -98,6 +98,28 @@ class UtilTest(unittest.TestCase):
             xapikey="YourXapikey",
         )
 
+    def test_custom_version_pal(self):
+        self.client.api_payment_version = 50
+        request = {"merchantAccount": "YourMerchantAccount"}
+        self.test = BaseTest(self.adyen)
+        self.client.platform = "test"
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/authorise-success.json"
+        )
+        result = self.adyen.payment.payments_api.authorise(request, xapikey="YourXapikey")
+        self.assertIsNotNone(result)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "POST",
+            f"https://pal-test.adyen.com/pal/servlet/Payment/v{self.client.api_payment_version}/authorise",
+            headers={
+                "adyen-library-name": settings.LIB_NAME,
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": settings.LIB_NAME + "/" + settings.LIB_VERSION,
+            },
+            json=request,
+            xapikey="YourXapikey",
+        )
+
     def test_is_valid_hmac_notification_removes_additional_data(self):
         notification = {
             "live": "false",
