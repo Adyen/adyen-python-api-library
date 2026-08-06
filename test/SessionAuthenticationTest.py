@@ -51,3 +51,13 @@ class TestSessionAuthentication(unittest.TestCase):
             json=request,
             xapikey="YourXapikey",
         )
+
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.session_url)
+        self.assertEqual(url, self.session_url)
+        self.assertTrue(url.startswith("https://test.adyen.com/authe/api/"))
+
+    def test_base_url_live_environment(self):
+        url = self.adyen.client._determine_api_url("live", self.session_url)
+        self.assertTrue(url.startswith("https://authe-live.adyen.com/authe/api/"))
+

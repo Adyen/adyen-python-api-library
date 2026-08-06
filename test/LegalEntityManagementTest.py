@@ -112,3 +112,13 @@ class TestManagement(unittest.TestCase):
             json=request,
             xapikey="YourXapikey",
         )
+
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.lem_url)
+        self.assertEqual(url, self.lem_url)
+        self.assertTrue(url.startswith("https://kyc-test.adyen.com/lem/"))
+
+    def test_base_url_live_environment(self):
+        url = self.adyen.client._determine_api_url("live", self.lem_url)
+        self.assertTrue(url.startswith("https://kyc-live.adyen.com/lem/"))
+

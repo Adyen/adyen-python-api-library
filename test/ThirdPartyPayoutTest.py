@@ -308,6 +308,35 @@ class TestThirdPartyPayout(unittest.TestCase):
         expected = "[payout-submit-received]"
         self.assertEqual(expected, result.message["resultCode"])
 
+    def test_base_url_test_environment(self):
+        url = self.adyen.client._determine_api_url("test", self.payout_url)
+        self.assertEqual(url, self.payout_url)
+        self.assertTrue(url.startswith("https://pal-test.adyen.com/pal/servlet/Payout/"))
+
+    def test_base_url_live_environment(self):
+        self.adyen.client.live_endpoint_prefix = "1797a841fbb37ca7-AdyenDemo"
+        try:
+            payout_version = self.payout_url.split("/")[-1]
+            url = self.adyen.client._determine_api_url("live", self.payout_url)
+            self.assertEqual(
+                url,
+                f"https://1797a841fbb37ca7-AdyenDemo-pal-live.adyenpayments.com"
+                f"/pal/servlet/Payout/{payout_version}",
+            )
+        finally:
+            self.adyen.client.live_endpoint_prefix = None
+
+    def test_base_url_live_environment_no_prefix_raises(self):
+        self.adyen.client.live_endpoint_prefix = None
+        from Adyen.exceptions import AdyenEndpointInvalidFormat
+        self.assertRaises(
+            AdyenEndpointInvalidFormat,
+            self.adyen.client._determine_api_url,
+            "live",
+            self.payout_url,
+        )
+
+
 
 TestThirdPartyPayout.client.http_force = "requests"
 suite = unittest.TestLoader().loadTestsFromTestCase(TestThirdPartyPayout)
