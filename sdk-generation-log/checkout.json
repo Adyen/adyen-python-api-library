@@ -1,0 +1,8 @@
+{
+  "service": "checkout",
+  "project": "python",
+  "generatedAt": "2026-08-07T15:19:08Z",
+  "openapiCommitSha": "3a16b41f17d1bda097a8e25cfe3646f4af2042ec",
+  "automationCommitSha": "09e65f31d70416e30f8464ec7cf29e94eda443fc",
+  "libraryCommitSha": "b6f49792b79c23e2674b35c04dd045aa07daf599"
+}
