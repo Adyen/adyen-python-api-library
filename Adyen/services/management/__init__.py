@@ -11,6 +11,7 @@ from .api_key_company_level_api import APIKeyCompanyLevelApi
 from .api_key_merchant_level_api import APIKeyMerchantLevelApi
 from .client_key_company_level_api import ClientKeyCompanyLevelApi
 from .client_key_merchant_level_api import ClientKeyMerchantLevelApi
+from .donation_campaigns_api import DonationCampaignsApi
 from .my_api_credential_api import MyAPICredentialApi
 from .payment_methods_merchant_level_api import PaymentMethodsMerchantLevelApi
 from .payout_settings_merchant_level_api import PayoutSettingsMerchantLevelApi
@@ -51,6 +52,7 @@ class AdyenManagementApi(AdyenServiceBase):
         self.android_files_company_level_api = AndroidFilesCompanyLevelApi(client=client)
         self.client_key_company_level_api = ClientKeyCompanyLevelApi(client=client)
         self.client_key_merchant_level_api = ClientKeyMerchantLevelApi(client=client)
+        self.donation_campaigns_api = DonationCampaignsApi(client=client)
         self.my_api_credential_api = MyAPICredentialApi(client=client)
         self.payment_methods_merchant_level_api = PaymentMethodsMerchantLevelApi(client=client)
         self.payout_settings_merchant_level_api = PayoutSettingsMerchantLevelApi(client=client)
