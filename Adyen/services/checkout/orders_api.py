@@ -11,7 +11,7 @@ class OrdersApi(AdyenServiceBase):
     def __init__(self, client=None):
         super().__init__(client=client)
         self.service = "checkout"
-        self.baseUrl = "https://checkout-test.adyen.com/v71"
+        self.baseUrl = "https://checkout-test.adyen.com/v72"
 
     def cancel_order(self, request, idempotency_key=None, **kwargs):
         """
