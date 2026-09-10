@@ -23,6 +23,16 @@ class SCADeviceManagementApi(AdyenServiceBase):
             request, self.service, method, endpoint, idempotency_key, **kwargs
         )
 
+    def delete_sca_device(self, deviceId, idempotency_key=None, **kwargs):
+        """
+        Delete an SCA device
+        """
+        endpoint = self.baseUrl + f"/scaDevices/{deviceId}"
+        method = "DELETE"
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
+
     def finish_sca_device_registration(self, request, deviceId, idempotency_key=None, **kwargs):
         """
         Finish registration process for a SCA device
