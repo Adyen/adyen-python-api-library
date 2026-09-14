@@ -226,10 +226,8 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(
             200, None, "test/mocks/configuration/sweeps-list.json"
         )
-        result = (
-            self.adyen.balancePlatform.custom_payout_schedules_sweeps_api.get_all_sweeps_for_balance_account(
-                balance_account_id
-            )
+        result = self.adyen.balancePlatform.custom_payout_schedules_sweeps_api.get_all_sweeps_for_balance_account(
+            balance_account_id
         )
         self.assertEqual(1, len(result.message["sweeps"]))
         self.assertEqual("SWPC4227C224555B5FTD2NT2JV4WN5", result.message["sweeps"][0]["id"])
