@@ -150,7 +150,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(
             200, request, "test/mocks/configuration/sweep-created.json"
         )
-        result = self.adyen.balancePlatform.balance_accounts_api.create_sweep(
+        result = self.adyen.balancePlatform.custom_payout_schedules_sweeps_api.create_sweep(
             request, balance_account_id
         )
         self.assertEqual("SWPC4227C224555B5FTD2NT2JV4WN5", result.message["id"])
@@ -169,7 +169,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(
             200, None, "test/mocks/configuration/sweep-created.json"
         )
-        result = self.adyen.balancePlatform.balance_accounts_api.get_sweep(
+        result = self.adyen.balancePlatform.custom_payout_schedules_sweeps_api.get_sweep(
             balance_account_id, sweep_id
         )
         self.assertEqual(sweep_id, result.message["id"])
@@ -192,7 +192,7 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(
             200, request, "test/mocks/configuration/sweep-updated.json"
         )
-        result = self.adyen.balancePlatform.balance_accounts_api.update_sweep(
+        result = self.adyen.balancePlatform.custom_payout_schedules_sweeps_api.update_sweep(
             request, balance_account_id, sweep_id
         )
         self.assertEqual(sweep_id, result.message["id"])
@@ -209,7 +209,7 @@ class TestBalancePlatform(unittest.TestCase):
         balance_account_id = "BA32272223222B59CZ3T52DKZ"
         sweep_id = "SWPC4227C224555B5FTD2NT2JV4WN5"
         self.adyen.client = self.test.create_client_from_file(204, None)
-        result = self.adyen.balancePlatform.balance_accounts_api.delete_sweep(
+        result = self.adyen.balancePlatform.custom_payout_schedules_sweeps_api.delete_sweep(
             balance_account_id, sweep_id
         )
         self.assertEqual(204, result.status_code)
@@ -226,8 +226,10 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client = self.test.create_client_from_file(
             200, None, "test/mocks/configuration/sweeps-list.json"
         )
-        result = self.adyen.balancePlatform.balance_accounts_api.get_all_sweeps_for_balance_account(
-            balance_account_id
+        result = (
+            self.adyen.balancePlatform.custom_payout_schedules_sweeps_api.get_all_sweeps_for_balance_account(
+                balance_account_id
+            )
         )
         self.assertEqual(1, len(result.message["sweeps"]))
         self.assertEqual("SWPC4227C224555B5FTD2NT2JV4WN5", result.message["sweeps"][0]["id"])
@@ -477,6 +479,161 @@ class TestBalancePlatform(unittest.TestCase):
         self.adyen.client.http_client.request.assert_called_once_with(
             "GET",
             f"{self.balance_platform_url}/accountHolders/{account_holder_id}/taxFormSummary",
+            headers=self.expected_headers,
+            json=None,
+            xapikey="YourXapikey",
+        )
+
+    def test_managed_payout_schedules(self):
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        balance_platform_id = "YOUR_BALANCE_PLATFORM"
+        schedule_id = "MPS00000000000000000000000001"
+        request = {"schedule": {"type": "daily"}}
+        api = self.adyen.balancePlatform.managed_payout_schedules_api
+        test_cases = [
+            (
+                "apply managed schedule",
+                api.apply_managed_schedule,
+                (request, balance_account_id),
+                "POST",
+                f"/balanceAccounts/{balance_account_id}/payoutSchedules",
+                request,
+            ),
+            (
+                "delete balance account managed schedule",
+                api.delete_balance_account_managed_schedule,
+                (balance_account_id, schedule_id),
+                "DELETE",
+                f"/balanceAccounts/{balance_account_id}/payoutSchedules/{schedule_id}",
+                None,
+            ),
+            (
+                "get balance account managed schedule",
+                api.get_balance_account_managed_schedule_by_id,
+                (balance_account_id, schedule_id),
+                "GET",
+                f"/balanceAccounts/{balance_account_id}/payoutSchedules/{schedule_id}",
+                None,
+            ),
+            (
+                "get balance account managed schedules",
+                api.get_balance_account_managed_schedules,
+                (balance_account_id,),
+                "GET",
+                f"/balanceAccounts/{balance_account_id}/payoutSchedules",
+                None,
+            ),
+            (
+                "get balance platform managed schedule",
+                api.get_balance_platform_managed_schedule_by_id,
+                (balance_platform_id, schedule_id),
+                "GET",
+                f"/balancePlatforms/{balance_platform_id}/payoutSchedules/{schedule_id}",
+                None,
+            ),
+            (
+                "get balance platform managed schedules",
+                api.get_balance_platform_managed_schedules,
+                (balance_platform_id,),
+                "GET",
+                f"/balancePlatforms/{balance_platform_id}/payoutSchedules",
+                None,
+            ),
+            (
+                "get payout schedule executions",
+                api.get_payout_schedule_executions,
+                (balance_account_id, schedule_id),
+                "GET",
+                f"/balanceAccounts/{balance_account_id}/payoutSchedules/{schedule_id}/executions",
+                None,
+            ),
+            (
+                "update balance account managed schedule",
+                api.update_balance_account_managed_schedule,
+                (request, balance_account_id, schedule_id),
+                "PATCH",
+                f"/balanceAccounts/{balance_account_id}/payoutSchedules/{schedule_id}",
+                request,
+            ),
+        ]
+
+        for name, method, arguments, http_method, path, payload in test_cases:
+            with self.subTest(name=name):
+                self.adyen.client = self.test.create_client_from_file(200, payload)
+                method(*arguments)
+                self.adyen.client.http_client.request.assert_called_once_with(
+                    http_method,
+                    f"{self.balance_platform_url}{path}",
+                    headers=self.expected_headers,
+                    json=payload,
+                    xapikey="YourXapikey",
+                )
+
+    def test_recurring_top_ups(self):
+        balance_account_id = "BA32272223222B59CZ3T52DKZ"
+        top_up_id = "RTU00000000000000000000000001"
+        request = {
+            "amount": {"currency": "EUR", "value": 1000},
+            "frequency": "monthly",
+        }
+        api = self.adyen.balancePlatform.recurring_top_ups_api
+        test_cases = [
+            (
+                "create recurring top up",
+                api.create_recurring_top_up,
+                (request, balance_account_id),
+                "POST",
+                f"/balanceAccounts/{balance_account_id}/recurringTopUps",
+                request,
+            ),
+            (
+                "delete recurring top up",
+                api.delete_recurring_top_up,
+                (balance_account_id, top_up_id),
+                "DELETE",
+                f"/balanceAccounts/{balance_account_id}/recurringTopUps/{top_up_id}",
+                None,
+            ),
+            (
+                "get recurring top ups",
+                api.get_recurring_top_ups,
+                (balance_account_id,),
+                "GET",
+                f"/balanceAccounts/{balance_account_id}/recurringTopUps",
+                None,
+            ),
+            (
+                "update recurring top up",
+                api.update_recurring_top_ups,
+                (request, balance_account_id, top_up_id),
+                "PATCH",
+                f"/balanceAccounts/{balance_account_id}/recurringTopUps/{top_up_id}",
+                request,
+            ),
+        ]
+
+        for name, method, arguments, http_method, path, payload in test_cases:
+            with self.subTest(name=name):
+                self.adyen.client = self.test.create_client_from_file(200, payload)
+                method(*arguments)
+                self.adyen.client.http_client.request.assert_called_once_with(
+                    http_method,
+                    f"{self.balance_platform_url}{path}",
+                    headers=self.expected_headers,
+                    json=payload,
+                    xapikey="YourXapikey",
+                )
+
+    def test_delete_sca_device(self):
+        device_id = "SCA00000000000000000000000001"
+        self.adyen.client = self.test.create_client_from_file(204, None)
+
+        result = self.adyen.balancePlatform.sca_device_management_api.delete_sca_device(device_id)
+
+        self.assertEqual(204, result.status_code)
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "DELETE",
+            f"{self.balance_platform_url}/scaDevices/{device_id}",
             headers=self.expected_headers,
             json=None,
             xapikey="YourXapikey",
