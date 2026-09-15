@@ -1,5 +1,6 @@
 from ..base import AdyenServiceBase
 from .capital_api import CapitalApi
+from .cash_out_api import CashOutApi
 from .transactions_api import TransactionsApi
 from .transfers_api import TransfersApi
 
@@ -14,5 +15,6 @@ class AdyenTransfersApi(AdyenServiceBase):
     def __init__(self, client=None):
         super().__init__(client=client)
         self.capital_api = CapitalApi(client=client)
+        self.cash_out_api = CashOutApi(client=client)
         self.transactions_api = TransactionsApi(client=client)
         self.transfers_api = TransfersApi(client=client)
