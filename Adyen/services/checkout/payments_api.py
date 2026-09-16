@@ -11,7 +11,7 @@ class PaymentsApi(AdyenServiceBase):
     def __init__(self, client=None):
         super().__init__(client=client)
         self.service = "checkout"
-        self.baseUrl = "https://checkout-test.adyen.com/v71"
+        self.baseUrl = "https://checkout-test.adyen.com/v72"
 
     def card_details(self, request, idempotency_key=None, **kwargs):
         """
@@ -69,6 +69,16 @@ class PaymentsApi(AdyenServiceBase):
         """
         endpoint = self.baseUrl + "/sessions"
         method = "POST"
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
+
+    def update_session(self, request, sessionId, idempotency_key=None, **kwargs):
+        """
+        Update a payment session
+        """
+        endpoint = self.baseUrl + f"/sessions/{sessionId}"
+        method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
         )
