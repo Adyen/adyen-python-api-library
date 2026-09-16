@@ -103,3 +103,62 @@ class TestManagement(unittest.TestCase):
             json=None,
             xapikey="YourXapikey",
         )
+
+    def test_initiate_cashout(self):
+        request = {
+            "instructingBalanceAccountId": "BA00000000000000000000001",
+            "amount": {"currency": "EUR", "value": 50000},
+            "counterparty": {"transferInstrumentId": "SE00000000000000000000001"},
+            "description": "Cashout to bank account",
+            "referenceForBeneficiary": "CASHOUT-REF-001",
+            "fee": {"amount": {"currency": "EUR", "value": 500}},
+        }
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/transfers/initiate-cashout.json"
+        )
+        result = self.adyen.transfers.cash_out_api.initiate_cashout(request)
+        self.assertIsNotNone(result)
+        self.assertEqual("CO00000000000000000000001", result.message["id"])
+        self.assertEqual(50000, result.message["amount"]["value"])
+        self.assertEqual(
+            ["cashoutRepayment", "cashoutFee"],
+            [transfer["type"] for transfer in result.message["transfers"]],
+        )
+
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "POST",
+            f"{self.transfers_url}/cashouts",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
+            json=request,
+            xapikey="YourXapikey",
+        )
+
+    def test_initiate_cashout_idempotency_key(self):
+        request = {
+            "instructingBalanceAccountId": "BA00000000000000000000001",
+            "amount": {"currency": "EUR", "value": 50000},
+            "counterparty": {"transferInstrumentId": "SE00000000000000000000001"},
+        }
+        self.adyen.client = self.test.create_client_from_file(
+            200, request, "test/mocks/transfers/initiate-cashout.json"
+        )
+        self.adyen.transfers.cash_out_api.initiate_cashout(
+            request, idempotency_key="test-idempotency-key-001"
+        )
+
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "POST",
+            f"{self.transfers_url}/cashouts",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+                "Idempotency-Key": "test-idempotency-key-001",
+            },
+            json=request,
+            xapikey="YourXapikey",
+        )

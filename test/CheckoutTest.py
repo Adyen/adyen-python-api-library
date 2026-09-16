@@ -19,6 +19,21 @@ class TestCheckout(unittest.TestCase):
     baseUrl = adyen.checkout.payments_api.baseUrl
     lib_version = settings.LIB_VERSION
 
+    def test_checkout_api_version(self):
+        checkout_apis = (
+            self.adyen.checkout.donations_api,
+            self.adyen.checkout.modifications_api,
+            self.adyen.checkout.orders_api,
+            self.adyen.checkout.payment_links_api,
+            self.adyen.checkout.payments_api,
+            self.adyen.checkout.recurring_api,
+            self.adyen.checkout.utility_api,
+        )
+
+        for checkout_api in checkout_apis:
+            with self.subTest(api=checkout_api.__class__.__name__):
+                self.assertEqual("https://checkout-test.adyen.com/v72", checkout_api.baseUrl)
+
     def test_payment_methods_success_mocked(self):
         request = {"merchantAccount": "YourMerchantAccount"}
         self.adyen.client = self.test.create_client_from_file(
@@ -437,6 +452,25 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual(422, result.message["status"])
         self.assertEqual("130", result.message["errorCode"])
         self.assertEqual("validation", result.message["errorType"])
+
+    def test_update_session(self):
+        request = {"amount": {"currency": "EUR", "value": 1000}}
+        session_id = "YOUR_SESSION_ID"
+        self.adyen.client = self.test.create_client_from_file(200, request)
+
+        self.adyen.checkout.payments_api.update_session(request, session_id)
+
+        self.adyen.client.http_client.request.assert_called_once_with(
+            "PATCH",
+            f"{self.baseUrl}/sessions/{session_id}",
+            headers={
+                "adyen-library-name": "adyen-python-api-library",
+                "adyen-library-version": settings.LIB_VERSION,
+                "User-Agent": "adyen-python-api-library/" + settings.LIB_VERSION,
+            },
+            json=request,
+            xapikey="YourXapikey",
+        )
 
     def test_payment_link(self):
         request = {
