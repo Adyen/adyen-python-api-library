@@ -14,6 +14,9 @@ class AdyenBase:
         client_attr = ["username", "password", "platform"]
         if attr in client_attr:
             return self.client[attr]
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{attr}'"
+        )
 
 
 class AdyenServiceBase(AdyenBase):
