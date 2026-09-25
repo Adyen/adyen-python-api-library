@@ -65,7 +65,7 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
 
     def upload_android_certificate(self, companyId, idempotency_key=None, **kwargs):
         """
-        Upload Android Certificate
+        Upload Android certificate
         """
         endpoint = self.baseUrl + f"/companies/{companyId}/androidCertificates"
         method = "POST"
