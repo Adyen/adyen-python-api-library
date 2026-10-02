@@ -1,7 +1,9 @@
 import unittest
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from threading import Thread
 
 import Adyen
-from Adyen import settings
+from Adyen import httpclient, settings
 
 try:
     from BaseTest import BaseTest
@@ -61,6 +63,56 @@ class TestHttpClient(unittest.TestCase):
             json={},
             xapikey="TEST_XAPI_KEY",
         )
+
+
+class TestEmptyJsonPayload(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.received = []
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_POST(self):
+                body = self.rfile.read(int(self.headers.get("Content-Length", 0)))
+                cls.received.append((self.command, self.headers.get("Content-Type"), body))
+                self.send_response(200)
+                self.send_header("Content-Length", "2")
+                self.end_headers()
+                self.wfile.write(b"{}")
+
+            do_PATCH = do_POST
+
+            def log_message(self, *args):
+                pass
+
+        cls.server = HTTPServer(("127.0.0.1", 0), Handler)
+        cls.thread = Thread(target=cls.server.serve_forever, daemon=True)
+        cls.thread.start()
+        cls.url = f"http://127.0.0.1:{cls.server.server_port}/test"
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.server.shutdown()
+        cls.server.server_close()
+        cls.thread.join()
+
+    def check_empty_json(self, transport):
+        client = httpclient.HTTPClient("test/", "1", force_request=transport, timeout=5)
+        for method in ("POST", "PATCH"):
+            with self.subTest(method=method):
+                result = client.request(method, self.url, json={})
+                self.assertEqual(result[1], {})
+                self.assertEqual(result[2], 200)
+                self.assertEqual(self.received[-1], (method, "application/json", b"{}"))
+
+    def test_urllib_empty_json(self):
+        self.check_empty_json("urllib")
+
+    @unittest.skipIf(httpclient.pycurl is None, "pycurl is not installed")
+    def test_pycurl_empty_json(self):
+        self.check_empty_json("pycurl")
+
+    def test_requests_empty_json(self):
+        self.check_empty_json("requests")
 
 
 if __name__ == "__main__":
