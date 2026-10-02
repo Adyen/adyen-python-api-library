@@ -114,6 +114,20 @@ class TestEmptyJsonPayload(unittest.TestCase):
     def test_requests_empty_json(self):
         self.check_empty_json("requests")
 
+    def check_missing_body(self, transport):
+        client = httpclient.HTTPClient("test/", "1", force_request=transport, timeout=5)
+        for method in ("POST", "PATCH"):
+            with self.subTest(method=method):
+                with self.assertRaisesRegex(ValueError, "either a json or a data field"):
+                    client.request(method, self.url)
+
+    def test_urllib_missing_body(self):
+        self.check_missing_body("urllib")
+
+    @unittest.skipIf(httpclient.pycurl is None, "pycurl is not installed")
+    def test_pycurl_missing_body(self):
+        self.check_missing_body("pycurl")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -97,6 +97,8 @@ class HTTPClient:
 
         # Return regular dict instead of JSON encoded dict for request:
         if method == "POST" or method == "PATCH":
+            if json is None and not data:
+                raise ValueError("Please provide either a json or a data field.")
             raw_store = json
 
             # Set the request body.
@@ -216,6 +218,8 @@ class HTTPClient:
             headers = {}
 
         if method == "POST" or method == "PATCH":
+            if json is None and not data:
+                raise ValueError("Please provide either a json or a data field.")
             # Store regular dict to return later:
             raw_store = json
             raw_request = json_lib.dumps(json) if json is not None else urlencode(data)
@@ -223,8 +227,6 @@ class HTTPClient:
             raw_request = raw_store
             if json is not None:
                 url_request.add_header("Content-Type", "application/json")
-            elif not data:
-                raise ValueError("Please provide either a json or a data field.")
 
         elif method == "GET" or method == "DELETE":
             url_request = Request(url, method=method)
