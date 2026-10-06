@@ -186,3 +186,37 @@ class TestDetermineUrl(unittest.TestCase):
             "live",
             self.recurring_url + "RECURRING_DETAILS",
         )
+
+    def test_set_url_version_pal_recurring(self):
+        self.client.api_recurring_version = "70"
+        url = self.client._set_url_version("recurring", self.recurring_url + RECURRING_DETAILS)
+        expected = self.recurring_url.replace(f"/{self.recurring_version}", "/v70") + RECURRING_DETAILS
+        self.assertEqual(url, expected)
+        self.client.api_recurring_version = None
+
+    def test_set_url_version_pal_payment(self):
+        self.client.api_payment_version = "64"
+        url = self.client._set_url_version("payments", self.payment_url + "/payments")
+        expected = self.payment_url.replace(f"/{self.payment_version}", "/v64") + "/payments"
+        self.assertEqual(url, expected)
+        self.client.api_payment_version = None
+
+    def test_set_url_version_checkout(self):
+        self.client.api_checkout_version = "72"
+        url = self.client._set_url_version("checkout", self.checkout_url + "/payments")
+        expected = self.checkout_url.replace(f"/{self.checkout_version}", "/v72") + "/payments"
+        self.assertEqual(url, expected)
+        self.client.api_checkout_version = None
+
+    def test_set_url_version_none_guard_preserves_endpoint(self):
+        self.client.api_recurring_version = None
+        url = self.client._set_url_version("recurring", self.recurring_url + RECURRING_DETAILS)
+        self.assertEqual(url, self.recurring_url + RECURRING_DETAILS)
+
+    def test_set_url_version_multi_digit(self):
+        self.client.api_checkout_version = "100"
+        url = self.client._set_url_version("checkout", self.checkout_url + "/payments")
+        expected = self.checkout_url.replace(f"/{self.checkout_version}", "/v100") + "/payments"
+        self.assertEqual(url, expected)
+        self.client.api_checkout_version = None
+
