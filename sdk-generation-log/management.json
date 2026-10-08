@@ -1,0 +1,8 @@
+{
+  "service": "management",
+  "project": "python",
+  "generatedAt": "2026-10-08T14:22:19Z",
+  "openapiCommitSha": "45520ee6246d7e3d8074c3c5c5e991e65c2c02d6",
+  "automationCommitSha": "82147244fd717b50362f88a20e4436e693d0aed6",
+  "libraryCommitSha": "2b708a439f9b95c349f98f2985cda7fca46435bf"
+}
