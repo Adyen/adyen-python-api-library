@@ -1,8 +1,8 @@
 {
   "service": "checkout",
   "project": "python",
-  "generatedAt": "2026-09-10T20:56:00Z",
-  "openapiCommitSha": "c4e0d44cf6c0f3dcdff65be8e250fdbfa9da1076",
-  "automationCommitSha": "d34376385296d6c542a454096b5081b467e00415",
-  "libraryCommitSha": "b6f49792b79c23e2674b35c04dd045aa07daf599"
+  "generatedAt": "2026-10-22T14:18:52Z",
+  "openapiCommitSha": "2c1f3ab1e0385815899db9364a95e5aa5cf5568a",
+  "automationCommitSha": "b78db5c1f857f1d7d8d45116ce61f6266043fa60",
+  "libraryCommitSha": "2b708a439f9b95c349f98f2985cda7fca46435bf"
 }
