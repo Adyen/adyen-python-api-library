@@ -5,12 +5,20 @@ import hashlib
 import hmac
 
 
+# decodes the hex HMAC key; an empty key would let anyone compute a valid signature
+def _decode_hmac_key(hmac_key):
+    key = binascii.a2b_hex(hmac_key)
+    if not key:
+        raise ValueError("Must Provide a non-empty HMAC key")
+    return key
+
+
 # generates HMAC signature for the NotificationRequest object
 def generate_notification_sig(dict_object, hmac_key):
     if not isinstance(dict_object, dict):
         raise ValueError("Must Provide dictionary object")
 
-    hmac_key = binascii.a2b_hex(hmac_key)
+    hmac_key = _decode_hmac_key(hmac_key)
 
     request_dict = dict(dict_object)
     request_dict["value"] = request_dict["amount"]["value"]
@@ -40,7 +48,7 @@ def generate_payload_sig(payload, hmac_key):
     if not isinstance(payload, bytes):
         raise ValueError("Must Provide payload as bytes")
 
-    hmac_key = binascii.a2b_hex(hmac_key)
+    hmac_key = _decode_hmac_key(hmac_key)
 
     hm = hmac.new(hmac_key, payload, hashlib.sha256)
     return base64.b64encode(hm.digest())
