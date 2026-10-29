@@ -13,6 +13,16 @@ class UtilityApi(AdyenServiceBase):
         self.service = "checkout"
         self.baseUrl = "https://checkout-test.adyen.com/v72"
 
+    def calculate_tax(self, request, idempotency_key=None, **kwargs):
+        """
+        Calculate the tax for a transaction.
+        """
+        endpoint = self.baseUrl + "/calculateTax"
+        method = "POST"
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
+
     def get_apple_pay_session(self, request, idempotency_key=None, **kwargs):
         """
         Get an Apple Pay session
@@ -50,6 +60,16 @@ class UtilityApi(AdyenServiceBase):
         Validates shopper Id
         """
         endpoint = self.baseUrl + "/validateShopperId"
+        method = "POST"
+        return self.client.call_adyen_api(
+            request, self.service, method, endpoint, idempotency_key, **kwargs
+        )
+
+    def verify_shopper_tax_identification(self, request, idempotency_key=None, **kwargs):
+        """
+        Verify the shopper's tax identification.
+        """
+        endpoint = self.baseUrl + "/verifyShopperTaxIdentification"
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
