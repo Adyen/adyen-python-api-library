@@ -53,6 +53,16 @@ class CustomPayoutSchedulesSweepsApi(AdyenServiceBase):
             None, self.service, method, endpoint, idempotency_key, **kwargs
         )
 
+    def get_sweep_executions(self, balanceAccountId, sweepId, idempotency_key=None, **kwargs):
+        """
+        View executions of a custom payout schedule
+        """
+        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}/executions"
+        method = "GET"
+        return self.client.call_adyen_api(
+            None, self.service, method, endpoint, idempotency_key, **kwargs
+        )
+
     def update_sweep(self, request, balanceAccountId, sweepId, idempotency_key=None, **kwargs):
         """
         Update a sweep
