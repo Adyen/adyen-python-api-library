@@ -1,3 +1,6 @@
+import base64
+import hashlib
+import hmac
 import unittest
 from json import load
 
@@ -5,6 +8,7 @@ import Adyen
 from Adyen import settings
 from Adyen.util import (
     generate_notification_sig,
+    generate_payload_sig,
     get_query,
     is_valid_hmac_notification,
     is_valid_hmac_payload,
@@ -144,6 +148,27 @@ class UtilTest(unittest.TestCase):
         expected_hmac = "fX74xUdztFmaXAn3IusMFFUBUSkLmDQUK0tm8xL6ZTU="
 
         self.assertTrue(is_valid_hmac_payload(expected_hmac, hmac_key, payload.encode("utf-8")))
+
+    def test_empty_hmac_key_is_rejected(self):
+        payload = b'{"type":"merchant.created"}'
+        # a signature anyone can compute without knowing the key
+        forged = base64.b64encode(hmac.new(b"", payload, hashlib.sha256).digest()).decode("utf-8")
+        with self.assertRaises(ValueError):
+            is_valid_hmac_payload(forged, "", payload)
+        with self.assertRaises(ValueError):
+            generate_payload_sig(payload, "")
+        with self.assertRaises(ValueError):
+            generate_notification_sig(
+                {"pspReference": "7914073381342284", "amount": {"value": 1130, "currency": "EUR"}},
+                "",
+            )
+        notification = {
+            "pspReference": "7914073381342284",
+            "amount": {"value": 1130, "currency": "EUR"},
+            "additionalData": {"hmacSignature": "c2lnbmF0dXJl"},
+        }
+        with self.assertRaises(ValueError):
+            is_valid_hmac_notification(notification, "")
 
     def test_is_invalid_hmac_payload(self):
         payload = """
