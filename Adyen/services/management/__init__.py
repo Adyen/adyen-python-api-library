@@ -9,8 +9,10 @@ from .api_credentials_company_level_api import APICredentialsCompanyLevelApi
 from .api_credentials_merchant_level_api import APICredentialsMerchantLevelApi
 from .api_key_company_level_api import APIKeyCompanyLevelApi
 from .api_key_merchant_level_api import APIKeyMerchantLevelApi
+from .client_certificates_company_level_api import ClientCertificatesCompanyLevelApi
 from .client_key_company_level_api import ClientKeyCompanyLevelApi
 from .client_key_merchant_level_api import ClientKeyMerchantLevelApi
+from .donation_campaigns_api import DonationCampaignsApi
 from .my_api_credential_api import MyAPICredentialApi
 from .payment_methods_merchant_level_api import PaymentMethodsMerchantLevelApi
 from .payout_settings_merchant_level_api import PayoutSettingsMerchantLevelApi
@@ -23,6 +25,10 @@ from .terminal_settings_company_level_api import TerminalSettingsCompanyLevelApi
 from .terminal_settings_merchant_level_api import TerminalSettingsMerchantLevelApi
 from .terminal_settings_store_level_api import TerminalSettingsStoreLevelApi
 from .terminal_settings_terminal_level_api import TerminalSettingsTerminalLevelApi
+from .terminal_themes_company_level_api import TerminalThemesCompanyLevelApi
+from .terminal_themes_merchant_level_api import TerminalThemesMerchantLevelApi
+from .terminal_themes_store_level_api import TerminalThemesStoreLevelApi
+from .terminal_themes_terminal_level_api import TerminalThemesTerminalLevelApi
 from .terminals_terminal_level_api import TerminalsTerminalLevelApi
 from .users_company_level_api import UsersCompanyLevelApi
 from .users_merchant_level_api import UsersMerchantLevelApi
@@ -49,8 +55,12 @@ class AdyenManagementApi(AdyenServiceBase):
         self.allowed_origins_company_level_api = AllowedOriginsCompanyLevelApi(client=client)
         self.allowed_origins_merchant_level_api = AllowedOriginsMerchantLevelApi(client=client)
         self.android_files_company_level_api = AndroidFilesCompanyLevelApi(client=client)
+        self.client_certificates_company_level_api = ClientCertificatesCompanyLevelApi(
+            client=client
+        )
         self.client_key_company_level_api = ClientKeyCompanyLevelApi(client=client)
         self.client_key_merchant_level_api = ClientKeyMerchantLevelApi(client=client)
+        self.donation_campaigns_api = DonationCampaignsApi(client=client)
         self.my_api_credential_api = MyAPICredentialApi(client=client)
         self.payment_methods_merchant_level_api = PaymentMethodsMerchantLevelApi(client=client)
         self.payout_settings_merchant_level_api = PayoutSettingsMerchantLevelApi(client=client)
@@ -65,6 +75,10 @@ class AdyenManagementApi(AdyenServiceBase):
         self.terminal_settings_merchant_level_api = TerminalSettingsMerchantLevelApi(client=client)
         self.terminal_settings_store_level_api = TerminalSettingsStoreLevelApi(client=client)
         self.terminal_settings_terminal_level_api = TerminalSettingsTerminalLevelApi(client=client)
+        self.terminal_themes_company_level_api = TerminalThemesCompanyLevelApi(client=client)
+        self.terminal_themes_merchant_level_api = TerminalThemesMerchantLevelApi(client=client)
+        self.terminal_themes_store_level_api = TerminalThemesStoreLevelApi(client=client)
+        self.terminal_themes_terminal_level_api = TerminalThemesTerminalLevelApi(client=client)
         self.terminals_terminal_level_api = TerminalsTerminalLevelApi(client=client)
         self.users_company_level_api = UsersCompanyLevelApi(client=client)
         self.users_merchant_level_api = UsersMerchantLevelApi(client=client)
