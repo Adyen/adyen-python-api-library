@@ -20,7 +20,7 @@ class GrantAccountsApi(AdyenServiceBase):
         Deprecated since Configuration API v2
         Use the `/grantAccounts/{id}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantAccounts/(id)) instead.
         """
-        endpoint = self.baseUrl + f"/grantAccounts/{id}"
+        endpoint = self.baseUrl + self._build_path("/grantAccounts/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

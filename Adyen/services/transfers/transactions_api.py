@@ -27,7 +27,7 @@ class TransactionsApi(AdyenServiceBase):
         """
         Get a transaction
         """
-        endpoint = self.baseUrl + f"/transactions/{id}"
+        endpoint = self.baseUrl + self._build_path("/transactions/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

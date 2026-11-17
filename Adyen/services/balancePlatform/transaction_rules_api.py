@@ -27,7 +27,9 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         Delete a transaction rule
         """
-        endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/transactionRules/{transactionRuleId}", transactionRuleId=transactionRuleId
+        )
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +39,9 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         Get a transaction rule
         """
-        endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/transactionRules/{transactionRuleId}", transactionRuleId=transactionRuleId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +51,9 @@ class TransactionRulesApi(AdyenServiceBase):
         """
         Update a transaction rule
         """
-        endpoint = self.baseUrl + f"/transactionRules/{transactionRuleId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/transactionRules/{transactionRuleId}", transactionRuleId=transactionRuleId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

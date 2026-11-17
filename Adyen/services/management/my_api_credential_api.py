@@ -37,7 +37,9 @@ class MyAPICredentialApi(AdyenServiceBase):
         """
         Get allowed origin details
         """
-        endpoint = self.baseUrl + f"/me/allowedOrigins/{originId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/me/allowedOrigins/{originId}", originId=originId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +69,9 @@ class MyAPICredentialApi(AdyenServiceBase):
         """
         Remove allowed origin
         """
-        endpoint = self.baseUrl + f"/me/allowedOrigins/{originId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/me/allowedOrigins/{originId}", originId=originId
+        )
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

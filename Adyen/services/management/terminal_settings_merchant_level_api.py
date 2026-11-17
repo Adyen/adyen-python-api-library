@@ -17,7 +17,9 @@ class TerminalSettingsMerchantLevelApi(AdyenServiceBase):
         """
         Get the terminal logo
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalLogos"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/terminalLogos", merchantId=merchantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,9 @@ class TerminalSettingsMerchantLevelApi(AdyenServiceBase):
         """
         Get terminal settings
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/terminalSettings", merchantId=merchantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +41,9 @@ class TerminalSettingsMerchantLevelApi(AdyenServiceBase):
         """
         Update the terminal logo
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalLogos"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/terminalLogos", merchantId=merchantId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +53,9 @@ class TerminalSettingsMerchantLevelApi(AdyenServiceBase):
         """
         Update terminal settings
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/terminalSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/terminalSettings", merchantId=merchantId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

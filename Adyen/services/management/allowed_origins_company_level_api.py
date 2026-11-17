@@ -19,8 +19,10 @@ class AllowedOriginsCompanyLevelApi(AdyenServiceBase):
         """
         Create an allowed origin
         """
-        endpoint = (
-            self.baseUrl + f"/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins",
+            companyId=companyId,
+            apiCredentialId=apiCredentialId,
         )
         method = "POST"
         return self.client.call_adyen_api(
@@ -33,9 +35,11 @@ class AllowedOriginsCompanyLevelApi(AdyenServiceBase):
         """
         Delete an allowed origin
         """
-        endpoint = (
-            self.baseUrl
-            + f"/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}",
+            companyId=companyId,
+            apiCredentialId=apiCredentialId,
+            originId=originId,
         )
         method = "DELETE"
         return self.client.call_adyen_api(
@@ -48,9 +52,11 @@ class AllowedOriginsCompanyLevelApi(AdyenServiceBase):
         """
         Get an allowed origin
         """
-        endpoint = (
-            self.baseUrl
-            + f"/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}",
+            companyId=companyId,
+            apiCredentialId=apiCredentialId,
+            originId=originId,
         )
         method = "GET"
         return self.client.call_adyen_api(
@@ -61,8 +67,10 @@ class AllowedOriginsCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of allowed origins
         """
-        endpoint = (
-            self.baseUrl + f"/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials/{apiCredentialId}/allowedOrigins",
+            companyId=companyId,
+            apiCredentialId=apiCredentialId,
         )
         method = "GET"
         return self.client.call_adyen_api(

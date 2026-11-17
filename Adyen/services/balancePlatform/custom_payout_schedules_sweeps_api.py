@@ -17,7 +17,9 @@ class CustomPayoutSchedulesSweepsApi(AdyenServiceBase):
         """
         Create a sweep
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/sweeps", balanceAccountId=balanceAccountId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,11 @@ class CustomPayoutSchedulesSweepsApi(AdyenServiceBase):
         """
         Delete a sweep
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}",
+            balanceAccountId=balanceAccountId,
+            sweepId=sweepId,
+        )
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +43,9 @@ class CustomPayoutSchedulesSweepsApi(AdyenServiceBase):
         """
         Get all sweeps for a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/sweeps", balanceAccountId=balanceAccountId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +55,11 @@ class CustomPayoutSchedulesSweepsApi(AdyenServiceBase):
         """
         Get a sweep
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}",
+            balanceAccountId=balanceAccountId,
+            sweepId=sweepId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +69,11 @@ class CustomPayoutSchedulesSweepsApi(AdyenServiceBase):
         """
         Update a sweep
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/sweeps/{sweepId}",
+            balanceAccountId=balanceAccountId,
+            sweepId=sweepId,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

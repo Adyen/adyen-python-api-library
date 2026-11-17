@@ -17,7 +17,9 @@ class GrantsApi(AdyenServiceBase):
         """
         Get all the disbursements of a grant
         """
-        endpoint = self.baseUrl + f"/grants/{grantId}/disbursements"
+        endpoint = self.baseUrl + self._build_path(
+            "/grants/{grantId}/disbursements", grantId=grantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +39,7 @@ class GrantsApi(AdyenServiceBase):
         """
         Get the details of a grant
         """
-        endpoint = self.baseUrl + f"/grants/{grantId}"
+        endpoint = self.baseUrl + self._build_path("/grants/{grantId}", grantId=grantId)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +49,11 @@ class GrantsApi(AdyenServiceBase):
         """
         Get disbursement details
         """
-        endpoint = self.baseUrl + f"/grants/{grantId}/disbursements/{disbursementId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/grants/{grantId}/disbursements/{disbursementId}",
+            grantId=grantId,
+            disbursementId=disbursementId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -69,7 +75,11 @@ class GrantsApi(AdyenServiceBase):
         """
         Update the repayment configuration of a disbursement
         """
-        endpoint = self.baseUrl + f"/grants/{grantId}/disbursements/{disbursementId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/grants/{grantId}/disbursements/{disbursementId}",
+            grantId=grantId,
+            disbursementId=disbursementId,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

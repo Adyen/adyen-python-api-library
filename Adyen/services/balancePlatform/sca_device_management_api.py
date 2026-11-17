@@ -27,7 +27,7 @@ class SCADeviceManagementApi(AdyenServiceBase):
         """
         Delete an SCA device
         """
-        endpoint = self.baseUrl + f"/scaDevices/{deviceId}"
+        endpoint = self.baseUrl + self._build_path("/scaDevices/{deviceId}", deviceId=deviceId)
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +37,7 @@ class SCADeviceManagementApi(AdyenServiceBase):
         """
         Finish registration process for a SCA device
         """
-        endpoint = self.baseUrl + f"/scaDevices/{deviceId}"
+        endpoint = self.baseUrl + self._build_path("/scaDevices/{deviceId}", deviceId=deviceId)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +47,9 @@ class SCADeviceManagementApi(AdyenServiceBase):
         """
         Create a new SCA association for a device
         """
-        endpoint = self.baseUrl + f"/scaDevices/{deviceId}/scaAssociations"
+        endpoint = self.baseUrl + self._build_path(
+            "/scaDevices/{deviceId}/scaAssociations", deviceId=deviceId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

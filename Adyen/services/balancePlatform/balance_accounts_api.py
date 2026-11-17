@@ -27,7 +27,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Get all transaction rules for a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}/transactionRules"
+        endpoint = self.baseUrl + self._build_path("/balanceAccounts/{id}/transactionRules", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +37,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Get a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}"
+        endpoint = self.baseUrl + self._build_path("/balanceAccounts/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +47,9 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Get payment instruments linked to a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}/paymentInstruments"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{id}/paymentInstruments", id=id
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +59,7 @@ class BalanceAccountsApi(AdyenServiceBase):
         """
         Update a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}"
+        endpoint = self.baseUrl + self._build_path("/balanceAccounts/{id}", id=id)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

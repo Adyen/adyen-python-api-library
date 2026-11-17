@@ -17,7 +17,9 @@ class DirectDebitMandatesApi(AdyenServiceBase):
         """
         Cancel a mandate
         """
-        endpoint = self.baseUrl + f"/mandates/{mandateId}/cancel"
+        endpoint = self.baseUrl + self._build_path(
+            "/mandates/{mandateId}/cancel", mandateId=mandateId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +39,7 @@ class DirectDebitMandatesApi(AdyenServiceBase):
         """
         Get a specific mandate
         """
-        endpoint = self.baseUrl + f"/mandates/{mandateId}"
+        endpoint = self.baseUrl + self._build_path("/mandates/{mandateId}", mandateId=mandateId)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +49,7 @@ class DirectDebitMandatesApi(AdyenServiceBase):
         """
         Amend a mandate
         """
-        endpoint = self.baseUrl + f"/mandates/{mandateId}"
+        endpoint = self.baseUrl + self._build_path("/mandates/{mandateId}", mandateId=mandateId)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

@@ -17,8 +17,10 @@ class APIKeyCompanyLevelApi(AdyenServiceBase):
         """
         Generate new API key
         """
-        endpoint = (
-            self.baseUrl + f"/companies/{companyId}/apiCredentials/{apiCredentialId}/generateApiKey"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials/{apiCredentialId}/generateApiKey",
+            companyId=companyId,
+            apiCredentialId=apiCredentialId,
         )
         method = "POST"
         return self.client.call_adyen_api(

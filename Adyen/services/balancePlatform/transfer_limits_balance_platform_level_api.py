@@ -17,7 +17,7 @@ class TransferLimitsBalancePlatformLevelApi(AdyenServiceBase):
         """
         Create a transfer limit
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{id}/transferLimits"
+        endpoint = self.baseUrl + self._build_path("/balancePlatforms/{id}/transferLimits", id=id)
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +27,11 @@ class TransferLimitsBalancePlatformLevelApi(AdyenServiceBase):
         """
         Delete a scheduled or pending transfer limit
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{id}/transferLimits/{transferLimitId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balancePlatforms/{id}/transferLimits/{transferLimitId}",
+            id=id,
+            transferLimitId=transferLimitId,
+        )
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +41,11 @@ class TransferLimitsBalancePlatformLevelApi(AdyenServiceBase):
         """
         Get the details of a transfer limit
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{id}/transferLimits/{transferLimitId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balancePlatforms/{id}/transferLimits/{transferLimitId}",
+            id=id,
+            transferLimitId=transferLimitId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +55,7 @@ class TransferLimitsBalancePlatformLevelApi(AdyenServiceBase):
         """
         Filter and view the transfer limits
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{id}/transferLimits"
+        endpoint = self.baseUrl + self._build_path("/balancePlatforms/{id}/transferLimits", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

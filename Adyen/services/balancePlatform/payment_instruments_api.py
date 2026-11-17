@@ -17,7 +17,9 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Create network token provisioning data
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{id}/networkTokenActivationData"
+        endpoint = self.baseUrl + self._build_path(
+            "/paymentInstruments/{id}/networkTokenActivationData", id=id
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +39,9 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Get all transaction rules for a payment instrument
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{id}/transactionRules"
+        endpoint = self.baseUrl + self._build_path(
+            "/paymentInstruments/{id}/transactionRules", id=id
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +51,9 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Get network token activation data
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{id}/networkTokenActivationData"
+        endpoint = self.baseUrl + self._build_path(
+            "/paymentInstruments/{id}/networkTokenActivationData", id=id
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +63,7 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Get the PAN of a payment instrument
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{id}/reveal"
+        endpoint = self.baseUrl + self._build_path("/paymentInstruments/{id}/reveal", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +73,7 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Get a payment instrument
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{id}"
+        endpoint = self.baseUrl + self._build_path("/paymentInstruments/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -77,7 +83,7 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         List network tokens
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{id}/networkTokens"
+        endpoint = self.baseUrl + self._build_path("/paymentInstruments/{id}/networkTokens", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -97,7 +103,7 @@ class PaymentInstrumentsApi(AdyenServiceBase):
         """
         Update a payment instrument
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{id}"
+        endpoint = self.baseUrl + self._build_path("/paymentInstruments/{id}", id=id)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

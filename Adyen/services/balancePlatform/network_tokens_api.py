@@ -17,7 +17,9 @@ class NetworkTokensApi(AdyenServiceBase):
         """
         Get a network token
         """
-        endpoint = self.baseUrl + f"/networkTokens/{networkTokenId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/networkTokens/{networkTokenId}", networkTokenId=networkTokenId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,9 @@ class NetworkTokensApi(AdyenServiceBase):
         """
         Update a network token
         """
-        endpoint = self.baseUrl + f"/networkTokens/{networkTokenId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/networkTokens/{networkTokenId}", networkTokenId=networkTokenId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

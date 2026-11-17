@@ -27,7 +27,7 @@ class TransferInstrumentsApi(AdyenServiceBase):
         """
         Delete a transfer instrument
         """
-        endpoint = self.baseUrl + f"/transferInstruments/{id}"
+        endpoint = self.baseUrl + self._build_path("/transferInstruments/{id}", id=id)
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +37,7 @@ class TransferInstrumentsApi(AdyenServiceBase):
         """
         Get a transfer instrument
         """
-        endpoint = self.baseUrl + f"/transferInstruments/{id}"
+        endpoint = self.baseUrl + self._build_path("/transferInstruments/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +47,7 @@ class TransferInstrumentsApi(AdyenServiceBase):
         """
         Update a transfer instrument
         """
-        endpoint = self.baseUrl + f"/transferInstruments/{id}"
+        endpoint = self.baseUrl + self._build_path("/transferInstruments/{id}", id=id)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

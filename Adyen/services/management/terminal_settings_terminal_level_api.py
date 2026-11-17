@@ -17,7 +17,9 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         """
         Get the terminal logo
         """
-        endpoint = self.baseUrl + f"/terminals/{terminalId}/terminalLogos"
+        endpoint = self.baseUrl + self._build_path(
+            "/terminals/{terminalId}/terminalLogos", terminalId=terminalId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,9 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         """
         Get terminal settings
         """
-        endpoint = self.baseUrl + f"/terminals/{terminalId}/terminalSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/terminals/{terminalId}/terminalSettings", terminalId=terminalId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +41,9 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         """
         Update the logo
         """
-        endpoint = self.baseUrl + f"/terminals/{terminalId}/terminalLogos"
+        endpoint = self.baseUrl + self._build_path(
+            "/terminals/{terminalId}/terminalLogos", terminalId=terminalId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +53,9 @@ class TerminalSettingsTerminalLevelApi(AdyenServiceBase):
         """
         Update terminal settings
         """
-        endpoint = self.baseUrl + f"/terminals/{terminalId}/terminalSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/terminals/{terminalId}/terminalSettings", terminalId=terminalId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

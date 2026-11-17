@@ -17,7 +17,9 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         """
         Create an API credential.
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials", companyId=companyId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,11 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         """
         Get an API credential
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials/{apiCredentialId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials/{apiCredentialId}",
+            companyId=companyId,
+            apiCredentialId=apiCredentialId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +43,9 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of API credentials
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials", companyId=companyId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -49,7 +57,11 @@ class APICredentialsCompanyLevelApi(AdyenServiceBase):
         """
         Update an API credential.
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/apiCredentials/{apiCredentialId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials/{apiCredentialId}",
+            companyId=companyId,
+            apiCredentialId=apiCredentialId,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

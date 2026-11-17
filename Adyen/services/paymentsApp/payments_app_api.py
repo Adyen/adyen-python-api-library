@@ -19,7 +19,9 @@ class PaymentsAppApi(AdyenServiceBase):
         """
         Create a boarding token - merchant level
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/generatePaymentsAppBoardingToken"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/generatePaymentsAppBoardingToken", merchantId=merchantId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -31,9 +33,10 @@ class PaymentsAppApi(AdyenServiceBase):
         """
         Create a boarding token - store level
         """
-        endpoint = (
-            self.baseUrl
-            + f"/merchants/{merchantId}/stores/{storeId}/generatePaymentsAppBoardingToken"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores/{storeId}/generatePaymentsAppBoardingToken",
+            merchantId=merchantId,
+            storeId=storeId,
         )
         method = "POST"
         return self.client.call_adyen_api(
@@ -44,7 +47,9 @@ class PaymentsAppApi(AdyenServiceBase):
         """
         Get a list of Payments Apps - merchant level
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentsApps"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/paymentsApps", merchantId=merchantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -54,7 +59,11 @@ class PaymentsAppApi(AdyenServiceBase):
         """
         Get a list of Payments Apps - store level
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}/paymentsApps"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores/{storeId}/paymentsApps",
+            merchantId=merchantId,
+            storeId=storeId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -64,7 +73,11 @@ class PaymentsAppApi(AdyenServiceBase):
         """
         Revoke Payments App instance authentication
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentsApps/{installationId}/revoke"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/paymentsApps/{installationId}/revoke",
+            merchantId=merchantId,
+            installationId=installationId,
+        )
         method = "POST"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

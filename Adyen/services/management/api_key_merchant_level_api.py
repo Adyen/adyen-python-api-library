@@ -17,9 +17,10 @@ class APIKeyMerchantLevelApi(AdyenServiceBase):
         """
         Generate new API key
         """
-        endpoint = (
-            self.baseUrl
-            + f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateApiKey"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateApiKey",
+            merchantId=merchantId,
+            apiCredentialId=apiCredentialId,
         )
         method = "POST"
         return self.client.call_adyen_api(

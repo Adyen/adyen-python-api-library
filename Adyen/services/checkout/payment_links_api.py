@@ -17,7 +17,7 @@ class PaymentLinksApi(AdyenServiceBase):
         """
         Get a payment link
         """
-        endpoint = self.baseUrl + f"/paymentLinks/{linkId}"
+        endpoint = self.baseUrl + self._build_path("/paymentLinks/{linkId}", linkId=linkId)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +37,7 @@ class PaymentLinksApi(AdyenServiceBase):
         """
         Update the status of a payment link
         """
-        endpoint = self.baseUrl + f"/paymentLinks/{linkId}"
+        endpoint = self.baseUrl + self._build_path("/paymentLinks/{linkId}", linkId=linkId)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

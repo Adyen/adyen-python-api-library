@@ -17,7 +17,9 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         """
         Add a payout setting
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/payoutSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/payoutSettings", merchantId=merchantId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,11 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         """
         Delete a payout setting
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/payoutSettings/{payoutSettingsId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/payoutSettings/{payoutSettingsId}",
+            merchantId=merchantId,
+            payoutSettingsId=payoutSettingsId,
+        )
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +43,11 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         """
         Get a payout setting
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/payoutSettings/{payoutSettingsId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/payoutSettings/{payoutSettingsId}",
+            merchantId=merchantId,
+            payoutSettingsId=payoutSettingsId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +57,9 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         """
         Get a list of payout settings
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/payoutSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/payoutSettings", merchantId=merchantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -59,7 +71,11 @@ class PayoutSettingsMerchantLevelApi(AdyenServiceBase):
         """
         Update a payout setting
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/payoutSettings/{payoutSettingsId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/payoutSettings/{payoutSettingsId}",
+            merchantId=merchantId,
+            payoutSettingsId=payoutSettingsId,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

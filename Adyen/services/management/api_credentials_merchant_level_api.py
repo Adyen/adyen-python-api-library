@@ -17,7 +17,9 @@ class APICredentialsMerchantLevelApi(AdyenServiceBase):
         """
         Create an API credential
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/apiCredentials", merchantId=merchantId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,11 @@ class APICredentialsMerchantLevelApi(AdyenServiceBase):
         """
         Get an API credential
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/apiCredentials/{apiCredentialId}",
+            merchantId=merchantId,
+            apiCredentialId=apiCredentialId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +43,9 @@ class APICredentialsMerchantLevelApi(AdyenServiceBase):
         """
         Get a list of API credentials
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/apiCredentials", merchantId=merchantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -49,7 +57,11 @@ class APICredentialsMerchantLevelApi(AdyenServiceBase):
         """
         Update an API credential
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/apiCredentials/{apiCredentialId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/apiCredentials/{apiCredentialId}",
+            merchantId=merchantId,
+            apiCredentialId=apiCredentialId,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

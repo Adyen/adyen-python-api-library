@@ -17,9 +17,10 @@ class ClientKeyCompanyLevelApi(AdyenServiceBase):
         """
         Generate new client key
         """
-        endpoint = (
-            self.baseUrl
-            + f"/companies/{companyId}/apiCredentials/{apiCredentialId}/generateClientKey"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/apiCredentials/{apiCredentialId}/generateClientKey",
+            companyId=companyId,
+            apiCredentialId=apiCredentialId,
         )
         method = "POST"
         return self.client.call_adyen_api(

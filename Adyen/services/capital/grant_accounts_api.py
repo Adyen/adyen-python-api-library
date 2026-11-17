@@ -17,7 +17,7 @@ class GrantAccountsApi(AdyenServiceBase):
         """
         Get the information of your grant account
         """
-        endpoint = self.baseUrl + f"/grantAccounts/{id}"
+        endpoint = self.baseUrl + self._build_path("/grantAccounts/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

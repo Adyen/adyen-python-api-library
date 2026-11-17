@@ -17,7 +17,11 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         """
         Get the terminal logo
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{reference}/terminalLogos"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores/{reference}/terminalLogos",
+            merchantId=merchantId,
+            reference=reference,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +31,9 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         """
         Get the terminal logo
         """
-        endpoint = self.baseUrl + f"/stores/{storeId}/terminalLogos"
+        endpoint = self.baseUrl + self._build_path(
+            "/stores/{storeId}/terminalLogos", storeId=storeId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +43,11 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         """
         Get terminal settings
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{reference}/terminalSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores/{reference}/terminalSettings",
+            merchantId=merchantId,
+            reference=reference,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +57,9 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         """
         Get terminal settings
         """
-        endpoint = self.baseUrl + f"/stores/{storeId}/terminalSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/stores/{storeId}/terminalSettings", storeId=storeId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +69,11 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         """
         Update the terminal logo
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{reference}/terminalLogos"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores/{reference}/terminalLogos",
+            merchantId=merchantId,
+            reference=reference,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +83,9 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         """
         Update the terminal logo
         """
-        endpoint = self.baseUrl + f"/stores/{storeId}/terminalLogos"
+        endpoint = self.baseUrl + self._build_path(
+            "/stores/{storeId}/terminalLogos", storeId=storeId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -79,7 +97,11 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         """
         Update terminal settings
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{reference}/terminalSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores/{reference}/terminalSettings",
+            merchantId=merchantId,
+            reference=reference,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -91,7 +113,9 @@ class TerminalSettingsStoreLevelApi(AdyenServiceBase):
         """
         Update terminal settings
         """
-        endpoint = self.baseUrl + f"/stores/{storeId}/terminalSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/stores/{storeId}/terminalSettings", storeId=storeId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

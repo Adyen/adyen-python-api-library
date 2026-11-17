@@ -19,7 +19,10 @@ class AuthorizedCardUsersApi(AdyenServiceBase):
         """
         Create authorized users for a card.
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers"
+        endpoint = self.baseUrl + self._build_path(
+            "/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers",
+            paymentInstrumentId=paymentInstrumentId,
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -29,7 +32,10 @@ class AuthorizedCardUsersApi(AdyenServiceBase):
         """
         Delete the authorized users for a card.
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers"
+        endpoint = self.baseUrl + self._build_path(
+            "/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers",
+            paymentInstrumentId=paymentInstrumentId,
+        )
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -39,7 +45,10 @@ class AuthorizedCardUsersApi(AdyenServiceBase):
         """
         Get authorized users for a card.
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers"
+        endpoint = self.baseUrl + self._build_path(
+            "/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers",
+            paymentInstrumentId=paymentInstrumentId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -51,7 +60,10 @@ class AuthorizedCardUsersApi(AdyenServiceBase):
         """
         Update the authorized users for a card.
         """
-        endpoint = self.baseUrl + f"/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers"
+        endpoint = self.baseUrl + self._build_path(
+            "/paymentInstruments/{paymentInstrumentId}/authorisedCardUsers",
+            paymentInstrumentId=paymentInstrumentId,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

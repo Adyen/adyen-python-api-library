@@ -17,7 +17,7 @@ class DocumentsApi(AdyenServiceBase):
         """
         Delete a document
         """
-        endpoint = self.baseUrl + f"/documents/{id}"
+        endpoint = self.baseUrl + self._build_path("/documents/{id}", id=id)
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +27,7 @@ class DocumentsApi(AdyenServiceBase):
         """
         Get a document
         """
-        endpoint = self.baseUrl + f"/documents/{id}"
+        endpoint = self.baseUrl + self._build_path("/documents/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +37,7 @@ class DocumentsApi(AdyenServiceBase):
         """
         Update a document
         """
-        endpoint = self.baseUrl + f"/documents/{id}"
+        endpoint = self.baseUrl + self._build_path("/documents/{id}", id=id)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

@@ -19,8 +19,10 @@ class BalancesApi(AdyenServiceBase):
         """
         Create a balance webhook setting
         """
-        endpoint = (
-            self.baseUrl + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings"
+        endpoint = self.baseUrl + self._build_path(
+            "/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings",
+            balancePlatformId=balancePlatformId,
+            webhookId=webhookId,
         )
         method = "POST"
         return self.client.call_adyen_api(
@@ -33,9 +35,11 @@ class BalancesApi(AdyenServiceBase):
         """
         Delete a balance webhook setting by id
         """
-        endpoint = (
-            self.baseUrl
-            + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}",
+            balancePlatformId=balancePlatformId,
+            webhookId=webhookId,
+            settingId=settingId,
         )
         method = "DELETE"
         return self.client.call_adyen_api(
@@ -48,8 +52,10 @@ class BalancesApi(AdyenServiceBase):
         """
         Get all balance webhook settings
         """
-        endpoint = (
-            self.baseUrl + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings"
+        endpoint = self.baseUrl + self._build_path(
+            "/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings",
+            balancePlatformId=balancePlatformId,
+            webhookId=webhookId,
         )
         method = "GET"
         return self.client.call_adyen_api(
@@ -62,9 +68,11 @@ class BalancesApi(AdyenServiceBase):
         """
         Get a balance webhook setting by id
         """
-        endpoint = (
-            self.baseUrl
-            + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}",
+            balancePlatformId=balancePlatformId,
+            webhookId=webhookId,
+            settingId=settingId,
         )
         method = "GET"
         return self.client.call_adyen_api(
@@ -77,9 +85,11 @@ class BalancesApi(AdyenServiceBase):
         """
         Update a balance webhook setting by id
         """
-        endpoint = (
-            self.baseUrl
-            + f"/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}",
+            balancePlatformId=balancePlatformId,
+            webhookId=webhookId,
+            settingId=settingId,
         )
         method = "PATCH"
         return self.client.call_adyen_api(
