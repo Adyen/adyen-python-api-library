@@ -17,7 +17,11 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         """
         Get terminal action
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/terminalActions/{actionId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/terminalActions/{actionId}",
+            companyId=companyId,
+            actionId=actionId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +31,9 @@ class TerminalActionsCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of terminal actions
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/terminalActions"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/terminalActions", companyId=companyId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

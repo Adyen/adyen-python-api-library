@@ -33,7 +33,9 @@ class GrantOffersApi(AdyenServiceBase):
         Deprecated since Configuration API v2
         Use the `/grantOffers/{id}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grantOffers/(id)) instead.
         """
-        endpoint = self.baseUrl + f"/grantOffers/{grantOfferId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/grantOffers/{grantOfferId}", grantOfferId=grantOfferId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

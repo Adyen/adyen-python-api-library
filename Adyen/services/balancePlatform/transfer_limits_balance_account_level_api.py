@@ -17,7 +17,9 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         Approve pending transfer limits
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits/approve"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{id}/transferLimits/approve", id=id
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,7 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         Create a transfer limit
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits"
+        endpoint = self.baseUrl + self._build_path("/balanceAccounts/{id}/transferLimits", id=id)
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +39,11 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         Delete a scheduled or pending transfer limit
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits/{transferLimitId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{id}/transferLimits/{transferLimitId}",
+            id=id,
+            transferLimitId=transferLimitId,
+        )
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +53,9 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         Get all current transfer limits
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits/current"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{id}/transferLimits/current", id=id
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +65,11 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         Get the details of a transfer limit
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits/{transferLimitId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{id}/transferLimits/{transferLimitId}",
+            id=id,
+            transferLimitId=transferLimitId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +79,7 @@ class TransferLimitsBalanceAccountLevelApi(AdyenServiceBase):
         """
         Filter and view the transfer limits
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{id}/transferLimits"
+        endpoint = self.baseUrl + self._build_path("/balanceAccounts/{id}/transferLimits", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

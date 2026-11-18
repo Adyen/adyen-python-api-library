@@ -19,7 +19,11 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         Accept Terms of Service
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfService/{termsofservicedocumentid}"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/termsOfService/{termsofservicedocumentid}",
+            id=id,
+            termsofservicedocumentid=termsofservicedocumentid,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -31,9 +35,10 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         Get accepted Terms of Service document
         """
-        endpoint = (
-            self.baseUrl
-            + f"/legalEntities/{id}/acceptedTermsOfServiceDocument/{termsofserviceacceptancereference}"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/acceptedTermsOfServiceDocument/{termsofserviceacceptancereference}",
+            id=id,
+            termsofserviceacceptancereference=termsofserviceacceptancereference,
         )
         method = "GET"
         return self.client.call_adyen_api(
@@ -44,7 +49,7 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         Get Terms of Service document
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfService"
+        endpoint = self.baseUrl + self._build_path("/legalEntities/{id}/termsOfService", id=id)
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -54,7 +59,9 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         Get Terms of Service information for a legal entity
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceAcceptanceInfos"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/termsOfServiceAcceptanceInfos", id=id
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -64,7 +71,9 @@ class TermsOfServiceApi(AdyenServiceBase):
         """
         Get Terms of Service status
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/termsOfServiceStatus"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/termsOfServiceStatus", id=id
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

@@ -17,7 +17,9 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         Calculate PCI status of a legal entity
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/signingRequired"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/pciQuestionnaires/signingRequired", id=id
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,9 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         Generate PCI questionnaire
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/generatePciTemplates"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/pciQuestionnaires/generatePciTemplates", id=id
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +41,9 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         Get PCI questionnaire
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/{pciid}"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/pciQuestionnaires/{pciid}", id=id, pciid=pciid
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +53,7 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         Get PCI questionnaire details
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires"
+        endpoint = self.baseUrl + self._build_path("/legalEntities/{id}/pciQuestionnaires", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +63,9 @@ class PCIQuestionnairesApi(AdyenServiceBase):
         """
         Sign PCI questionnaire
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/pciQuestionnaires/signPciTemplates"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/pciQuestionnaires/signPciTemplates", id=id
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

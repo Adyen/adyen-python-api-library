@@ -17,7 +17,7 @@ class HostedOnboardingApi(AdyenServiceBase):
         """
         Get a link to an Adyen-hosted onboarding page
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/onboardingLinks"
+        endpoint = self.baseUrl + self._build_path("/legalEntities/{id}/onboardingLinks", id=id)
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +27,7 @@ class HostedOnboardingApi(AdyenServiceBase):
         """
         Get an onboarding link theme
         """
-        endpoint = self.baseUrl + f"/themes/{id}"
+        endpoint = self.baseUrl + self._build_path("/themes/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

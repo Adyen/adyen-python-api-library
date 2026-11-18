@@ -17,7 +17,7 @@ class CardOrdersApi(AdyenServiceBase):
         """
         Get card order items
         """
-        endpoint = self.baseUrl + f"/cardorders/{id}/items"
+        endpoint = self.baseUrl + self._build_path("/cardorders/{id}/items", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

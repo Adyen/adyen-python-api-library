@@ -19,9 +19,10 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         """
         Add an Apple Pay domain
         """
-        endpoint = (
-            self.baseUrl
-            + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains",
+            merchantId=merchantId,
+            paymentMethodId=paymentMethodId,
         )
         method = "POST"
         return self.client.call_adyen_api(
@@ -32,7 +33,9 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         """
         Get all payment methods
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/paymentMethodSettings", merchantId=merchantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -42,9 +45,10 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         """
         Get Apple Pay domains
         """
-        endpoint = (
-            self.baseUrl
-            + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains",
+            merchantId=merchantId,
+            paymentMethodId=paymentMethodId,
         )
         method = "GET"
         return self.client.call_adyen_api(
@@ -57,7 +61,11 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         """
         Get payment method details
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}",
+            merchantId=merchantId,
+            paymentMethodId=paymentMethodId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +75,9 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         """
         Request a payment method
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/paymentMethodSettings", merchantId=merchantId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -79,7 +89,11 @@ class PaymentMethodsMerchantLevelApi(AdyenServiceBase):
         """
         Update a payment method
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}",
+            merchantId=merchantId,
+            paymentMethodId=paymentMethodId,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

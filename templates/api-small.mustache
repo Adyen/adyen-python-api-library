@@ -24,7 +24,7 @@ class Adyen{{#lambda.titlecase}}{{serviceName}}{{/lambda.titlecase}}Api(AdyenSer
         {{{.}}}{{/vendorExtensions.x-deprecatedMessage}}
         {{/isDeprecated}}
         """
-        endpoint = self.baseUrl + f"{{{path}}}"
+        endpoint = self.baseUrl + {{#hasPathParams}}self._build_path("{{{path}}}"{{#pathParams}}, {{baseName}}={{#lambda.camelcase}}{{paramName}}{{/lambda.camelcase}}{{/pathParams}}){{/hasPathParams}}{{^hasPathParams}}f"{{{path}}}"{{/hasPathParams}}
         method = "{{httpMethod}}"
     {{#bodyParams}}
         return self.client.call_adyen_api(request, self.service, method, endpoint, idempotency_key, **kwargs)

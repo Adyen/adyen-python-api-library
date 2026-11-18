@@ -29,7 +29,9 @@ class ModificationsApi(AdyenServiceBase):
         """
         Cancel an authorised payment
         """
-        endpoint = self.baseUrl + f"/payments/{paymentPspReference}/cancels"
+        endpoint = self.baseUrl + self._build_path(
+            "/payments/{paymentPspReference}/cancels", paymentPspReference=paymentPspReference
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -41,7 +43,9 @@ class ModificationsApi(AdyenServiceBase):
         """
         Capture an authorised payment
         """
-        endpoint = self.baseUrl + f"/payments/{paymentPspReference}/captures"
+        endpoint = self.baseUrl + self._build_path(
+            "/payments/{paymentPspReference}/captures", paymentPspReference=paymentPspReference
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -51,7 +55,9 @@ class ModificationsApi(AdyenServiceBase):
         """
         Refund a captured payment
         """
-        endpoint = self.baseUrl + f"/payments/{paymentPspReference}/refunds"
+        endpoint = self.baseUrl + self._build_path(
+            "/payments/{paymentPspReference}/refunds", paymentPspReference=paymentPspReference
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -63,7 +69,9 @@ class ModificationsApi(AdyenServiceBase):
         """
         Refund or cancel a payment
         """
-        endpoint = self.baseUrl + f"/payments/{paymentPspReference}/reversals"
+        endpoint = self.baseUrl + self._build_path(
+            "/payments/{paymentPspReference}/reversals", paymentPspReference=paymentPspReference
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -75,7 +83,9 @@ class ModificationsApi(AdyenServiceBase):
         """
         Update an authorised amount
         """
-        endpoint = self.baseUrl + f"/payments/{paymentPspReference}/amountUpdates"
+        endpoint = self.baseUrl + self._build_path(
+            "/payments/{paymentPspReference}/amountUpdates", paymentPspReference=paymentPspReference
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

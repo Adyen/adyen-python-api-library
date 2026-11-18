@@ -19,7 +19,7 @@ class DynamicOffersApi(AdyenServiceBase):
         """
         Calculate a preliminary offer for a selected financing amount
         """
-        endpoint = self.baseUrl + f"/dynamicOffers/{id}/calculate"
+        endpoint = self.baseUrl + self._build_path("/dynamicOffers/{id}/calculate", id=id)
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -29,7 +29,7 @@ class DynamicOffersApi(AdyenServiceBase):
         """
         Create a static offer for a selected financing amount
         """
-        endpoint = self.baseUrl + f"/dynamicOffers/{id}/grantOffer"
+        endpoint = self.baseUrl + self._build_path("/dynamicOffers/{id}/grantOffer", id=id)
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

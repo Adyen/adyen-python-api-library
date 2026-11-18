@@ -27,7 +27,7 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         Delete a business line
         """
-        endpoint = self.baseUrl + f"/businessLines/{id}"
+        endpoint = self.baseUrl + self._build_path("/businessLines/{id}", id=id)
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +37,7 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         Get a business line
         """
-        endpoint = self.baseUrl + f"/businessLines/{id}"
+        endpoint = self.baseUrl + self._build_path("/businessLines/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +47,7 @@ class BusinessLinesApi(AdyenServiceBase):
         """
         Update a business line
         """
-        endpoint = self.baseUrl + f"/businessLines/{id}"
+        endpoint = self.baseUrl + self._build_path("/businessLines/{id}", id=id)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

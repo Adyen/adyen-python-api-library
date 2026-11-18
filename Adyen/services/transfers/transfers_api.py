@@ -47,7 +47,7 @@ class TransfersApi(AdyenServiceBase):
         """
         Get a transfer
         """
-        endpoint = self.baseUrl + f"/transfers/{id}"
+        endpoint = self.baseUrl + self._build_path("/transfers/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +57,9 @@ class TransfersApi(AdyenServiceBase):
         """
         Return a transfer
         """
-        endpoint = self.baseUrl + f"/transfers/{transferId}/returns"
+        endpoint = self.baseUrl + self._build_path(
+            "/transfers/{transferId}/returns", transferId=transferId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

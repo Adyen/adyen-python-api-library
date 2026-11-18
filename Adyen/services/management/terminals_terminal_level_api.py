@@ -27,7 +27,9 @@ class TerminalsTerminalLevelApi(AdyenServiceBase):
         """
         Reassign a terminal
         """
-        endpoint = self.baseUrl + f"/terminals/{terminalId}/reassign"
+        endpoint = self.baseUrl + self._build_path(
+            "/terminals/{terminalId}/reassign", terminalId=terminalId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

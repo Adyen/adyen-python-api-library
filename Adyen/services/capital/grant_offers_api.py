@@ -27,7 +27,7 @@ class GrantOffersApi(AdyenServiceBase):
         """
         Get the details of a static offer
         """
-        endpoint = self.baseUrl + f"/grantOffers/{id}"
+        endpoint = self.baseUrl + self._build_path("/grantOffers/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

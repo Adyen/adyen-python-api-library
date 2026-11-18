@@ -29,7 +29,9 @@ class PaymentInstrumentGroupsApi(AdyenServiceBase):
         """
         Get all transaction rules for a payment instrument group
         """
-        endpoint = self.baseUrl + f"/paymentInstrumentGroups/{id}/transactionRules"
+        endpoint = self.baseUrl + self._build_path(
+            "/paymentInstrumentGroups/{id}/transactionRules", id=id
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -39,7 +41,7 @@ class PaymentInstrumentGroupsApi(AdyenServiceBase):
         """
         Get a payment instrument group
         """
-        endpoint = self.baseUrl + f"/paymentInstrumentGroups/{id}"
+        endpoint = self.baseUrl + self._build_path("/paymentInstrumentGroups/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

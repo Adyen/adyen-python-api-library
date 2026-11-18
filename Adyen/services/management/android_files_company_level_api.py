@@ -17,7 +17,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         Get Android app
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/androidApps/{id}"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/androidApps/{id}", companyId=companyId, id=id
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of Android apps
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/androidApps"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/androidApps", companyId=companyId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +41,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of Android certificates
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/androidCertificates"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/androidCertificates", companyId=companyId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +53,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         Reprocess Android App
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/androidApps/{id}"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/androidApps/{id}", companyId=companyId, id=id
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +65,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         Upload Android App
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/androidApps"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/androidApps", companyId=companyId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +77,9 @@ class AndroidFilesCompanyLevelApi(AdyenServiceBase):
         """
         Upload Android Certificate
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/androidCertificates"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/androidCertificates", companyId=companyId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

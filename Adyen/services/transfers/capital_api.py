@@ -33,7 +33,7 @@ class CapitalApi(AdyenServiceBase):
         Deprecated since Transfers API v4
         Use the `/grants/{grantId}` endpoint from the [Capital API](https://docs.adyen.com/api-explorer/capital/latest/get/grants/(grantId)) instead.
         """
-        endpoint = self.baseUrl + f"/grants/{id}"
+        endpoint = self.baseUrl + self._build_path("/grants/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs

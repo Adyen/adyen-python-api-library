@@ -19,8 +19,10 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         """
         Create a rule
         """
-        endpoint = (
-            self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}",
+            merchantId=merchantId,
+            splitConfigurationId=splitConfigurationId,
         )
         method = "POST"
         return self.client.call_adyen_api(
@@ -31,7 +33,9 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         """
         Create a split configuration profile
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/splitConfigurations", merchantId=merchantId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -43,8 +47,10 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         """
         Delete a split configuration profile
         """
-        endpoint = (
-            self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}",
+            merchantId=merchantId,
+            splitConfigurationId=splitConfigurationId,
         )
         method = "DELETE"
         return self.client.call_adyen_api(
@@ -57,9 +63,11 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         """
         Delete a rule
         """
-        endpoint = (
-            self.baseUrl
-            + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}",
+            merchantId=merchantId,
+            splitConfigurationId=splitConfigurationId,
+            ruleId=ruleId,
         )
         method = "DELETE"
         return self.client.call_adyen_api(
@@ -72,8 +80,10 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         """
         Get a split configuration profile
         """
-        endpoint = (
-            self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}",
+            merchantId=merchantId,
+            splitConfigurationId=splitConfigurationId,
         )
         method = "GET"
         return self.client.call_adyen_api(
@@ -84,7 +94,9 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         """
         Get a list of split configuration profiles
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/splitConfigurations"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/splitConfigurations", merchantId=merchantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -96,9 +108,11 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         """
         Update the split conditions
         """
-        endpoint = (
-            self.baseUrl
-            + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}",
+            merchantId=merchantId,
+            splitConfigurationId=splitConfigurationId,
+            ruleId=ruleId,
         )
         method = "PATCH"
         return self.client.call_adyen_api(
@@ -111,8 +125,10 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         """
         Update the description of the split configuration profile
         """
-        endpoint = (
-            self.baseUrl + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}",
+            merchantId=merchantId,
+            splitConfigurationId=splitConfigurationId,
         )
         method = "PATCH"
         return self.client.call_adyen_api(
@@ -132,9 +148,12 @@ class SplitConfigurationMerchantLevelApi(AdyenServiceBase):
         """
         Update the split logic
         """
-        endpoint = (
-            self.baseUrl
-            + f"/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}/splitLogic/{splitLogicId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}/splitLogic/{splitLogicId}",
+            merchantId=merchantId,
+            splitConfigurationId=splitConfigurationId,
+            ruleId=ruleId,
+            splitLogicId=splitLogicId,
         )
         method = "PATCH"
         return self.client.call_adyen_api(

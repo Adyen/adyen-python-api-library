@@ -27,7 +27,7 @@ class PaymentsApi(AdyenServiceBase):
         """
         Get the result of a payment session
         """
-        endpoint = self.baseUrl + f"/sessions/{sessionId}"
+        endpoint = self.baseUrl + self._build_path("/sessions/{sessionId}", sessionId=sessionId)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -77,7 +77,7 @@ class PaymentsApi(AdyenServiceBase):
         """
         Update a payment session
         """
-        endpoint = self.baseUrl + f"/sessions/{sessionId}"
+        endpoint = self.baseUrl + self._build_path("/sessions/{sessionId}", sessionId=sessionId)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

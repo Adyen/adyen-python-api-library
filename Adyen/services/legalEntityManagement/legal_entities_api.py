@@ -17,7 +17,9 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Check a legal entity's verification errors
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/checkVerificationErrors"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/checkVerificationErrors", id=id
+        )
         method = "POST"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,7 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Confirm data review
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/confirmDataReview"
+        endpoint = self.baseUrl + self._build_path("/legalEntities/{id}/confirmDataReview", id=id)
         method = "POST"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +49,7 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Get all business lines under a legal entity
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/businessLines"
+        endpoint = self.baseUrl + self._build_path("/legalEntities/{id}/businessLines", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +59,7 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Get a legal entity
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}"
+        endpoint = self.baseUrl + self._build_path("/legalEntities/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +69,9 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Request periodic data review.
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/requestPeriodicReview"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/requestPeriodicReview", id=id
+        )
         method = "POST"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -77,7 +81,7 @@ class LegalEntitiesApi(AdyenServiceBase):
         """
         Update a legal entity
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}"
+        endpoint = self.baseUrl + self._build_path("/legalEntities/{id}", id=id)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

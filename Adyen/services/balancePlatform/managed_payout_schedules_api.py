@@ -17,7 +17,9 @@ class ManagedPayoutSchedulesApi(AdyenServiceBase):
         """
         Apply a managed payout schedule to a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/payoutSchedules"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/payoutSchedules", balanceAccountId=balanceAccountId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -29,7 +31,11 @@ class ManagedPayoutSchedulesApi(AdyenServiceBase):
         """
         Delete a managed payout schedule on a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/payoutSchedules/{id}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/payoutSchedules/{id}",
+            balanceAccountId=balanceAccountId,
+            id=id,
+        )
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -41,7 +47,11 @@ class ManagedPayoutSchedulesApi(AdyenServiceBase):
         """
         Get a specific managed payout schedule on a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/payoutSchedules/{id}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/payoutSchedules/{id}",
+            balanceAccountId=balanceAccountId,
+            id=id,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -53,7 +63,9 @@ class ManagedPayoutSchedulesApi(AdyenServiceBase):
         """
         Get all managed payout schedules on a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/payoutSchedules"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/payoutSchedules", balanceAccountId=balanceAccountId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -65,7 +77,11 @@ class ManagedPayoutSchedulesApi(AdyenServiceBase):
         """
         Get a specific managed payout schedule on your balance platform
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{balancePlatformId}/payoutSchedules/{id}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balancePlatforms/{balancePlatformId}/payoutSchedules/{id}",
+            balancePlatformId=balancePlatformId,
+            id=id,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -77,7 +93,10 @@ class ManagedPayoutSchedulesApi(AdyenServiceBase):
         """
         Get all managed payout schedules on your balance platform
         """
-        endpoint = self.baseUrl + f"/balancePlatforms/{balancePlatformId}/payoutSchedules"
+        endpoint = self.baseUrl + self._build_path(
+            "/balancePlatforms/{balancePlatformId}/payoutSchedules",
+            balancePlatformId=balancePlatformId,
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -87,8 +106,10 @@ class ManagedPayoutSchedulesApi(AdyenServiceBase):
         """
         View executions of a managed payout schedule
         """
-        endpoint = (
-            self.baseUrl + f"/balanceAccounts/{balanceAccountId}/payoutSchedules/{id}/executions"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/payoutSchedules/{id}/executions",
+            balanceAccountId=balanceAccountId,
+            id=id,
         )
         method = "GET"
         return self.client.call_adyen_api(
@@ -101,7 +122,11 @@ class ManagedPayoutSchedulesApi(AdyenServiceBase):
         """
         Update a managed payout schedule on a balance account
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/payoutSchedules/{id}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/payoutSchedules/{id}",
+            balanceAccountId=balanceAccountId,
+            id=id,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

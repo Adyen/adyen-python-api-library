@@ -19,7 +19,9 @@ class TaxEDeliveryConsentApi(AdyenServiceBase):
         """
         Check the status of consent for electronic delivery of tax forms
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/checkTaxElectronicDeliveryConsent"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/checkTaxElectronicDeliveryConsent", id=id
+        )
         method = "POST"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -31,7 +33,9 @@ class TaxEDeliveryConsentApi(AdyenServiceBase):
         """
         Set the consent status for electronic delivery of tax forms
         """
-        endpoint = self.baseUrl + f"/legalEntities/{id}/setTaxElectronicDeliveryConsent"
+        endpoint = self.baseUrl + self._build_path(
+            "/legalEntities/{id}/setTaxElectronicDeliveryConsent", id=id
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

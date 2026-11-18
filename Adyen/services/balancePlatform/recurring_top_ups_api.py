@@ -17,7 +17,9 @@ class RecurringTopUpsApi(AdyenServiceBase):
         """
         Create recurring top up
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/recurringTopUps"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/recurringTopUps", balanceAccountId=balanceAccountId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,11 @@ class RecurringTopUpsApi(AdyenServiceBase):
         """
         Delete a recurring top up
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/recurringTopUps/{topUpId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/recurringTopUps/{topUpId}",
+            balanceAccountId=balanceAccountId,
+            topUpId=topUpId,
+        )
         method = "DELETE"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +43,9 @@ class RecurringTopUpsApi(AdyenServiceBase):
         """
         Get recurring top ups for a specific balanceAccountId
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/recurringTopUps"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/recurringTopUps", balanceAccountId=balanceAccountId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -49,7 +57,11 @@ class RecurringTopUpsApi(AdyenServiceBase):
         """
         Update a RecurringTopUp
         """
-        endpoint = self.baseUrl + f"/balanceAccounts/{balanceAccountId}/recurringTopUps/{topUpId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/balanceAccounts/{balanceAccountId}/recurringTopUps/{topUpId}",
+            balanceAccountId=balanceAccountId,
+            topUpId=topUpId,
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

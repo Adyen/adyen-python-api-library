@@ -17,7 +17,11 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Cancel an order
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/terminalOrders/{orderId}/cancel"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/terminalOrders/{orderId}/cancel",
+            companyId=companyId,
+            orderId=orderId,
+        )
         method = "POST"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +31,9 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Create an order
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/terminalOrders"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/terminalOrders", companyId=companyId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +43,9 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Create a shipping location
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/shippingLocations"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/shippingLocations", companyId=companyId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +55,9 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Get an order
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/terminalOrders/{orderId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/terminalOrders/{orderId}", companyId=companyId, orderId=orderId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +67,9 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of billing entities
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/billingEntities"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/billingEntities", companyId=companyId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +79,9 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of orders
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/terminalOrders"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/terminalOrders", companyId=companyId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -77,7 +91,9 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of shipping locations
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/shippingLocations"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/shippingLocations", companyId=companyId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -87,7 +103,9 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of terminal models
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/terminalModels"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/terminalModels", companyId=companyId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -97,7 +115,9 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Get a list of terminal products
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/terminalProducts"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/terminalProducts", companyId=companyId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -107,7 +127,9 @@ class TerminalOrdersCompanyLevelApi(AdyenServiceBase):
         """
         Update an order
         """
-        endpoint = self.baseUrl + f"/companies/{companyId}/terminalOrders/{orderId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/companies/{companyId}/terminalOrders/{orderId}", companyId=companyId, orderId=orderId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

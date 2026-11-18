@@ -27,7 +27,9 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Create a store
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores", merchantId=merchantId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +39,9 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Get a store
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores/{storeId}", merchantId=merchantId, storeId=storeId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +51,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Get a store
         """
-        endpoint = self.baseUrl + f"/stores/{storeId}"
+        endpoint = self.baseUrl + self._build_path("/stores/{storeId}", storeId=storeId)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +71,9 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Get a list of stores
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores", merchantId=merchantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -77,7 +83,9 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Update a store
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/stores/{storeId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/stores/{storeId}", merchantId=merchantId, storeId=storeId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -87,7 +95,7 @@ class AccountStoreLevelApi(AdyenServiceBase):
         """
         Update a store
         """
-        endpoint = self.baseUrl + f"/stores/{storeId}"
+        endpoint = self.baseUrl + self._build_path("/stores/{storeId}", storeId=storeId)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

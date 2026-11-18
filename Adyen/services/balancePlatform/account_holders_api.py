@@ -27,7 +27,7 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Get an account holder
         """
-        endpoint = self.baseUrl + f"/accountHolders/{id}"
+        endpoint = self.baseUrl + self._build_path("/accountHolders/{id}", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +37,7 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Get all balance accounts of an account holder
         """
-        endpoint = self.baseUrl + f"/accountHolders/{id}/balanceAccounts"
+        endpoint = self.baseUrl + self._build_path("/accountHolders/{id}/balanceAccounts", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +47,7 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Get all transaction rules for an account holder
         """
-        endpoint = self.baseUrl + f"/accountHolders/{id}/transactionRules"
+        endpoint = self.baseUrl + self._build_path("/accountHolders/{id}/transactionRules", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -57,7 +57,7 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Get a tax form
         """
-        endpoint = self.baseUrl + f"/accountHolders/{id}/taxForms"
+        endpoint = self.baseUrl + self._build_path("/accountHolders/{id}/taxForms", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -67,7 +67,7 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Get summary of tax forms for an account holder
         """
-        endpoint = self.baseUrl + f"/accountHolders/{id}/taxFormSummary"
+        endpoint = self.baseUrl + self._build_path("/accountHolders/{id}/taxFormSummary", id=id)
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -77,7 +77,7 @@ class AccountHoldersApi(AdyenServiceBase):
         """
         Update an account holder
         """
-        endpoint = self.baseUrl + f"/accountHolders/{id}"
+        endpoint = self.baseUrl + self._build_path("/accountHolders/{id}", id=id)
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs

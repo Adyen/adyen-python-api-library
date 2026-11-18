@@ -17,7 +17,9 @@ class UsersMerchantLevelApi(AdyenServiceBase):
         """
         Create a new user
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/users"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/users", merchantId=merchantId
+        )
         method = "POST"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
@@ -27,7 +29,9 @@ class UsersMerchantLevelApi(AdyenServiceBase):
         """
         Get user details
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/users/{userId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/users/{userId}", merchantId=merchantId, userId=userId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -37,7 +41,9 @@ class UsersMerchantLevelApi(AdyenServiceBase):
         """
         Get a list of users
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/users"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/users", merchantId=merchantId
+        )
         method = "GET"
         return self.client.call_adyen_api(
             None, self.service, method, endpoint, idempotency_key, **kwargs
@@ -47,7 +53,9 @@ class UsersMerchantLevelApi(AdyenServiceBase):
         """
         Update a user
         """
-        endpoint = self.baseUrl + f"/merchants/{merchantId}/users/{userId}"
+        endpoint = self.baseUrl + self._build_path(
+            "/merchants/{merchantId}/users/{userId}", merchantId=merchantId, userId=userId
+        )
         method = "PATCH"
         return self.client.call_adyen_api(
             request, self.service, method, endpoint, idempotency_key, **kwargs
