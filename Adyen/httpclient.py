@@ -90,17 +90,19 @@ class HTTPClient:
         # Convert the header dict to formatted array as pycurl needs.
         header_list = [f"{k}:{v}" for k, v in headers.items()]
         # Ensure proper content-type when adding headers
-        if json:
+        if json is not None:
             header_list.append("Content-Type:application/json")
 
         curl.setopt(pycurl.HTTPHEADER, header_list)
 
         # Return regular dict instead of JSON encoded dict for request:
         if method == "POST" or method == "PATCH":
+            if json is None and not data:
+                raise ValueError("Please provide either a json or a data field.")
             raw_store = json
 
             # Set the request body.
-            raw_request = json_lib.dumps(json) if json else urlencode(data)
+            raw_request = json_lib.dumps(json) if json is not None else urlencode(data)
             curl.setopt(curl.POSTFIELDS, raw_request)
             # Needed here as POSTFIELDS sets the method to POST
             curl.setopt(curl.CUSTOMREQUEST, method)
@@ -216,15 +218,15 @@ class HTTPClient:
             headers = {}
 
         if method == "POST" or method == "PATCH":
+            if json is None and not data:
+                raise ValueError("Please provide either a json or a data field.")
             # Store regular dict to return later:
             raw_store = json
-            raw_request = json_lib.dumps(json) if json else urlencode(data)
+            raw_request = json_lib.dumps(json) if json is not None else urlencode(data)
             url_request = Request(url, data=raw_request.encode("utf8"), method=method)
             raw_request = raw_store
-            if json:
+            if json is not None:
                 url_request.add_header("Content-Type", "application/json")
-            elif not data:
-                raise ValueError("Please provide either a json or a data field.")
 
         elif method == "GET" or method == "DELETE":
             url_request = Request(url, method=method)
