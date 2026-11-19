@@ -3,6 +3,7 @@ import binascii
 import copy
 import hashlib
 import hmac
+from urllib.parse import urlencode
 
 
 # decodes the hex HMAC key; an empty key would let anyone compute a valid signature
@@ -102,4 +103,4 @@ def is_valid_hmac_payload(hmac_signature, hmac_key, payload):
 
 
 def get_query(query_parameters):
-    return "?" + "&".join([f"{k}={v}" for k, v in query_parameters.items()])
+    return "?" + urlencode(query_parameters)
